@@ -45,13 +45,17 @@ export class CircleMath {
     return radius >= INNER_RADIUS_WHITE && radius <= OUTER_RADIUS;
   }
 
+  //working with spirals requires more care:
+  // 1. the radius is not the same as the radius in the circle
+  // 2. multiple octaves supported
+  // 3. indices past 12 are supported
   static getInnerRadius(index) {
-    const multiplier = CircleMath.GetMultiplierFromIndex(index);
+    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
     return multiplier * INNER_RADIUS_WHITE;
   }
 
   static getOuterRadius(index) {
-    const multiplier = CircleMath.GetMultiplierFromIndex(index);
+    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
     return multiplier * OUTER_RADIUS;
   }
 
