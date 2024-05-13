@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, createContext } from "react";
 
 import { notes, isBlackKey } from "./chromatic-utils.js";
 
-import { Constants, CircleMath, TWELVE } from "./circle-math.js";
+import { Constants, CircleMath } from "./circle-math.js";
 
 let audioBuffer = null; // This will hold the loaded buffer
 
@@ -11,7 +11,6 @@ const ChromaticCircle = () => {
   const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-  // console.log("selectedNoteIndex=" + selectedNoteIndex);
   const loadAudio = async (url) => {
     const response = await fetch(url);
     const arrayBuffer = await response.arrayBuffer();
@@ -34,20 +33,20 @@ const ChromaticCircle = () => {
   useEffect(() => {
     const HandleCanvasClick = (event) => {
       const rect = canvasRef.current.getBoundingClientRect();
-      const [pureX, pureY] = CircleMath.GetPureCoorsFromViewport(
+      const [pureX, pureY] = CircleMath.ViewportToCartesian(
         event.clientX,
         event.clientY,
         rect
       );
 
-      const [radius, angle] = CircleMath.GetCircularCoors(pureX, pureY);
+      const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
 
       const angleInDegrees = CircleMath.ToDegrees(angle);
       console.log(
         `radius=${Math.round(radius)}; angle (deg)=${angleInDegrees}`
       );
 
-      const index = CircleMath.GetNoteIndex(angle);
+      const index = CircleMath.AngleToNoteIndex(angle);
       setSelectedNoteIndex(index);
       if (CircleMath.IsRadiusInRange(radius)) {
         playSound(index);
@@ -56,7 +55,7 @@ const ChromaticCircle = () => {
     };
 
     function playSound(index) {
-      const playbackRate = Math.pow(2, index / TWELVE);
+      const playbackRate = CircleMath.GetMultiplierFromIndex(index);
 
       var source = audioContext.createBufferSource();
       source.buffer = audioBuffer;
@@ -73,13 +72,13 @@ const ChromaticCircle = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const drawText = (noteText, index) => {
-      const isBlack = isBlackKey(index);
-
       ctx.font = "bold 20px Arial";
       ctx.fillStyle = "blue";
-      const innerRadius = CircleMath.getInnerRadius(isBlack);
 
-      const radius = (Constants.OUTER_RADIUS + innerRadius) / 2;
+      const innerRadius = CircleMath.getInnerRadius(index);
+      const outerRadius = CircleMath.getOuterRadius(index);
+
+      const radius = (outerRadius + innerRadius) / 2;
 
       ctx.save();
       ctx.translate(Constants.centerX, Constants.centerY);
@@ -95,24 +94,19 @@ const ChromaticCircle = () => {
     const DrawWedge = (index) => {
       ctx.beginPath();
       const isBlack = isBlackKey(index);
+      const isSelected = selectedNoteIndex === index;
 
-      let keyColor = isBlack ? "black" : "white";
-      console.log(
-        "selectedNoteIndex=" + selectedNoteIndex + ", index=" + index
-      );
-      if (selectedNoteIndex === index) {
-        keyColor = isBlack
-          ? Constants.SELECTED_BLACK_COLOR
-          : Constants.SELECTED_WHITE_COLOR;
-      }
-      const startAngle = CircleMath.getLeftAngleFromNoteIndex(index);
+      let keyColor = CircleMath.GetKeyColor(isBlack, isSelected);
+
+      const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
 
-      const innerRadius = CircleMath.getInnerRadius(isBlack);
+      const innerRadius = CircleMath.getInnerRadius(index);
+      const outerRadius = CircleMath.getOuterRadius(index);
       ctx.arc(
         Constants.centerX,
         Constants.centerY,
-        Constants.OUTER_RADIUS,
+        outerRadius,
         startAngle,
         endAngle
       );
