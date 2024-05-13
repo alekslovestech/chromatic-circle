@@ -11,7 +11,6 @@ const ChromaticCircle = () => {
   const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-  // console.log("selectedNoteIndex=" + selectedNoteIndex);
   const loadAudio = async (url) => {
     const response = await fetch(url);
     const arrayBuffer = await response.arrayBuffer();
@@ -73,14 +72,11 @@ const ChromaticCircle = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const drawText = (noteText, index) => {
-      const isBlack = isBlackKey(index);
-
       ctx.font = "bold 20px Arial";
       ctx.fillStyle = "blue";
 
-      const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-      const innerRadius = multiplier * CircleMath.getInnerRadius(isBlack);
-      const outerRadius = multiplier * Constants.OUTER_RADIUS;
+      const innerRadius = CircleMath.getInnerRadius(index);
+      const outerRadius = CircleMath.getOuterRadius(index);
 
       const radius = (outerRadius + innerRadius) / 2;
 
@@ -105,9 +101,8 @@ const ChromaticCircle = () => {
       const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
 
-      const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-      const innerRadius = multiplier * CircleMath.getInnerRadius(isBlack);
-      const outerRadius = multiplier * Constants.OUTER_RADIUS;
+      const innerRadius = CircleMath.getInnerRadius(index);
+      const outerRadius = CircleMath.getOuterRadius(index);
       ctx.arc(
         Constants.centerX,
         Constants.centerY,
