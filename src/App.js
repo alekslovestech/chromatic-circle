@@ -1,6 +1,6 @@
 import { NotesProvider } from "./NotesContext";
 import "./App.css";
-import ChromaticCircle from "./Chromatic-circle";
+import ChromaticCircle from "./ChromaticCircle";
 import ChordPresetsSelector from "./ChordPresetsSelector";
 import ModeSelector from "./ModeSelector";
 

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState, createContext } from "react";
 
-import { NOTE_NAMES, isBlackKey } from "./chromatic-utils.js";
+import { NOTE_NAMES, isBlackKey } from "./ChromaticUtils.js";
 
-import { Constants, CircleMath } from "./circle-math.js";
+import { Constants, CircleMath } from "./CircleMath.js";
 
 let audioBuffer = null; // This will hold the loaded buffer
 

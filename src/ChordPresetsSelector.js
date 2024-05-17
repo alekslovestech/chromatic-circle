@@ -1,10 +1,6 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import {
-  NOTE_NAMES,
-  CHORD_TYPES,
-  calculateChordNotes,
-} from "./chromatic-utils";
+import { NOTE_NAMES, CHORD_TYPES, calculateChordNotes } from "./ChromaticUtils";
 
 const ChordPresetsSelector = () => {
   const { mode, updateNotes } = useNotes();
