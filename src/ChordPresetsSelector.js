@@ -1,8 +1,10 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { NOTE_NAMES, CHORD_TYPES } from "./chromatic-utils";
-
-//const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+import {
+  NOTE_NAMES,
+  CHORD_TYPES,
+  calculateChordNotes,
+} from "./chromatic-utils";
 
 const ChordPresetsSelector = () => {
   const { mode, updateNotes } = useNotes();
@@ -12,20 +14,19 @@ const ChordPresetsSelector = () => {
   if (mode !== "CHORD_PRESETS") return null;
 
   const handleKeyChange = (event) => {
-    setSelectedKey(event.target.value);
-  };
-
-  const handleChordTypeChange = (event) => {
-    setSelectedChord(event.target.value);
-    const newNotes = calculateChordNotes(event.target.value, selectedKey);
+    const incomingKey = event.target.value;
+    setSelectedKey(incomingKey);
+    const newNotes = calculateChordNotes(incomingKey, selectedChord);
+    console.log(`key change: newNotes=${newNotes}`);
     updateNotes(newNotes);
   };
 
-  // Function to calculate notes based on key and chord type
-  const calculateChordNotes = (chord, key) => {
-    // Placeholder for actual chord calculation logic
-
-    return [key + chord]; // Simplified return for illustration
+  const handleChordTypeChange = (event) => {
+    const incomingChord = event.target.value;
+    setSelectedChord(incomingChord);
+    const newNotes = calculateChordNotes(selectedKey, incomingChord);
+    console.log(`chord type change: newNotes=${newNotes}`);
+    updateNotes(newNotes);
   };
 
   return (

@@ -7,10 +7,12 @@ export const NotesProvider = ({ children }) => {
   const [mode, setMode] = useState("CIRCLE_INPUT"); // or 'CHORD_PRESETS'
 
   const updateNotes = (newNotes) => {
+    console.log(`updating notes to ${newNotes}`);
     setNotes(newNotes);
   };
 
   const switchMode = (newMode) => {
+    console.log(`switching mode to ${newMode}`);
     setMode(newMode);
   };
 
