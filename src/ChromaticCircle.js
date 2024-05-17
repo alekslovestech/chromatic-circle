@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, createContext } from "react";
-
+import React, { useRef, useEffect } from "react";
+import { useNotes } from "./NotesContext.js";
 import { NOTE_NAMES, isBlackKey } from "./ChromaticUtils.js";
 
 import { Constants, CircleMath } from "./CircleMath.js";
@@ -8,7 +8,9 @@ let audioBuffer = null; // This will hold the loaded buffer
 
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
-  const [selectedNoteIndices, setSelectedNoteIndices] = useState([]);
+  //const [selectedNoteIndices, setSelectedNoteIndices] = useState([]);
+  const { mode, selectedNoteIndices, setSelectedNoteIndices } = useNotes();
+
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   const loadAudio = async (url) => {
@@ -145,7 +147,7 @@ const ChromaticCircle = () => {
       DrawWedge(index);
       drawText(note, index);
     });
-  }, [selectedNoteIndices, audioContext]);
+  }, [mode, selectedNoteIndices, audioContext]);
 
   return (
     <canvas

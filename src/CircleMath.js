@@ -5,7 +5,7 @@ const INIT_ANGLE = -Math.PI / 2; //vertical up
 const INNER_RADIUS_WHITE = 80;
 const OUTER_RADIUS = 160;
 export class Constants {
-  static CANVAS_RADIUS = 300;
+  static CANVAS_RADIUS = 200;
   static centerX = Constants.CANVAS_RADIUS;
   static centerY = Constants.CANVAS_RADIUS;
 
