@@ -10,8 +10,8 @@ export class Constants {
   static centerY = Constants.CANVAS_RADIUS;
 
   static FULL_KEY_ANGLE = TWO_PI / TWELVE;
-  static SELECTED_BLACK_COLOR = "#444444";
-  static SELECTED_WHITE_COLOR = "#cccccc";
+  static SELECTED_BLACK_COLOR = "#cccc00";
+  static SELECTED_WHITE_COLOR = "#cccc00";
 }
 
 // utilities related to the coordinate system transformations between

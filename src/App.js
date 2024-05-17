@@ -1,26 +1,19 @@
-import logo from "./logo.svg";
+import { NotesProvider } from "./NotesContext";
 import "./App.css";
 import ChromaticCircle from "./Chromatic-circle";
+import ChordPresetsSelector from "./ChordPresetsSelector";
+import ModeSelector from "./ModeSelector";
 
 function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
         <h1>Chromatic Circle</h1>
-        <ChromaticCircle />
-
-        {/*<img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        {/*<a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-  </a>*/}
+        <NotesProvider>
+          <ModeSelector />
+          <ChromaticCircle />
+          <ChordPresetsSelector />
+        </NotesProvider>
       </header>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, createContext } from "react";
 
-import { notes, isBlackKey } from "./chromatic-utils.js";
+import { NOTE_NAMES, isBlackKey } from "./chromatic-utils.js";
 
 import { Constants, CircleMath } from "./circle-math.js";
 
@@ -8,7 +8,7 @@ let audioBuffer = null; // This will hold the loaded buffer
 
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
-  const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
+  const [selectedNoteIndices, setSelectedNoteIndices] = useState([]);
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   const loadAudio = async (url) => {
@@ -47,11 +47,22 @@ const ChromaticCircle = () => {
       );
 
       const index = CircleMath.AngleToNoteIndex(angle);
-      setSelectedNoteIndex(index);
+      const updatedIndices = selectedNoteIndices.includes(index)
+        ? selectedNoteIndices.filter((i) => i !== index) // Remove index if already selected
+        : [...selectedNoteIndices, index]; // Add index if not already selected
+
+      updatedIndices.sort((a, b) => a - b);
+      setSelectedNoteIndices(updatedIndices);
+      console.log(updatedIndices);
+
       if (CircleMath.IsRadiusInRange(radius)) {
-        playSound(index);
+        for (let i = 0; i < updatedIndices.length; i++) {
+          playSound(updatedIndices[i]);
+        }
       }
-      return;
+      return () => {
+        canvasRef.removeEventListener("click", HandleCanvasClick);
+      };
     };
 
     function playSound(index) {
@@ -62,6 +73,9 @@ const ChromaticCircle = () => {
       source.playbackRate.value = playbackRate;
       source.connect(audioContext.destination);
       source.start(0);
+      source.onended = function () {
+        source.disconnect();
+      };
     }
 
     const canvas = canvasRef.current;
@@ -94,7 +108,7 @@ const ChromaticCircle = () => {
     const DrawWedge = (index) => {
       ctx.beginPath();
       const isBlack = isBlackKey(index);
-      const isSelected = selectedNoteIndex === index;
+      const isSelected = selectedNoteIndices.includes(index);
 
       let keyColor = CircleMath.GetKeyColor(isBlack, isSelected);
 
@@ -127,11 +141,11 @@ const ChromaticCircle = () => {
       return <canvas />;
     };
 
-    notes.forEach((note, index) => {
+    NOTE_NAMES.forEach((note, index) => {
       DrawWedge(index);
       drawText(note, index);
     });
-  }, [selectedNoteIndex, audioContext]);
+  }, [selectedNoteIndices, audioContext]);
 
   return (
     <canvas

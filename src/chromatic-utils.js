@@ -1,4 +1,4 @@
-export const notes = [
+export const NOTE_NAMES = [
   "C",
   "C♯/D♭",
   "D",
@@ -11,6 +11,25 @@ export const notes = [
   "A",
   "A♯/B♭",
   "B",
+];
+
+export const CHORD_TYPES = [
+  "maj",
+  "min",
+  "dim",
+  "aug",
+  "7th",
+  "maj7",
+  "min7",
+  "dom7",
+  "mMaj7",
+  "dim7",
+  "m7♭5",
+  "sus4",
+  "sus2",
+  "add9",
+  "6",
+  "min6",
 ];
 
 export function isBlackKey(nodeIndex) {
