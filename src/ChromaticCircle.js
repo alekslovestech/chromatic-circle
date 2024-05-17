@@ -8,7 +8,6 @@ let audioBuffer = null; // This will hold the loaded buffer
 
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
-  //const [selectedNoteIndices, setSelectedNoteIndices] = useState([]);
   const { mode, selectedNoteIndices, setSelectedNoteIndices } = useNotes();
 
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();

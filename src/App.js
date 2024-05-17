@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <h1>Chromatic Circle</h1>
+        <h2>Chromatic Circle</h2>
         <NotesProvider>
           <ModeSelector />
           <ChromaticCircle />

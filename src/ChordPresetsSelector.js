@@ -9,8 +9,9 @@ const ChordPresetsSelector = () => {
 
   if (mode !== "CHORD_PRESETS") return null;
 
-  const handleKeyChange = (event) => {
-    const incomingKey = event.target.value;
+  const handleNoteClick = (note) => {
+    console.log(`Note ${note} was clicked!`);
+    const incomingKey = note;
     setSelectedKey(incomingKey);
     const newNotes = calculateChordNotes(incomingKey, selectedChord);
     console.log(`key change: newNotes=${newNotes}`);
@@ -26,14 +27,23 @@ const ChordPresetsSelector = () => {
   };
 
   return (
-    <div>
-      <select onChange={handleKeyChange} value={selectedKey}>
-        {NOTE_NAMES.map((key) => (
-          <option key={key} value={key}>
-            {key}
-          </option>
-        ))}
-      </select>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {NOTE_NAMES.map((note) => (
+        <button
+          key={note}
+          onClick={() => handleNoteClick(note)}
+          style={{ height: "30px", margin: "5px", width: "50px" }} // Set width to 150px
+        >
+          {note}
+        </button>
+      ))}
+
       <select onChange={handleChordTypeChange} value={selectedChord}>
         {CHORD_TYPES.map((chord) => (
           <option key={chord} value={chord}>

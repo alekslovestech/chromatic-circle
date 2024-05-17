@@ -12,7 +12,7 @@ export class Constants {
   static FULL_KEY_ANGLE = TWO_PI / TWELVE;
 
   static SELECTED_WHITE_COLOR = "#ffff00";
-  static SELECTED_BLACK_COLOR = "#dddd00";
+  static SELECTED_BLACK_COLOR = "#7f7f00";
 }
 
 // utilities related to the coordinate system transformations between
