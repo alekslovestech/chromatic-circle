@@ -1,34 +1,26 @@
 import React, { useRef, useEffect } from "react";
 import { useNotes } from "./NotesContext.js";
 import { NOTE_NAMES, isBlackKey } from "./ChromaticUtils.js";
-
 import { Constants, CircleMath } from "./CircleMath.js";
 
-let audioBuffer = null; // This will hold the loaded buffer
+//let audioBuffer = null; // This will hold the loaded buffer
 
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
   const { mode, selectedNoteIndices, setSelectedNoteIndices } = useNotes();
 
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-  const loadAudio = async (url) => {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    console.log(arrayBuffer);
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    return audioBuffer;
-  };
+  //const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   window.onload = async () => {
-    try {
+    console.log("Window.onload");
+    /*try {
       audioBuffer = await loadAudio("/piano-shot.wav");
 
       console.log("Audio loaded successfully");
     } catch (error) {
       console.error("Failed to load sound:", error);
       throw error;
-    }
+    }*/
   };
 
   useEffect(() => {
@@ -42,10 +34,10 @@ const ChromaticCircle = () => {
 
       const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
 
-      const angleInDegrees = CircleMath.ToDegrees(angle);
-      console.log(
-        `radius=${Math.round(radius)}; angle (deg)=${angleInDegrees}`
-      );
+      if (!CircleMath.IsRadiusInRange(radius)) {
+        console.log("Click outside the radius range");
+        return; // Don't do anything if the click is outside the circle
+      }
 
       const index = CircleMath.AngleToNoteIndex(angle);
       const updatedIndices = selectedNoteIndices.includes(index)
@@ -55,29 +47,17 @@ const ChromaticCircle = () => {
       updatedIndices.sort((a, b) => a - b);
       setSelectedNoteIndices(updatedIndices);
       console.log(updatedIndices);
-
+      /*
       if (CircleMath.IsRadiusInRange(radius)) {
+        playSelectedNotes();
         for (let i = 0; i < updatedIndices.length; i++) {
           playSound(updatedIndices[i]);
         }
-      }
+      } */
       return () => {
         canvasRef.removeEventListener("click", HandleCanvasClick);
       };
     };
-
-    function playSound(index) {
-      const playbackRate = CircleMath.GetMultiplierFromIndex(index);
-
-      var source = audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.playbackRate.value = playbackRate;
-      source.connect(audioContext.destination);
-      source.start(0);
-      source.onended = function () {
-        source.disconnect();
-      };
-    }
 
     const canvas = canvasRef.current;
     canvas.addEventListener("click", HandleCanvasClick);
@@ -146,7 +126,7 @@ const ChromaticCircle = () => {
       DrawWedge(index);
       drawText(note, index);
     });
-  }, [mode, selectedNoteIndices, audioContext]);
+  }, [mode, selectedNoteIndices, setSelectedNoteIndices]);
 
   return (
     <canvas
