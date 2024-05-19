@@ -58,8 +58,13 @@ export function isBlackKey(nodeIndex) {
 // Function to calculate notes based on key and chord type
 export const calculateChordNotes = (key, chordType) => {
   const keyIndex = NOTE_NAMES.indexOf(key);
+  return calculateChordNotesFromIndex(keyIndex, chordType);
+};
+
+export const calculateChordNotesFromIndex = (rootIndex, chordType) => {
+  const rootNote = NOTE_NAMES[rootIndex];
   const chordOffsets = CHORD_OFFSETS[chordType];
-  const newNotes = chordOffsets.map((offset) => (offset + keyIndex) % 12);
-  console.log(`Calculating notes for ${key}:${chordType} = ${newNotes}`);
+  const newNotes = chordOffsets.map((offset) => (offset + rootIndex) % 12);
+  console.log(`Calculating notes for ${rootNote}:${chordType} = ${newNotes}`);
   return newNotes;
 };

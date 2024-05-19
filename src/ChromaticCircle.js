@@ -1,26 +1,24 @@
 import React, { useRef, useEffect } from "react";
 import { useNotes } from "./NotesContext.js";
-import { NOTE_NAMES, isBlackKey } from "./ChromaticUtils.js";
+import {
+  NOTE_NAMES,
+  isBlackKey,
+  calculateChordNotes,
+  calculateChordNotesFromIndex,
+} from "./ChromaticUtils.js";
 import { Constants, CircleMath } from "./CircleMath.js";
-
-//let audioBuffer = null; // This will hold the loaded buffer
 
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
-  const { mode, selectedNoteIndices, setSelectedNoteIndices } = useNotes();
-
-  //const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const {
+    mode,
+    selectedNoteIndices,
+    setSelectedNoteIndices,
+    selectedChordType,
+  } = useNotes();
 
   window.onload = async () => {
     console.log("Window.onload");
-    /*try {
-      audioBuffer = await loadAudio("/piano-shot.wav");
-
-      console.log("Audio loaded successfully");
-    } catch (error) {
-      console.error("Failed to load sound:", error);
-      throw error;
-    }*/
   };
 
   useEffect(() => {
@@ -39,21 +37,24 @@ const ChromaticCircle = () => {
         return; // Don't do anything if the click is outside the circle
       }
 
-      const index = CircleMath.AngleToNoteIndex(angle);
-      const updatedIndices = selectedNoteIndices.includes(index)
-        ? selectedNoteIndices.filter((i) => i !== index) // Remove index if already selected
-        : [...selectedNoteIndices, index]; // Add index if not already selected
+      const noteIndex = CircleMath.AngleToNoteIndex(angle);
+      console.log(`selected ${noteIndex} in mode=${mode} `);
 
+      let updatedIndices = [];
+      if (mode === "CIRCLE_INPUT") {
+        updatedIndices = selectedNoteIndices.includes(noteIndex)
+          ? selectedNoteIndices.filter((i) => i !== noteIndex) // Remove index if already selected
+          : [...selectedNoteIndices, noteIndex]; // Add index if not already selected
+      } else if (mode === "CHORD_PRESETS") {
+        updatedIndices = calculateChordNotesFromIndex(
+          noteIndex,
+          selectedChordType
+        );
+      }
       updatedIndices.sort((a, b) => a - b);
       setSelectedNoteIndices(updatedIndices);
       console.log(updatedIndices);
-      /*
-      if (CircleMath.IsRadiusInRange(radius)) {
-        playSelectedNotes();
-        for (let i = 0; i < updatedIndices.length; i++) {
-          playSound(updatedIndices[i]);
-        }
-      } */
+
       return () => {
         canvasRef.removeEventListener("click", HandleCanvasClick);
       };

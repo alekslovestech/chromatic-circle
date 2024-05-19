@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNotes } from "./NotesContext.js";
 
 const soundUrl = "/piano-shot.wav";
+const FREQ_MULTIPLIER = 0.25;
 
 const AudioPlayer = () => {
   const [audioContext, setAudioContext] = useState(null);
@@ -27,7 +28,7 @@ const AudioPlayer = () => {
     }
     var source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
-    source.playbackRate.value = playbackRate;
+    source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
     source.connect(audioContext.destination);
     source.start(0);
     source.onended = function () {

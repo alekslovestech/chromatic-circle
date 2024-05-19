@@ -5,7 +5,7 @@ const NotesContext = createContext();
 export const NotesProvider = ({ children }) => {
   const [mode, setMode] = useState("CIRCLE_INPUT"); // or 'CHORD_PRESETS'
   const [selectedNoteIndices, setSelectedNoteIndices] = useState([]);
-
+  const [selectedChordType, setSelectedChordType] = useState("maj");
   return (
     <NotesContext.Provider
       value={{
@@ -13,6 +13,8 @@ export const NotesProvider = ({ children }) => {
         setMode,
         selectedNoteIndices,
         setSelectedNoteIndices,
+        selectedChordType,
+        setSelectedChordType,
       }}
     >
       {children}
