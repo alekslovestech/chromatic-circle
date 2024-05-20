@@ -4,17 +4,16 @@ import { NOTE_NAMES, CHORD_TYPES, calculateChordNotes } from "./ChromaticUtils";
 
 const ChordPresetsSelector = () => {
   const {
-    mode,
+    inputMode,
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
   } = useNotes();
   const [selectedKey, setSelectedKey] = React.useState(NOTE_NAMES[0]);
-  //const [selectedChord, setSelectedChord] = React.useState(CHORD_TYPES[0]);
 
-  if (mode !== "CHORD_PRESETS") return null;
+  if (inputMode !== "CHORD_PRESETS") return null;
 
-  const handleNoteClick = (event) => {
+  /*const handleNoteClick = (event) => {
     const note = event.target.value;
     console.log(`Note ${note} was clicked!`);
     const incomingKey = note;
@@ -22,7 +21,7 @@ const ChordPresetsSelector = () => {
     const newNotes = calculateChordNotes(incomingKey, selectedChordType);
     console.log(`key change: newNotes=${newNotes}`);
     setSelectedNoteIndices(newNotes);
-  };
+  }; */
 
   const handleChordTypeChange = (event) => {
     const incomingChord = event.target.value;
@@ -40,17 +39,7 @@ const ChordPresetsSelector = () => {
         alignItems: "center",
       }}
     >
-      {/*NOTE_NAMES.map((note) => (
-        <button
-          key={note}
-          onClick={() => handleNoteClick(note)}
-          style={{ height: "30px", margin: "5px", width: "50px" }} // Set width to 150px
-        >
-          {note}
-        </button>
-      ))*/}
-
-      <select onChange={handleNoteClick} value={selectedKey}>
+      {/*<select onChange={handleNoteClick} value={selectedKey}>
         {
           //console.log(selectedKey);
           NOTE_NAMES.map((note) => (
@@ -59,7 +48,7 @@ const ChordPresetsSelector = () => {
             </option>
           ))
         }
-      </select>
+      </select>*/}
 
       <select onChange={handleChordTypeChange} value={selectedChordType}>
         {CHORD_TYPES.map((chord) => (

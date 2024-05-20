@@ -2,14 +2,14 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 
 const ModeSelector = () => {
-  const { setMode } = useNotes();
+  const { setInputMode } = useNotes();
 
   return (
     <div>
       <button
         onClick={() => {
           console.log(`setting mode to circle input`);
-          setMode("CIRCLE_INPUT");
+          setInputMode("CIRCLE_INPUT");
         }}
       >
         Circle Input
@@ -17,7 +17,7 @@ const ModeSelector = () => {
       <button
         onClick={() => {
           console.log(`setting mode to chord presets`);
-          setMode("CHORD_PRESETS");
+          setInputMode("CHORD_PRESETS");
         }}
       >
         Chord Presets

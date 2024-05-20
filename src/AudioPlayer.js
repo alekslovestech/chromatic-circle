@@ -1,6 +1,7 @@
 import { CircleMath } from "./CircleMath.js";
 import React, { useState, useEffect } from "react";
 import { useNotes } from "./NotesContext.js";
+import { NOTE_NAMES } from "./ChromaticUtils.js";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
@@ -19,7 +20,6 @@ const AudioPlayer = () => {
   };
 
   const playSound = (index) => {
-    //console.log("Playing sound at index", index);
     const playbackRate = CircleMath.GetMultiplierFromIndex(index);
 
     if (!audioContext) {
@@ -31,17 +31,16 @@ const AudioPlayer = () => {
     source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
     source.connect(audioContext.destination);
     source.start(0);
+    console.log("audio started for index=", index);
     source.onended = function () {
+      console.log("Audio ended for index=", index);
       source.disconnect();
     };
   };
 
   const playSelectedNotes = () => {
-    console.log("Playing selected notes " + selectedNoteIndices);
+    console.log(`Playing selected notes = [${selectedNoteIndices}]`);
     selectedNoteIndices.forEach((index) => playSound(index));
-    /*for (let i = 0; i < selectedNoteIndices.length; i++) {
-      playSound(selectedNoteIndices[i]);
-    }*/
   };
 
   //On mount, create the audio context
@@ -50,8 +49,8 @@ const AudioPlayer = () => {
     const ac = new AudioContext();
     setAudioContext(ac);
     return () => {
-      /*console.log("Cleaning up audio context (AudioPlayer.js)");
-      ac.close(); // Cleanup the audio context when the component unmounts */
+      console.log("Cleaning up audio context (AudioPlayer.js)");
+      ac.close(); // Cleanup the audio context when the component unmounts
     };
   }, []);
 
@@ -82,7 +81,12 @@ const AudioPlayer = () => {
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
   }, [selectedNoteIndices, audioBuffer]);
 
-  return <div>Playing Audio: {soundUrl}</div>;
+  return (
+    <div>
+      Playing Notes:{" "}
+      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join(", ")}
+    </div>
+  );
 };
 
 export default AudioPlayer;

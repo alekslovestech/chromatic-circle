@@ -3,7 +3,6 @@ import { useNotes } from "./NotesContext.js";
 import {
   NOTE_NAMES,
   isBlackKey,
-  calculateChordNotes,
   calculateChordNotesFromIndex,
 } from "./ChromaticUtils.js";
 import { Constants, CircleMath } from "./CircleMath.js";
@@ -11,15 +10,11 @@ import { Constants, CircleMath } from "./CircleMath.js";
 const ChromaticCircle = () => {
   const canvasRef = useRef(null);
   const {
-    mode,
+    inputMode,
     selectedNoteIndices,
     setSelectedNoteIndices,
     selectedChordType,
   } = useNotes();
-
-  window.onload = async () => {
-    console.log("Window.onload");
-  };
 
   useEffect(() => {
     const HandleCanvasClick = (event) => {
@@ -38,14 +33,14 @@ const ChromaticCircle = () => {
       }
 
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
-      console.log(`selected ${noteIndex} in mode=${mode} `);
+      console.log(`selected ${noteIndex} in mode=${inputMode} `);
 
       let updatedIndices = [];
-      if (mode === "CIRCLE_INPUT") {
+      if (inputMode === "CIRCLE_INPUT") {
         updatedIndices = selectedNoteIndices.includes(noteIndex)
           ? selectedNoteIndices.filter((i) => i !== noteIndex) // Remove index if already selected
           : [...selectedNoteIndices, noteIndex]; // Add index if not already selected
-      } else if (mode === "CHORD_PRESETS") {
+      } else if (inputMode === "CHORD_PRESETS") {
         updatedIndices = calculateChordNotesFromIndex(
           noteIndex,
           selectedChordType
@@ -127,7 +122,7 @@ const ChromaticCircle = () => {
       DrawWedge(index);
       drawText(note, index);
     });
-  }, [mode, selectedNoteIndices, setSelectedNoteIndices]);
+  }, [inputMode, selectedNoteIndices, selectedChordType]);
 
   return (
     <canvas
