@@ -47,6 +47,14 @@ const ChromaticCircle = () => {
         );
       }
       updatedIndices.sort((a, b) => a - b);
+      
+      const changeDetected = updatedIndices.length !== selectedNoteIndices.length ||
+        updatedIndices.some((index, i) => index !== selectedNoteIndices[i]);
+      if (!changeDetected) {
+        console.log("No change in selected notes");
+        return;
+      }
+      
       setSelectedNoteIndices(updatedIndices);
       console.log(updatedIndices);
 
