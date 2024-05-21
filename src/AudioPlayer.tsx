@@ -1,25 +1,28 @@
-import { CircleMath } from "./CircleMath.js";
+import { CircleMath } from "./CircleMath";
 import React, { useState, useEffect } from "react";
-import { useNotes } from "./NotesContext.js";
-import { NOTE_NAMES } from "./ChromaticUtils.js";
+import { useNotes } from "./NotesContext";
+import { NOTE_NAMES } from "./ChromaticUtils";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
 
 const AudioPlayer = () => {
-  const [audioContext, setAudioContext] = useState(null);
-  const [audioBuffer, setAudioBuffer] = useState(null);
+  const [audioContext, setAudioContext] = useState(new AudioContext());
+  const [audioBuffer, setAudioBuffer] = useState<AudioBuffer|null>(null);
   const { selectedNoteIndices } = useNotes();
 
-  const loadAudio = async (url) => {
+  const loadAudio = async (url: string): Promise<AudioBuffer> => {
     const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
+    const arrayBuffer:ArrayBuffer = await response.arrayBuffer();
     console.log(arrayBuffer);
+    if (!audioContext) {
+        throw new Error ("Audio context is not initialized");
+    }
     const theBuffer = await audioContext.decodeAudioData(arrayBuffer);
     return theBuffer;
   };
 
-  const playSound = (index) => {
+  const playSound = (index: number) => {
     const playbackRate = CircleMath.GetMultiplierFromIndex(index);
 
     if (!audioContext) {
@@ -46,7 +49,7 @@ const AudioPlayer = () => {
   //On mount, create the audio context
   useEffect(() => {
     console.log("Creating audio context (AudioPlayer.js), soundUrl=", soundUrl);
-    const ac = new AudioContext();
+    const ac: AudioContext = new AudioContext();
     setAudioContext(ac);
     return () => {
       console.log("Cleaning up audio context (AudioPlayer.js)");
@@ -64,7 +67,7 @@ const AudioPlayer = () => {
       "audioContext is initialized, now loading audio from:",
       soundUrl
     );
-    loadAudio(soundUrl).then((buffer) => {
+    loadAudio(soundUrl).then((buffer: AudioBuffer) => {
       setAudioBuffer(buffer);
     });
 

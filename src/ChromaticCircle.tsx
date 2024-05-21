@@ -1,14 +1,15 @@
 import React, { useRef, useEffect } from "react";
-import { useNotes } from "./NotesContext.js";
+import { useNotes } from "./NotesContext";
 import {
   NOTE_NAMES,
   isBlackKey,
   calculateChordNotesFromIndex,
-} from "./ChromaticUtils.js";
-import { Constants, CircleMath } from "./CircleMath.js";
+} from "./ChromaticUtils";
+import { Constants, CircleMath } from "./CircleMath";
 
-const ChromaticCircle = () => {
-  const canvasRef = useRef(null);
+const ChromaticCircle: React.FC = () => {
+ 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const {
     inputMode,
     selectedNoteIndices,
@@ -17,8 +18,14 @@ const ChromaticCircle = () => {
   } = useNotes();
 
   useEffect(() => {
-    const HandleCanvasClick = (event) => {
-      const rect = canvasRef.current.getBoundingClientRect();
+    const HandleCanvasClick = (event: any) => {
+      const rect = canvasRef.current
+        ? canvasRef.current.getBoundingClientRect()
+        : null;
+      if (!rect) {
+        console.log("Canvas reference is null");
+        return;
+      }
       const [pureX, pureY] = CircleMath.ViewportToCartesian(
         event.clientX,
         event.clientY,
@@ -26,12 +33,10 @@ const ChromaticCircle = () => {
       );
 
       const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
-
       if (!CircleMath.IsRadiusInRange(radius)) {
         console.log("Click outside the radius range");
         return; // Don't do anything if the click is outside the circle
       }
-
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
       console.log(`selected ${noteIndex} in mode=${inputMode} `);
 
@@ -46,31 +51,41 @@ const ChromaticCircle = () => {
           selectedChordType
         );
       }
-      updatedIndices.sort((a, b) => a - b);
-      
-      const changeDetected = updatedIndices.length !== selectedNoteIndices.length ||
-        updatedIndices.some((index, i) => index !== selectedNoteIndices[i]);
+      updatedIndices.sort((a: number, b: number) => a - b);
+
+      const changeDetected =
+        updatedIndices.length !== selectedNoteIndices.length ||
+        updatedIndices.some(
+          (index: number, i: number) => index !== selectedNoteIndices[i]
+        );
       if (!changeDetected) {
         console.log("No change in selected notes");
         return;
       }
-      
+
       setSelectedNoteIndices(updatedIndices);
       console.log(updatedIndices);
 
       return () => {
-        canvasRef.removeEventListener("click", HandleCanvasClick);
+        //canvasRef.removeEventListener("click", HandleCanvasClick);
       };
     };
 
-    const canvas = canvasRef.current;
-    canvas.addEventListener("click", HandleCanvasClick);
+    if (!canvasRef) return;
+    const canvasElement: HTMLCanvasElement | null = canvasRef.current
+      ? canvasRef.current
+      : null;
+    if (!canvasElement) return;
 
-    const ctx = canvas.getContext("2d");
+    canvasElement.addEventListener("click", HandleCanvasClick);
+    const ctx: CanvasRenderingContext2D |null = canvasElement
+      ? canvasElement.getContext("2d")
+      : null;
+    if (!ctx) return;
     ctx.fillStyle = "grey";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
-    const drawText = (noteText, index) => {
+    const drawText = (noteText: string, index: number) => {
       ctx.font = "bold 20px Arial";
       ctx.fillStyle = "blue";
 
@@ -90,7 +105,7 @@ const ChromaticCircle = () => {
       ctx.restore();
     };
 
-    const DrawWedge = (index) => {
+    const DrawWedge = (index: number) => {
       ctx.beginPath();
       const isBlack = isBlackKey(index);
       const isSelected = selectedNoteIndices.includes(index);
@@ -123,7 +138,6 @@ const ChromaticCircle = () => {
       ctx.strokeStyle = "black";
       ctx.lineWidth = 2;
       ctx.stroke();
-      return <canvas />;
     };
 
     NOTE_NAMES.forEach((note, index) => {
