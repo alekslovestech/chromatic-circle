@@ -14,9 +14,9 @@ export const NOTE_NAMES = [
 ];
 
 export const CHORD_TYPES = [
-  "maj",
-  "min",
   "dim",
+  "min",
+  "maj",
   "aug",
   "7th",
   "maj7",
