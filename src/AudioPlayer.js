@@ -84,7 +84,7 @@ const AudioPlayer = () => {
   return (
     <div>
       Playing Notes:{" "}
-      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join(", ")}
+      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join("-")}
     </div>
   );
 };
