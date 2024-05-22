@@ -18,7 +18,7 @@ interface NotesContextType {
     setInputMode: () => {}, // Provide a no-op function as default
     selectedNoteIndices: [],
     setSelectedNoteIndices: () => {},
-    selectedChordType: "maj",
+    selectedChordType: "dim",
     setSelectedChordType: () => {},
   };
 
@@ -27,7 +27,7 @@ const NotesContext = createContext(defaultContextValue);
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [inputMode, setInputMode] = useState<string>("CIRCLE_INPUT"); // or 'CHORD_PRESETS'
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([]);
-  const [selectedChordType, setSelectedChordType] = useState<string>("maj");
+  const [selectedChordType, setSelectedChordType] = useState<string>("dim");
   
   return (
     <NotesContext.Provider
