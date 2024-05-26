@@ -25,9 +25,9 @@ interface NotesContextType {
 const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
-  const [inputMode, setInputMode] = useState<string>("CIRCLE_INPUT"); // or 'CHORD_PRESETS'
-  const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([]);
-  const [selectedChordType, setSelectedChordType] = useState<string>("dim");
+  const [inputMode, setInputMode] = useState<string>("CHORD_PRESETS"); 
+  const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([7]);
+  const [selectedChordType, setSelectedChordType] = useState<string>("note");
   
   return (
     <NotesContext.Provider

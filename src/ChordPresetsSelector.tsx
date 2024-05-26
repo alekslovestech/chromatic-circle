@@ -1,16 +1,16 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { NOTE_NAMES, CHORD_TYPES, calculateChordNotes } from "./ChromaticUtils";
+import { NOTE_NAMES, CHORD_TYPES, calculateChordNotesFromIndex } from "./ChromaticUtils";
 
 const ChordPresetsSelector = () => {
   const {
     inputMode,
+    selectedNoteIndices,
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
   } = useNotes();
-  const [selectedKey, setSelectedKey] = React.useState(NOTE_NAMES[0]);
-
+  
   if (inputMode !== "CHORD_PRESETS") return null;
 
   /*const handleNoteClick = (event) => {
@@ -26,7 +26,8 @@ const ChordPresetsSelector = () => {
   const handleChordTypeChange = (event: any) => {
     const incomingChord = event.target.value;
     setSelectedChordType(incomingChord);
-    const newNotes = calculateChordNotes(selectedKey, incomingChord);
+    const originalRootIndex = selectedNoteIndices[0];
+    const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
     console.log(`chord type change: newNotes=${newNotes}`);
     setSelectedNoteIndices(newNotes);
   };
