@@ -5,11 +5,11 @@ import { NOTE_NAMES } from "./ChromaticUtils";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
-const activeSources: AudioBufferSourceNode[] = [];
 
 const AudioPlayer: React.FC = () => {
   const audioContextRef = useRef<AudioContext|null>(null);
   const audioBufferRef = useRef<AudioBuffer|null>(null);
+  const activeSourcesRef = useRef<AudioBufferSourceNode[]>([]);
   const { selectedNoteIndices } = useNotes();
 
   const loadAudio = async (url: string) => {
@@ -21,8 +21,7 @@ const AudioPlayer: React.FC = () => {
     }
     audioBufferRef.current = audioContextRef.current != null 
       ? await audioContextRef.current.decodeAudioData(arrayBuffer)
-      : null;
-    
+      : null;    
   };
 
   const playSound = (index: number) => {
@@ -37,7 +36,7 @@ const AudioPlayer: React.FC = () => {
     source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
     source.connect(audioContextRef.current.destination);
     source.start(0);
-    activeSources.push(source);
+    activeSourcesRef.current.push(source);
     console.log("audio started for index=", index);
     source.onended = function () {
       console.log("Audio ended for index=", index);
@@ -46,7 +45,7 @@ const AudioPlayer: React.FC = () => {
   };
 
   const playSelectedNotes = () => {
-    activeSources.forEach((source) => source.stop());
+    activeSourcesRef.current.forEach((source) => source.stop());
     console.log(`Playing selected notes = [${selectedNoteIndices}]`);
     selectedNoteIndices.forEach((index) => playSound(index));
   };
@@ -57,7 +56,6 @@ const AudioPlayer: React.FC = () => {
       console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", soundUrl);
       audioContextRef.current = new AudioContext();
     }
-    //setAudioContext(ac);
     return () => {
       console.log("Cleaning up audio context (AudioPlayer.tsx)");
       //if (audioContextRef.current) 
@@ -76,7 +74,8 @@ const AudioPlayer: React.FC = () => {
       soundUrl
     );
     loadAudio(soundUrl).then(() => {
-      console.log("Audio buffer loaded successfully")
+      console.log("Audio buffer loaded successfully");
+      playSelectedNotes();
     });
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
@@ -90,7 +89,7 @@ const AudioPlayer: React.FC = () => {
     playSelectedNotes();
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [selectedNoteIndices]);
+  }, [selectedNoteIndices, audioBufferRef]);
 
   return (
     <div>
