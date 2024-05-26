@@ -1,39 +1,43 @@
 import { CircleMath } from "./CircleMath";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
 import { NOTE_NAMES } from "./ChromaticUtils";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
+const activeSources: AudioBufferSourceNode[] = [];
 
-const AudioPlayer = () => {
-  const [audioContext, setAudioContext] = useState(new AudioContext());
+const AudioPlayer: React.FC = () => {
+  const audioContextRef = useRef<AudioContext|null>(null);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer|null>(null);
   const { selectedNoteIndices } = useNotes();
 
-  const loadAudio = async (url: string): Promise<AudioBuffer> => {
+  const loadAudio = async (url: string): Promise<AudioBuffer | null> => {
     const response = await fetch(url);
     const arrayBuffer:ArrayBuffer = await response.arrayBuffer();
     console.log(arrayBuffer);
-    if (!audioContext) {
+    if (!audioContextRef) {
         throw new Error ("Audio context is not initialized");
     }
-    const theBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    const theBuffer = audioContextRef.current != null 
+      ? await audioContextRef.current.decodeAudioData(arrayBuffer)
+      : null;
     return theBuffer;
   };
 
   const playSound = (index: number) => {
     const playbackRate = CircleMath.GetMultiplierFromIndex(index);
 
-    if (!audioContext) {
+    if (!audioContextRef.current) {
       console.error("Audio context is not initialized");
       return;
     }
-    var source = audioContext.createBufferSource();
+    var source = audioContextRef.current.createBufferSource();
     source.buffer = audioBuffer;
     source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
-    source.connect(audioContext.destination);
+    source.connect(audioContextRef.current.destination);
     source.start(0);
+    activeSources.push(source);
     console.log("audio started for index=", index);
     source.onended = function () {
       console.log("Audio ended for index=", index);
@@ -42,23 +46,27 @@ const AudioPlayer = () => {
   };
 
   const playSelectedNotes = () => {
+    activeSources.forEach((source) => source.stop());
     console.log(`Playing selected notes = [${selectedNoteIndices}]`);
     selectedNoteIndices.forEach((index) => playSound(index));
   };
 
   //On mount, create the audio context
   useEffect(() => {
-    console.log("Creating audio context (AudioPlayer.js), soundUrl=", soundUrl);
-    const ac: AudioContext = new AudioContext();
-    setAudioContext(ac);
+    if (!audioContextRef.current) {
+      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", soundUrl);
+      audioContextRef.current = new AudioContext();
+    }
+    //setAudioContext(ac);
     return () => {
-      console.log("Cleaning up audio context (AudioPlayer.js)");
-      ac.close(); // Cleanup the audio context when the component unmounts
+      console.log("Cleaning up audio context (AudioPlayer.tsx)");
+      //if (audioContextRef.current) 
+       // audioContextRef.current.close(); // Cleanup the audio context when the component unmounts
     };
   }, []);
 
   useEffect(() => {
-    if (!audioContext || !soundUrl) {
+    if (!audioContextRef || !soundUrl) {
       console.log("audioContext or soundUrl is null");
       return;
     }
@@ -67,12 +75,12 @@ const AudioPlayer = () => {
       "audioContext is initialized, now loading audio from:",
       soundUrl
     );
-    loadAudio(soundUrl).then((buffer: AudioBuffer) => {
+    loadAudio(soundUrl).then((buffer: AudioBuffer|null) => {
       setAudioBuffer(buffer);
     });
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [audioContext]);
+  }, [audioContextRef]);
 
   useEffect(() => {
     if (!audioBuffer) {

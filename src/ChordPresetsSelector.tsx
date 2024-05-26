@@ -1,8 +1,8 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { NOTE_NAMES, CHORD_TYPES, calculateChordNotesFromIndex } from "./ChromaticUtils";
+import { CHORD_TYPES, calculateChordNotesFromIndex } from "./ChromaticUtils";
 
-const ChordPresetsSelector = () => {
+const ChordPresetsSelector: React.FC = () => {
   const {
     inputMode,
     selectedNoteIndices,
