@@ -1,5 +1,5 @@
 import { CircleMath } from "./CircleMath";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
 import { NOTE_NAMES } from "./ChromaticUtils";
 
@@ -9,20 +9,20 @@ const activeSources: AudioBufferSourceNode[] = [];
 
 const AudioPlayer: React.FC = () => {
   const audioContextRef = useRef<AudioContext|null>(null);
-  const [audioBuffer, setAudioBuffer] = useState<AudioBuffer|null>(null);
+  const audioBufferRef = useRef<AudioBuffer|null>(null);
   const { selectedNoteIndices } = useNotes();
 
-  const loadAudio = async (url: string): Promise<AudioBuffer | null> => {
+  const loadAudio = async (url: string) => {
     const response = await fetch(url);
     const arrayBuffer:ArrayBuffer = await response.arrayBuffer();
     console.log(arrayBuffer);
     if (!audioContextRef) {
         throw new Error ("Audio context is not initialized");
     }
-    const theBuffer = audioContextRef.current != null 
+    audioBufferRef.current = audioContextRef.current != null 
       ? await audioContextRef.current.decodeAudioData(arrayBuffer)
       : null;
-    return theBuffer;
+    
   };
 
   const playSound = (index: number) => {
@@ -33,7 +33,7 @@ const AudioPlayer: React.FC = () => {
       return;
     }
     var source = audioContextRef.current.createBufferSource();
-    source.buffer = audioBuffer;
+    source.buffer = audioBufferRef.current;
     source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
     source.connect(audioContextRef.current.destination);
     source.start(0);
@@ -75,22 +75,22 @@ const AudioPlayer: React.FC = () => {
       "audioContext is initialized, now loading audio from:",
       soundUrl
     );
-    loadAudio(soundUrl).then((buffer: AudioBuffer|null) => {
-      setAudioBuffer(buffer);
+    loadAudio(soundUrl).then(() => {
+      console.log("Audio buffer loaded successfully")
     });
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
   }, [audioContextRef]);
 
   useEffect(() => {
-    if (!audioBuffer) {
+    if (!audioBufferRef.current) {
       console.log("audioBuffer not loaded or audioContext is null");
       return;
     }
     playSelectedNotes();
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [selectedNoteIndices, audioBuffer]);
+  }, [selectedNoteIndices]);
 
   return (
     <div>
