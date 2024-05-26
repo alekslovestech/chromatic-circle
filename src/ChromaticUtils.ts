@@ -14,9 +14,9 @@ export const NOTE_NAMES = [
 ];
 
 export const CHORD_TYPES = [
-  "maj",
-  "min",
   "dim",
+  "min",
+  "maj",
   "aug",
   "7th",
   "maj7",
@@ -32,7 +32,7 @@ export const CHORD_TYPES = [
   "min6",
 ];
 
-export const CHORD_OFFSETS = {
+export const CHORD_OFFSETS: { [key: string]: number[] } = {
   maj: [0, 4, 7],
   min: [0, 3, 7],
   dim: [0, 3, 6],
@@ -51,20 +51,25 @@ export const CHORD_OFFSETS = {
   min6: [0, 3, 7, 9],
 };
 
-export function isBlackKey(nodeIndex) {
+export function isBlackKey(nodeIndex: number) {
   return [1, 3, 6, 8, 10].includes(nodeIndex % 12);
 }
 
 // Function to calculate notes based on key and chord type
-export const calculateChordNotes = (key, chordType) => {
+export const calculateChordNotes = (key: string, chordType: string) => {
   const keyIndex = NOTE_NAMES.indexOf(key);
   return calculateChordNotesFromIndex(keyIndex, chordType);
 };
 
-export const calculateChordNotesFromIndex = (rootIndex, chordType) => {
+export const calculateChordNotesFromIndex = (
+  rootIndex: number,
+  chordType: string
+) => {
   const rootNote = NOTE_NAMES[rootIndex];
-  const chordOffsets = CHORD_OFFSETS[chordType];
-  const newNotes = chordOffsets.map((offset) => (offset + rootIndex) % 12);
+  const chordOffsets: any = CHORD_OFFSETS[chordType] as any;
+  const newNotes = chordOffsets.map(
+    (offset: number) => (offset + rootIndex) % 12
+  );
   console.log(`Calculating notes for ${rootNote}:${chordType} = ${newNotes}`);
   return newNotes;
 };

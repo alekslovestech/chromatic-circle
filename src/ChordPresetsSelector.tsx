@@ -23,7 +23,7 @@ const ChordPresetsSelector = () => {
     setSelectedNoteIndices(newNotes);
   }; */
 
-  const handleChordTypeChange = (event) => {
+  const handleChordTypeChange = (event: any) => {
     const incomingChord = event.target.value;
     setSelectedChordType(incomingChord);
     const newNotes = calculateChordNotes(selectedKey, incomingChord);
