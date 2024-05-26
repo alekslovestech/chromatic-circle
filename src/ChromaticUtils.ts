@@ -13,6 +13,41 @@ export const NOTE_NAMES = [
   "B",
 ];
 
+export const SHARP_NAMES = [
+  "C",
+  "C♯",
+  "D",
+  "D♯",
+  "E",
+  "F",
+  "F♯",
+  "G",
+  "G♯",
+  "A",
+  "A♯",
+  "B",
+];
+
+export const FLAT_NAMES = [
+  "C",
+  "D♭",
+  "D",
+  "E♭",
+  "E",
+  "F",
+  "G♭",
+  "G",
+  "A♭",
+  "A",
+  "B♭",
+  "B",
+];
+
+export enum Accidental {
+  Sharp = "Sharp",
+  Flat = "Flat",
+}
+
 export const CHORD_TYPES = [
   "note",
   "dim",
@@ -70,4 +105,25 @@ export const calculateChordNotesFromIndex = (
   );
   console.log(`Calculating notes for ${rootNote}:${chordType} = ${newNotes}`);
   return newNotes;
+};
+
+export const getNoteFromKeyAndAccidental = (
+  index: number,
+  sharpOrFlat: Accidental
+): string => {
+  return sharpOrFlat === Accidental.Sharp
+    ? SHARP_NAMES[index]
+    : FLAT_NAMES[index];
+};
+
+export const getChordName = (
+  rootIndex: number,
+  chordType: string,
+  accidental: Accidental
+) => {
+  const rootNote = getNoteFromKeyAndAccidental(rootIndex, accidental);
+  if (chordType === "note") {
+    return rootNote;
+  }
+  return `${rootNote} ${chordType}`;
 };
