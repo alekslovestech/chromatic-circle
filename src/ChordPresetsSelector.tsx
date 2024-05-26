@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid"
 //import Item from "@mui/material/Item"
 import { useNotes } from "./NotesContext";
-import { CHORD_TYPES, FLAT_NAMES, SHARP_NAMES, Accidental, calculateChordNotesFromIndex, getNoteFromKeyAndAccidental, getChordName } from "./ChromaticUtils";
+import { CHORD_TYPES, Accidental, calculateChordNotesFromIndex, getNoteFromKeyAndAccidental, getChordName } from "./ChromaticUtils";
 
 const ChordPresetsSelector: React.FC = () => {
   const {

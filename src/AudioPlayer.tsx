@@ -1,7 +1,6 @@
 import { CircleMath } from "./CircleMath";
 import React, { useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
-import { NOTE_NAMES } from "./ChromaticUtils";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
