@@ -75,6 +75,7 @@ const AudioPlayer: React.FC = () => {
     );
     loadAudio(soundUrl).then(() => {
       console.log("Audio buffer loaded successfully");
+      //optional: play initial notes when audio is loaded
       playSelectedNotes();
     });
 
@@ -93,8 +94,8 @@ const AudioPlayer: React.FC = () => {
 
   return (
     <div>
-      Playing Notes:{" "}
-      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join("-")}
+      {/*Notes:{" "}
+      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join("-")}*/}
     </div>
   );
 };

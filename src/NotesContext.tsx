@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { Accidental } from "./ChromaticUtils";
 
 interface NotesContextType {
     inputMode: string;
@@ -7,6 +8,8 @@ interface NotesContextType {
     setSelectedNoteIndices: (indices: number[]) => void;
     selectedChordType: string;
     setSelectedChordType: (type: string) => void;
+    selectedAccidental: Accidental;
+    setSelectedAccidental: (sharpFlat: Accidental) => void;
   }
 
   interface NotesProviderProps {
@@ -20,6 +23,8 @@ interface NotesContextType {
     setSelectedNoteIndices: () => {},
     selectedChordType: "dim",
     setSelectedChordType: () => {},
+    selectedAccidental: Accidental.Sharp,
+    setSelectedAccidental: () => {},
   };
 
 const NotesContext = createContext(defaultContextValue);
@@ -28,7 +33,8 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [inputMode, setInputMode] = useState<string>("CHORD_PRESETS"); 
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([7]);
   const [selectedChordType, setSelectedChordType] = useState<string>("note");
-  
+  const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(Accidental.Sharp);
+
   return (
     <NotesContext.Provider
       value={{
@@ -38,6 +44,8 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
         setSelectedNoteIndices,
         selectedChordType,
         setSelectedChordType,
+        selectedAccidental,
+        setSelectedAccidental,
       }}
     >
       {children}

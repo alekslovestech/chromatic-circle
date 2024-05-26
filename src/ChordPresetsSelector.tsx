@@ -1,6 +1,8 @@
 import React from "react";
+import Grid from "@mui/material/Grid"
+//import Item from "@mui/material/Item"
 import { useNotes } from "./NotesContext";
-import { CHORD_TYPES, calculateChordNotesFromIndex } from "./ChromaticUtils";
+import { CHORD_TYPES, FLAT_NAMES, SHARP_NAMES, Accidental, calculateChordNotesFromIndex, getNoteFromKeyAndAccidental, getChordName } from "./ChromaticUtils";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -9,6 +11,8 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
+    selectedAccidental,
+    setSelectedAccidental
   } = useNotes();
   
   if (inputMode !== "CHORD_PRESETS") return null;
@@ -28,9 +32,15 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
     const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
-    console.log(`chord type change: newNotes=${newNotes}`);
+    console.log(`chord type change: ${incomingChord}, newNotes=${newNotes}`);
     setSelectedNoteIndices(newNotes);
   };
+
+  const handleAccidentalChange = (event: any) => {
+    const incomingAccidental:Accidental = event.target.value;
+    setSelectedAccidental(incomingAccidental);
+  };
+
 
   return (
     <div
@@ -50,7 +60,13 @@ const ChordPresetsSelector: React.FC = () => {
           ))
         }
       </select>*/}
-
+      chord: { selectedNoteIndices.length === 0 
+      ? "UNKNOWN"
+      : getChordName(selectedNoteIndices[0], selectedChordType, selectedAccidental)} <br/>
+      Notes:{" "}
+      {selectedNoteIndices.map((one) => 
+        {return getNoteFromKeyAndAccidental(one, selectedAccidental)}
+          ).join("-")}
       <select onChange={handleChordTypeChange} value={selectedChordType}>
         {CHORD_TYPES.map((chord) => (
           <option key={chord} value={chord}>
@@ -58,6 +74,11 @@ const ChordPresetsSelector: React.FC = () => {
           </option>
         ))}
       </select>
+      <select onChange={handleAccidentalChange} value={selectedAccidental}>
+        <option>{Accidental.Sharp}</option>
+        <option>{Accidental.Flat}</option>
+      </select>
+      
     </div>
   );
 };

@@ -51,7 +51,7 @@ const ChromaticCircle: React.FC = () => {
           selectedChordType
         );
       }
-      updatedIndices.sort((a: number, b: number) => a - b);
+     // updatedIndices.sort((a: number, b: number) => a - b);
 
       const changeDetected =
         updatedIndices.length !== selectedNoteIndices.length ||
