@@ -1,5 +1,18 @@
 import React, { useEffect, useRef } from "react";
-import { Vex } from "vexflow";
+import { Flow, KeySignature, StaveNote, Vex } from "vexflow";
+import { EASYSCORE_NAMES_SHARP } from "./ChromaticUtils";
+
+const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {
+  const noteNames = myNotes.map((note) => `${EASYSCORE_NAMES_SHARP[note]}/4`);
+
+  const notes = [
+    new StaveNote({
+      keys: noteNames,
+      duration: "w",
+    }),
+  ];
+  return notes;
+};
 
 const NotesRenderer: React.FC = () => {
   const divRef = useRef(null);
@@ -18,17 +31,12 @@ const NotesRenderer: React.FC = () => {
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width 400 on the canvas.
-    const stave = new VF.Stave(10, 40, 400);
-    stave.addClef("treble").addTimeSignature("4/4");
+    const stave = new VF.Stave(150, 40, 150);
+    stave.addClef("treble").addKeySignature("Gm"); //.addTimeSignature("4/4");
     stave.setContext(context).draw();
 
     // Create notes
-    const notes = [
-      new VF.StaveNote({ keys: ["c/4"], duration: "q" }),
-      new VF.StaveNote({ keys: ["d/4"], duration: "q" }),
-      new VF.StaveNote({ keys: ["e/4"], duration: "q" }),
-      new VF.StaveNote({ keys: ["f/4"], duration: "q" }),
-    ];
+    const notes = EasyScoreFromNotes([0, 3, 7]);
 
     // Create a voice in 4/4
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
