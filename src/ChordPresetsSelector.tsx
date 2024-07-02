@@ -1,8 +1,14 @@
 import React from "react";
-import Grid from "@mui/material/Grid"
+import Grid from "@mui/material/Grid";
 //import Item from "@mui/material/Item"
 import { useNotes } from "./NotesContext";
-import { CHORD_TYPES, Accidental, calculateChordNotesFromIndex, getNoteFromKeyAndAccidental, getChordName } from "./ChromaticUtils";
+import {
+  CHORD_TYPES,
+  calculateChordNotesFromIndex,
+  getNoteFromKeyAndAccidental,
+  getChordName,
+} from "./ChromaticUtils";
+import { Accidental } from "./NoteDisplayModes";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -12,9 +18,9 @@ const ChordPresetsSelector: React.FC = () => {
     selectedChordType,
     setSelectedChordType,
     selectedAccidental,
-    setSelectedAccidental
+    setSelectedAccidental,
   } = useNotes();
-  
+
   if (inputMode !== "CHORD_PRESETS") return null;
 
   /*const handleNoteClick = (event) => {
@@ -31,16 +37,18 @@ const ChordPresetsSelector: React.FC = () => {
     const incomingChord = event.target.value;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
+    const newNotes = calculateChordNotesFromIndex(
+      originalRootIndex,
+      incomingChord
+    );
     console.log(`chord type change: ${incomingChord}, newNotes=${newNotes}`);
     setSelectedNoteIndices(newNotes);
   };
 
   const handleAccidentalChange = (event: any) => {
-    const incomingAccidental:Accidental = event.target.value;
+    const incomingAccidental: Accidental = event.target.value;
     setSelectedAccidental(incomingAccidental);
   };
-
 
   return (
     <div
@@ -60,13 +68,21 @@ const ChordPresetsSelector: React.FC = () => {
           ))
         }
       </select>*/}
-      chord: { selectedNoteIndices.length === 0 
-      ? "UNKNOWN"
-      : getChordName(selectedNoteIndices[0], selectedChordType, selectedAccidental)} <br/>
+      chord:{" "}
+      {selectedNoteIndices.length === 0
+        ? "UNKNOWN"
+        : getChordName(
+            selectedNoteIndices[0],
+            selectedChordType,
+            selectedAccidental
+          )}{" "}
+      <br />
       Notes:{" "}
-      {selectedNoteIndices.map((one) => 
-        {return getNoteFromKeyAndAccidental(one, selectedAccidental)}
-          ).join("-")}
+      {selectedNoteIndices
+        .map((one) => {
+          return getNoteFromKeyAndAccidental(one, selectedAccidental);
+        })
+        .join("-")}
       <select onChange={handleChordTypeChange} value={selectedChordType}>
         {CHORD_TYPES.map((chord) => (
           <option key={chord} value={chord}>
@@ -78,7 +94,6 @@ const ChordPresetsSelector: React.FC = () => {
         <option>{Accidental.Sharp}</option>
         <option>{Accidental.Flat}</option>
       </select>
-      
     </div>
   );
 };

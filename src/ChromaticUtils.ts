@@ -1,52 +1,5 @@
-export const NOTE_NAMES = [
-  "C",
-  "C♯/D♭",
-  "D",
-  "D♯/E♭",
-  "E",
-  "F",
-  "F♯/G♭",
-  "G",
-  "G♯/A♭",
-  "A",
-  "A♯/B♭",
-  "B",
-];
-
-export const SHARP_NAMES = [
-  "C",
-  "C♯",
-  "D",
-  "D♯",
-  "E",
-  "F",
-  "F♯",
-  "G",
-  "G♯",
-  "A",
-  "A♯",
-  "B",
-];
-
-export const FLAT_NAMES = [
-  "C",
-  "D♭",
-  "D",
-  "E♭",
-  "E",
-  "F",
-  "G♭",
-  "G",
-  "A♭",
-  "A",
-  "B♭",
-  "B",
-];
-
-export enum Accidental {
-  Sharp = "Sharp",
-  Flat = "Flat",
-}
+import { Accidental } from "./NoteDisplayModes";
+import { NOTE_NAMES, SHARP_NAMES, FLAT_NAMES } from "./NoteConstants";
 
 export const CHORD_TYPES = [
   "note",

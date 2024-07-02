@@ -1,14 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import {
-  NOTE_NAMES,
-  isBlackKey,
-  calculateChordNotesFromIndex,
-} from "./ChromaticUtils";
+import { isBlackKey, calculateChordNotesFromIndex } from "./ChromaticUtils";
+import { NOTE_NAMES } from "./NoteConstants";
 import { Constants, CircleMath } from "./CircleMath";
 
 const ChromaticCircle: React.FC = () => {
- 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const {
     inputMode,
@@ -51,7 +47,7 @@ const ChromaticCircle: React.FC = () => {
           selectedChordType
         );
       }
-     // updatedIndices.sort((a: number, b: number) => a - b);
+      // updatedIndices.sort((a: number, b: number) => a - b);
 
       const changeDetected =
         updatedIndices.length !== selectedNoteIndices.length ||
@@ -78,7 +74,7 @@ const ChromaticCircle: React.FC = () => {
     if (!canvasElement) return;
 
     canvasElement.addEventListener("click", HandleCanvasClick);
-    const ctx: CanvasRenderingContext2D |null = canvasElement
+    const ctx: CanvasRenderingContext2D | null = canvasElement
       ? canvasElement.getContext("2d")
       : null;
     if (!ctx) return;

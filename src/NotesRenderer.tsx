@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { Flow, KeySignature, StaveNote, Vex } from "vexflow";
-import { EASYSCORE_NAMES_SHARP } from "./ChromaticUtils";
+import { StaveNote, Vex } from "vexflow";
+import { EASYSCORE_NAMES_SHARP } from "./NoteConstants";
 
 const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {
   const noteNames = myNotes.map((note) => `${EASYSCORE_NAMES_SHARP[note]}/4`);
+  console.log(noteNames);
 
   const notes = [
     new StaveNote({
@@ -32,7 +33,7 @@ const NotesRenderer: React.FC = () => {
 
     // Create a stave at position 10, 40 of width 400 on the canvas.
     const stave = new VF.Stave(150, 40, 150);
-    stave.addClef("treble").addKeySignature("Gm"); //.addTimeSignature("4/4");
+    stave.addClef("treble"); //.addKeySignature("C");
     stave.setContext(context).draw();
 
     // Create notes
