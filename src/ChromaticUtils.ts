@@ -1,5 +1,6 @@
-import { Accidental } from "./NoteDisplayModes";
-import { NOTE_NAMES, SHARP_NAMES, FLAT_NAMES } from "./NoteConstants";
+import { Accidental, NotationType } from "./NoteDisplayModes";
+import { NOTE_NAMES } from "./NoteConstants";
+import { GetNoteNameFromIndex } from "./NoteUtils";
 
 export const CHORD_TYPES = [
   "note",
@@ -64,9 +65,7 @@ export const getNoteFromKeyAndAccidental = (
   index: number,
   sharpOrFlat: Accidental
 ): string => {
-  return sharpOrFlat === Accidental.Sharp
-    ? SHARP_NAMES[index]
-    : FLAT_NAMES[index];
+  return GetNoteNameFromIndex(index, sharpOrFlat, NotationType.ScreenDisplay);
 };
 
 export const getChordName = (

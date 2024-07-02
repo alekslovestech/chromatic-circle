@@ -1,9 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { StaveNote, Vex } from "vexflow";
-import { EASYSCORE_NAMES_SHARP } from "./NoteConstants";
+import { GetNoteNameFromIndex } from "./NoteUtils";
+import { Accidental, NotationType } from "./NoteDisplayModes";
+import { Vex, StaveNote } from "vexflow";
 
 const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {
-  const noteNames = myNotes.map((note) => `${EASYSCORE_NAMES_SHARP[note]}/4`);
+  const noteNames = myNotes.map((noteIndex) => {
+    const noteName = GetNoteNameFromIndex(
+      noteIndex,
+      Accidental.Sharp,
+      NotationType.EasyScore
+    );
+    return `${noteName}/4`;
+  });
   console.log(noteNames);
 
   const notes = [
