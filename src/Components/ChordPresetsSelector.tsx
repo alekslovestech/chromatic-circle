@@ -7,8 +7,8 @@ import {
   calculateChordNotesFromIndex,
   getNoteFromKeyAndAccidental,
   getChordName,
-} from "./ChromaticUtils";
-import { Accidental } from "./NoteDisplayModes";
+} from "../ChromaticUtils";
+import { Accidental } from "../NoteDisplayModes";
 
 const ChordPresetsSelector: React.FC = () => {
   const {

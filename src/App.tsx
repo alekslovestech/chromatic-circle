@@ -1,12 +1,12 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { NotesProvider } from "./NotesContext";
-import ChromaticCircle from "./ChromaticCircle";
-import AudioPlayer from "./AudioPlayer";
-import ModeSelector from "./ModeSelector";
-import ChordPresetsSelector from "./ChordPresetsSelector";
-import NotesRenderer from "./NotesRenderer";
+import { NotesProvider } from "./Components/NotesContext";
+import ChromaticCircle from "./Components/ChromaticCircle";
+import AudioPlayer from "./Components/AudioPlayer";
+import ModeSelector from "./Components/ModeSelector";
+import ChordPresetsSelector from "./Components/ChordPresetsSelector";
+import NotesRenderer from "./Components/NotesRenderer";
 
 function App() {
   return (

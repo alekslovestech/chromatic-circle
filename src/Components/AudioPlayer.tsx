@@ -1,4 +1,4 @@
-import { CircleMath } from "./CircleMath";
+import { CircleMath } from "../CircleMath";
 import React, { useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
 
@@ -6,21 +6,22 @@ const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
 
 const AudioPlayer: React.FC = () => {
-  const audioContextRef = useRef<AudioContext|null>(null);
-  const audioBufferRef = useRef<AudioBuffer|null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const audioBufferRef = useRef<AudioBuffer | null>(null);
   const activeSourcesRef = useRef<AudioBufferSourceNode[]>([]);
   const { selectedNoteIndices } = useNotes();
 
   const loadAudio = async (url: string) => {
     const response = await fetch(url);
-    const arrayBuffer:ArrayBuffer = await response.arrayBuffer();
+    const arrayBuffer: ArrayBuffer = await response.arrayBuffer();
     console.log(arrayBuffer);
     if (!audioContextRef) {
-        throw new Error ("Audio context is not initialized");
+      throw new Error("Audio context is not initialized");
     }
-    audioBufferRef.current = audioContextRef.current != null 
-      ? await audioContextRef.current.decodeAudioData(arrayBuffer)
-      : null;    
+    audioBufferRef.current =
+      audioContextRef.current != null
+        ? await audioContextRef.current.decodeAudioData(arrayBuffer)
+        : null;
   };
 
   const playSound = (index: number) => {
@@ -52,13 +53,16 @@ const AudioPlayer: React.FC = () => {
   //On mount, create the audio context
   useEffect(() => {
     if (!audioContextRef.current) {
-      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", soundUrl);
+      console.log(
+        "Creating audio context (AudioPlayer.tsx), soundUrl=",
+        soundUrl
+      );
       audioContextRef.current = new AudioContext();
     }
     return () => {
       console.log("Cleaning up audio context (AudioPlayer.tsx)");
-      //if (audioContextRef.current) 
-       // audioContextRef.current.close(); // Cleanup the audio context when the component unmounts
+      //if (audioContextRef.current)
+      // audioContextRef.current.close(); // Cleanup the audio context when the component unmounts
     };
   }, []);
 

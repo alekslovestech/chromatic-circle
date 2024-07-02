@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { GetNoteNameFromIndex } from "./NoteUtils";
-import { Accidental, NotationType } from "./NoteDisplayModes";
+import { GetNoteNameFromIndex } from "../NoteUtils";
+import { Accidental, NotationType } from "../NoteDisplayModes";
 import { Vex, StaveNote } from "vexflow";
 
 const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {

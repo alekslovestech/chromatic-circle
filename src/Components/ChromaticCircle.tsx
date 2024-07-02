@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { isBlackKey, calculateChordNotesFromIndex } from "./ChromaticUtils";
-import { NOTE_NAMES } from "./NoteConstants";
-import { Constants, CircleMath } from "./CircleMath";
+import { isBlackKey, calculateChordNotesFromIndex } from "../ChromaticUtils";
+import { NOTE_NAMES } from "../NoteConstants";
+import { Constants, CircleMath } from "../CircleMath";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
