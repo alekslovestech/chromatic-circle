@@ -4,11 +4,14 @@ import { Accidental, NotationType } from "../NoteDisplayModes";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 
-const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {
+const EasyScoreFromNotes = (
+  myNotes: number[],
+  selectedAccidental: Accidental
+): StaveNote[] => {
   const noteNames = myNotes.map((noteIndex) => {
     const noteName = GetNoteNameFromIndex(
       noteIndex,
-      Accidental.Sharp,
+      selectedAccidental,
       NotationType.EasyScore
     );
     return `${noteName}/4`;
@@ -26,7 +29,7 @@ const EasyScoreFromNotes = (myNotes: number[]): StaveNote[] => {
 
 const NotesRenderer: React.FC = () => {
   const divRef = useRef(null);
-  const { selectedNoteIndices } = useNotes();
+  const { selectedNoteIndices, selectedAccidental } = useNotes();
   useEffect(() => {
     if (!divRef.current) return;
 
@@ -46,7 +49,7 @@ const NotesRenderer: React.FC = () => {
     stave.setContext(context).draw();
 
     // Create notes
-    const notes = EasyScoreFromNotes(selectedNoteIndices);
+    const notes = EasyScoreFromNotes(selectedNoteIndices, selectedAccidental);
 
     // Create a voice in 4/4
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
@@ -63,7 +66,7 @@ const NotesRenderer: React.FC = () => {
     return () => {
       // Cleanup if needed
     };
-  }, [selectedNoteIndices]);
+  }, [selectedNoteIndices, selectedAccidental]);
 
   return <div ref={divRef} />;
 };
