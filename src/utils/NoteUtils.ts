@@ -1,7 +1,9 @@
-import { isBlackKey } from "./ChromaticUtils";
-import { Accidental, NotationType } from "./NoteDisplayModes";
+import { isBlackKey } from "../ChromaticUtils";
+import { NotationType } from "./NotationType";
+import { Accidental } from "./Accidental";
+import { NoteWithAccidental } from "./NoteWithAccidental";
 
-function GetAccidentalSign(
+export function GetAccidentalSign(
   accidental: Accidental,
   displayMode: NotationType
 ): string {
@@ -23,11 +25,10 @@ function GetAccidentalSign(
   return accidentalSigns[displayMode][accidental] || "";
 }
 
-export function GetNoteNameFromIndex(
+export function GetNoteWithAccidentalFromIndex(
   index: number,
-  accidental: Accidental,
-  displayMode: NotationType
-): string {
+  accidentalPreference: Accidental
+): NoteWithAccidental {
   const noteNames = [
     "C",
     "C",
@@ -43,16 +44,16 @@ export function GetNoteNameFromIndex(
     "B",
   ];
   let mainNote = noteNames[index];
-  let accidentalSign = "";
+  let accidentalSign = Accidental.None;
 
   if (isBlackKey(index)) {
-    accidentalSign = GetAccidentalSign(accidental, displayMode);
-    if (accidental === Accidental.Sharp) {
+    accidentalSign = accidentalPreference; //GetAccidentalSign(accidentalPreference, displayMode);
+    if (accidentalPreference === Accidental.Sharp) {
       mainNote = noteNames[index - 1];
     } else {
       mainNote = noteNames[index + 1];
     }
   }
 
-  return `${mainNote}${accidentalSign}`;
+  return { noteName: mainNote, accidental: accidentalSign };
 }

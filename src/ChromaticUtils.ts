@@ -1,6 +1,10 @@
-import { Accidental, NotationType } from "./NoteDisplayModes";
+import { NotationType } from "./utils/NotationType";
+import { Accidental } from "./utils/Accidental";
 import { NOTE_NAMES } from "./NoteConstants";
-import { GetNoteNameFromIndex } from "./NoteUtils";
+import {
+  GetAccidentalSign,
+  GetNoteWithAccidentalFromIndex,
+} from "./utils/NoteUtils";
 
 export const CHORD_TYPES = [
   "note",
@@ -61,11 +65,16 @@ export const calculateChordNotesFromIndex = (
   return newNotes;
 };
 
-export const getNoteFromKeyAndAccidental = (
+export const getNoteTextFromIndex = (
   index: number,
   sharpOrFlat: Accidental
 ): string => {
-  return GetNoteNameFromIndex(index, sharpOrFlat, NotationType.ScreenDisplay);
+  const noteWithAccidental = GetNoteWithAccidentalFromIndex(index, sharpOrFlat);
+  const accidentalSign = GetAccidentalSign(
+    noteWithAccidental.accidental,
+    NotationType.ScreenDisplay
+  );
+  return `${noteWithAccidental.noteName}${accidentalSign}`;
 };
 
 export const getChordName = (
@@ -73,7 +82,7 @@ export const getChordName = (
   chordType: string,
   accidental: Accidental
 ) => {
-  const rootNote = getNoteFromKeyAndAccidental(rootIndex, accidental);
+  const rootNote = getNoteTextFromIndex(rootIndex, accidental);
   if (chordType === "note") {
     return rootNote;
   }

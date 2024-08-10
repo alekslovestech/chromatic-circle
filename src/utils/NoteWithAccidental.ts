@@ -1,4 +1,4 @@
-import { Accidental } from "../NoteDisplayModes";
+import { Accidental } from "./Accidental";
 
 export interface NoteWithAccidental {
   noteName: string;

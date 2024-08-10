@@ -5,10 +5,10 @@ import { useNotes } from "./NotesContext";
 import {
   CHORD_TYPES,
   calculateChordNotesFromIndex,
-  getNoteFromKeyAndAccidental,
+  getNoteTextFromIndex,
   getChordName,
 } from "../ChromaticUtils";
-import { Accidental } from "../NoteDisplayModes";
+import { Accidental } from "../utils/Accidental";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -80,7 +80,7 @@ const ChordPresetsSelector: React.FC = () => {
       Notes:{" "}
       {selectedNoteIndices
         .map((one) => {
-          return getNoteFromKeyAndAccidental(one, selectedAccidental);
+          return getNoteTextFromIndex(one, selectedAccidental);
         })
         .join("-")}
       <select onChange={handleChordTypeChange} value={selectedChordType}>

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { Accidental } from "../NoteDisplayModes";
+import { Accidental } from "../utils/Accidental";
 
 interface NotesContextType {
   inputMode: string;

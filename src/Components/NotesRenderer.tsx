@@ -1,34 +1,35 @@
 import React, { useEffect, useRef } from "react";
-import { GetNoteNameFromIndex } from "../NoteUtils";
-import { Accidental, NotationType } from "../NoteDisplayModes";
+import {
+  GetNoteWithAccidentalFromIndex,
+  GetAccidentalSign,
+} from "../utils/NoteUtils";
+import { NotationType } from "../utils/NotationType";
+import { Accidental } from "../utils/Accidental";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
-import { isBlackKey } from "../ChromaticUtils";
 
 const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
   const ret = myNotes.map((noteIndex) => {
-    const noteName = GetNoteNameFromIndex(
+    const noteWithAccidental = GetNoteWithAccidentalFromIndex(
       noteIndex,
-      selectedAccidental,
+      selectedAccidental
+    );
+    const noteName = noteWithAccidental.noteName;
+    const accidentalSign = GetAccidentalSign(
+      noteWithAccidental.accidental,
       NotationType.EasyScore
     );
     const name = `${noteName}/4`;
-    console.log(name);
 
     const note = new StaveNote({
       keys: [name],
       duration: "w",
     });
-    const accidental = noteName.includes("#")
-      ? "#"
-      : noteName.includes("b")
-      ? "b"
-      : null;
-    if (accidental) {
-      note.addModifier(new Vex.Flow.Accidental(accidental), 0);
+    if (accidentalSign) {
+      note.addModifier(new Vex.Flow.Accidental(accidentalSign), 0);
     }
     return note;
   });
@@ -69,7 +70,7 @@ const NotesRenderer: React.FC = () => {
     // Format and justify the notes to 400 pixels.
     const formatter = new VF.Formatter()
       .joinVoices([voice])
-      .format([voice], 400);
+      .format([voice], 200);
 
     // Render voice
     voice.draw(context, stave);
