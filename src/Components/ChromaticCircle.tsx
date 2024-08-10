@@ -1,8 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { isBlackKey, calculateChordNotesFromIndex } from "../ChromaticUtils";
+import { calculateChordNotesFromIndex } from "../ChromaticUtils";
 import { NOTE_NAMES } from "../NoteConstants";
 import { Constants, CircleMath } from "../CircleMath";
+import "../styles/ChromaticCircle.css";
+import {
+  getKeyColorResolved,
+  getComputedColor,
+} from "../utils/getComputedColor";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,105 +19,55 @@ const ChromaticCircle: React.FC = () => {
   } = useNotes();
 
   useEffect(() => {
-    const HandleCanvasClick = (event: any) => {
-      const rect = canvasRef.current
-        ? canvasRef.current.getBoundingClientRect()
-        : null;
-      if (!rect) {
-        console.log("Canvas reference is null");
-        return;
-      }
+    const HandleCanvasClick = (event: MouseEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
       const [pureX, pureY] = CircleMath.ViewportToCartesian(
         event.clientX,
         event.clientY,
         rect
       );
-
       const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
-      if (!CircleMath.IsRadiusInRange(radius)) {
-        console.log("Click outside the radius range");
-        return; // Don't do anything if the click is outside the circle
-      }
+
+      if (!CircleMath.IsRadiusInRange(radius)) return;
+
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
-      console.log(`selected ${noteIndex} in mode=${inputMode} `);
+      console.log(`selected ${noteIndex} in mode=${inputMode}`);
 
       let updatedIndices = [];
       if (inputMode === "CIRCLE_INPUT") {
         updatedIndices = selectedNoteIndices.includes(noteIndex)
-          ? selectedNoteIndices.filter((i) => i !== noteIndex) // Remove index if already selected
-          : [...selectedNoteIndices, noteIndex]; // Add index if not already selected
+          ? selectedNoteIndices.filter((i) => i !== noteIndex)
+          : [...selectedNoteIndices, noteIndex];
       } else if (inputMode === "CHORD_PRESETS") {
         updatedIndices = calculateChordNotesFromIndex(
           noteIndex,
           selectedChordType
         );
       }
-      // updatedIndices.sort((a: number, b: number) => a - b);
-
-      const changeDetected =
-        updatedIndices.length !== selectedNoteIndices.length ||
-        updatedIndices.some(
-          (index: number, i: number) => index !== selectedNoteIndices[i]
-        );
-      if (!changeDetected) {
-        console.log("No change in selected notes");
-        return;
-      }
-
       setSelectedNoteIndices(updatedIndices);
-      console.log(updatedIndices);
-
-      return () => {
-        //canvasRef.removeEventListener("click", HandleCanvasClick);
-      };
     };
 
-    if (!canvasRef) return;
-    const canvasElement: HTMLCanvasElement | null = canvasRef.current
-      ? canvasRef.current
-      : null;
-    if (!canvasElement) return;
+    const drawCircle = () => {
+      const ctx = canvasRef.current?.getContext("2d");
+      if (!ctx) return;
 
-    canvasElement.addEventListener("click", HandleCanvasClick);
-    const ctx: CanvasRenderingContext2D | null = canvasElement
-      ? canvasElement.getContext("2d")
-      : null;
-    if (!ctx) return;
-    ctx.fillStyle = "grey";
-    ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    const drawText = (noteText: string, index: number) => {
-      ctx.font = "bold 20px Arial";
-      ctx.fillStyle = "blue";
-
-      const innerRadius = CircleMath.getInnerRadius(index);
-      const outerRadius = CircleMath.getOuterRadius(index);
-
-      const radius = (outerRadius + innerRadius) / 2;
-
-      ctx.save();
-      ctx.translate(Constants.centerX, Constants.centerY);
-      ctx.rotate(
-        index * Constants.FULL_KEY_ANGLE + Constants.FULL_KEY_ANGLE / 2
-      );
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(noteText, 0, -radius);
-      ctx.restore();
+      NOTE_NAMES.forEach((note, index) => {
+        drawWedge(ctx, index);
+        drawText(ctx, note, index);
+      });
     };
 
-    const DrawWedge = (index: number) => {
-      ctx.beginPath();
-      const isBlack = isBlackKey(index);
-      const isSelected = selectedNoteIndices.includes(index);
-
-      let keyColor = CircleMath.GetKeyColor(isBlack, isSelected);
-
+    const drawWedge = (ctx: CanvasRenderingContext2D, index: number) => {
       const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
-
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
+
+      ctx.beginPath();
       ctx.arc(
         Constants.centerX,
         Constants.centerY,
@@ -129,25 +84,58 @@ const ChromaticCircle: React.FC = () => {
         true
       );
       ctx.closePath();
-      ctx.fillStyle = keyColor;
+
+      ctx.fillStyle = getKeyColorResolved(index, selectedNoteIndices);
       ctx.fill();
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 2;
+
+      ctx.strokeStyle = getComputedColor("--key-border");
       ctx.stroke();
     };
 
-    NOTE_NAMES.forEach((note, index) => {
-      DrawWedge(index);
-      drawText(note, index);
-    });
-  }, [inputMode, selectedNoteIndices, selectedChordType]);
+    const drawText = (
+      ctx: CanvasRenderingContext2D,
+      noteText: string,
+      index: number
+    ) => {
+      const innerRadius = CircleMath.getInnerRadius(index);
+      const outerRadius = CircleMath.getOuterRadius(index);
+      const radius = (outerRadius + innerRadius) / 2;
+
+      ctx.save();
+      ctx.translate(Constants.centerX, Constants.centerY);
+      ctx.rotate(
+        index * Constants.FULL_KEY_ANGLE + Constants.FULL_KEY_ANGLE / 2
+      );
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = getComputedColor("--note-text");
+      ctx.font = "bold 20px Arial";
+      ctx.fillText(noteText, 0, -radius);
+      ctx.restore();
+    };
+
+    drawCircle();
+
+    canvasRef.current?.addEventListener("click", HandleCanvasClick);
+    return () => {
+      canvasRef.current?.removeEventListener("click", HandleCanvasClick);
+    };
+  }, [
+    inputMode,
+    selectedNoteIndices,
+    setSelectedNoteIndices,
+    selectedChordType,
+  ]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={2 * Constants.CANVAS_RADIUS}
-      height={2 * Constants.CANVAS_RADIUS}
-    />
+    <div className="chromatic-circle-container">
+      <canvas
+        ref={canvasRef}
+        className="chromatic-circle"
+        width={2 * Constants.CANVAS_RADIUS}
+        height={2 * Constants.CANVAS_RADIUS}
+      />
+    </div>
   );
 };
 

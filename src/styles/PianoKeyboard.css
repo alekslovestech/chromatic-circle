@@ -1,0 +1,47 @@
+.piano-keyboard {
+  display: flex;
+  margin: 20px 0;
+  position: relative;
+}
+
+.piano-key {
+  border: 1px solid var(--key-border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: var(--note-text);
+  /*background-color: var(--key-white-bg);*/
+}
+
+.piano-key.white {
+  width: 60px;
+  height: 200px;
+  z-index: 1;
+}
+
+.piano-key.black {
+  /*background-color: var(--key-black-bg);*/
+  width: 40px;
+  height: 120px;
+  margin-left: -20px;
+  margin-right: -20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5px;
+}
+
+.piano-key.black span {
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  white-space: nowrap;
+  margin-left: -25px;
+}
+
+/*.piano-key.selected {
+  background-color: var(--key-whiteselected-bg);
+} */

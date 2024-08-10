@@ -3,28 +3,36 @@ import { GetNoteNameFromIndex } from "../NoteUtils";
 import { Accidental, NotationType } from "../NoteDisplayModes";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
+import { isBlackKey } from "../ChromaticUtils";
 
 const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
-  const noteNames = myNotes.map((noteIndex) => {
+  const ret = myNotes.map((noteIndex) => {
     const noteName = GetNoteNameFromIndex(
       noteIndex,
       selectedAccidental,
       NotationType.EasyScore
     );
-    return `${noteName}/4`;
-  });
-  console.log(noteNames);
+    const name = `${noteName}/4`;
+    console.log(name);
 
-  const notes = [
-    new StaveNote({
-      keys: noteNames,
+    const note = new StaveNote({
+      keys: [name],
       duration: "w",
-    }),
-  ];
-  return notes;
+    });
+    const accidental = noteName.includes("#")
+      ? "#"
+      : noteName.includes("b")
+      ? "b"
+      : null;
+    if (accidental) {
+      note.addModifier(new Vex.Flow.Accidental(accidental), 0);
+    }
+    return note;
+  });
+  return ret;
 };
 
 const NotesRenderer: React.FC = () => {
@@ -45,7 +53,9 @@ const NotesRenderer: React.FC = () => {
 
     // Create a stave at position 10, 40 of width 400 on the canvas.
     const stave = new VF.Stave(150, 40, 150);
-    stave.addClef("treble").addKeySignature("D"); //.addTimeSignature("4/4");
+    stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
+    stave.setStyle({ strokeStyle: "#000000" });
+
     stave.setContext(context).draw();
 
     // Create notes
@@ -53,6 +63,7 @@ const NotesRenderer: React.FC = () => {
 
     // Create a voice in 4/4
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
+    voice.setStrict(false);
     voice.addTickables(notes);
 
     // Format and justify the notes to 400 pixels.

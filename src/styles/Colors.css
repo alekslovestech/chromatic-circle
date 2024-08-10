@@ -1,0 +1,8 @@
+:root {
+  --key-white-bg: #ffffff;
+  --key-black-bg: #000000;
+  --key-white-selected-bg: #00cc00;
+  --key-black-selected-bg: #089108;
+  --key-border: #cccccc;
+  --note-text: #0000ff;
+}
