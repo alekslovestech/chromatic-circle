@@ -56,11 +56,12 @@ export const calculateChordNotesFromIndex = (
   rootIndex: number,
   chordType: string
 ) => {
-  const rootNote = NOTE_NAMES[rootIndex];
-  const chordOffsets: any = CHORD_OFFSETS[chordType] as any;
+  const chordOffsets = CHORD_OFFSETS[chordType];
   const newNotes = chordOffsets.map(
     (offset: number) => (offset + rootIndex) % 12
   );
+
+  const rootNote = NOTE_NAMES[rootIndex];
   console.log(`Calculating notes for ${rootNote}:${chordType} = ${newNotes}`);
   return newNotes;
 };

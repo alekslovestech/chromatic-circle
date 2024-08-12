@@ -8,24 +8,6 @@
   height: 100%;
 }
 
-/*
-.note-wedge {
-  stroke: var(--key-border);
-  stroke-width: 2;
-}
-
-.note-wedge.white {
-  fill: var(--key-white-bg);
-}
-
-.note-wedge.black {
-  fill: var(--key-black-bg);
-}
-
-.note-wedge.selected {
-  fill: var(--key-white-selected-bg);
-} */
-
 .note-text {
   font: bold 20px Arial;
   fill: var(--note-text);

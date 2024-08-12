@@ -35,7 +35,7 @@ const ChromaticCircle: React.FC = () => {
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
       console.log(`selected ${noteIndex} in mode=${inputMode}`);
 
-      let updatedIndices = [];
+      let updatedIndices: number[] = [];
       if (inputMode === "CIRCLE_INPUT") {
         updatedIndices = selectedNoteIndices.includes(noteIndex)
           ? selectedNoteIndices.filter((i) => i !== noteIndex)
