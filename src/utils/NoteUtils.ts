@@ -2,6 +2,7 @@ import { isBlackKey } from "../ChromaticUtils";
 import { NotationType } from "./NotationType";
 import { Accidental } from "./Accidental";
 import { NoteWithAccidental } from "./NoteWithAccidental";
+import { PLAIN_NOTE_NAMES } from "../NoteConstants";
 
 export function GetAccidentalSign(
   accidental: Accidental,
@@ -29,31 +30,19 @@ export function GetNoteWithAccidentalFromIndex(
   index: number,
   accidentalPreference: Accidental
 ): NoteWithAccidental {
-  const noteNames = [
-    "C",
-    "C",
-    "D",
-    "D",
-    "E",
-    "F",
-    "F",
-    "G",
-    "G",
-    "A",
-    "A",
-    "B",
-  ];
-  let mainNote = noteNames[index];
-  let accidentalSign = Accidental.None;
+  const chromaticIndex = index % 12;
+  const diatonicIndex = index % 7;
 
-  if (isBlackKey(index)) {
-    accidentalSign = accidentalPreference; //GetAccidentalSign(accidentalPreference, displayMode);
-    if (accidentalPreference === Accidental.Sharp) {
-      mainNote = noteNames[index - 1];
-    } else {
-      mainNote = noteNames[index + 1];
-    }
+  const diatonicNoteName = PLAIN_NOTE_NAMES[diatonicIndex];
+
+  let accidental = Accidental.None;
+
+  if (isBlackKey(chromaticIndex)) {
+    accidental =
+      accidentalPreference === Accidental.Sharp
+        ? Accidental.Sharp
+        : Accidental.Flat;
   }
 
-  return { noteName: mainNote, accidental: accidentalSign };
+  return { noteName: diatonicNoteName, accidental };
 }
