@@ -126,6 +126,7 @@ const ChromaticCircle: React.FC = () => {
     selectedNoteIndices,
     setSelectedNoteIndices,
     selectedChordType,
+    selectedAccidental
   ]);
 
   return (
