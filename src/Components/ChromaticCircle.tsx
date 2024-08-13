@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
+import "../styles/ChromaticCircle.css";
+
 import { useNotes } from "./NotesContext";
 import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../ChromaticUtils";
 import { Constants, CircleMath } from "../CircleMath";
-import "../styles/ChromaticCircle.css";
 import {
   getKeyColorResolved,
   getComputedColor,

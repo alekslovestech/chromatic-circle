@@ -1,36 +1,44 @@
 import React from "react";
-import { useNotes } from "./NotesContext";
-import { getNoteTextFromIndex, isBlackKey } from "../ChromaticUtils";
 import "../styles/PianoKeyboard.css";
+
+import { useNotes } from "./NotesContext";
+import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../ChromaticUtils";
 import { getKeyColorResolved } from "../utils/getComputedColor";
 
 const PianoKeyboard: React.FC = () => {
-  const { selectedNoteIndices, setSelectedNoteIndices, inputMode, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, setSelectedNoteIndices, inputMode, selectedAccidental, selectedChordType } = useNotes();
 
   const handleKeyClick = (index: number) => {
+    let updatedIndices: number[] = [];
     if (inputMode === "CIRCLE_INPUT") {
-      const updatedIndices = selectedNoteIndices.includes(index)
+      updatedIndices = selectedNoteIndices.includes(index)
         ? selectedNoteIndices.filter((i) => i !== index)
         : [...selectedNoteIndices, index];
       setSelectedNoteIndices(updatedIndices);
     }
-    // Handle CHORD_PRESETS mode if needed
+    else if (inputMode === "CHORD_PRESETS") {
+      updatedIndices = calculateChordNotesFromIndex(
+        index,
+        selectedChordType
+      );
+    }
+    setSelectedNoteIndices(updatedIndices);
   };
 
   const keys = [];
-  for (let index = 0; index < 12; index++) {
+  for (let chromaticIndex = 0; chromaticIndex < 12; chromaticIndex++) {
     keys.push(
       <div
-        key={index}
-        className={`piano-key ${isBlackKey(index) ? "black" : "white"} ${
-          selectedNoteIndices.includes(index) ? "selected" : ""
+        key={chromaticIndex}
+        className={`piano-key ${isBlackKey(chromaticIndex) ? "black" : "white"} ${
+          selectedNoteIndices.includes(chromaticIndex) ? "selected" : ""
         }`}
         style={{
-          backgroundColor: getKeyColorResolved(index, selectedNoteIndices),
+          backgroundColor: getKeyColorResolved(chromaticIndex, selectedNoteIndices),
         }}
-        onClick={() => handleKeyClick(index)}
+        onClick={() => handleKeyClick(chromaticIndex)}
       >
-        {getNoteTextFromIndex(index, selectedAccidental)}
+        {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}
       </div>
     );
   }
