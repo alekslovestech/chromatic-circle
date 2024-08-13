@@ -1,6 +1,5 @@
 import { NotationType } from "./utils/NotationType";
 import { Accidental } from "./utils/Accidental";
-import { NOTE_NAMES } from "./NoteConstants";
 import {
   GetAccidentalSign,
   GetNoteWithAccidentalFromIndex,
@@ -61,8 +60,6 @@ export const calculateChordNotesFromIndex = (
     (offset: number) => (offset + rootIndex) % 12
   );
 
-  const rootNote = NOTE_NAMES[rootIndex];
-  console.log(`Calculating notes for ${rootNote}:${chordType} = ${newNotes}`);
   return newNotes;
 };
 

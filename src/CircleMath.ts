@@ -82,16 +82,5 @@ export class CircleMath {
     const x = clientX - rect.left - Constants.centerX;
     const y = clientY - rect.top - Constants.centerY;
     return [x, y];
-  }
-
-  static GetKeyColor(isBlack: boolean, isSelected: boolean) {
-    const keyColor = isSelected
-      ? isBlack
-        ? Constants.SELECTED_BLACK_COLOR
-        : Constants.SELECTED_WHITE_COLOR
-      : isBlack
-      ? "black"
-      : "white";
-    return keyColor;
-  }
+  } 
 }
