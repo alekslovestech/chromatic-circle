@@ -1,4 +1,4 @@
-import { Accidental } from "./utils/Accidental";
+import { Accidental } from "./Accidental";
 
 export const PLAIN_NOTE_NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 

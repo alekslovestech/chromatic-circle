@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../ChromaticUtils";
+import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../CircleMath";
 import {
   getKeyColorResolved,

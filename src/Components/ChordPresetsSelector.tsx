@@ -3,12 +3,12 @@ import Grid from "@mui/material/Grid";
 //import Item from "@mui/material/Item"
 import { useNotes } from "./NotesContext";
 import {
-  CHORD_TYPES,
   calculateChordNotesFromIndex,
   getNoteTextFromIndex,
   getChordName,
-} from "../ChromaticUtils";
-import { Accidental } from "../utils/Accidental";
+} from "../utils/ChromaticUtils";
+import { Accidental } from "../types/Accidental";
+import { CHORD_TYPES } from "../types/ChordConstants";
 
 const ChordPresetsSelector: React.FC = () => {
   const {

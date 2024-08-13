@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../ChromaticUtils";
+import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
 import { getKeyColorResolved } from "../utils/getComputedColor";
 
 const PianoKeyboard: React.FC = () => {

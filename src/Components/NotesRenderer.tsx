@@ -3,8 +3,8 @@ import {
   GetNoteWithAccidentalFromIndex,
   GetAccidentalSign,
 } from "../utils/NoteUtils";
-import { NotationType } from "../utils/NotationType";
-import { Accidental } from "../utils/Accidental";
+import { NotationType } from "../types/NotationType";
+import { Accidental } from "../types/Accidental";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 

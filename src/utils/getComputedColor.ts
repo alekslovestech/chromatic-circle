@@ -1,4 +1,4 @@
-import { isBlackKey } from "../ChromaticUtils";
+import { isBlackKey } from "./ChromaticUtils";
 
 export function getComputedColor(cssVariable: string): string {
   const color = getComputedStyle(document.documentElement)
