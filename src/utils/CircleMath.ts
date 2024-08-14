@@ -1,4 +1,5 @@
-const TWELVE = 12; //the magic number
+import { TWELVE } from "../types/NoteConstants";
+
 const TWO_PI = 2 * Math.PI;
 const INIT_ANGLE = -Math.PI / 2; //vertical up
 
@@ -35,9 +36,6 @@ export class CircleMath {
     return Math.round((radians * 180) / Math.PI);
   }
 
-  static GetMultiplierFromIndex(index: number) {
-    return Math.pow(2, index / TWELVE);
-  }
 
   static NoteIndexToLeftAngle(index: number) {
     return INIT_ANGLE + index * Constants.FULL_KEY_ANGLE;

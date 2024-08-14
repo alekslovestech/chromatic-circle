@@ -1,13 +1,15 @@
+import { CHORD_OFFSETS } from "../types/ChordConstants";
+import { TWELVE } from "../types/NoteConstants";
+
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import {
   GetAccidentalSign,
   GetNoteWithAccidentalFromIndex,
 } from "./NoteUtils";
-import { CHORD_OFFSETS } from "../types/ChordConstants";
 
-export function isBlackKey(nodeIndex: number) {
-  return [1, 3, 6, 8, 10].includes(nodeIndex % 12);
+export function isBlackKey(chromaticIndex: number) {
+  return [1, 3, 6, 8, 10].includes(chromaticIndex % TWELVE);
 }
 
 // Function to calculate notes based on root note and chord type
@@ -18,7 +20,7 @@ export const calculateChordNotesFromIndex = (
 ) => {
   const chordOffsets = CHORD_OFFSETS[chordType];
   const newNotes = chordOffsets.map(
-    (offset: number) => (offset + rootIndex) % 12
+    (offset: number) => (offset + rootIndex) % TWELVE
   );
 
   return newNotes;
@@ -47,3 +49,7 @@ export const getChordName = (
   }
   return `${rootNote} ${chordType}`;
 };
+
+export function GetMultiplierFromIndex(index: number) {
+  return Math.pow(2, index / TWELVE);
+}

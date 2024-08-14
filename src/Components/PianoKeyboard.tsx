@@ -3,7 +3,7 @@ import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
 import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
-import { getKeyColorResolved } from "../utils/getComputedColor";
+import { getComputedKeyColor, getComputedTextColor} from "../utils/ColorUtils";
 
 const PianoKeyboard: React.FC = () => {
   const { selectedNoteIndices, setSelectedNoteIndices, inputMode, selectedAccidental, selectedChordType } = useNotes();
@@ -27,15 +27,17 @@ const PianoKeyboard: React.FC = () => {
 
   const keys = [];
   for (let chromaticIndex = 0; chromaticIndex < 12; chromaticIndex++) {
+    const isSelected = selectedNoteIndices.includes(chromaticIndex);
+    const isBlack = isBlackKey(chromaticIndex);
+
     keys.push(
       <div
         key={chromaticIndex}
-        className={`piano-key ${isBlackKey(chromaticIndex) ? "black" : "white"} ${
-          selectedNoteIndices.includes(chromaticIndex) ? "selected" : ""
-        }`}
+        className={`piano-key ${isBlack ? "black" : "white"}`}
         style={{
-          backgroundColor: getKeyColorResolved(chromaticIndex, selectedNoteIndices),
-        }}
+          backgroundColor: getComputedKeyColor(chromaticIndex, isSelected),
+          color: getComputedTextColor(chromaticIndex)
+        }}        
         onClick={() => handleKeyClick(chromaticIndex)}
       >
         {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}

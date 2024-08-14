@@ -2,12 +2,14 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../utils/ChromaticUtils";
-import { Constants, CircleMath } from "../CircleMath";
+import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
+import { Constants, CircleMath } from "../utils/CircleMath";
 import {
-  getKeyColorResolved,
   getComputedColor,
-} from "../utils/getComputedColor";
+  getComputedTextColor,
+  getComputedKeyColor,
+} from "../utils/ColorUtils";
+import { TWELVE } from "../types/NoteConstants";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -56,7 +58,7 @@ const ChromaticCircle: React.FC = () => {
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-      for (let chromaticIndex = 0; chromaticIndex < 12; chromaticIndex++) {
+      for (let chromaticIndex = 0; chromaticIndex < TWELVE; chromaticIndex++) {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
       };
@@ -68,6 +70,7 @@ const ChromaticCircle: React.FC = () => {
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
 
+      const isSelected = selectedNoteIndices.includes(index);
       ctx.beginPath();
       ctx.arc(
         Constants.centerX,
@@ -86,7 +89,7 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.closePath();
 
-      ctx.fillStyle = getKeyColorResolved(index, selectedNoteIndices);
+      ctx.fillStyle = getComputedKeyColor(index, isSelected);
       ctx.fill();
 
       ctx.strokeStyle = getComputedColor("--key-border");
@@ -108,7 +111,9 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillStyle = getComputedColor("--note-text");
+      const textColor = isBlackKey(chromaticIndex) ? getComputedColor("--note-text-on-black") : getComputedColor("--note-text-on-white");
+  
+      ctx.fillStyle = getComputedTextColor(chromaticIndex);
       ctx.font = "bold 20px Arial";
       const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental); 
       ctx.fillText(noteText, 0, -radius);

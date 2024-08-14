@@ -12,14 +12,13 @@
   padding-bottom: 10px;
   box-sizing: border-box;
   cursor: pointer;
-  color: var(--note-text);
-  /*background-color: var(--key-white-bg);*/
 }
 
 .piano-key.white {
   width: 60px;
   height: 200px;
   z-index: 1;
+  color: var(--note-text-on-white); 
 }
 
 .piano-key.black {
@@ -33,6 +32,7 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 5px;
+  color: var(--note-text-on-black);
 }
 
 .piano-key.black span {

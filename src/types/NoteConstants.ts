@@ -1,5 +1,7 @@
 import { Accidental } from "./Accidental";
 
+export const TWELVE = 12; //the magic number
+
 export const PLAIN_NOTE_NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
  export const NOTES_WITH_SHARP = [
