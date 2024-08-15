@@ -16,7 +16,7 @@ export function GetAccidentalSign(
     },
     [NotationType.EasyScore]: {
       [Accidental.None]: "",
-      [Accidental.Natural]: "♮",
+      [Accidental.Natural]: "n",
       [Accidental.Sharp]: "#",
       [Accidental.Flat]: "b",
     },

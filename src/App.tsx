@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <h2>Chromatic Circle</h2>
+        <h3>Chromatic Circle</h3>
         <NotesProvider>
           <div
             style={{
@@ -29,10 +29,20 @@ function App() {
             <PianoKeyboard />
             <ChromaticCircle />
           </div>
-          <AudioPlayer />
-          <ModeSelector />
-          <ChordPresetsSelector />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
           <NotesRenderer />
+          <AudioPlayer />
+          
+          <ChordPresetsSelector />
+          <ModeSelector />
+          </div>
         </NotesProvider>
       </header>
     </div>

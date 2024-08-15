@@ -14,7 +14,6 @@ const AudioPlayer: React.FC = () => {
   const loadAudio = async (url: string) => {
     const response = await fetch(url);
     const arrayBuffer: ArrayBuffer = await response.arrayBuffer();
-    console.log(arrayBuffer);
     if (!audioContextRef) {
       throw new Error("Audio context is not initialized");
     }
@@ -37,16 +36,13 @@ const AudioPlayer: React.FC = () => {
     source.connect(audioContextRef.current.destination);
     source.start(0);
     activeSourcesRef.current.push(source);
-    console.log("audio started for index=", index);
     source.onended = function () {
-      console.log("Audio ended for index=", index);
       source.disconnect();
     };
   };
 
   const playSelectedNotes = () => {
     activeSourcesRef.current.forEach((source) => source.stop());
-    console.log(`Playing selected notes = [${selectedNoteIndices}]`);
     selectedNoteIndices.forEach((index) => playSound(index));
   };
 

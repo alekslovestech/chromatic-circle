@@ -58,16 +58,7 @@ const ChordPresetsSelector: React.FC = () => {
         alignItems: "center",
       }}
     >
-      {/*<select onChange={handleNoteClick} value={selectedKey}>
-        {
-          //console.log(selectedKey);
-          NOTE_NAMES.map((note) => (
-            <option key={note} value={note}>
-              {note}
-            </option>
-          ))
-        }
-      </select>*/}
+      
       chord:{" "}
       {selectedNoteIndices.length === 0
         ? "UNKNOWN"

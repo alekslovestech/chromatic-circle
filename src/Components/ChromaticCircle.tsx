@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
+import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -111,7 +111,6 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      const textColor = isBlackKey(chromaticIndex) ? getComputedColor("--note-text-on-black") : getComputedColor("--note-text-on-white");
   
       ctx.fillStyle = getComputedTextColor(chromaticIndex);
       ctx.font = "bold 20px Arial";
