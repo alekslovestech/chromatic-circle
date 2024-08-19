@@ -1,6 +1,6 @@
 .piano-keyboard {
   display: flex;
-  margin: 20px 0;
+  margin: 0px 0;
   position: relative;
 }
 
@@ -42,6 +42,4 @@
   margin-left: -25px;
 }
 
-/*.piano-key.selected {
-  background-color: var(--key-whiteselected-bg);
-} */
+
