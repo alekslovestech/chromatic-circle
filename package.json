@@ -11,6 +11,7 @@
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
     "typescript": "^5.4.5",
+    "vexflow": "^4.2.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
