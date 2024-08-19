@@ -1,0 +1,24 @@
+.accidental-toggle {
+  width: 50px;
+  height: 50px;
+  background-color: #3498db; /* A nice blue color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accidental-toggle button {
+  width: 50px;
+  height: 50px;
+  background-color: #3498db; /* A nice blue color */
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.accidental-toggle button:hover {
+  background-color: #2980b9;
+}

@@ -33,3 +33,11 @@ export function GetNoteWithAccidentalFromIndex(
 
   return notesArray[chromaticIndex];
 }
+
+export function GetOppositeAccidental(prevAccidental: Accidental): Accidental {
+  if (prevAccidental === Accidental.Sharp)
+    return Accidental.Flat;
+  if (prevAccidental === Accidental.Flat)
+    return Accidental.Sharp;
+  return prevAccidental; //no change
+}

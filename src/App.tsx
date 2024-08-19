@@ -11,6 +11,9 @@ import PianoKeyboard from "./Components/PianoKeyboard";
 import "./styles/PianoKeyboard.css";
 import "./styles/ChromaticCircle.css";
 import "./styles/Colors.css";
+import "./styles/AccidentalToggle.css";
+import AccidentalToggle from "./Components/AccidentalToggle";
+import { getComputedColor } from "./utils/ColorUtils";
 
 function App() {
   return (
@@ -23,7 +26,8 @@ function App() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: "20px",
+              gap: "0px",
+              marginBottom: "5px",
             }}
           >
             <PianoKeyboard />
@@ -34,14 +38,19 @@ function App() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: "20px",
+              gap: "0px",
+              margin: "0",
             }}
           >
-          <NotesRenderer />
-          <AudioPlayer />
-          
+            <NotesRenderer />
+            <AudioPlayer />
+          </div>
           <ChordPresetsSelector />
           <ModeSelector />
+          <div className="accidental-toggle" style = {{ 
+            color: getComputedColor(`--key-black-bg`)
+          }}>          
+            <AccidentalToggle  />
           </div>
         </NotesProvider>
       </header>

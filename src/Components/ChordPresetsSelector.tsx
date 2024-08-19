@@ -81,10 +81,7 @@ const ChordPresetsSelector: React.FC = () => {
           </option>
         ))}
       </select>
-      <select onChange={handleAccidentalChange} value={selectedAccidental}>
-        <option>{Accidental.Sharp}</option>
-        <option>{Accidental.Flat}</option>
-      </select>
+     
     </div>
   );
 };
