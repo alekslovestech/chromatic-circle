@@ -1,0 +1,16 @@
+.chromatic-circle {
+  width: 400px;
+  height: 400px;
+}
+
+.chromatic-circle canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.note-text {
+  font: bold 20px Arial;
+  fill: var(--note-text);
+  text-anchor: middle;
+  /*dominant-baseline: middle;*/
+}
