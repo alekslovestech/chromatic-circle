@@ -8,13 +8,23 @@ import { Accidental } from "../types/Accidental";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 
+/* const note = new StaveNote({
+      keys: [name, "C/4"],
+      duration: "w",
+    });
+      note.addModifier(new Vex.Flow.Accidental('#'), 0);
+      note.addModifier(new Vex.Flow.Accidental('b'), 1)
+  */ 
 const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
-  const ret = myNotes.map((noteIndex) => {
+  let chordNote = new StaveNote({keys: ['C/4'], duration:'w'});
+  let indexInChord = 0;
+  let accidentalsArray: string[] = [];
+  myNotes.forEach(chromaticIndex => {
     const noteWithAccidental = GetNoteWithAccidentalFromIndex(
-      noteIndex,
+      chromaticIndex,
       selectedAccidental
     );
     const noteName = noteWithAccidental.noteName;
@@ -24,16 +34,34 @@ const EasyScoreFromNotes = (
     );
     const name = `${noteName}/4`;
 
-    const note = new StaveNote({
-      keys: [name],
-      duration: "w",
-    });
-    if (accidentalSign) {
-      note.addModifier(new Vex.Flow.Accidental(accidentalSign), 0);
+    if (indexInChord === 0) {
+      chordNote = new StaveNote({
+        keys: [name],
+        duration: "w",
+      });
+    } else {
+      console.log(`${indexInChord}-th note = ${name}`)
+      const oldChordNoteKeys = chordNote.keys;
+      chordNote = new StaveNote( {
+        keys: [...oldChordNoteKeys, name], 
+        duration: "w"
+      })
+      console.log(`#keys = ${chordNote.keys.length}`)
     }
-    return note;
+    accidentalsArray.push(accidentalSign);
+    
+     // chordNote.addModifier(new Vex.Flow.Accidental('b'), 1)
+    indexInChord++;
   });
-  return ret;
+  for (let i=0; i< accidentalsArray.length; i++) {
+    const curAccident = accidentalsArray[i];
+    if (curAccident) {
+      console.log(`adding accidental ${curAccident} at index ${i}`)
+      chordNote = chordNote.addModifier(new Vex.Flow.Accidental(curAccident), i);
+    }
+  }
+  return [chordNote]
+
 };
 
 const NotesRenderer: React.FC = () => {
