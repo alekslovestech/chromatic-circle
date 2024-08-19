@@ -8,60 +8,32 @@ import { Accidental } from "../types/Accidental";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 
-/* const note = new StaveNote({
-      keys: [name, "C/4"],
-      duration: "w",
-    });
-      note.addModifier(new Vex.Flow.Accidental('#'), 0);
-      note.addModifier(new Vex.Flow.Accidental('b'), 1)
-  */ 
 const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
-  let chordNote = new StaveNote({keys: ['C/4'], duration:'w'});
-  let indexInChord = 0;
-  let accidentalsArray: string[] = [];
-  myNotes.forEach(chromaticIndex => {
-    const noteWithAccidental = GetNoteWithAccidentalFromIndex(
-      chromaticIndex,
-      selectedAccidental
-    );
-    const noteName = noteWithAccidental.noteName;
+  const noteInfo = myNotes.map(chromaticIndex =>
+    GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
+  );
+
+  const keys = noteInfo.map(({ noteName }) => `${noteName}/4`);
+
+  const chordNote = new StaveNote({
+    keys,
+    duration: "w",
+  });
+
+  noteInfo.forEach(({ accidental }, index) => {
     const accidentalSign = GetAccidentalSign(
-      noteWithAccidental.accidental,
+      accidental,
       NotationType.EasyScore
     );
-    const name = `${noteName}/4`;
-
-    if (indexInChord === 0) {
-      chordNote = new StaveNote({
-        keys: [name],
-        duration: "w",
-      });
-    } else {
-      console.log(`${indexInChord}-th note = ${name}`)
-      const oldChordNoteKeys = chordNote.keys;
-      chordNote = new StaveNote( {
-        keys: [...oldChordNoteKeys, name], 
-        duration: "w"
-      })
-      console.log(`#keys = ${chordNote.keys.length}`)
+    if (accidentalSign) {
+      chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }
-    accidentalsArray.push(accidentalSign);
-    
-     // chordNote.addModifier(new Vex.Flow.Accidental('b'), 1)
-    indexInChord++;
   });
-  for (let i=0; i< accidentalsArray.length; i++) {
-    const curAccident = accidentalsArray[i];
-    if (curAccident) {
-      console.log(`adding accidental ${curAccident} at index ${i}`)
-      chordNote = chordNote.addModifier(new Vex.Flow.Accidental(curAccident), i);
-    }
-  }
-  return [chordNote]
 
+  return [chordNote];
 };
 
 const NotesRenderer: React.FC = () => {
