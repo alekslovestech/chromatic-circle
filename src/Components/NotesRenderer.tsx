@@ -12,28 +12,28 @@ const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
-  const ret = myNotes.map((noteIndex) => {
-    const noteWithAccidental = GetNoteWithAccidentalFromIndex(
-      noteIndex,
-      selectedAccidental
-    );
-    const noteName = noteWithAccidental.noteName;
+  const noteInfo = myNotes.map(chromaticIndex =>
+    GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
+  );
+
+  const keys = noteInfo.map(({ noteName }) => `${noteName}/4`);
+
+  const chordNote = new StaveNote({
+    keys,
+    duration: "w",
+  });
+
+  noteInfo.forEach(({ accidental }, index) => {
     const accidentalSign = GetAccidentalSign(
-      noteWithAccidental.accidental,
+      accidental,
       NotationType.EasyScore
     );
-    const name = `${noteName}/4`;
-
-    const note = new StaveNote({
-      keys: [name],
-      duration: "w",
-    });
     if (accidentalSign) {
-      note.addModifier(new Vex.Flow.Accidental(accidentalSign), 0);
+      chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }
-    return note;
   });
-  return ret;
+
+  return [chordNote];
 };
 
 const NotesRenderer: React.FC = () => {
