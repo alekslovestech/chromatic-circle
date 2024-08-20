@@ -1,7 +1,7 @@
 .piano-keyboard {
   display: flex;
-  margin: 0px 0;
   position: relative;
+  height: 200px;
 }
 
 .piano-key {
@@ -9,14 +9,13 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 10px;
   box-sizing: border-box;
   cursor: pointer;
 }
 
 .piano-key.white {
   width: 60px;
-  height: 200px;
+  height: 100%;
   z-index: 1;
   color: var(--note-text-on-white); 
 }
@@ -24,9 +23,12 @@
 .piano-key.black {
   /*background-color: var(--key-black-bg);*/
   width: 40px;
-  height: 120px;
+  height: 60%;
   margin-left: -20px;
   margin-right: -20px;
+  margin-top: 0;
+  margin-bottom: 80px;
+  top:0;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -41,5 +43,3 @@
   white-space: nowrap;
   margin-left: -25px;
 }
-
-
