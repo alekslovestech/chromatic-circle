@@ -1,11 +1,9 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import {
-  calculateChordNotesFromIndex,
-} from "../utils/ChromaticUtils";
+import { calculateChordNotesFromIndex } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import { CHORD_TYPES } from "../types/ChordConstants";
-import ChordDisplay from "./ChordNameDisplay";
+import { InputMode } from "../types/InputMode";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -14,13 +12,14 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
-    selectedAccidental,
     setSelectedAccidental,
   } = useNotes();
 
-  if (inputMode !== "CHORD_PRESETS") return null;
+  if (inputMode !== InputMode.Presets) return null;
 
-  const handleChordTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChordTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const incomingChord = event.target.value;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
@@ -31,7 +30,9 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices(newNotes);
   };
 
-  const handleAccidentalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAccidentalChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const incomingAccidental: Accidental = event.target.value as Accidental;
     setSelectedAccidental(incomingAccidental);
   };

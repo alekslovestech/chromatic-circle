@@ -24,9 +24,9 @@ function App() {
               <ChordDisplay />
             </div>
             <div className="settings-column">
-              <ModeSelector />
-              <ChordPresetsSelector />
               <AccidentalToggle />
+              <ModeSelector />
+              <ChordPresetsSelector />             
               <AudioPlayer />
             </div>
           </div>

@@ -1,9 +1,10 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
+import { InputMode } from "../types/InputMode";
 
 interface NotesContextType {
-  inputMode: string;
-  setInputMode: (mode: string) => void;
+  inputMode: InputMode;
+  setInputMode: (mode: InputMode) => void;
   selectedNoteIndices: number[];
   setSelectedNoteIndices: (indices: number[]) => void;
   selectedChordType: string;
@@ -17,7 +18,7 @@ interface NotesProviderProps {
 }
 
 const defaultContextValue: NotesContextType = {
-  inputMode: "CIRCLE_INPUT",
+  inputMode: InputMode.Presets,
   setInputMode: () => {}, // Provide a no-op function as default
   selectedNoteIndices: [],
   setSelectedNoteIndices: () => {},
@@ -30,7 +31,7 @@ const defaultContextValue: NotesContextType = {
 const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
-  const [inputMode, setInputMode] = useState<string>("CHORD_PRESETS");
+  const [inputMode, setInputMode] = useState<InputMode>(InputMode.Presets);
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([7]);
   const [selectedChordType, setSelectedChordType] = useState<string>("note");
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(
@@ -41,7 +42,7 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
     <NotesContext.Provider
       value={{
         inputMode,
-        setInputMode,
+        setInputMode: (mode: InputMode) => setInputMode(mode),
         selectedNoteIndices,
         setSelectedNoteIndices,
         selectedChordType,

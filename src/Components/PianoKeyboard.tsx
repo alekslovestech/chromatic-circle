@@ -2,25 +2,32 @@ import React from "react";
 import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
-import { getComputedKeyColor, getComputedTextColor} from "../utils/ColorUtils";
+import {
+  calculateChordNotesFromIndex,
+  getNoteTextFromIndex,
+  isBlackKey,
+} from "../utils/ChromaticUtils";
+import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
+import { InputMode } from "../types/InputMode";
 
 const PianoKeyboard: React.FC = () => {
-  const { selectedNoteIndices, setSelectedNoteIndices, inputMode, selectedAccidental, selectedChordType } = useNotes();
+  const {
+    selectedNoteIndices,
+    setSelectedNoteIndices,
+    inputMode,
+    selectedAccidental,
+    selectedChordType,
+  } = useNotes();
 
   const handleKeyClick = (index: number) => {
     let updatedIndices: number[] = [];
-    if (inputMode === "CIRCLE_INPUT") {
+    if (inputMode === InputMode.Toggle) {
       updatedIndices = selectedNoteIndices.includes(index)
         ? selectedNoteIndices.filter((i) => i !== index)
         : [...selectedNoteIndices, index];
       setSelectedNoteIndices(updatedIndices);
-    }
-    else if (inputMode === "CHORD_PRESETS") {
-      updatedIndices = calculateChordNotesFromIndex(
-        index,
-        selectedChordType
-      );
+    } else if (inputMode === InputMode.Presets) {
+      updatedIndices = calculateChordNotesFromIndex(index, selectedChordType);
     }
     setSelectedNoteIndices(updatedIndices);
   };
@@ -36,8 +43,8 @@ const PianoKeyboard: React.FC = () => {
         className={`piano-key ${isBlack ? "black" : "white"}`}
         style={{
           backgroundColor: getComputedKeyColor(chromaticIndex, isSelected),
-          color: getComputedTextColor(chromaticIndex)
-        }}        
+          color: getComputedTextColor(chromaticIndex),
+        }}
         onClick={() => handleKeyClick(chromaticIndex)}
       >
         {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}
@@ -46,9 +53,10 @@ const PianoKeyboard: React.FC = () => {
   }
 
   return (
-     <div className="piano-keyboard">
-      {keys}
-    </div>)
+    <div className="piano-keyboard-container">
+      <div className="piano-keyboard">{keys}</div>
+    </div>
+  );
 };
 
 export default PianoKeyboard;

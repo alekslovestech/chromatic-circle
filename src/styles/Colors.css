@@ -4,6 +4,6 @@
   --key-white-selected-bg: #4a01e9;
   --key-black-selected-bg: #4a01e9;
   --key-border: #cccccc;
---note-text-on-white: #000000;  
---note-text-on-black: #FFFFFF; 
+  --note-text-on-white: #000000;
+  --note-text-on-black: #ffffff;
 }

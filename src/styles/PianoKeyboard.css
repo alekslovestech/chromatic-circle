@@ -1,3 +1,14 @@
+.piano-keyboard-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ffffff;
+  border-radius: 0px;
+  box-sizing: border-box;
+}
+
 .piano-keyboard {
   display: flex;
   position: relative;
@@ -17,7 +28,7 @@
   width: 60px;
   height: 100%;
   z-index: 1;
-  color: var(--note-text-on-white); 
+  color: var(--note-text-on-white);
 }
 
 .piano-key.black {
@@ -28,7 +39,7 @@
   margin-right: -20px;
   margin-top: 0;
   margin-bottom: 80px;
-  top:0;
+  top: 0;
   z-index: 2;
   display: flex;
   align-items: center;

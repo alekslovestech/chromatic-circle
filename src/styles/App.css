@@ -49,10 +49,10 @@
 .grid-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
   gap: 10px;
-  width: 1000px; /* Adjust as needed */
-  height: 800px; /* Adjust as needed */
+  width: 1000px; 
+  height: 600px;
 }
 
 .grid-layout > * {
@@ -63,11 +63,26 @@
   overflow: hidden; /* Prevent content from spilling out */
 }
 
+select {
+  font-size: 16px;  
+  padding: 8px 12px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+}
+
+/* Optional: Style for dropdown options */
+select option {
+  font-size: 16px; 
+}
+
 .settings-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 200px; /* Adjust as needed */
+  width: 220px; /* Adjust as needed */
   align-self: stretch; /* Make it full height */
 }
 

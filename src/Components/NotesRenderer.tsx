@@ -12,7 +12,7 @@ const EasyScoreFromNotes = (
   myNotes: number[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
-  const noteInfo = myNotes.map(chromaticIndex =>
+  const noteInfo = myNotes.map((chromaticIndex) =>
     GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
   );
 
@@ -22,7 +22,7 @@ const EasyScoreFromNotes = (
     keys,
     duration: "w",
   });
-
+  
   noteInfo.forEach(({ accidental }, index) => {
     const accidentalSign = GetAccidentalSign(
       accidental,

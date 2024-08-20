@@ -36,7 +36,6 @@ export class CircleMath {
     return Math.round((radians * 180) / Math.PI);
   }
 
-
   static NoteIndexToLeftAngle(index: number) {
     return INIT_ANGLE + index * Constants.FULL_KEY_ANGLE;
   }
@@ -80,5 +79,5 @@ export class CircleMath {
     const x = clientX - rect.left - Constants.centerX;
     const y = clientY - rect.top - Constants.centerY;
     return [x, y];
-  } 
+  }
 }

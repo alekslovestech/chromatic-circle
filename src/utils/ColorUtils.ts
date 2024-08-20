@@ -13,16 +13,17 @@ function getKeyColor(index: number, isSelected: boolean): string {
   return `--key-${keyType}${selectionState}-bg`;
 }
 
-function getKeyTextColor (index: number): string {
+function getKeyTextColor(index: number): string {
   return isBlackKey(index) ? "--note-text-on-black" : "--note-text-on-white";
-};
+}
 
-export function getComputedKeyColor(index: number, isSelected: boolean): string {
+export function getComputedKeyColor(
+  index: number,
+  isSelected: boolean
+): string {
   return getComputedColor(getKeyColor(index, isSelected));
 }
 
-
-export function getComputedTextColor (index: number): string {
+export function getComputedTextColor(index: number): string {
   return getComputedColor(getKeyTextColor(index));
 }
-
