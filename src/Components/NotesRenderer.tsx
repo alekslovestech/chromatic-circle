@@ -22,6 +22,7 @@ const EasyScoreFromNotes = (
     keys,
     duration: "w",
   });
+  
   noteInfo.forEach(({ accidental }, index) => {
     const accidentalSign = GetAccidentalSign(
       accidental,
