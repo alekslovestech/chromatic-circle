@@ -29,15 +29,16 @@ export function GetNoteWithAccidentalFromIndex(
   chromaticIndex: number,
   accidentalPreference: Accidental
 ): NoteWithAccidental {
-  const notesArray = accidentalPreference === Accidental.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
+  const notesArray =
+    accidentalPreference === Accidental.Flat
+      ? NOTES_WITH_FLAT
+      : NOTES_WITH_SHARP;
 
   return notesArray[chromaticIndex];
 }
 
 export function GetOppositeAccidental(prevAccidental: Accidental): Accidental {
-  if (prevAccidental === Accidental.Sharp)
-    return Accidental.Flat;
-  if (prevAccidental === Accidental.Flat)
-    return Accidental.Sharp;
+  if (prevAccidental === Accidental.Sharp) return Accidental.Flat;
+  if (prevAccidental === Accidental.Flat) return Accidental.Sharp;
   return prevAccidental; //no change
 }
