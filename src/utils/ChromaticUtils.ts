@@ -3,10 +3,7 @@ import { TWELVE } from "../types/NoteConstants";
 
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
-import {
-  GetAccidentalSign,
-  GetNoteWithAccidentalFromIndex,
-} from "./NoteUtils";
+import { GetAccidentalSign, GetNoteWithAccidentalFromIndex } from "./NoteUtils";
 
 export function isBlackKey(chromaticIndex: number) {
   return [1, 3, 6, 8, 10].includes(chromaticIndex % TWELVE);

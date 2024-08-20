@@ -2,7 +2,10 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex } from "../utils/ChromaticUtils";
+import {
+  calculateChordNotesFromIndex,
+  getNoteTextFromIndex,
+} from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -18,7 +21,7 @@ const ChromaticCircle: React.FC = () => {
     selectedNoteIndices,
     setSelectedNoteIndices,
     selectedChordType,
-    selectedAccidental
+    selectedAccidental,
   } = useNotes();
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const ChromaticCircle: React.FC = () => {
       for (let chromaticIndex = 0; chromaticIndex < TWELVE; chromaticIndex++) {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
-      };
+      }
     };
 
     const drawWedge = (ctx: CanvasRenderingContext2D, index: number) => {
@@ -111,10 +114,10 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-  
+
       ctx.fillStyle = getComputedTextColor(chromaticIndex);
       ctx.font = "bold 20px Arial";
-      const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental); 
+      const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental);
       ctx.fillText(noteText, 0, -radius);
       ctx.restore();
     };
@@ -130,7 +133,7 @@ const ChromaticCircle: React.FC = () => {
     selectedNoteIndices,
     setSelectedNoteIndices,
     selectedChordType,
-    selectedAccidental
+    selectedAccidental,
   ]);
 
   return (

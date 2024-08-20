@@ -2,11 +2,21 @@ import React from "react";
 import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, getNoteTextFromIndex, isBlackKey } from "../utils/ChromaticUtils";
-import { getComputedKeyColor, getComputedTextColor} from "../utils/ColorUtils";
+import {
+  calculateChordNotesFromIndex,
+  getNoteTextFromIndex,
+  isBlackKey,
+} from "../utils/ChromaticUtils";
+import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
 
 const PianoKeyboard: React.FC = () => {
-  const { selectedNoteIndices, setSelectedNoteIndices, inputMode, selectedAccidental, selectedChordType } = useNotes();
+  const {
+    selectedNoteIndices,
+    setSelectedNoteIndices,
+    inputMode,
+    selectedAccidental,
+    selectedChordType,
+  } = useNotes();
 
   const handleKeyClick = (index: number) => {
     let updatedIndices: number[] = [];
@@ -15,12 +25,8 @@ const PianoKeyboard: React.FC = () => {
         ? selectedNoteIndices.filter((i) => i !== index)
         : [...selectedNoteIndices, index];
       setSelectedNoteIndices(updatedIndices);
-    }
-    else if (inputMode === "CHORD_PRESETS") {
-      updatedIndices = calculateChordNotesFromIndex(
-        index,
-        selectedChordType
-      );
+    } else if (inputMode === "CHORD_PRESETS") {
+      updatedIndices = calculateChordNotesFromIndex(index, selectedChordType);
     }
     setSelectedNoteIndices(updatedIndices);
   };
@@ -36,8 +42,8 @@ const PianoKeyboard: React.FC = () => {
         className={`piano-key ${isBlack ? "black" : "white"}`}
         style={{
           backgroundColor: getComputedKeyColor(chromaticIndex, isSelected),
-          color: getComputedTextColor(chromaticIndex)
-        }}        
+          color: getComputedTextColor(chromaticIndex),
+        }}
         onClick={() => handleKeyClick(chromaticIndex)}
       >
         {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}
@@ -45,10 +51,7 @@ const PianoKeyboard: React.FC = () => {
     );
   }
 
-  return (
-     <div className="piano-keyboard">
-      {keys}
-    </div>)
+  return <div className="piano-keyboard">{keys}</div>;
 };
 
 export default PianoKeyboard;

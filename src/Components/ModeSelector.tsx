@@ -7,7 +7,9 @@ const ModeSelector = () => {
   return (
     <select
       value={inputMode}
-      onChange={(e) => setInputMode(e.target.value as "CIRCLE_INPUT" | "CHORD_PRESETS")}
+      onChange={(e) =>
+        setInputMode(e.target.value as "CIRCLE_INPUT" | "CHORD_PRESETS")
+      }
     >
       <option value="CIRCLE_INPUT">Circle Input</option>
       <option value="CHORD_PRESETS">Chord Presets</option>

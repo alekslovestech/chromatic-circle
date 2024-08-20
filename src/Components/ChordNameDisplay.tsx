@@ -1,33 +1,30 @@
-import React from 'react';
-import { useNotes } from './NotesContext';
-import { getChordName, getNoteTextFromIndex } from '../utils/ChromaticUtils';
-import '../styles/ChordNameDisplay.css'; 
+import React from "react";
+import { useNotes } from "./NotesContext";
+import { getChordName, getNoteTextFromIndex } from "../utils/ChromaticUtils";
+import "../styles/ChordNameDisplay.css";
 
 const ChordDisplay: React.FC = () => {
-  const {
-    selectedNoteIndices,
-    selectedChordType,
-    selectedAccidental,
-  } = useNotes();
+  const { selectedNoteIndices, selectedChordType, selectedAccidental } =
+    useNotes();
 
   return (
     <div className="chord-display">
       <div className="chord-name">
-        chord:{' '}
+        chord:{" "}
         {selectedNoteIndices.length === 0
-          ? 'UNKNOWN'
+          ? "UNKNOWN"
           : getChordName(
               selectedNoteIndices[0],
               selectedChordType,
               selectedAccidental
             )}
       </div>
-      <br/>
+      <br />
       <div className="chord-notes">
-        notes:{' '}
+        notes:{" "}
         {selectedNoteIndices
           .map((index) => getNoteTextFromIndex(index, selectedAccidental))
-          .join('-')}
+          .join("-")}
       </div>
     </div>
   );
