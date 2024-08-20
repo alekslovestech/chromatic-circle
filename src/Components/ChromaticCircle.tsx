@@ -13,6 +13,7 @@ import {
   getComputedKeyColor,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
+import { InputMode } from "../types/InputMode";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,11 +43,11 @@ const ChromaticCircle: React.FC = () => {
       console.log(`selected ${noteIndex} in mode=${inputMode}`);
 
       let updatedIndices: number[] = [];
-      if (inputMode === "CIRCLE_INPUT") {
+      if (inputMode === InputMode.Toggle) {
         updatedIndices = selectedNoteIndices.includes(noteIndex)
           ? selectedNoteIndices.filter((i) => i !== noteIndex)
           : [...selectedNoteIndices, noteIndex];
-      } else if (inputMode === "CHORD_PRESETS") {
+      } else if (inputMode === InputMode.Presets) {
         updatedIndices = calculateChordNotesFromIndex(
           noteIndex,
           selectedChordType

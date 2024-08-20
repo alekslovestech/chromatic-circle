@@ -8,6 +8,7 @@ import {
   isBlackKey,
 } from "../utils/ChromaticUtils";
 import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
+import { InputMode } from "../types/InputMode";
 
 const PianoKeyboard: React.FC = () => {
   const {
@@ -20,12 +21,12 @@ const PianoKeyboard: React.FC = () => {
 
   const handleKeyClick = (index: number) => {
     let updatedIndices: number[] = [];
-    if (inputMode === "CIRCLE_INPUT") {
+    if (inputMode === InputMode.Toggle) {
       updatedIndices = selectedNoteIndices.includes(index)
         ? selectedNoteIndices.filter((i) => i !== index)
         : [...selectedNoteIndices, index];
       setSelectedNoteIndices(updatedIndices);
-    } else if (inputMode === "CHORD_PRESETS") {
+    } else if (inputMode === InputMode.Presets) {
       updatedIndices = calculateChordNotesFromIndex(index, selectedChordType);
     }
     setSelectedNoteIndices(updatedIndices);
@@ -51,7 +52,11 @@ const PianoKeyboard: React.FC = () => {
     );
   }
 
-  return <div className="piano-keyboard">{keys}</div>;
+  return (
+    <div className="piano-keyboard-container">
+      <div className="piano-keyboard">{keys}</div>
+    </div>
+  );
 };
 
 export default PianoKeyboard;

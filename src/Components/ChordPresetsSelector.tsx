@@ -3,6 +3,7 @@ import { useNotes } from "./NotesContext";
 import { calculateChordNotesFromIndex } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import { CHORD_TYPES } from "../types/ChordConstants";
+import { InputMode } from "../types/InputMode";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -14,7 +15,7 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedAccidental,
   } = useNotes();
 
-  if (inputMode !== "CHORD_PRESETS") return null;
+  if (inputMode !== InputMode.Presets) return null;
 
   const handleChordTypeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
