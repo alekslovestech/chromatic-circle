@@ -16,13 +16,13 @@ const EasyScoreFromNotes = (
     GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
   );
 
-  const keys = noteInfo.map(({ noteName }) => `${noteName}/4`);
+  const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
 
   const chordNote = new StaveNote({
     keys,
     duration: "w",
   });
-  
+
   noteInfo.forEach(({ accidental }, index) => {
     const accidentalSign = GetAccidentalSign(
       accidental,

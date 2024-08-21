@@ -33,8 +33,10 @@ export function GetNoteWithAccidentalFromIndex(
     accidentalPreference === Accidental.Flat
       ? NOTES_WITH_FLAT
       : NOTES_WITH_SHARP;
-
-  return notesArray[chromaticIndex];
+  return {
+    ...notesArray[chromaticIndex],
+    octave: 4,
+  };
 }
 
 export function GetOppositeAccidental(prevAccidental: Accidental): Accidental {
