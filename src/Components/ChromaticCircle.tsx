@@ -2,10 +2,7 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import {
-  calculateChordNotesFromIndex,
-  getNoteTextFromIndex,
-} from "../utils/ChromaticUtils";
+import { getNoteTextFromIndex, UpdateIndices } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -13,7 +10,6 @@ import {
   getComputedKeyColor,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
-import { InputMode } from "../types/InputMode";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,17 +38,13 @@ const ChromaticCircle: React.FC = () => {
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
       console.log(`selected ${noteIndex} in mode=${inputMode}`);
 
-      let updatedIndices: number[] = [];
-      if (inputMode === InputMode.Toggle) {
-        updatedIndices = selectedNoteIndices.includes(noteIndex)
-          ? selectedNoteIndices.filter((i) => i !== noteIndex)
-          : [...selectedNoteIndices, noteIndex];
-      } else if (inputMode === InputMode.Presets) {
-        updatedIndices = calculateChordNotesFromIndex(
-          noteIndex,
-          selectedChordType
-        );
-      }
+      const updatedIndices = UpdateIndices(
+        inputMode,
+        selectedChordType,
+        selectedNoteIndices,
+        noteIndex
+      );
+
       setSelectedNoteIndices(updatedIndices);
     };
 

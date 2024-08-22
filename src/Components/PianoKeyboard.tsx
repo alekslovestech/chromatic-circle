@@ -3,12 +3,12 @@ import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
 import {
-  calculateChordNotesFromIndex,
   getNoteTextFromIndex,
   isBlackKey,
+  UpdateIndices,
 } from "../utils/ChromaticUtils";
 import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
-import { InputMode } from "../types/InputMode";
+import { TWELVE } from "../types/NoteConstants";
 
 const PianoKeyboard: React.FC = () => {
   const {
@@ -20,37 +20,38 @@ const PianoKeyboard: React.FC = () => {
   } = useNotes();
 
   const handleKeyClick = (index: number) => {
-    let updatedIndices: number[] = [];
-    if (inputMode === InputMode.Toggle) {
-      updatedIndices = selectedNoteIndices.includes(index)
-        ? selectedNoteIndices.filter((i) => i !== index)
-        : [...selectedNoteIndices, index];
-      setSelectedNoteIndices(updatedIndices);
-    } else if (inputMode === InputMode.Presets) {
-      updatedIndices = calculateChordNotesFromIndex(index, selectedChordType);
-    }
+    const updatedIndices = UpdateIndices(
+      inputMode,
+      selectedChordType,
+      selectedNoteIndices,
+      index
+    );
     setSelectedNoteIndices(updatedIndices);
   };
 
   const keys = [];
-  for (let chromaticIndex = 0; chromaticIndex < 12; chromaticIndex++) {
-    const isSelected = selectedNoteIndices.includes(chromaticIndex);
-    const isBlack = isBlackKey(chromaticIndex);
+  for (let octave = 0; octave < 2; octave++) {
+    for (let chromaticIndex = 0; chromaticIndex < TWELVE; chromaticIndex++) {
+      const actualIndex = octave * TWELVE + chromaticIndex;
+      const isSelected = selectedNoteIndices.includes(actualIndex);
+      const isBlack = isBlackKey(chromaticIndex);
 
-    keys.push(
-      <div
-        key={chromaticIndex}
-        className={`piano-key ${isBlack ? "black" : "white"}`}
-        style={{
-          backgroundColor: getComputedKeyColor(chromaticIndex, isSelected),
-          color: getComputedTextColor(chromaticIndex),
-        }}
-        onClick={() => handleKeyClick(chromaticIndex)}
-      >
-        {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}
-      </div>
-    );
+      keys.push(
+        <div
+          key={actualIndex}
+          className={`piano-key ${isBlack ? "black" : "white"}`}
+          style={{
+            backgroundColor: getComputedKeyColor(actualIndex, isSelected),
+            color: getComputedTextColor(actualIndex),
+          }}
+          onClick={() => handleKeyClick(actualIndex)}
+        >
+          {getNoteTextFromIndex(chromaticIndex, selectedAccidental)}
+        </div>
+      );
+    }
   }
+  console.log(selectedNoteIndices);
 
   return (
     <div className="piano-keyboard-container">

@@ -23,7 +23,7 @@ const ChordDisplay: React.FC = () => {
       <div className="chord-notes">
         notes:{" "}
         {selectedNoteIndices
-          .map((index) => getNoteTextFromIndex(index, selectedAccidental))
+          .map((index) => getNoteTextFromIndex(index, selectedAccidental, true))
           .join("-")}
       </div>
     </div>

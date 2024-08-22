@@ -4,12 +4,28 @@ import { TWELVE } from "../types/NoteConstants";
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { GetAccidentalSign, GetNoteWithAccidentalFromIndex } from "./NoteUtils";
+import { InputMode } from "../types/InputMode";
 
 export function isBlackKey(chromaticIndex: number) {
   return [1, 3, 6, 8, 10].includes(chromaticIndex % TWELVE);
 }
 
-// Function to calculate notes based on root note and chord type
+export function UpdateIndices(
+  inputMode: InputMode,
+  selectedChordType: string,
+  selectedNoteIndices: number[],
+  noteIndex: number
+): number[] {
+  let updatedIndices: number[] = [];
+  if (inputMode === InputMode.Toggle) {
+    updatedIndices = selectedNoteIndices.includes(noteIndex)
+      ? selectedNoteIndices.filter((i) => i !== noteIndex)
+      : [...selectedNoteIndices, noteIndex];
+  } else if (inputMode === InputMode.Presets) {
+    updatedIndices = calculateChordNotesFromIndex(noteIndex, selectedChordType);
+  }
+  return updatedIndices;
+}
 
 export const calculateChordNotesFromIndex = (
   rootIndex: number,
@@ -25,14 +41,16 @@ export const calculateChordNotesFromIndex = (
 
 export const getNoteTextFromIndex = (
   index: number,
-  sharpOrFlat: Accidental
+  sharpOrFlat: Accidental,
+  showOctave: boolean = false
 ): string => {
   const noteWithAccidental = GetNoteWithAccidentalFromIndex(index, sharpOrFlat);
   const accidentalSign = GetAccidentalSign(
     noteWithAccidental.accidental,
     NotationType.ScreenDisplay
   );
-  return `${noteWithAccidental.noteName}${accidentalSign}`;
+  const octaveString = showOctave ? noteWithAccidental.octave : "";
+  return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
 };
 
 export const getChordName = (
