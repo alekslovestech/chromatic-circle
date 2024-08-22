@@ -1,3 +1,4 @@
+import { ActualIndex } from "../types/IndexTypes";
 import { isBlackKey } from "./ChromaticUtils";
 
 export function getComputedColor(cssVariable: string): string {
@@ -7,23 +8,23 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
-function getKeyColor(index: number, isSelected: boolean): string {
+function getKeyColor(index: ActualIndex, isSelected: boolean): string {
   const keyType = isBlackKey(index) ? "black" : "white";
   const selectionState = isSelected ? "-selected" : "";
   return `--key-${keyType}${selectionState}-bg`;
 }
 
-function getKeyTextColor(index: number): string {
+function getKeyTextColor(index: ActualIndex): string {
   return isBlackKey(index) ? "--note-text-on-black" : "--note-text-on-white";
 }
 
 export function getComputedKeyColor(
-  index: number,
+  index: ActualIndex,
   isSelected: boolean
 ): string {
   return getComputedColor(getKeyColor(index, isSelected));
 }
 
-export function getComputedTextColor(index: number): string {
+export function getComputedTextColor(index: ActualIndex): string {
   return getComputedColor(getKeyTextColor(index));
 }

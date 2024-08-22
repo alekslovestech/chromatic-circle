@@ -7,14 +7,17 @@ import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
+import { ActualIndex } from "../types/IndexTypes";
 
 const EasyScoreFromNotes = (
-  myNotes: number[],
+  myNotes: ActualIndex[], //array of ActualIndex
   selectedAccidental: Accidental
 ): StaveNote[] => {
   const noteInfo = myNotes.map((chromaticIndex) =>
     GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
   );
+
+  console.log({ noteInfo });
 
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
 

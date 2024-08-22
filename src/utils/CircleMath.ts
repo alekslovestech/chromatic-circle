@@ -1,3 +1,4 @@
+import { ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 
 const TWO_PI = 2 * Math.PI;
@@ -41,10 +42,10 @@ export class CircleMath {
   }
 
   // pure circular coors 0 degrees at x-horizontal, θ-clockwise
-  static AngleToNoteIndex(angle: number) {
+  static AngleToNoteIndex(angle: number): ChromaticIndex {
     const index =
       Math.floor(((angle - INIT_ANGLE + TWO_PI) * TWELVE) / TWO_PI) % TWELVE;
-    return index;
+    return index as ChromaticIndex;
   }
 
   static IsRadiusInRange(radius: number) {

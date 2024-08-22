@@ -1,7 +1,13 @@
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
-import { NOTES_WITH_FLAT, NOTES_WITH_SHARP } from "../types/NoteConstants";
+import {
+  NOTES_WITH_FLAT,
+  NOTES_WITH_SHARP,
+  TWELVE,
+} from "../types/NoteConstants";
+import { ActualIndex } from "../types/IndexTypes";
+import { ActualToChromatic } from "./ChromaticUtils";
 
 export function GetAccidentalSign(
   accidental: Accidental,
@@ -26,16 +32,17 @@ export function GetAccidentalSign(
 }
 
 export function GetNoteWithAccidentalFromIndex(
-  chromaticIndex: number,
+  actualIndex: ActualIndex,
   accidentalPreference: Accidental
 ): NoteWithAccidental {
   const notesArray =
     accidentalPreference === Accidental.Flat
       ? NOTES_WITH_FLAT
       : NOTES_WITH_SHARP;
+  const indexAndOctave = ActualToChromatic(actualIndex);
   return {
-    ...notesArray[chromaticIndex],
-    octave: 4,
+    ...notesArray[indexAndOctave.chromaticIndex],
+    octave: 3 + indexAndOctave.octaveOffset,
   };
 }
 

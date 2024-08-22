@@ -2,7 +2,11 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { getNoteTextFromIndex, UpdateIndices } from "../utils/ChromaticUtils";
+import {
+  ChromaticToActual,
+  getNoteTextFromIndex,
+  UpdateIndices,
+} from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -10,6 +14,7 @@ import {
   getComputedKeyColor,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
+import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -56,7 +61,7 @@ const ChromaticCircle: React.FC = () => {
 
       for (let chromaticIndex = 0; chromaticIndex < TWELVE; chromaticIndex++) {
         drawWedge(ctx, chromaticIndex);
-        drawText(ctx, chromaticIndex);
+        drawText(ctx, chromaticIndex as ChromaticIndex);
       }
     };
 
@@ -66,7 +71,7 @@ const ChromaticCircle: React.FC = () => {
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
 
-      const isSelected = selectedNoteIndices.includes(index);
+      const isSelected = selectedNoteIndices.includes(index as ActualIndex);
       ctx.beginPath();
       ctx.arc(
         Constants.centerX,
@@ -85,7 +90,7 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.closePath();
 
-      ctx.fillStyle = getComputedKeyColor(index, isSelected);
+      ctx.fillStyle = getComputedKeyColor(index as ActualIndex, isSelected);
       ctx.fill();
 
       ctx.strokeStyle = getComputedColor("--key-border");
@@ -94,7 +99,7 @@ const ChromaticCircle: React.FC = () => {
 
     const drawText = (
       ctx: CanvasRenderingContext2D,
-      chromaticIndex: number
+      chromaticIndex: ChromaticIndex
     ) => {
       const innerRadius = CircleMath.getInnerRadius(chromaticIndex);
       const outerRadius = CircleMath.getOuterRadius(chromaticIndex);
@@ -108,7 +113,9 @@ const ChromaticCircle: React.FC = () => {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      ctx.fillStyle = getComputedTextColor(chromaticIndex);
+      ctx.fillStyle = getComputedTextColor(
+        ChromaticToActual(chromaticIndex, 0)
+      );
       ctx.font = "bold 20px Arial";
       const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental);
       ctx.fillText(noteText, 0, -radius);

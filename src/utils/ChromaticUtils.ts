@@ -5,46 +5,70 @@ import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { GetAccidentalSign, GetNoteWithAccidentalFromIndex } from "./NoteUtils";
 import { InputMode } from "../types/InputMode";
+import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
 
-export function isBlackKey(chromaticIndex: number) {
-  return [1, 3, 6, 8, 10].includes(chromaticIndex % TWELVE);
+export function ChromaticToActual(
+  chromaticIndex: ChromaticIndex,
+  octaveOffset: OctaveOffset
+): ActualIndex {
+  return (octaveOffset * TWELVE + chromaticIndex) as ActualIndex;
+}
+
+export function ActualToChromatic(actualIndex: ActualIndex): {
+  chromaticIndex: ChromaticIndex;
+  octaveOffset: OctaveOffset;
+} {
+  return {
+    chromaticIndex: (actualIndex % TWELVE) as ChromaticIndex,
+    octaveOffset: Math.floor(actualIndex / TWELVE) as OctaveOffset,
+  };
+}
+
+export function isBlackKey(actualIndex: ActualIndex) {
+  return [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
 }
 
 export function UpdateIndices(
   inputMode: InputMode,
   selectedChordType: string,
-  selectedNoteIndices: number[],
-  noteIndex: number
-): number[] {
-  let updatedIndices: number[] = [];
+  selectedNoteIndices: ActualIndex[], //actualIndices
+  newActualIndex: ActualIndex
+): ActualIndex[] {
+  let updatedIndices: ActualIndex[] = [];
   if (inputMode === InputMode.Toggle) {
-    updatedIndices = selectedNoteIndices.includes(noteIndex)
-      ? selectedNoteIndices.filter((i) => i !== noteIndex)
-      : [...selectedNoteIndices, noteIndex];
+    updatedIndices = selectedNoteIndices.includes(newActualIndex)
+      ? selectedNoteIndices.filter((i) => i !== newActualIndex)
+      : [...selectedNoteIndices, newActualIndex];
   } else if (inputMode === InputMode.Presets) {
-    updatedIndices = calculateChordNotesFromIndex(noteIndex, selectedChordType);
+    updatedIndices = calculateChordNotesFromIndex(
+      newActualIndex,
+      selectedChordType
+    );
   }
   return updatedIndices;
 }
 
 export const calculateChordNotesFromIndex = (
-  rootIndex: number,
+  rootIndex: ActualIndex,
   chordType: string
-) => {
+): ActualIndex[] => {
   const chordOffsets = CHORD_OFFSETS[chordType];
   const newNotes = chordOffsets.map(
-    (offset: number) => (offset + rootIndex) % TWELVE
+    (offset: number) => (offset + rootIndex) as ActualIndex
   );
 
   return newNotes;
 };
 
 export const getNoteTextFromIndex = (
-  index: number,
+  actualIndex: ActualIndex,
   sharpOrFlat: Accidental,
   showOctave: boolean = false
 ): string => {
-  const noteWithAccidental = GetNoteWithAccidentalFromIndex(index, sharpOrFlat);
+  const noteWithAccidental = GetNoteWithAccidentalFromIndex(
+    actualIndex,
+    sharpOrFlat
+  );
   const accidentalSign = GetAccidentalSign(
     noteWithAccidental.accidental,
     NotationType.ScreenDisplay
@@ -54,7 +78,7 @@ export const getNoteTextFromIndex = (
 };
 
 export const getChordName = (
-  rootIndex: number,
+  rootIndex: ActualIndex,
   chordType: string,
   accidental: Accidental
 ) => {
