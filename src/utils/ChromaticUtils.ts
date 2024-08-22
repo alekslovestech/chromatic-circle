@@ -5,7 +5,12 @@ import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { GetAccidentalSign, GetNoteWithAccidentalFromIndex } from "./NoteUtils";
 import { InputMode } from "../types/InputMode";
-import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ChromaticIndex,
+  IndexAndOffset,
+  OctaveOffset,
+} from "../types/IndexTypes";
 
 export function ChromaticToActual(
   chromaticIndex: ChromaticIndex,
@@ -14,10 +19,7 @@ export function ChromaticToActual(
   return (octaveOffset * TWELVE + chromaticIndex) as ActualIndex;
 }
 
-export function ActualToChromatic(actualIndex: ActualIndex): {
-  chromaticIndex: ChromaticIndex;
-  octaveOffset: OctaveOffset;
-} {
+export function ActualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
   return {
     chromaticIndex: (actualIndex % TWELVE) as ChromaticIndex,
     octaveOffset: Math.floor(actualIndex / TWELVE) as OctaveOffset,

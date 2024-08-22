@@ -59,19 +59,32 @@ const ChromaticCircle: React.FC = () => {
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-      for (let chromaticIndex = 0; chromaticIndex < TWELVE; chromaticIndex++) {
+      for (
+        let chromaticIndex = 0 as ChromaticIndex;
+        chromaticIndex < TWELVE;
+        chromaticIndex++
+      ) {
         drawWedge(ctx, chromaticIndex);
-        drawText(ctx, chromaticIndex as ChromaticIndex);
+        drawText(ctx, chromaticIndex);
       }
     };
 
-    const drawWedge = (ctx: CanvasRenderingContext2D, index: number) => {
+    const drawWedge = (
+      ctx: CanvasRenderingContext2D,
+      index: ChromaticIndex
+    ) => {
       const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
 
-      const isSelected = selectedNoteIndices.includes(index as ActualIndex);
+      const isSelectedFirstOctave = selectedNoteIndices.includes(
+        index as ActualIndex
+      );
+      const isSelectedSecondOctave = selectedNoteIndices.includes(
+        (index + TWELVE) as ActualIndex
+      );
+
       ctx.beginPath();
       ctx.arc(
         Constants.centerX,
@@ -90,7 +103,9 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.closePath();
 
-      ctx.fillStyle = getComputedKeyColor(index as ActualIndex, isSelected);
+      ctx.fillStyle = isSelectedSecondOctave
+        ? getComputedColor("--key-white-selected2")
+        : getComputedKeyColor(index as ActualIndex, isSelectedFirstOctave);
       ctx.fill();
 
       ctx.strokeStyle = getComputedColor("--key-border");

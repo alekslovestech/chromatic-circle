@@ -1,11 +1,7 @@
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
-import {
-  NOTES_WITH_FLAT,
-  NOTES_WITH_SHARP,
-  TWELVE,
-} from "../types/NoteConstants";
+import { NOTES_WITH_FLAT, NOTES_WITH_SHARP } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { ActualToChromatic } from "./ChromaticUtils";
 
@@ -42,7 +38,7 @@ export function GetNoteWithAccidentalFromIndex(
   const indexAndOctave = ActualToChromatic(actualIndex);
   return {
     ...notesArray[indexAndOctave.chromaticIndex],
-    octave: 3 + indexAndOctave.octaveOffset,
+    octave: 4 + indexAndOctave.octaveOffset,
   };
 }
 
