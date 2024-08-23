@@ -1,10 +1,10 @@
 :root {
-  --key-white-bg: #ffffff;
-  --key-black-bg: #000000;
-  --key-white-selected-bg: #4a01e9;
-  --key-black-selected-bg: #4a01e9;
-  --key-white-selected2: #7811b4; /*selected on 2nd octave*/
-  --key-black-selected2: #7811b4; /*selected on 2nd octave*/
+  --key-white: #ffffff;
+  --key-black: #000000;
+  --key-white-selected0: #2ba8c7;
+  --key-black-selected0: #4a01e9;
+  --key-white-selected1: #0f9c0f; /*selected on 1st octave*/
+  --key-black-selected1: #095c2e; /*selected on 1st octave*/
   --key-border: #cccccc;
   --note-text-on-white: #000000;
   --note-text-on-black: #ffffff;

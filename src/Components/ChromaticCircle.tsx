@@ -11,10 +11,10 @@ import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
   getComputedTextColor,
-  getComputedKeyColor,
+  getComputedKeyColorOverlayed,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
-import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
+import { ChromaticIndex } from "../types/IndexTypes";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -78,13 +78,6 @@ const ChromaticCircle: React.FC = () => {
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
 
-      const isSelectedFirstOctave = selectedNoteIndices.includes(
-        index as ActualIndex
-      );
-      const isSelectedSecondOctave = selectedNoteIndices.includes(
-        (index + TWELVE) as ActualIndex
-      );
-
       ctx.beginPath();
       ctx.arc(
         Constants.centerX,
@@ -103,9 +96,7 @@ const ChromaticCircle: React.FC = () => {
       );
       ctx.closePath();
 
-      ctx.fillStyle = isSelectedSecondOctave
-        ? getComputedColor("--key-white-selected2")
-        : getComputedKeyColor(index as ActualIndex, isSelectedFirstOctave);
+      ctx.fillStyle = getComputedKeyColorOverlayed(index, selectedNoteIndices);
       ctx.fill();
 
       ctx.strokeStyle = getComputedColor("--key-border");

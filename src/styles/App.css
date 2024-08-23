@@ -48,10 +48,10 @@
 
 .grid-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto 1fr;
   gap: 10px;
-  width: 1000px; 
+  width: 1000px;
   height: 600px;
 }
 
@@ -60,11 +60,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Prevent content from spilling out */
+  overflow: hidden;
+}
+
+.piano-keyboard-container {
+  grid-column: 1 / -1; /* Span all columns */
+  grid-row: 1;
+}
+
+.chromatic-circle-container {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.notes-renderer {
+  grid-column: 2;
+  grid-row: 2;
 }
 
 select {
-  font-size: 16px;  
+  font-size: 16px;
   padding: 8px 12px;
   width: 100%;
   border: 1px solid #ccc;
@@ -75,7 +90,7 @@ select {
 
 /* Optional: Style for dropdown options */
 select option {
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .settings-column {

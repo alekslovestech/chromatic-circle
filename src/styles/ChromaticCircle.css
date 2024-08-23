@@ -1,6 +1,7 @@
 .chromatic-circle {
   width: 400px;
   height: 400px;
+  cursor: pointer;
 }
 
 .chromatic-circle canvas {
