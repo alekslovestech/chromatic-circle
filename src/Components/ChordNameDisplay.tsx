@@ -2,10 +2,17 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { getChordName, getNoteTextFromIndex } from "../utils/ChromaticUtils";
 import "../styles/ChordNameDisplay.css";
+import { ActualIndex } from "../types/IndexTypes";
 
 const ChordDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedChordType, selectedAccidental } =
     useNotes();
+  const topDownNotes = selectedNoteIndices
+    .slice()
+    .reverse()
+    .map((index: ActualIndex) =>
+      getNoteTextFromIndex(index, selectedAccidental, true)
+    );
 
   return (
     <div className="chord-display">
@@ -22,9 +29,12 @@ const ChordDisplay: React.FC = () => {
       <br />
       <div className="chord-notes">
         notes:{" "}
-        {selectedNoteIndices
-          .map((index) => getNoteTextFromIndex(index, selectedAccidental))
-          .join("-")}
+        {topDownNotes.map((note, index) => (
+          <span key={index}>
+            {<br />}
+            {note}
+          </span>
+        ))}
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
+import { ActualIndex } from "../types/IndexTypes";
 
 interface NotesContextType {
   inputMode: InputMode;
   setInputMode: (mode: InputMode) => void;
-  selectedNoteIndices: number[];
-  setSelectedNoteIndices: (indices: number[]) => void;
+  selectedNoteIndices: ActualIndex[];
+  setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   selectedChordType: string;
   setSelectedChordType: (type: string) => void;
   selectedAccidental: Accidental;
@@ -32,7 +33,9 @@ const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [inputMode, setInputMode] = useState<InputMode>(InputMode.Presets);
-  const [selectedNoteIndices, setSelectedNoteIndices] = useState<number[]>([7]);
+  const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(
+    [7]
+  );
   const [selectedChordType, setSelectedChordType] = useState<string>("note");
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(
     Accidental.Sharp

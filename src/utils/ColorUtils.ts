@@ -1,3 +1,5 @@
+import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
+import { TWELVE } from "../types/NoteConstants";
 import { isBlackKey } from "./ChromaticUtils";
 
 export function getComputedColor(cssVariable: string): string {
@@ -7,23 +9,54 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
-function getKeyColor(index: number, isSelected: boolean): string {
+function getKeyColor(
+  index: ActualIndex,
+  isSelected: boolean,
+  secondOctave = false
+): string {
   const keyType = isBlackKey(index) ? "black" : "white";
-  const selectionState = isSelected ? "-selected" : "";
-  return `--key-${keyType}${selectionState}-bg`;
+  const octaveNum = secondOctave ? "1" : "0";
+  const selectionState = isSelected ? `-selected${octaveNum}` : "";
+  const ret = `--key-${keyType}${selectionState}`;
+  if (isSelected) {
+    console.log({ index, isSelected, secondOctave });
+    console.log(selectionState);
+
+    console.log(ret);
+  }
+
+  return ret;
 }
 
-function getKeyTextColor(index: number): string {
+function getKeyTextColor(index: ActualIndex): string {
   return isBlackKey(index) ? "--note-text-on-black" : "--note-text-on-white";
 }
 
 export function getComputedKeyColor(
-  index: number,
+  index: ActualIndex,
   isSelected: boolean
 ): string {
-  return getComputedColor(getKeyColor(index, isSelected));
+  const isSecondOctave = index >= TWELVE;
+  return getComputedColor(getKeyColor(index, isSelected, isSecondOctave));
 }
 
-export function getComputedTextColor(index: number): string {
+export function getComputedKeyColorOverlayed(
+  index: ChromaticIndex,
+  selectedNoteIndices: ActualIndex[]
+) {
+  const isSelectedFirstOctave = selectedNoteIndices.includes(index);
+  const isSelectedSecondOctave = selectedNoteIndices.includes(
+    (index + TWELVE) as ActualIndex
+  );
+  return getComputedColor(
+    getKeyColor(
+      index,
+      isSelectedFirstOctave || isSelectedSecondOctave,
+      isSelectedSecondOctave
+    )
+  );
+}
+
+export function getComputedTextColor(index: ActualIndex): string {
   return getComputedColor(getKeyTextColor(index));
 }
