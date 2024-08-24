@@ -2,7 +2,7 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { calculateChordNotesFromIndex } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
-import { CHORD_TYPES } from "../types/ChordConstants";
+import { ChordType, IntervalType } from "../types/ChordConstants";
 import { InputMode } from "../types/InputMode";
 
 const ChordPresetsSelector: React.FC = () => {
@@ -15,7 +15,7 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedAccidental,
   } = useNotes();
 
-  if (inputMode !== InputMode.Presets) return null;
+  if (inputMode === InputMode.Toggle) return null;
 
   const handleChordTypeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -40,11 +40,17 @@ const ChordPresetsSelector: React.FC = () => {
   return (
     <div>
       <select onChange={handleChordTypeChange} value={selectedChordType}>
-        {CHORD_TYPES.map((chord) => (
-          <option key={chord} value={chord}>
-            {chord}
-          </option>
-        ))}
+        {inputMode === InputMode.IntervalPresets
+          ? Object.entries(IntervalType).map(([key, value]) => (
+              <option key={key} value={value}>
+                {value}
+              </option>
+            ))
+          : Object.entries(ChordType).map(([key, value]) => (
+              <option key={key} value={value}>
+                {value}
+              </option>
+            ))}
       </select>
     </div>
   );

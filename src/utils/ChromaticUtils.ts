@@ -1,4 +1,4 @@
-import { CHORD_OFFSETS } from "../types/ChordConstants";
+import { CHORD_AND_INTERVAL_OFFSETS } from "../types/ChordConstants";
 import { TWELVE } from "../types/NoteConstants";
 
 import { NotationType } from "../types/NotationType";
@@ -37,15 +37,27 @@ export function UpdateIndices(
   newActualIndex: ActualIndex
 ): ActualIndex[] {
   let updatedIndices: ActualIndex[] = [];
-  if (inputMode === InputMode.Toggle) {
-    updatedIndices = selectedNoteIndices.includes(newActualIndex)
-      ? selectedNoteIndices.filter((i) => i !== newActualIndex)
-      : [...selectedNoteIndices, newActualIndex];
-  } else if (inputMode === InputMode.Presets) {
-    updatedIndices = calculateChordNotesFromIndex(
-      newActualIndex,
-      selectedChordType
-    );
+  switch (inputMode) {
+    case InputMode.Toggle:
+      updatedIndices = selectedNoteIndices.includes(newActualIndex)
+        ? selectedNoteIndices.filter((i) => i !== newActualIndex)
+        : [...selectedNoteIndices, newActualIndex];
+      break;
+    case InputMode.IntervalPresets:
+      updatedIndices = calculateChordNotesFromIndex(
+        newActualIndex,
+        selectedChordType
+      );
+      break;
+    case InputMode.ChordPresets:
+      updatedIndices = calculateChordNotesFromIndex(
+        newActualIndex,
+        selectedChordType
+      );
+      break;
+    default:
+      // Keep updatedIndices as an empty array for other input modes
+      break;
   }
   return updatedIndices;
 }
@@ -54,7 +66,7 @@ export const calculateChordNotesFromIndex = (
   rootIndex: ActualIndex,
   chordType: string
 ): ActualIndex[] => {
-  const chordOffsets = CHORD_OFFSETS[chordType];
+  const chordOffsets = CHORD_AND_INTERVAL_OFFSETS[chordType];
   const newNotes = chordOffsets.map(
     (offset: number) => (offset + rootIndex) as ActualIndex
   );

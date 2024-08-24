@@ -8,12 +8,11 @@ const ModeSelector = () => {
   return (
     <select
       value={inputMode}
-      onChange={(e) =>
-        setInputMode(e.target.value as InputMode)
-      }
+      onChange={(e) => setInputMode(e.target.value as InputMode)}
     >
       <option value={InputMode.Toggle}>Toggle Input</option>
-      <option value={InputMode.Presets}>Chord Presets</option>
+      <option value={InputMode.IntervalPresets}>Interval Presets</option>
+      <option value={InputMode.ChordPresets}>Chord Presets</option>
     </select>
   );
 };

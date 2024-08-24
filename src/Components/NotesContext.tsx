@@ -19,7 +19,7 @@ interface NotesProviderProps {
 }
 
 const defaultContextValue: NotesContextType = {
-  inputMode: InputMode.Presets,
+  inputMode: InputMode.ChordPresets,
   setInputMode: () => {}, // Provide a no-op function as default
   selectedNoteIndices: [],
   setSelectedNoteIndices: () => {},
@@ -32,7 +32,7 @@ const defaultContextValue: NotesContextType = {
 const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
-  const [inputMode, setInputMode] = useState<InputMode>(InputMode.Presets);
+  const [inputMode, setInputMode] = useState<InputMode>(InputMode.ChordPresets);
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(
     [7]
   );
