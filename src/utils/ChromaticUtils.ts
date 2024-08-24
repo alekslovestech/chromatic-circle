@@ -44,11 +44,6 @@ export function UpdateIndices(
         : [...selectedNoteIndices, newActualIndex];
       break;
     case InputMode.IntervalPresets:
-      updatedIndices = calculateChordNotesFromIndex(
-        newActualIndex,
-        selectedChordType
-      );
-      break;
     case InputMode.ChordPresets:
       updatedIndices = calculateChordNotesFromIndex(
         newActualIndex,
