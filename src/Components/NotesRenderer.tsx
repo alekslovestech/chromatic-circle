@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import {
-  GetNoteWithAccidentalFromIndex,
-  GetAccidentalSign,
+  getNoteWithAccidentalFromIndex,
+  getAccidentalSign,
 } from "../utils/NoteUtils";
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
@@ -10,14 +10,12 @@ import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
 
 const EasyScoreFromNotes = (
-  myNotes: ActualIndex[], //array of ActualIndex
+  myNotes: ActualIndex[],
   selectedAccidental: Accidental
 ): StaveNote[] => {
   const noteInfo = myNotes.map((chromaticIndex) =>
-    GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
+    getNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
   );
-
-  console.log({ noteInfo });
 
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
 
@@ -27,7 +25,7 @@ const EasyScoreFromNotes = (
   });
 
   noteInfo.forEach(({ accidental }, index) => {
-    const accidentalSign = GetAccidentalSign(
+    const accidentalSign = getAccidentalSign(
       accidental,
       NotationType.EasyScore
     );

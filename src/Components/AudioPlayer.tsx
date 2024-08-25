@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
-import { GetMultiplierFromIndex } from "../utils/ChromaticUtils";
+import { getMultiplierFromIndex } from "../utils/ChromaticUtils";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
@@ -24,7 +24,7 @@ const AudioPlayer: React.FC = () => {
   };
 
   const playSound = (index: number) => {
-    const playbackRate = GetMultiplierFromIndex(index);
+    const playbackRate = getMultiplierFromIndex(index);
 
     if (!audioContextRef.current) {
       console.error("Audio context is not initialized");
