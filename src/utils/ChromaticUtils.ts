@@ -3,7 +3,7 @@ import { TWELVE } from "../types/NoteConstants";
 
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
-import { GetAccidentalSign, GetNoteWithAccidentalFromIndex } from "./NoteUtils";
+import { getAccidentalSign, getNoteWithAccidentalFromIndex } from "./NoteUtils";
 import { InputMode } from "../types/InputMode";
 import {
   ActualIndex,
@@ -74,11 +74,11 @@ export const getNoteTextFromIndex = (
   sharpOrFlat: Accidental,
   showOctave: boolean = false
 ): string => {
-  const noteWithAccidental = GetNoteWithAccidentalFromIndex(
+  const noteWithAccidental = getNoteWithAccidentalFromIndex(
     actualIndex,
     sharpOrFlat
   );
-  const accidentalSign = GetAccidentalSign(
+  const accidentalSign = getAccidentalSign(
     noteWithAccidental.accidental,
     NotationType.ScreenDisplay
   );

@@ -9,39 +9,28 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
-function keyTypeString(index: ActualIndex): string {
-  return isBlackKey(index) ? "black" : "white";
-}
-
-function getKeyColor(
-  index: ActualIndex,
+export function getKeyColor(
+  index: ActualIndex | ChromaticIndex,
   isSelected: boolean,
-  secondOctave = false
+  isSecondOctave: boolean
 ): string {
-  const keyType = keyTypeString(index);
-  const octaveNum = secondOctave ? "1" : "0";
-  const selectionState = isSelected ? `-selected${octaveNum}` : "";
-  const ret = `--key-${keyType}${selectionState}`;
-  return ret;
-}
-
-function getKeyTextColor(index: ActualIndex): string {
-  const keyType = keyTypeString(index);
-  return `--note-text-on-${keyType}`;
+  const keyType = isBlackKey(index) ? "black" : "white";
+  const octave = isSecondOctave ? "1" : "0";
+  const selection = isSelected ? `-selected${octave}` : "";
+  return `--key-${keyType}${selection}`;
 }
 
 export function getComputedKeyColor(
   index: ActualIndex,
   isSelected: boolean
 ): string {
-  const isSecondOctave = index >= TWELVE;
-  return getComputedColor(getKeyColor(index, isSelected, isSecondOctave));
+  return getComputedColor(getKeyColor(index, isSelected, index >= TWELVE));
 }
 
 export function getComputedKeyColorOverlayed(
   index: ChromaticIndex,
   selectedNoteIndices: ActualIndex[]
-) {
+): string {
   const isSelectedFirstOctave = selectedNoteIndices.includes(index);
   const isSelectedSecondOctave = selectedNoteIndices.includes(
     (index + TWELVE) as ActualIndex
@@ -56,5 +45,7 @@ export function getComputedKeyColorOverlayed(
 }
 
 export function getComputedTextColor(index: ActualIndex): string {
-  return getComputedColor(getKeyTextColor(index));
+  return getComputedColor(
+    `--note-text-on-${isBlackKey(index) ? "black" : "white"}`
+  );
 }
