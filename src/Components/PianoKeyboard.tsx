@@ -54,8 +54,6 @@ const PianoKeyboard: React.FC = () => {
     );
   }
 
-  console.log(selectedNoteIndices);
-
   return (
     <div className="piano-keyboard-container">
       <div className="piano-keyboard">{keys}</div>

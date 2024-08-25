@@ -41,7 +41,6 @@ const ChromaticCircle: React.FC = () => {
       if (!CircleMath.IsRadiusInRange(radius)) return;
 
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
-      console.log(`selected ${noteIndex} in mode=${inputMode}`);
 
       const updatedIndices = UpdateIndices(
         inputMode,

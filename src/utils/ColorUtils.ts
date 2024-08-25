@@ -18,12 +18,6 @@ function getKeyColor(
   const octaveNum = secondOctave ? "1" : "0";
   const selectionState = isSelected ? `-selected${octaveNum}` : "";
   const ret = `--key-${keyType}${selectionState}`;
-  if (isSelected) {
-    console.log({ index, isSelected, secondOctave });
-    console.log(selectionState);
-
-    console.log(ret);
-  }
 
   return ret;
 }
