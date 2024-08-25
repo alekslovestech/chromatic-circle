@@ -5,7 +5,7 @@ import { useNotes } from "./NotesContext";
 import {
   getNoteTextFromIndex,
   isBlackKey,
-  UpdateIndices,
+  updateIndices,
 } from "../utils/ChromaticUtils";
 import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
@@ -21,7 +21,7 @@ const PianoKeyboard: React.FC = () => {
   } = useNotes();
 
   const handleKeyClick = (index: number) => {
-    const updatedIndices = UpdateIndices(
+    const updatedIndices = updateIndices(
       inputMode,
       selectedChordType,
       selectedNoteIndices,

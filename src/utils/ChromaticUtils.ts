@@ -12,14 +12,14 @@ import {
   OctaveOffset,
 } from "../types/IndexTypes";
 
-export function ChromaticToActual(
+export function chromaticToActual(
   chromaticIndex: ChromaticIndex,
   octaveOffset: OctaveOffset
 ): ActualIndex {
   return (octaveOffset * TWELVE + chromaticIndex) as ActualIndex;
 }
 
-export function ActualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
+export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
   return {
     chromaticIndex: (actualIndex % TWELVE) as ChromaticIndex,
     octaveOffset: Math.floor(actualIndex / TWELVE) as OctaveOffset,
@@ -30,7 +30,7 @@ export function isBlackKey(actualIndex: ActualIndex) {
   return [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
 }
 
-export function UpdateIndices(
+export function updateIndices(
   inputMode: InputMode,
   selectedChordType: string,
   selectedNoteIndices: ActualIndex[], //actualIndices
@@ -98,6 +98,6 @@ export const getChordName = (
   return `${rootNote} ${chordType}`;
 };
 
-export function GetMultiplierFromIndex(index: number) {
+export function getMultiplierFromIndex(index: number) {
   return Math.pow(2, index / TWELVE);
 }

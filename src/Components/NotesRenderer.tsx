@@ -17,8 +17,6 @@ const EasyScoreFromNotes = (
     GetNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
   );
 
-  console.log({ noteInfo });
-
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
 
   const chordNote = new StaveNote({

@@ -17,7 +17,7 @@ const AccidentalToggle: React.FC = () => {
       className="accidental-toggle"
       onClick={toggleAccidental}
       style={{
-        backgroundColor: getComputedColor(`--key-black-bg`),
+        backgroundColor: getComputedColor(`--key-black`),
         color: getComputedColor(`--note-text-on-black`),
       }}
     >

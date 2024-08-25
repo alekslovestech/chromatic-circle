@@ -9,21 +9,25 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
+function keyTypeString(index: ActualIndex): string {
+  return isBlackKey(index) ? "black" : "white";
+}
+
 function getKeyColor(
   index: ActualIndex,
   isSelected: boolean,
   secondOctave = false
 ): string {
-  const keyType = isBlackKey(index) ? "black" : "white";
+  const keyType = keyTypeString(index);
   const octaveNum = secondOctave ? "1" : "0";
   const selectionState = isSelected ? `-selected${octaveNum}` : "";
   const ret = `--key-${keyType}${selectionState}`;
-
   return ret;
 }
 
 function getKeyTextColor(index: ActualIndex): string {
-  return isBlackKey(index) ? "--note-text-on-black" : "--note-text-on-white";
+  const keyType = keyTypeString(index);
+  return `--note-text-on-${keyType}`;
 }
 
 export function getComputedKeyColor(

@@ -3,9 +3,9 @@ import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
 import {
-  ChromaticToActual,
+  chromaticToActual,
   getNoteTextFromIndex,
-  UpdateIndices,
+  updateIndices,
 } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
@@ -42,7 +42,7 @@ const ChromaticCircle: React.FC = () => {
 
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
 
-      const updatedIndices = UpdateIndices(
+      const updatedIndices = updateIndices(
         inputMode,
         selectedChordType,
         selectedNoteIndices,
@@ -119,7 +119,7 @@ const ChromaticCircle: React.FC = () => {
       ctx.textBaseline = "middle";
 
       ctx.fillStyle = getComputedTextColor(
-        ChromaticToActual(chromaticIndex, 0)
+        chromaticToActual(chromaticIndex, 0)
       );
       ctx.font = "bold 20px Arial";
       const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental);

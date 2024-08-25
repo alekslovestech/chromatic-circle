@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
 import {
   calculateChordNotesFromIndex,
-  UpdateIndices,
+  updateIndices,
 } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import { ChordType, IntervalType } from "../types/ChordConstants";
@@ -34,7 +34,7 @@ const ChordPresetsSelector: React.FC = () => {
 
   useEffect(() => {
     const originalIndex = selectedNoteIndices[0];
-    const updatedIndices = UpdateIndices(
+    const updatedIndices = updateIndices(
       inputMode,
       selectedChordType,
       selectedNoteIndices,
