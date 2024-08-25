@@ -9,15 +9,18 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
+export const getBlackWhiteString = (index: ActualIndex): string =>
+  isBlackKey(index) ? "black" : "white";
+
 export function getKeyColor(
   index: ActualIndex | ChromaticIndex,
   isSelected: boolean,
   isSecondOctave: boolean
 ): string {
-  const keyType = isBlackKey(index) ? "black" : "white";
+  const blackWhiteString = getBlackWhiteString(index);
   const octave = isSecondOctave ? "1" : "0";
   const selection = isSelected ? `-selected${octave}` : "";
-  return `--key-${keyType}${selection}`;
+  return `--key-${blackWhiteString}${selection}`;
 }
 
 export function getComputedKeyColor(
@@ -45,7 +48,5 @@ export function getComputedKeyColorOverlayed(
 }
 
 export function getComputedTextColor(index: ActualIndex): string {
-  return getComputedColor(
-    `--note-text-on-${isBlackKey(index) ? "black" : "white"}`
-  );
+  return getComputedColor(`--note-text-on-${getBlackWhiteString(index)}`);
 }

@@ -7,7 +7,11 @@ import {
   isBlackKey,
   updateIndices,
 } from "../utils/ChromaticUtils";
-import { getComputedKeyColor, getComputedTextColor } from "../utils/ColorUtils";
+import {
+  getBlackWhiteString,
+  getComputedKeyColor,
+  getComputedTextColor,
+} from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 
@@ -42,7 +46,7 @@ const PianoKeyboard: React.FC = () => {
     keys.push(
       <div
         key={actualIndex}
-        className={`piano-key ${isBlack ? "black" : "white"}`}
+        className={`piano-key ${getBlackWhiteString(actualIndex)}`}
         style={{
           backgroundColor: getComputedKeyColor(actualIndex, isSelected),
           color: getComputedTextColor(actualIndex),
