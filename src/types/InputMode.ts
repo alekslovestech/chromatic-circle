@@ -1,5 +1,6 @@
 export enum InputMode {
   None = "None",
   Toggle = "Toggle",
-  Presets = "Presets",
+  IntervalPresets = "Interval Presets",
+  ChordPresets = "Chord Presets",
 }

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex } from "../utils/ChromaticUtils";
+import {
+  calculateChordNotesFromIndex,
+  UpdateIndices,
+} from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
-import { CHORD_TYPES } from "../types/ChordConstants";
+import { ChordType, IntervalType } from "../types/ChordConstants";
 import { InputMode } from "../types/InputMode";
 
 const ChordPresetsSelector: React.FC = () => {
@@ -15,7 +18,32 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedAccidental,
   } = useNotes();
 
-  if (inputMode !== InputMode.Presets) return null;
+  useEffect(() => {
+    if (
+      inputMode === InputMode.ChordPresets &&
+      selectedChordType !== ChordType.Maj
+    ) {
+      setSelectedChordType(ChordType.Maj);
+    } else if (
+      inputMode === InputMode.IntervalPresets &&
+      selectedChordType !== IntervalType.Maj3
+    ) {
+      setSelectedChordType(IntervalType.Maj3);
+    }
+  }, [inputMode]);
+
+  useEffect(() => {
+    const originalIndex = selectedNoteIndices[0];
+    const updatedIndices = UpdateIndices(
+      inputMode,
+      selectedChordType,
+      selectedNoteIndices,
+      originalIndex
+    );
+    setSelectedNoteIndices(updatedIndices);
+  }, [selectedChordType]);
+
+  if (inputMode === InputMode.Toggle) return null;
 
   const handleChordTypeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -40,11 +68,17 @@ const ChordPresetsSelector: React.FC = () => {
   return (
     <div>
       <select onChange={handleChordTypeChange} value={selectedChordType}>
-        {CHORD_TYPES.map((chord) => (
-          <option key={chord} value={chord}>
-            {chord}
-          </option>
-        ))}
+        {inputMode === InputMode.IntervalPresets
+          ? Object.entries(IntervalType).map(([key, value]) => (
+              <option key={key} value={value}>
+                {value}
+              </option>
+            ))
+          : Object.entries(ChordType).map(([key, value]) => (
+              <option key={key} value={value}>
+                {value}
+              </option>
+            ))}
       </select>
     </div>
   );
