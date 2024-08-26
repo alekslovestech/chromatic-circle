@@ -2,28 +2,49 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
 import { ChordType, IntervalType } from "../types/ChordConstants";
+import "../styles/ModeSelector.css";
 
 const ModeSelector = () => {
   const { inputMode, setInputMode, setSelectedChordType } = useNotes();
 
-  const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newMode = e.target.value as InputMode;
+  const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
-
-    // Set default preset based on the new mode
-    if (newMode === InputMode.ChordPresets) {
-      setSelectedChordType(ChordType.Maj);
+    if (newMode === InputMode.SingleNote) {
+      setSelectedChordType(ChordType.Note);
     } else if (newMode === InputMode.IntervalPresets) {
       setSelectedChordType(IntervalType.Maj3);
+    } else if (newMode === InputMode.ChordPresets) {
+      setSelectedChordType(ChordType.Maj);
     }
   };
 
   return (
-    <select value={inputMode} onChange={handleModeChange}>
-      <option value={InputMode.Toggle}>Toggle Input</option>
-      <option value={InputMode.IntervalPresets}>Interval Presets</option>
-      <option value={InputMode.ChordPresets}>Chord Presets</option>
-    </select>
+    <div className="mode-selector">
+      <button
+        className={inputMode === InputMode.Toggle ? "active" : ""}
+        onClick={() => handleModeChange(InputMode.Toggle)}
+      >
+        Toggle Input
+      </button>
+      <button
+        className={inputMode === InputMode.SingleNote ? "active" : ""}
+        onClick={() => handleModeChange(InputMode.SingleNote)}
+      >
+        Single Notes
+      </button>
+      <button
+        className={inputMode === InputMode.IntervalPresets ? "active" : ""}
+        onClick={() => handleModeChange(InputMode.IntervalPresets)}
+      >
+        Interval Presets
+      </button>
+      <button
+        className={inputMode === InputMode.ChordPresets ? "active" : ""}
+        onClick={() => handleModeChange(InputMode.ChordPresets)}
+      >
+        Chord Presets
+      </button>
+    </div>
   );
 };
 
