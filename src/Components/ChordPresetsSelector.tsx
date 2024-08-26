@@ -66,21 +66,20 @@ const ChordPresetsSelector: React.FC = () => {
   };
 
   return (
-    <div>
-      <select onChange={handleChordTypeChange} value={selectedChordType}>
-        {inputMode === InputMode.IntervalPresets
-          ? Object.entries(IntervalType).map(([key, value]) => (
-              <option key={key} value={value}>
-                {value}
-              </option>
-            ))
-          : Object.entries(ChordType).map(([key, value]) => (
-              <option key={key} value={value}>
-                {value}
-              </option>
-            ))}
-      </select>
-    </div>
+    (inputMode === InputMode.IntervalPresets ||
+      inputMode === InputMode.ChordPresets) && (
+      <div>
+        <select onChange={handleChordTypeChange} value={selectedChordType}>
+          {Object.entries(
+            inputMode === InputMode.IntervalPresets ? IntervalType : ChordType
+          ).map(([key, value]) => (
+            <option key={key} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </div>
+    )
   );
 };
 

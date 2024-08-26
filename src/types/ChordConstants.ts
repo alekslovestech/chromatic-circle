@@ -1,5 +1,8 @@
-export enum ChordType {
+export enum SingleNoteType {
   Note = "note",
+}
+
+export enum ChordType {
   Dim = "dim",
   Min = "min",
   Maj = "maj",
@@ -34,7 +37,7 @@ export enum IntervalType {
 }
 
 export const CHORD_AND_INTERVAL_OFFSETS: { [key: string]: number[] } = {
-  [ChordType.Note]: [0],
+  [SingleNoteType.Note]: [0],
 
   //2 notes
   [IntervalType.Min2]: [0, 1],

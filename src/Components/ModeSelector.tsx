@@ -1,7 +1,11 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
-import { ChordType, IntervalType } from "../types/ChordConstants";
+import {
+  ChordType,
+  IntervalType,
+  SingleNoteType,
+} from "../types/ChordConstants";
 import "../styles/ModeSelector.css";
 
 const ModeSelector = () => {
@@ -10,7 +14,7 @@ const ModeSelector = () => {
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
     if (newMode === InputMode.SingleNote) {
-      setSelectedChordType(ChordType.Note);
+      setSelectedChordType(SingleNoteType.Note);
     } else if (newMode === InputMode.IntervalPresets) {
       setSelectedChordType(IntervalType.Maj3);
     } else if (newMode === InputMode.ChordPresets) {
