@@ -1,4 +1,7 @@
-import { CHORD_AND_INTERVAL_OFFSETS, ChordType } from "../types/ChordConstants";
+import {
+  CHORD_AND_INTERVAL_OFFSETS,
+  SingleNoteType,
+} from "../types/ChordConstants";
 import { TWELVE } from "../types/NoteConstants";
 
 import { NotationType } from "../types/NotationType";
@@ -46,14 +49,14 @@ export function updateIndices(
     case InputMode.SingleNote:
       updatedIndices = calculateChordNotesFromIndex(
         newActualIndex,
-        ChordType.Note,
+        SingleNoteType.Note
       );
       break;
     case InputMode.IntervalPresets:
     case InputMode.ChordPresets:
       updatedIndices = calculateChordNotesFromIndex(
         newActualIndex,
-        selectedChordType,
+        selectedChordType
       );
       break;
     default:
