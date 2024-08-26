@@ -32,13 +32,13 @@ const defaultContextValue: NotesContextType = {
 const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
-  const [inputMode, setInputMode] = useState<InputMode>(InputMode.ChordPresets);
+  const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(
-    [7]
+    [7],
   );
   const [selectedChordType, setSelectedChordType] = useState<string>("note");
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(
-    Accidental.Sharp
+    Accidental.Sharp,
   );
 
   return (
