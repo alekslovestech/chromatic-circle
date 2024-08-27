@@ -17,7 +17,7 @@ export enum ChordType {
   Sus4 = "sus4",
   Sus2 = "sus2",
   Add9 = "add9",
-  Six = "6",
+  Six = "6th",
   Min6 = "min6",
 }
 

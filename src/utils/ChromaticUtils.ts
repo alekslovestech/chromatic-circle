@@ -14,6 +14,7 @@ import {
   IndexAndOffset,
   OctaveOffset,
 } from "../types/IndexTypes";
+import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 
 export function chromaticToActual(
   chromaticIndex: ChromaticIndex,
@@ -45,6 +46,7 @@ export function updateIndices(
       updatedIndices = selectedNoteIndices.includes(newActualIndex)
         ? selectedNoteIndices.filter((i) => i !== newActualIndex)
         : [...selectedNoteIndices, newActualIndex];
+      updatedIndices.sort((a, b) => a - b);
       break;
     case InputMode.SingleNote:
       updatedIndices = calculateChordNotesFromIndex(
@@ -110,15 +112,35 @@ export const getChordName = (
 export const detectChordName = (
   selectedNoteIndices: ActualIndex[],
   selectedAccidental: Accidental
-): string => {
-  if (selectedNoteIndices.length === 0) return "No notes selected";
+): NoteGroupingName => {
+  if (selectedNoteIndices.length === 0)
+    return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
   if (selectedNoteIndices.length === 1)
-    return getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental);
+    return {
+      noteGrouping: NoteGroupingType.Note,
+      name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
+    };
 
   const rootNote = selectedNoteIndices[0];
   const chordsAndIntervals = selectedNoteIndices.map(
     (note) => (note - rootNote + TWELVE) % TWELVE
   );
+  if (selectedNoteIndices.length === 2) {
+    for (const [intervalName, offsets] of Object.entries(
+      CHORD_AND_INTERVAL_OFFSETS
+    )) {
+      if (
+        chordsAndIntervals.length === 2 &&
+        chordsAndIntervals.every((interval) => offsets.includes(interval))
+      ) {
+        return { noteGrouping: NoteGroupingType.Interval, name: intervalName };
+      }
+    }
+    return {
+      noteGrouping: NoteGroupingType.Interval,
+      name: "Unknown interval",
+    };
+  }
 
   for (const [chordName, offsets] of Object.entries(
     CHORD_AND_INTERVAL_OFFSETS
@@ -127,11 +149,17 @@ export const detectChordName = (
       chordsAndIntervals.length === offsets.length &&
       chordsAndIntervals.every((interval) => offsets.includes(interval))
     ) {
-      return `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordName}`;
+      return {
+        noteGrouping: NoteGroupingType.Chord,
+        name: `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordName}`,
+      };
     }
   }
 
-  return "???";
+  return {
+    noteGrouping: NoteGroupingType.Chord,
+    name: "Unknown chord",
+  };
 };
 
 export function getMultiplierFromIndex(index: number) {

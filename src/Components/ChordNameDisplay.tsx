@@ -41,9 +41,20 @@ const ChordDisplay: React.FC = () => {
       )) ||
         (inputMode === InputMode.Toggle && (
           <div className="chord-name">
-            Detected Chord: <br />
-            {detectChordName(selectedNoteIndices, selectedAccidental)}
-            <br />
+            {(() => {
+              const { noteGrouping, name } = detectChordName(
+                selectedNoteIndices,
+                selectedAccidental
+              );
+              return (
+                <>
+                  Detected {noteGrouping}:
+                  <br />
+                  {name}
+                  <br />
+                </>
+              );
+            })()}
           </div>
         ))}
 

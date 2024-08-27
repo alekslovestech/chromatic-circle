@@ -4,8 +4,12 @@
   gap: 10px;
 }
 
-.chord-name,
-.chord-notes {
+.chord-name {
   font-size: 24px;
+  margin: 0;
+}
+
+.chord-notes {
+  font-size: 20px;
   margin: 0;
 }
