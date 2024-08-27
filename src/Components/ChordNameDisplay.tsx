@@ -12,6 +12,7 @@ const ChordDisplay: React.FC = () => {
     selectedChordType,
     selectedAccidental,
   } = useNotes();
+
   const topDownNotes = selectedNoteIndices
     .slice()
     .reverse()
@@ -21,21 +22,20 @@ const ChordDisplay: React.FC = () => {
 
   return (
     <div className="chord-display">
-      <div className="chord-name">
-        {inputMode === InputMode.ChordPresets && (
-          <>
-            Chord:{" "}
-            {selectedNoteIndices.length === 0
-              ? "UNKNOWN"
-              : getChordName(
-                  selectedNoteIndices[0],
-                  selectedChordType,
-                  selectedAccidental
-                )}
-          </>
-        )}
-      </div>
-      <br />
+      {inputMode === InputMode.ChordPresets && (
+        <div className="chord-name">
+          Chord:{" "}
+          {selectedNoteIndices.length === 0
+            ? "UNKNOWN"
+            : getChordName(
+                selectedNoteIndices[0],
+                selectedChordType,
+                selectedAccidental
+              )}
+          <br />
+        </div>
+      )}
+
       <div className="chord-notes">
         notes:{" "}
         {topDownNotes.map((note, index) => (
