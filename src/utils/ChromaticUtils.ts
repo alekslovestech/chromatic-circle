@@ -17,7 +17,7 @@ import {
 
 export function chromaticToActual(
   chromaticIndex: ChromaticIndex,
-  octaveOffset: OctaveOffset,
+  octaveOffset: OctaveOffset
 ): ActualIndex {
   return (octaveOffset * TWELVE + chromaticIndex) as ActualIndex;
 }
@@ -37,7 +37,7 @@ export function updateIndices(
   inputMode: InputMode,
   selectedChordType: string,
   selectedNoteIndices: ActualIndex[], //actualIndices
-  newActualIndex: ActualIndex,
+  newActualIndex: ActualIndex
 ): ActualIndex[] {
   let updatedIndices: ActualIndex[] = [];
   switch (inputMode) {
@@ -68,11 +68,11 @@ export function updateIndices(
 
 export const calculateChordNotesFromIndex = (
   rootIndex: ActualIndex,
-  chordType: string,
+  chordType: string
 ): ActualIndex[] => {
   const chordOffsets = CHORD_AND_INTERVAL_OFFSETS[chordType];
   const newNotes = chordOffsets.map(
-    (offset: number) => (offset + rootIndex) as ActualIndex,
+    (offset: number) => (offset + rootIndex) as ActualIndex
   );
 
   return newNotes;
@@ -81,15 +81,15 @@ export const calculateChordNotesFromIndex = (
 export const getNoteTextFromIndex = (
   actualIndex: ActualIndex,
   sharpOrFlat: Accidental,
-  showOctave: boolean = false,
+  showOctave: boolean = false
 ): string => {
   const noteWithAccidental = getNoteWithAccidentalFromIndex(
     actualIndex,
-    sharpOrFlat,
+    sharpOrFlat
   );
   const accidentalSign = getAccidentalSign(
     noteWithAccidental.accidental,
-    NotationType.ScreenDisplay,
+    NotationType.ScreenDisplay
   );
   const octaveString = showOctave ? noteWithAccidental.octave : "";
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
@@ -98,13 +98,40 @@ export const getNoteTextFromIndex = (
 export const getChordName = (
   rootIndex: ActualIndex,
   chordType: string,
-  accidental: Accidental,
+  accidental: Accidental
 ) => {
   const rootNote = getNoteTextFromIndex(rootIndex, accidental);
   if (chordType === "note") {
     return rootNote;
   }
   return `${rootNote} ${chordType}`;
+};
+
+export const detectChordName = (
+  selectedNoteIndices: ActualIndex[],
+  selectedAccidental: Accidental
+): string => {
+  if (selectedNoteIndices.length === 0) return "No notes selected";
+  if (selectedNoteIndices.length === 1)
+    return getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental);
+
+  const rootNote = selectedNoteIndices[0];
+  const chordsAndIntervals = selectedNoteIndices.map(
+    (note) => (note - rootNote + TWELVE) % TWELVE
+  );
+
+  for (const [chordName, offsets] of Object.entries(
+    CHORD_AND_INTERVAL_OFFSETS
+  )) {
+    if (
+      chordsAndIntervals.length === offsets.length &&
+      chordsAndIntervals.every((interval) => offsets.includes(interval))
+    ) {
+      return `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordName}`;
+    }
+  }
+
+  return "???";
 };
 
 export function getMultiplierFromIndex(index: number) {
