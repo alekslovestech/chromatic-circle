@@ -8,6 +8,7 @@ import {
 import "../styles/ChordNameDisplay.css";
 import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
+import { Accidental } from "../types/Accidental";
 
 const ChordDisplay: React.FC = () => {
   const {
@@ -23,6 +24,24 @@ const ChordDisplay: React.FC = () => {
     .map((index: ActualIndex) =>
       getNoteTextFromIndex(index, selectedAccidental, true)
     );
+
+  const DetectedChord = (
+    selectedNoteIndices: ActualIndex[],
+    selectedAccidental: Accidental
+  ) => {
+    const { noteGrouping, name } = detectChordName(
+      selectedNoteIndices,
+      selectedAccidental
+    );
+    return (
+      <>
+        Detected {noteGrouping}:
+        <br />
+        {name}
+        <br />
+      </>
+    );
+  };
 
   return (
     <div className="chord-display">
@@ -41,20 +60,7 @@ const ChordDisplay: React.FC = () => {
       )) ||
         (inputMode === InputMode.Toggle && (
           <div className="chord-name">
-            {(() => {
-              const { noteGrouping, name } = detectChordName(
-                selectedNoteIndices,
-                selectedAccidental
-              );
-              return (
-                <>
-                  Detected {noteGrouping}:
-                  <br />
-                  {name}
-                  <br />
-                </>
-              );
-            })()}
+            {DetectedChord(selectedNoteIndices, selectedAccidental)}
           </div>
         ))}
 
