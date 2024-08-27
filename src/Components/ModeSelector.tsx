@@ -13,7 +13,7 @@ const ModeSelector = () => {
 
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
-    if (newMode === InputMode.SingleNote) {
+    if (newMode === InputMode.SingleNote || newMode === InputMode.Toggle) {
       setSelectedChordType(SingleNoteType.Note);
     } else if (newMode === InputMode.IntervalPresets) {
       setSelectedChordType(IntervalType.Maj3);
@@ -28,7 +28,7 @@ const ModeSelector = () => {
         className={inputMode === InputMode.Toggle ? "active" : ""}
         onClick={() => handleModeChange(InputMode.Toggle)}
       >
-        Toggle Input
+        Free-form Input
       </button>
       <button
         className={inputMode === InputMode.SingleNote ? "active" : ""}
