@@ -1,73 +1,132 @@
-export enum SingleNoteType {
-  Note = "note",
+import { ChordDefinition } from "./ChordDefinition";
+
+export enum ChordAndIntervalType {
+  // Single note
+  Note,
+
+  // Intervals
+  Interval_Min2,
+  Interval_Maj2,
+  Interval_Min3,
+  Interval_Maj3,
+  Interval_Fourth,
+  Interval_Tritone,
+  Interval_Fifth,
+  Interval_Min6,
+  Interval_Maj6,
+  Interval_Min7,
+  Interval_Maj7,
+  Interval_Oct,
+
+  // Chords
+  Chord_Maj,
+  Chord_Min,
+  Chord_Dim,
+  Chord_Aug,
+  Chord_Maj7,
+  Chord_Min7,
+  Chord_Dom7,
+  Chord_Dim7,
+  Chord_MMaj7,
+  Chord_M7b5,
+  Chord_Sus4,
+  Chord_Sus2,
+  Chord_Add9,
+  Chord_Six,
+  Chord_Min6,
 }
 
-export enum ChordType {
-  Dim = "dim",
-  Min = "min",
-  Maj = "maj",
-  Aug = "aug",
-  Seventh = "7th",
-  Maj7 = "maj7",
-  Min7 = "min7",
-  Dom7 = "dom7",
-  MMaj7 = "mMaj7",
-  Dim7 = "dim7",
-  M7b5 = "m7♭5",
-  Sus4 = "sus4",
-  Sus2 = "sus2",
-  Add9 = "add9",
-  Six = "6th",
-  Min6 = "min6",
-}
+export const CHORD_AND_INTERVAL_OFFSETS: {
+  [key in ChordAndIntervalType]: ChordDefinition;
+} = {
+  // Single note
+  [ChordAndIntervalType.Note]: new ChordDefinition([0], "note"),
 
-export enum IntervalType {
-  Min2 = "Minor Second",
-  Maj2 = "Major Second",
-  Min3 = "Minor Third",
-  Maj3 = "Major Third",
-  Fourth = "Perfect Fourth",
-  Tritone = "Tritone",
-  Fifth = "Perfect Fifth",
-  Min6 = "Minor Sixth",
-  Maj6 = "Major Sixth",
-  Min7 = "Minor Seventh",
-  Maj7 = "Major Seventh",
-  Oct = "Octave",
-}
+  // Intervals (2 notes)
+  [ChordAndIntervalType.Interval_Min2]: new ChordDefinition(
+    [0, 1],
+    "Minor Second"
+  ),
+  [ChordAndIntervalType.Interval_Maj2]: new ChordDefinition(
+    [0, 2],
+    "Major Second"
+  ),
+  [ChordAndIntervalType.Interval_Min3]: new ChordDefinition(
+    [0, 3],
+    "Minor Third"
+  ),
+  [ChordAndIntervalType.Interval_Maj3]: new ChordDefinition(
+    [0, 4],
+    "Major Third"
+  ),
+  [ChordAndIntervalType.Interval_Fourth]: new ChordDefinition(
+    [0, 5],
+    "Perfect Fourth"
+  ),
+  [ChordAndIntervalType.Interval_Tritone]: new ChordDefinition(
+    [0, 6],
+    "Tritone"
+  ),
+  [ChordAndIntervalType.Interval_Fifth]: new ChordDefinition(
+    [0, 7],
+    "Perfect Fifth"
+  ),
+  [ChordAndIntervalType.Interval_Min6]: new ChordDefinition(
+    [0, 8],
+    "Minor Sixth"
+  ),
+  [ChordAndIntervalType.Interval_Maj6]: new ChordDefinition(
+    [0, 9],
+    "Major Sixth"
+  ),
+  [ChordAndIntervalType.Interval_Min7]: new ChordDefinition(
+    [0, 10],
+    "Minor Seventh"
+  ),
+  [ChordAndIntervalType.Interval_Maj7]: new ChordDefinition(
+    [0, 11],
+    "Major Seventh"
+  ),
+  [ChordAndIntervalType.Interval_Oct]: new ChordDefinition([0, 12], "Octave"),
 
-export const CHORD_AND_INTERVAL_OFFSETS: { [key: string]: number[] } = {
-  [SingleNoteType.Note]: [0],
+  // Triads
+  [ChordAndIntervalType.Chord_Maj]: new ChordDefinition([0, 4, 7], "maj", true),
+  [ChordAndIntervalType.Chord_Min]: new ChordDefinition([0, 3, 7], "min", true),
+  [ChordAndIntervalType.Chord_Dim]: new ChordDefinition([0, 3, 6], "dim"),
+  [ChordAndIntervalType.Chord_Aug]: new ChordDefinition([0, 4, 8], "aug"),
 
-  //2 notes
-  [IntervalType.Min2]: [0, 1],
-  [IntervalType.Maj2]: [0, 2],
-  [IntervalType.Min3]: [0, 3],
-  [IntervalType.Maj3]: [0, 4],
-  [IntervalType.Fourth]: [0, 5],
-  [IntervalType.Tritone]: [0, 6],
-  [IntervalType.Fifth]: [0, 7],
-  [IntervalType.Min6]: [0, 8],
-  [IntervalType.Maj6]: [0, 9],
-  [IntervalType.Min7]: [0, 10],
-  [IntervalType.Maj7]: [0, 11],
-  [IntervalType.Oct]: [0, 12],
+  // Seventh chords
+  [ChordAndIntervalType.Chord_Maj7]: new ChordDefinition(
+    [0, 4, 7, 11],
+    "maj7",
+    true
+  ),
+  [ChordAndIntervalType.Chord_Min7]: new ChordDefinition(
+    [0, 3, 7, 10],
+    "min7",
+    true
+  ),
+  [ChordAndIntervalType.Chord_Dom7]: new ChordDefinition(
+    [0, 4, 7, 10],
+    "dom7",
+    true
+  ),
+  [ChordAndIntervalType.Chord_Dim7]: new ChordDefinition([0, 3, 6, 9], "dim7"),
+  [ChordAndIntervalType.Chord_MMaj7]: new ChordDefinition(
+    [0, 3, 7, 11],
+    "mMaj7",
+    true
+  ),
+  [ChordAndIntervalType.Chord_M7b5]: new ChordDefinition(
+    [0, 3, 6, 10],
+    "m7♭5",
+    true
+  ),
 
-  //3 or more notes
-  [ChordType.Maj]: [0, 4, 7],
-  [ChordType.Min]: [0, 3, 7],
-  [ChordType.Dim]: [0, 3, 6],
-  [ChordType.Aug]: [0, 4, 8],
-  [ChordType.Seventh]: [0, 4, 7, 10],
-  [ChordType.Maj7]: [0, 4, 7, 11],
-  [ChordType.Min7]: [0, 3, 7, 10],
-  [ChordType.Dom7]: [0, 4, 7, 10],
-  [ChordType.MMaj7]: [0, 3, 7, 11],
-  [ChordType.Dim7]: [0, 3, 6, 9],
-  [ChordType.M7b5]: [0, 3, 6, 10],
-  [ChordType.Sus4]: [0, 5, 7],
-  [ChordType.Sus2]: [0, 2, 7],
-  [ChordType.Add9]: [0, 4, 7, 14],
-  [ChordType.Six]: [0, 4, 7, 9],
-  [ChordType.Min6]: [0, 3, 7, 9],
+  // Other chord types
+  [ChordAndIntervalType.Chord_Sus4]: new ChordDefinition([0, 5, 7], "sus4"),
+  [ChordAndIntervalType.Chord_Sus2]: new ChordDefinition([0, 2, 7], "sus2"),
+  [ChordAndIntervalType.Chord_Add9]: new ChordDefinition([0, 4, 7, 14], "add9"),
+  [ChordAndIntervalType.Chord_Six]: new ChordDefinition([0, 4, 7, 9], "6th"),
+  [ChordAndIntervalType.Chord_Min6]: new ChordDefinition([0, 3, 7, 9], "min6"),
 };

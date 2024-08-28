@@ -5,7 +5,10 @@ import {
   updateIndices,
 } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
-import { ChordType, IntervalType } from "../types/ChordConstants";
+import {
+  CHORD_AND_INTERVAL_OFFSETS,
+  ChordAndIntervalType,
+} from "../types/ChordConstants";
 import { InputMode } from "../types/InputMode";
 
 const ChordPresetsSelector: React.FC = () => {
@@ -21,14 +24,14 @@ const ChordPresetsSelector: React.FC = () => {
   useEffect(() => {
     if (
       inputMode === InputMode.ChordPresets &&
-      selectedChordType !== ChordType.Maj
+      selectedChordType !== ChordAndIntervalType.Chord_Maj
     ) {
-      setSelectedChordType(ChordType.Maj);
+      setSelectedChordType(ChordAndIntervalType.Interval_Maj3);
     } else if (
       inputMode === InputMode.IntervalPresets &&
-      selectedChordType !== IntervalType.Maj3
+      selectedChordType !== ChordAndIntervalType.Interval_Maj3
     ) {
-      setSelectedChordType(IntervalType.Maj3);
+      setSelectedChordType(ChordAndIntervalType.Interval_Maj3);
     }
   }, [inputMode]);
 
@@ -48,7 +51,7 @@ const ChordPresetsSelector: React.FC = () => {
   const handleChordTypeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const incomingChord = event.target.value;
+    const incomingChord = event.target.value as unknown as ChordAndIntervalType;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
     const newNotes = calculateChordNotesFromIndex(
@@ -70,13 +73,17 @@ const ChordPresetsSelector: React.FC = () => {
       inputMode === InputMode.ChordPresets) && (
       <div>
         <select onChange={handleChordTypeChange} value={selectedChordType}>
-          {Object.entries(
-            inputMode === InputMode.IntervalPresets ? IntervalType : ChordType
-          ).map(([key, value]) => (
-            <option key={key} value={value}>
-              {value}
-            </option>
-          ))}
+          {Object.entries(ChordAndIntervalType)
+            .filter(([key]) =>
+              inputMode === InputMode.IntervalPresets
+                ? key.startsWith("Interval_")
+                : key.startsWith("Chord_")
+            )
+            .map(([key, value]) => (
+              <option key={key} value={value}>
+                {CHORD_AND_INTERVAL_OFFSETS[value as ChordAndIntervalType].name}
+              </option>
+            ))}
         </select>
       </div>
     )

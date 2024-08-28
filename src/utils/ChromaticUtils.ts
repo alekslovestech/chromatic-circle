@@ -1,6 +1,6 @@
 import {
   CHORD_AND_INTERVAL_OFFSETS,
-  SingleNoteType,
+  ChordAndIntervalType,
 } from "../types/ChordConstants";
 import { TWELVE } from "../types/NoteConstants";
 
@@ -36,7 +36,7 @@ export function isBlackKey(actualIndex: ActualIndex) {
 
 export function updateIndices(
   inputMode: InputMode,
-  selectedChordType: string,
+  selectedChordType: ChordAndIntervalType,
   selectedNoteIndices: ActualIndex[], //actualIndices
   newActualIndex: ActualIndex
 ): ActualIndex[] {
@@ -51,7 +51,7 @@ export function updateIndices(
     case InputMode.SingleNote:
       updatedIndices = calculateChordNotesFromIndex(
         newActualIndex,
-        SingleNoteType.Note
+        ChordAndIntervalType.Note
       );
       break;
     case InputMode.IntervalPresets:
@@ -70,9 +70,9 @@ export function updateIndices(
 
 export const calculateChordNotesFromIndex = (
   rootIndex: ActualIndex,
-  chordType: string
+  chordType: ChordAndIntervalType
 ): ActualIndex[] => {
-  const chordOffsets = CHORD_AND_INTERVAL_OFFSETS[chordType];
+  const chordOffsets = CHORD_AND_INTERVAL_OFFSETS[chordType].root;
   const newNotes = chordOffsets.map(
     (offset: number) => (offset + rootIndex) as ActualIndex
   );
@@ -99,11 +99,11 @@ export const getNoteTextFromIndex = (
 
 export const getChordName = (
   rootIndex: ActualIndex,
-  chordType: string,
+  chordType: ChordAndIntervalType,
   accidental: Accidental
 ) => {
   const rootNote = getNoteTextFromIndex(rootIndex, accidental);
-  if (chordType === "note") {
+  if (chordType === ChordAndIntervalType.Note) {
     return rootNote;
   }
   return `${rootNote} ${chordType}`;
@@ -131,7 +131,7 @@ export const detectChordName = (
     )) {
       if (
         chordsAndIntervals.length === 2 &&
-        chordsAndIntervals.every((interval) => offsets.includes(interval))
+        chordsAndIntervals.every((interval) => offsets.root.includes(interval))
       ) {
         return { noteGrouping: NoteGroupingType.Interval, name: intervalName };
       }
@@ -146,8 +146,8 @@ export const detectChordName = (
     CHORD_AND_INTERVAL_OFFSETS
   )) {
     if (
-      chordsAndIntervals.length === offsets.length &&
-      chordsAndIntervals.every((interval) => offsets.includes(interval))
+      chordsAndIntervals.length === offsets.root.length &&
+      chordsAndIntervals.every((interval) => offsets.root.includes(interval))
     ) {
       return {
         noteGrouping: NoteGroupingType.Chord,
