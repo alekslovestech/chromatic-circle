@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex } from "../types/IndexTypes";
-import { NoteGroupingId } from "../types/ChordConstants";
+import { NoteGroupingId } from "../types/NoteGrouping";
 
 interface NotesContextType {
   inputMode: InputMode;

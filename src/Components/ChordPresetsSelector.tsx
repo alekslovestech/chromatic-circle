@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
 import { calculateChordNotesFromIndex, updateIndices } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
-import { NoteGroupingId } from "../types/ChordConstants";
+import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 

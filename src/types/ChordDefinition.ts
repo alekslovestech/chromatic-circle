@@ -1,4 +1,4 @@
-import { NoteGroupingId } from "./ChordConstants";
+import { NoteGroupingId } from "./NoteGrouping";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGrouping";
 

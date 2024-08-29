@@ -1,7 +1,7 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
-import { NoteGroupingId } from "../types/ChordConstants";
+import { NoteGroupingId } from "../types/NoteGrouping";
 import "../styles/ModeSelector.css";
 
 const ModeSelector = () => {

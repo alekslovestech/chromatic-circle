@@ -1,5 +1,5 @@
 import { Accidental } from "../types/Accidental";
-import { NoteGroupingId } from "../types/ChordConstants";
+import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";

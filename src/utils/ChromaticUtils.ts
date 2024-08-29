@@ -1,12 +1,10 @@
-import { NoteGroupingId } from "../types/ChordConstants";
 import { TWELVE } from "../types/NoteConstants";
-
+import { NoteGroupingId } from "../types/NoteGrouping";
 import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { getAccidentalSign, getNoteWithAccidentalFromIndex } from "./NoteUtils";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex, ChromaticIndex, IndexAndOffset, OctaveOffset } from "../types/IndexTypes";
-import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
 
 export function chromaticToActual(
