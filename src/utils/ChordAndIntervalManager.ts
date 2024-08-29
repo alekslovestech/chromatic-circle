@@ -1,5 +1,10 @@
+import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/ChordConstants";
 import { ChordDefinition } from "../types/ChordDefinition";
+import { ActualIndex } from "../types/IndexTypes";
+import { TWELVE } from "../types/NoteConstants";
+import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
+import { getNoteTextFromIndex } from "./ChromaticUtils";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -75,5 +80,56 @@ export class ChordAndIntervalManager {
     return Object.keys(this.OFFSETS)
       .filter((key) => key.startsWith("Interval_"))
       .map((key) => NoteGroupingId[key as keyof typeof NoteGroupingId]);
+  }
+
+  static detectChordName(
+    selectedNoteIndices: ActualIndex[],
+    selectedAccidental: Accidental,
+  ): NoteGroupingName {
+    if (selectedNoteIndices.length === 0)
+      return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
+    if (selectedNoteIndices.length === 1)
+      return {
+        noteGrouping: NoteGroupingType.Note,
+        name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
+      };
+
+    const rootNote = selectedNoteIndices[0];
+    const chordsAndIntervals = selectedNoteIndices.map(
+      (note) => (note - rootNote + TWELVE) % TWELVE,
+    );
+    if (selectedNoteIndices.length === 2) {
+      const intervalDefinitions = this.getAllIntervalDefinitions();
+      for (const intervalDef of intervalDefinitions) {
+        if (
+          chordsAndIntervals.length === 2 &&
+          chordsAndIntervals.every((interval) => intervalDef.rootChord.includes(interval))
+        ) {
+          return { noteGrouping: NoteGroupingType.Interval, name: intervalDef.id.toString() };
+        }
+      }
+      return {
+        noteGrouping: NoteGroupingType.Interval,
+        name: "Unknown",
+      };
+    }
+
+    const chordDefinitions = this.getAllChordDefinitions();
+    for (const chordDef of chordDefinitions) {
+      if (
+        chordsAndIntervals.length === chordDef.rootChord.length &&
+        chordsAndIntervals.every((interval) => chordDef.rootChord.includes(interval))
+      ) {
+        return {
+          noteGrouping: NoteGroupingType.Chord,
+          name: `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordDef.id.toString()}`,
+        };
+      }
+    }
+
+    return {
+      noteGrouping: NoteGroupingType.Chord,
+      name: "Unknown",
+    };
   }
 }

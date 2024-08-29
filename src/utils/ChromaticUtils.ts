@@ -91,55 +91,6 @@ export const getChordName = (
   return `${rootNote} ${chordType}`;
 };
 
-export const detectChordName = (
-  selectedNoteIndices: ActualIndex[],
-  selectedAccidental: Accidental,
-): NoteGroupingName => {
-  if (selectedNoteIndices.length === 0)
-    return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
-  if (selectedNoteIndices.length === 1)
-    return {
-      noteGrouping: NoteGroupingType.Note,
-      name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
-    };
-
-  const rootNote = selectedNoteIndices[0];
-  const chordsAndIntervals = selectedNoteIndices.map((note) => (note - rootNote + TWELVE) % TWELVE);
-  if (selectedNoteIndices.length === 2) {
-    const intervalDefinitions = ChordAndIntervalManager.getAllIntervalDefinitions();
-    for (const intervalDef of intervalDefinitions) {
-      if (
-        chordsAndIntervals.length === 2 &&
-        chordsAndIntervals.every((interval) => intervalDef.rootChord.includes(interval))
-      ) {
-        return { noteGrouping: NoteGroupingType.Interval, name: intervalDef.id.toString() };
-      }
-    }
-    return {
-      noteGrouping: NoteGroupingType.Interval,
-      name: "Unknown interval",
-    };
-  }
-
-  const chordDefinitions = ChordAndIntervalManager.getAllChordDefinitions();
-  for (const chordDef of chordDefinitions) {
-    if (
-      chordsAndIntervals.length === chordDef.rootChord.length &&
-      chordsAndIntervals.every((interval) => chordDef.rootChord.includes(interval))
-    ) {
-      return {
-        noteGrouping: NoteGroupingType.Chord,
-        name: `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordDef.id.toString()}`,
-      };
-    }
-  }
-
-  return {
-    noteGrouping: NoteGroupingType.Chord,
-    name: "Unknown chord",
-  };
-};
-
 export function getMultiplierFromIndex(index: number) {
   return Math.pow(2, index / TWELVE);
 }
