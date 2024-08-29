@@ -33,12 +33,19 @@ export class ChordDefinition {
 
   private generateInversions(): number[][] {
     const inversions: number[][] = [];
+    let currentInversion = [...this.rootChord];
     for (let i = 1; i < this.rootChord.length; i++) {
-      const inversion = this.rootChord.map((offset) => {
-        const newOffset = offset - this.rootChord[i];
-        return ((newOffset % TWELVE) + TWELVE) % TWELVE; // Ensure positive values in 0-11 range
-      });
-      inversions.push(inversion);
+      let newInversion = [...currentInversion];
+      const firstNote = newInversion.shift()!;
+      newInversion.push(firstNote + TWELVE);
+
+      //Normalize the inversion to keep all notes within the 0-12 range
+      if (newInversion.some((note) => note >= TWELVE)) {
+        newInversion = newInversion.map((note) => note - TWELVE);
+      }
+
+      inversions.push(newInversion);
+      currentInversion = newInversion;
     }
     return inversions;
   }

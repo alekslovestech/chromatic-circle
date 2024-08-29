@@ -23,8 +23,8 @@ export class ChordAndIntervalManager {
     new ChordDefinition(NoteGroupingId.Interval_Oct, [0, 12]),
 
     // Triads
-    new ChordDefinition(NoteGroupingId.Chord_Maj, [0, 4, 7]),
-    new ChordDefinition(NoteGroupingId.Chord_Min, [0, 3, 7]),
+    new ChordDefinition(NoteGroupingId.Chord_Maj, [0, 4, 7], true),
+    new ChordDefinition(NoteGroupingId.Chord_Min, [0, 3, 7], true),
     new ChordDefinition(NoteGroupingId.Chord_Dim, [0, 3, 6]),
     new ChordDefinition(NoteGroupingId.Chord_Aug, [0, 4, 8]),
 
@@ -40,7 +40,7 @@ export class ChordAndIntervalManager {
     new ChordDefinition(NoteGroupingId.Chord_Sus4, [0, 5, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Sus2, [0, 2, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Add9, [0, 4, 7, 14]),
-    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9]),
+    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9], true),
     new ChordDefinition(NoteGroupingId.Chord_Min6, [0, 3, 7, 9]),
   ];
 
@@ -91,6 +91,9 @@ export class ChordAndIntervalManager {
         chordsAndIntervals.length === def.rootChord.length &&
         chordsAndIntervals.every((interval) => def.rootChord.includes(interval))
       ) {
+        console.log(`detected ${def.id.toString()}, with ${def.inversions.length} inversions`);
+        console.log(def.rootChord);
+        console.log(def.inversions);
         const name = isInterval
           ? def.id.toString()
           : `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${def.id.toString()}`;
