@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useNotes } from "./NotesContext";
-import { getMultiplierFromIndex } from "../utils/ChromaticUtils";
+import { TWELVE } from "../types/NoteConstants";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
+
+const getMultiplierFromIndex = (index: number) => {
+  return Math.pow(2, index / TWELVE);
+};
 
 const AudioPlayer: React.FC = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -49,10 +53,7 @@ const AudioPlayer: React.FC = () => {
   //On mount, create the audio context
   useEffect(() => {
     if (!audioContextRef.current) {
-      console.log(
-        "Creating audio context (AudioPlayer.tsx), soundUrl=",
-        soundUrl
-      );
+      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", soundUrl);
       audioContextRef.current = new AudioContext();
     }
     return () => {
@@ -68,10 +69,7 @@ const AudioPlayer: React.FC = () => {
       return;
     }
 
-    console.log(
-      "audioContext is initialized, now loading audio from:",
-      soundUrl
-    );
+    console.log("audioContext is initialized, now loading audio from:", soundUrl);
     loadAudio(soundUrl).then(() => {
       console.log("Audio buffer loaded successfully");
       //optional: play initial notes when audio is loaded

@@ -2,14 +2,15 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex } from "../types/IndexTypes";
+import { NoteGroupingId } from "../types/NoteGrouping";
 
 interface NotesContextType {
   inputMode: InputMode;
   setInputMode: (mode: InputMode) => void;
   selectedNoteIndices: ActualIndex[];
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
-  selectedChordType: string;
-  setSelectedChordType: (type: string) => void;
+  selectedChordType: NoteGroupingId;
+  setSelectedChordType: (type: NoteGroupingId) => void;
   selectedAccidental: Accidental;
   setSelectedAccidental: (sharpFlat: Accidental) => void;
 }
@@ -23,7 +24,7 @@ const defaultContextValue: NotesContextType = {
   setInputMode: () => {}, // Provide a no-op function as default
   selectedNoteIndices: [],
   setSelectedNoteIndices: () => {},
-  selectedChordType: "dim",
+  selectedChordType: NoteGroupingId.Chord_Dim,
   setSelectedChordType: () => {},
   selectedAccidental: Accidental.Sharp,
   setSelectedAccidental: () => {},
@@ -33,13 +34,9 @@ const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
-  const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(
-    [7],
-  );
-  const [selectedChordType, setSelectedChordType] = useState<string>("note");
-  const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(
-    Accidental.Sharp,
-  );
+  const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>([7]);
+  const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(NoteGroupingId.Note);
+  const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(Accidental.Sharp);
 
   return (
     <NotesContext.Provider
