@@ -45,7 +45,7 @@ export class ChordAndIntervalManager {
   ];
 
   static getOffsetsFromName(name: string): number[] {
-    const chordDefinition = this.OFFSETS.find((def) => def.id.toString() === name);
+    const chordDefinition = this.OFFSETS.find((def) => def.id === name);
     if (chordDefinition) {
       return chordDefinition.rootChord;
     } else {
@@ -54,32 +54,16 @@ export class ChordAndIntervalManager {
     }
   }
 
-  static getAllNames(): string[] {
-    return Object.values(this.OFFSETS).map((def) => def.id.toString());
-  }
+  static IntervalOrChordDefinitions = (isInterval: boolean) => {
+    return isInterval ? this.getAllIntervalDefinitions() : this.getAllChordDefinitions();
+  };
 
-  static getDefinitionByName(name: string): ChordDefinition {
-    const chordDefinition = this.OFFSETS.find((def) => def.id.toString() === name);
-    if (chordDefinition) {
-      return chordDefinition;
-    } else {
-      console.warn(`No chord definition found for type: ${name}`);
-      throw new Error(`Invalid chord type: ${name}`);
-    }
-  }
-
-  static getAllChordDefinitions(): ChordDefinition[] {
+  private static getAllChordDefinitions(): ChordDefinition[] {
     return this.OFFSETS.filter((chordDef) => chordDef.isChord());
   }
 
-  static getAllIntervalDefinitions(): ChordDefinition[] {
+  private static getAllIntervalDefinitions(): ChordDefinition[] {
     return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
-  }
-
-  private static getAllIntervalTypes(): NoteGroupingId[] {
-    return Object.keys(this.OFFSETS)
-      .filter((key) => key.startsWith("Interval_"))
-      .map((key) => NoteGroupingId[key as keyof typeof NoteGroupingId]);
   }
 
   static detectChordName(
@@ -100,9 +84,7 @@ export class ChordAndIntervalManager {
     );
 
     const isInterval = selectedNoteIndices.length === 2;
-    const definitions = isInterval
-      ? this.getAllIntervalDefinitions()
-      : this.getAllChordDefinitions();
+    const definitions = this.IntervalOrChordDefinitions(isInterval);
 
     for (const def of definitions) {
       if (

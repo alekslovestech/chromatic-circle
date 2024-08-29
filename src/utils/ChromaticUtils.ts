@@ -57,7 +57,7 @@ export const calculateChordNotesFromIndex = (
   rootIndex: ActualIndex,
   chordType: NoteGroupingId,
 ): ActualIndex[] => {
-  const chordOffsets = ChordAndIntervalManager.getOffsetsFromName(chordType.toString()); //CHORD_AND_INTERVAL_OFFSETS[chordType].rootChord;
+  const chordOffsets = ChordAndIntervalManager.getOffsetsFromName(chordType);
   const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
 
   return newNotes;
@@ -88,7 +88,3 @@ export const getChordName = (
   }
   return `${rootNote} ${chordType}`;
 };
-
-export function getMultiplierFromIndex(index: number) {
-  return Math.pow(2, index / TWELVE);
-}

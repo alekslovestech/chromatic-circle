@@ -53,17 +53,13 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedAccidental(incomingAccidental);
   };
 
-  const IntervalOrChordDefinitions = () => {
-    return inputMode === InputMode.IntervalPresets
-      ? ChordAndIntervalManager.getAllIntervalDefinitions()
-      : ChordAndIntervalManager.getAllChordDefinitions();
-  };
-
   return (
     (inputMode === InputMode.IntervalPresets || inputMode === InputMode.ChordPresets) && (
       <div>
         <select onChange={handleChordTypeChange} value={selectedChordType}>
-          {IntervalOrChordDefinitions().map((chordDef) => (
+          {ChordAndIntervalManager.IntervalOrChordDefinitions(
+            inputMode === InputMode.IntervalPresets,
+          ).map((chordDef) => (
             <option key={chordDef.id} value={chordDef.id}>
               {chordDef.id}
             </option>
