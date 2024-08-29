@@ -1,5 +1,6 @@
 import { NoteGroupingId } from "./ChordConstants";
 import { TWELVE } from "./NoteConstants";
+import { NoteGroupingType } from "./NoteGrouping";
 
 export class ChordDefinition {
   id: NoteGroupingId;
@@ -17,6 +18,17 @@ export class ChordDefinition {
   }
   isInterval(): boolean {
     return this.rootChord.length === 2;
+  }
+
+  getNoteGroupingType(): NoteGroupingType {
+    return ChordDefinition.getNoteGroupingTypeWithArg(this.rootChord);
+  }
+
+  static getNoteGroupingTypeWithArg(selectedNoteIndices: number[]): NoteGroupingType {
+    if (selectedNoteIndices.length === 0) return NoteGroupingType.None;
+    if (selectedNoteIndices.length === 1) return NoteGroupingType.Note;
+    if (selectedNoteIndices.length === 2) return NoteGroupingType.Interval;
+    return NoteGroupingType.Chord;
   }
 
   private generateInversions(): number[][] {

@@ -98,37 +98,29 @@ export class ChordAndIntervalManager {
     const chordsAndIntervals = selectedNoteIndices.map(
       (note) => (note - rootNote + TWELVE) % TWELVE,
     );
-    if (selectedNoteIndices.length === 2) {
-      const intervalDefinitions = this.getAllIntervalDefinitions();
-      for (const intervalDef of intervalDefinitions) {
-        if (
-          chordsAndIntervals.length === 2 &&
-          chordsAndIntervals.every((interval) => intervalDef.rootChord.includes(interval))
-        ) {
-          return { noteGrouping: NoteGroupingType.Interval, name: intervalDef.id.toString() };
-        }
-      }
-      return {
-        noteGrouping: NoteGroupingType.Interval,
-        name: "Unknown",
-      };
-    }
 
-    const chordDefinitions = this.getAllChordDefinitions();
-    for (const chordDef of chordDefinitions) {
+    const isInterval = selectedNoteIndices.length === 2;
+    const definitions = isInterval
+      ? this.getAllIntervalDefinitions()
+      : this.getAllChordDefinitions();
+
+    for (const def of definitions) {
       if (
-        chordsAndIntervals.length === chordDef.rootChord.length &&
-        chordsAndIntervals.every((interval) => chordDef.rootChord.includes(interval))
+        chordsAndIntervals.length === def.rootChord.length &&
+        chordsAndIntervals.every((interval) => def.rootChord.includes(interval))
       ) {
+        const name = isInterval
+          ? def.id.toString()
+          : `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${def.id.toString()}`;
         return {
-          noteGrouping: NoteGroupingType.Chord,
-          name: `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${chordDef.id.toString()}`,
+          noteGrouping: def.getNoteGroupingType(),
+          name,
         };
       }
     }
 
     return {
-      noteGrouping: NoteGroupingType.Chord,
+      noteGrouping: ChordDefinition.getNoteGroupingTypeWithArg(selectedNoteIndices),
       name: "Unknown",
     };
   }
