@@ -1,15 +1,10 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import {
-  calculateChordNotesFromIndex,
-  updateIndices,
-} from "../utils/ChromaticUtils";
+import { calculateChordNotesFromIndex, updateIndices } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
-import {
-  CHORD_AND_INTERVAL_OFFSETS,
-  ChordAndIntervalType,
-} from "../types/ChordConstants";
+import { NoteGroupingId } from "../types/ChordConstants";
 import { InputMode } from "../types/InputMode";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -22,16 +17,13 @@ const ChordPresetsSelector: React.FC = () => {
   } = useNotes();
 
   useEffect(() => {
-    if (
-      inputMode === InputMode.ChordPresets &&
-      selectedChordType !== ChordAndIntervalType.Chord_Maj
-    ) {
-      setSelectedChordType(ChordAndIntervalType.Interval_Maj3);
+    if (inputMode === InputMode.ChordPresets && selectedChordType !== NoteGroupingId.Chord_Maj) {
+      setSelectedChordType(NoteGroupingId.Interval_Maj3);
     } else if (
       inputMode === InputMode.IntervalPresets &&
-      selectedChordType !== ChordAndIntervalType.Interval_Maj3
+      selectedChordType !== NoteGroupingId.Interval_Maj3
     ) {
-      setSelectedChordType(ChordAndIntervalType.Interval_Maj3);
+      setSelectedChordType(NoteGroupingId.Interval_Maj3);
     }
   }, [inputMode]);
 
@@ -41,49 +33,41 @@ const ChordPresetsSelector: React.FC = () => {
       inputMode,
       selectedChordType,
       selectedNoteIndices,
-      originalIndex
+      originalIndex,
     );
     setSelectedNoteIndices(updatedIndices);
   }, [selectedChordType]);
 
   if (inputMode === InputMode.Toggle) return null;
 
-  const handleChordTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const incomingChord = event.target.value as unknown as ChordAndIntervalType;
+  const handleChordTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const incomingChord = event.target.value as NoteGroupingId;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = calculateChordNotesFromIndex(
-      originalRootIndex,
-      incomingChord
-    );
+    const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
     setSelectedNoteIndices(newNotes);
   };
 
-  const handleAccidentalChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleAccidentalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const incomingAccidental: Accidental = event.target.value as Accidental;
     setSelectedAccidental(incomingAccidental);
   };
 
+  const IntervalOrChordDefinitions = () => {
+    return inputMode === InputMode.IntervalPresets
+      ? ChordAndIntervalManager.getAllIntervalDefinitions()
+      : ChordAndIntervalManager.getAllChordDefinitions();
+  };
+
   return (
-    (inputMode === InputMode.IntervalPresets ||
-      inputMode === InputMode.ChordPresets) && (
+    (inputMode === InputMode.IntervalPresets || inputMode === InputMode.ChordPresets) && (
       <div>
         <select onChange={handleChordTypeChange} value={selectedChordType}>
-          {Object.entries(ChordAndIntervalType)
-            .filter(([key]) =>
-              inputMode === InputMode.IntervalPresets
-                ? key.startsWith("Interval_")
-                : key.startsWith("Chord_")
-            )
-            .map(([key, value]) => (
-              <option key={key} value={value}>
-                {CHORD_AND_INTERVAL_OFFSETS[value as ChordAndIntervalType].name}
-              </option>
-            ))}
+          {IntervalOrChordDefinitions().map((chordDef) => (
+            <option key={chordDef.id} value={chordDef.id}>
+              {chordDef.id}
+            </option>
+          ))}
         </select>
       </div>
     )
