@@ -1,6 +1,5 @@
 import { NoteGroupingId } from "./NoteGrouping";
 import { NoteGroupingType } from "./NoteGrouping";
-import { ActualIndex } from "./IndexTypes";
 
 import { IndexUtils } from "../utils/IndexUtils";
 export class ChordDefinition {
@@ -40,7 +39,6 @@ export class ChordDefinition {
       let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 
       newInversion = IndexUtils.fitChordToRange(newInversion);
-      console.log("newInversion", newInversion);
       inversions.push(newInversion);
       currentInversion = newInversion;
     }
@@ -58,10 +56,4 @@ export class ChordDefinition {
   hasInversions(): boolean {
     return this.inversions.length > 0;
   }
-}
-
-export interface ChordMatch {
-  rootNote: ActualIndex;
-  definition: ChordDefinition;
-  inversionIndex: number; //0 is the first inversion (add 1 for display index)
 }
