@@ -1,6 +1,7 @@
 import { NoteGroupingId } from "./NoteGrouping";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGrouping";
+import { ActualIndex } from "./IndexTypes";
 
 export class ChordDefinition {
   id: NoteGroupingId;
@@ -61,4 +62,10 @@ export class ChordDefinition {
   hasInversions(): boolean {
     return this.inversions.length > 0;
   }
+}
+
+export interface ChordMatch {
+  rootNote: ActualIndex;
+  definition: ChordDefinition;
+  inversionIndex: number; // 0 for root position, 1 for first inversion, etc.
 }
