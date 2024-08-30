@@ -5,6 +5,7 @@ import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 import { getNoteTextFromIndex } from "./ChromaticUtils";
+import { IndexUtils } from "./IndexUtils";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -29,18 +30,18 @@ export class ChordAndIntervalManager {
     new ChordDefinition(NoteGroupingId.Chord_Aug, [0, 4, 8]),
 
     // Seventh chords
-    new ChordDefinition(NoteGroupingId.Chord_Maj7, [0, 4, 7, 11]),
-    new ChordDefinition(NoteGroupingId.Chord_Min7, [0, 3, 7, 10]),
-    new ChordDefinition(NoteGroupingId.Chord_Dom7, [0, 4, 7, 10]),
+    new ChordDefinition(NoteGroupingId.Chord_Maj7, [0, 4, 7, 11], true),
+    new ChordDefinition(NoteGroupingId.Chord_Min7, [0, 3, 7, 10], true),
+    new ChordDefinition(NoteGroupingId.Chord_Dom7, [0, 4, 7, 10], true),
+    new ChordDefinition(NoteGroupingId.Chord_MMaj7, [0, 3, 7, 11], true),
+    new ChordDefinition(NoteGroupingId.Chord_M7b5, [0, 3, 6, 10], true),
     new ChordDefinition(NoteGroupingId.Chord_Dim7, [0, 3, 6, 9]),
-    new ChordDefinition(NoteGroupingId.Chord_MMaj7, [0, 3, 7, 11]),
-    new ChordDefinition(NoteGroupingId.Chord_M7b5, [0, 3, 6, 10]),
 
     // Other chord types
     new ChordDefinition(NoteGroupingId.Chord_Sus4, [0, 5, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Sus2, [0, 2, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Add9, [0, 4, 7, 14]),
-    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9], true),
+    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9]),
     new ChordDefinition(NoteGroupingId.Chord_Min6, [0, 3, 7, 9]),
   ];
 
@@ -66,31 +67,18 @@ export class ChordAndIntervalManager {
     return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
   }
 
-  static getDefinitionFromIndices(indices: number[]): ChordDefinition | undefined {
-    const rootIndex = indices[0];
-    const indexOffsets = indices.map((index) => (index - rootIndex + TWELVE) % TWELVE);
+  //find the definition that matches the offsets
+  static getDefinitionFromOffsets(offsets: number[]): ChordDefinition | undefined {
+    const indexOffsets = offsets.map((index) => (index + TWELVE) % TWELVE);
 
-    for (const def of this.OFFSETS) {
-      if (
-        indexOffsets.length === def.rootChord.length &&
-        indexOffsets.every((offset) => def.rootChord.includes(offset))
-      ) {
-        return def;
-      }
-    }
-    return undefined;
+    return this.OFFSETS.find((def) => IndexUtils.areIndicesEqual(indexOffsets, def.rootChord));
   }
-
-  //everything relative to root note
-  private static normalizeIndices = (indices: number[]): number[] => {
-    const rootNote = indices[0];
-    return indices.map((note) => (note - rootNote + TWELVE) % TWELVE);
-  };
 
   static detectChordName(
     selectedNoteIndices: ActualIndex[],
     selectedAccidental: Accidental,
   ): NoteGroupingName {
+    console.log("I'm looking for a guy in finance");
     if (selectedNoteIndices.length === 0)
       return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
     if (selectedNoteIndices.length === 1)
@@ -100,17 +88,31 @@ export class ChordAndIntervalManager {
       };
 
     const rootNote = selectedNoteIndices[0];
-    const normalizedIndices = this.normalizeIndices(selectedNoteIndices);
+    const normalizedIndices = IndexUtils.normalizeIndices(selectedNoteIndices);
     console.log(normalizedIndices);
 
-    const definition = this.getDefinitionFromIndices(normalizedIndices);
+    const definition = this.getDefinitionFromOffsets(normalizedIndices);
     if (definition) {
       return {
         noteGrouping: definition.getNoteGroupingType(),
         name: `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${definition.id.toString()}`,
       };
     } else if (normalizedIndices.length > 2) {
+      console.log("no rootChords matched, looking for inversion");
+
       const defWithInversion = this.getDefinitionWithInversion(normalizedIndices);
+      if (defWithInversion) {
+        return {
+          noteGrouping: defWithInversion.definition.getNoteGroupingType(),
+          name: `${getNoteTextFromIndex(
+            selectedNoteIndices[2 - defWithInversion.inversionIndex],
+            selectedAccidental,
+          )} ${defWithInversion.definition.id.toString()}/
+          ${getNoteTextFromIndex(rootNote, selectedAccidental)}`,
+        };
+      } else {
+        console.log("no inversions found");
+      }
     }
     return {
       noteGrouping: ChordDefinition.getNoteGroupingTypeWithArg(selectedNoteIndices),
@@ -121,11 +123,17 @@ export class ChordAndIntervalManager {
   static getDefinitionWithInversion(normalizedIndices: number[]): ChordMatch | undefined {
     for (const def of this.OFFSETS) {
       if (def.hasInversions()) {
+        console.log(`${def.id} has inversions: trust fund, blue eyes`);
+
         for (let i = 0; i < def.inversions.length; i++) {
           const inversion = def.inversions[i];
-          const inversionIndices = this.normalizeIndices(inversion);
-          if (inversionIndices.every((note) => normalizedIndices.includes(note))) {
-            return { definition: def, inversionIndex: i, rootNote: 0 };
+          const inversionIndices = IndexUtils.normalizeIndices(inversion);
+          if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
+            return {
+              definition: def,
+              inversionIndex: i,
+              rootNote: def.rootChord[0] as ActualIndex,
+            };
           }
         }
       }
