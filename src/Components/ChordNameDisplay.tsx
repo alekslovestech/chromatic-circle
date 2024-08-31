@@ -15,7 +15,7 @@ const ChordDisplay: React.FC = () => {
     .reverse()
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
 
-  const DetectedChord = (selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental) => {
+  const DetectedChordJSX = (selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental) => {
     const { noteGrouping, name } = ChordAndIntervalManager.detectChordName(
       selectedNoteIndices,
       selectedAccidental,
@@ -42,7 +42,9 @@ const ChordDisplay: React.FC = () => {
         </div>
       )) ||
         (inputMode === InputMode.Toggle && (
-          <div className="chord-name">{DetectedChord(selectedNoteIndices, selectedAccidental)}</div>
+          <div className="chord-name">
+            {DetectedChordJSX(selectedNoteIndices, selectedAccidental)}
+          </div>
         ))}
 
       <div className="chord-notes">

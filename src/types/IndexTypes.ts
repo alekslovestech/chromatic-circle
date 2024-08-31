@@ -1,14 +1,8 @@
-type Enumerate<
-  N extends number,
-  Acc extends number[] = []
-> = Acc["length"] extends N
+type Enumerate<N extends number, Acc extends number[] = []> = Acc["length"] extends N
   ? Acc[number]
   : Enumerate<N, [...Acc, Acc["length"]]>;
 
-type IntRange<F extends number, T extends number> = Exclude<
-  Enumerate<T>,
-  Enumerate<F>
->;
+type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>;
 
 //convention: chromaticIndex is purely from 0 to 11, usually accompanied by an octave marker
 //convention: actualIndex is an index 0 to 23, which can be converted into (chromaticIndex,octave)

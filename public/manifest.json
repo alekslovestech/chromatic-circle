@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Musicology",
+  "name": "Musicology (Chromatic Circle)",
   "icons": [
     {
       "src": "chromatic-circle.ico",

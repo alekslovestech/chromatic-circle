@@ -1,7 +1,7 @@
 import { NoteGroupingId } from "./NoteGrouping";
-import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGrouping";
 
+import { IndexUtils } from "../utils/IndexUtils";
 export class ChordDefinition {
   id: NoteGroupingId;
   rootChord: number[];
@@ -34,16 +34,11 @@ export class ChordDefinition {
   private generateInversions(): number[][] {
     const inversions: number[][] = [];
     let currentInversion = [...this.rootChord];
+    console.log("rootChord", this.rootChord);
     for (let i = 1; i < this.rootChord.length; i++) {
-      let newInversion = [...currentInversion];
-      const firstNote = newInversion.shift()!;
-      newInversion.push(firstNote + TWELVE);
+      let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 
-      //Normalize the inversion to keep all notes within the 0-12 range
-      if (newInversion.some((note) => note >= TWELVE)) {
-        newInversion = newInversion.map((note) => note - TWELVE);
-      }
-
+      newInversion = IndexUtils.fitChordToRange(newInversion);
       inversions.push(newInversion);
       currentInversion = newInversion;
     }

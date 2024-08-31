@@ -5,6 +5,8 @@ import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 import { getNoteTextFromIndex } from "./ChromaticUtils";
+import { IndexUtils } from "./IndexUtils";
+import { ChordMatch } from "../types/ChordMatch";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -29,18 +31,18 @@ export class ChordAndIntervalManager {
     new ChordDefinition(NoteGroupingId.Chord_Aug, [0, 4, 8]),
 
     // Seventh chords
-    new ChordDefinition(NoteGroupingId.Chord_Maj7, [0, 4, 7, 11]),
-    new ChordDefinition(NoteGroupingId.Chord_Min7, [0, 3, 7, 10]),
-    new ChordDefinition(NoteGroupingId.Chord_Dom7, [0, 4, 7, 10]),
+    new ChordDefinition(NoteGroupingId.Chord_Maj7, [0, 4, 7, 11], true),
+    new ChordDefinition(NoteGroupingId.Chord_Min7, [0, 3, 7, 10], true),
+    new ChordDefinition(NoteGroupingId.Chord_Dom7, [0, 4, 7, 10], true),
+    new ChordDefinition(NoteGroupingId.Chord_MMaj7, [0, 3, 7, 11], true),
+    new ChordDefinition(NoteGroupingId.Chord_M7b5, [0, 3, 6, 10], true),
     new ChordDefinition(NoteGroupingId.Chord_Dim7, [0, 3, 6, 9]),
-    new ChordDefinition(NoteGroupingId.Chord_MMaj7, [0, 3, 7, 11]),
-    new ChordDefinition(NoteGroupingId.Chord_M7b5, [0, 3, 6, 10]),
 
     // Other chord types
     new ChordDefinition(NoteGroupingId.Chord_Sus4, [0, 5, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Sus2, [0, 2, 7]),
     new ChordDefinition(NoteGroupingId.Chord_Add9, [0, 4, 7, 14]),
-    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9], true),
+    new ChordDefinition(NoteGroupingId.Chord_Six, [0, 4, 7, 9]),
     new ChordDefinition(NoteGroupingId.Chord_Min6, [0, 3, 7, 9]),
   ];
 
@@ -58,14 +60,6 @@ export class ChordAndIntervalManager {
     return isInterval ? this.getAllIntervalDefinitions() : this.getAllChordDefinitions();
   };
 
-  private static getAllChordDefinitions(): ChordDefinition[] {
-    return this.OFFSETS.filter((chordDef) => chordDef.isChord());
-  }
-
-  private static getAllIntervalDefinitions(): ChordDefinition[] {
-    return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
-  }
-
   static detectChordName(
     selectedNoteIndices: ActualIndex[],
     selectedAccidental: Accidental,
@@ -78,35 +72,81 @@ export class ChordAndIntervalManager {
         name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
       };
 
-    const rootNote = selectedNoteIndices[0];
-    const chordsAndIntervals = selectedNoteIndices.map(
-      (note) => (note - rootNote + TWELVE) % TWELVE,
-    );
+    const normalizedIndices = IndexUtils.normalizeIndices(selectedNoteIndices);
+    let chordMatch =
+      this.getDefinitionFromOffsets(normalizedIndices) ||
+      this.getDefinitionWithInversion(normalizedIndices);
 
-    const isInterval = selectedNoteIndices.length === 2;
-    const definitions = this.IntervalOrChordDefinitions(isInterval);
+    if (chordMatch) {
+      const rootNoteIndex = IndexUtils.rootNoteAtInversion(
+        selectedNoteIndices,
+        chordMatch.inversionIndex,
+      );
+      const bassNoteIndex = selectedNoteIndices[0];
 
-    for (const def of definitions) {
-      if (
-        chordsAndIntervals.length === def.rootChord.length &&
-        chordsAndIntervals.every((interval) => def.rootChord.includes(interval))
-      ) {
-        console.log(`detected ${def.id.toString()}, with ${def.inversions.length} inversions`);
-        console.log(def.rootChord);
-        console.log(def.inversions);
-        const name = isInterval
-          ? def.id.toString()
-          : `${getNoteTextFromIndex(rootNote, selectedAccidental)} ${def.id.toString()}`;
-        return {
-          noteGrouping: def.getNoteGroupingType(),
-          name,
-        };
-      }
+      return {
+        noteGrouping: chordMatch.definition.getNoteGroupingType(),
+        name: this.computeChordName(
+          chordMatch.definition,
+          rootNoteIndex,
+          bassNoteIndex,
+          selectedAccidental,
+        ),
+      };
     }
 
+    console.log("No chord or inversion found");
     return {
       noteGrouping: ChordDefinition.getNoteGroupingTypeWithArg(selectedNoteIndices),
       name: "Unknown",
     };
+  }
+
+  private static getAllChordDefinitions(): ChordDefinition[] {
+    return this.OFFSETS.filter((chordDef) => chordDef.isChord());
+  }
+
+  private static getAllIntervalDefinitions(): ChordDefinition[] {
+    return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
+  }
+
+  private static computeChordName(
+    definition: ChordDefinition,
+    rootNoteIndex: ActualIndex,
+    bassNoteIndex: ActualIndex,
+    preferredAccidental: Accidental,
+  ): string {
+    const rootNoteName = getNoteTextFromIndex(rootNoteIndex, preferredAccidental);
+    const chordNameRoot = `${rootNoteName} ${definition.id.toString()}`;
+    if (definition.hasInversions() && bassNoteIndex !== rootNoteIndex) {
+      const bassNoteName = getNoteTextFromIndex(bassNoteIndex, preferredAccidental);
+      return `${chordNameRoot}/${bassNoteName}`;
+    }
+    return chordNameRoot;
+  }
+
+  //find the definition that matches the offsets
+  private static getDefinitionFromOffsets(offsets: number[]): ChordMatch | undefined {
+    const indexOffsets = offsets.map((index) => (index + TWELVE) % TWELVE);
+    const def = this.OFFSETS.find((def) => IndexUtils.areIndicesEqual(indexOffsets, def.rootChord));
+    return def ? { definition: def, inversionIndex: undefined } : undefined;
+  }
+
+  private static getDefinitionWithInversion(normalizedIndices: number[]): ChordMatch | undefined {
+    for (const def of this.OFFSETS) {
+      if (def.hasInversions()) {
+        for (let i = 0; i < def.inversions.length; i++) {
+          const inversion = def.inversions[i];
+          const inversionIndices = IndexUtils.normalizeIndices(inversion);
+          if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
+            return {
+              definition: def,
+              inversionIndex: i,
+            };
+          }
+        }
+      }
+    }
+    return undefined;
   }
 }
