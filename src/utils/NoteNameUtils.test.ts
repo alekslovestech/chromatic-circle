@@ -53,6 +53,16 @@ describe("NoteNameUtils", () => {
       expect(result).toBe("C/E");
     });
 
+    it("should compute correct name for slash chord with G as root", () => {
+      const result = computeChordName(
+        NoteGroupingId.Chord_Maj,
+        7 as ActualIndex, // G
+        3 as ActualIndex, // E♭/D♯
+        Accidental.Flat,
+      );
+      expect(result).toBe("G/E♭");
+    });
+
     it("should use flat accidentals when specified", () => {
       const result = computeChordName(
         NoteGroupingId.Chord_Maj,

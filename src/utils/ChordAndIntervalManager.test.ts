@@ -73,5 +73,13 @@ describe("ChordAndIntervalManager", () => {
       );
       expect(result.name).toBe("Unknown");
     });
+
+    it("should handle slash chords correctly with F as root", () => {
+      const result = ChordAndIntervalManager.getChordName(
+        [5, 9, 14] as ActualIndex[],
+        Accidental.Sharp,
+      );
+      expect(result.name).toBe("Dm/F");
+    });
   });
 });
