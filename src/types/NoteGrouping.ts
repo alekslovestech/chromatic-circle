@@ -42,6 +42,6 @@ export enum NoteGroupingId {
   Chord_Sus4 = "sus4",
   Chord_Sus2 = "sus2",
   Chord_Add9 = "add9",
-  Chord_Six = "6th",
-  Chord_Min6 = "min6",
+  Chord_Six = "6",
+  Chord_Min6 = "m6",
 }

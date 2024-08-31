@@ -50,6 +50,22 @@ describe("ChordAndIntervalManager", () => {
       expect(result.name).toBe("D♭");
     });
 
+    it("return correct name for 6th chord", () => {
+      const result = ChordAndIntervalManager.getChordName(
+        [0, 4, 7, 9] as ActualIndex[],
+        Accidental.Flat,
+      );
+      expect(result.name).toBe("C6");
+    });
+
+    it("return correct name for 6th chord", () => {
+      const result = ChordAndIntervalManager.getChordName(
+        [0, 3, 7, 9] as ActualIndex[],
+        Accidental.Flat,
+      );
+      expect(result.name).toBe("Cm6");
+    });
+
     it('should return "Unknown" for unrecognized chord', () => {
       const result = ChordAndIntervalManager.getChordName(
         [0, 1, 2] as ActualIndex[],
