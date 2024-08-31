@@ -77,7 +77,7 @@ export const getNoteTextFromIndex = (
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
 };
 
-export const getChordName = (
+export const getChordNameFromPreset = (
   rootIndex: ActualIndex,
   chordType: NoteGroupingId,
   accidental: Accidental,

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { getChordName, getNoteTextFromIndex } from "../utils/ChromaticUtils";
+import { getChordNameFromPreset, getNoteTextFromIndex } from "../utils/ChromaticUtils";
 import "../styles/ChordNameDisplay.css";
 import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
@@ -37,7 +37,7 @@ const ChordDisplay: React.FC = () => {
           Chord:{" "}
           {selectedNoteIndices.length === 0
             ? "UNKNOWN"
-            : getChordName(selectedNoteIndices[0], selectedChordType, selectedAccidental)}
+            : getChordNameFromPreset(selectedNoteIndices[0], selectedChordType, selectedAccidental)}
           <br />
         </div>
       )) ||
