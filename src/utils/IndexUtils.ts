@@ -24,7 +24,7 @@ export class IndexUtils {
   ): ActualIndex => {
     return inversionIndex === undefined
       ? (indices[0] as ActualIndex)
-      : (indices[indices.length - 1 - inversionIndex] as ActualIndex);
+      : (indices[(indices.length - (1 + inversionIndex)) % indices.length] as ActualIndex);
   };
 
   //put the first note at the end

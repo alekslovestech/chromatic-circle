@@ -2,11 +2,7 @@ import React from "react";
 import "../styles/PianoKeyboard.css";
 
 import { useNotes } from "./NotesContext";
-import {
-  getNoteTextFromIndex,
-  isBlackKey,
-  updateIndices,
-} from "../utils/ChromaticUtils";
+import { isBlackKey, updateIndices } from "../utils/ChromaticUtils";
 import {
   getBlackWhiteString,
   getComputedKeyColor,
@@ -14,6 +10,7 @@ import {
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
+import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const PianoKeyboard: React.FC = () => {
   const {
@@ -29,19 +26,14 @@ const PianoKeyboard: React.FC = () => {
       inputMode,
       selectedChordType,
       selectedNoteIndices,
-      index as ActualIndex
+      index as ActualIndex,
     );
     setSelectedNoteIndices(updatedIndices);
   };
 
   const keys = [];
-  for (
-    let actualIndex = 0 as ActualIndex;
-    actualIndex < 2 * TWELVE;
-    actualIndex++
-  ) {
+  for (let actualIndex = 0 as ActualIndex; actualIndex < 2 * TWELVE; actualIndex++) {
     const isSelected = selectedNoteIndices.includes(actualIndex);
-    const isBlack = isBlackKey(actualIndex);
 
     keys.push(
       <div
@@ -54,7 +46,7 @@ const PianoKeyboard: React.FC = () => {
         onClick={() => handleKeyClick(actualIndex)}
       >
         {getNoteTextFromIndex(actualIndex, selectedAccidental)}
-      </div>
+      </div>,
     );
   }
 
