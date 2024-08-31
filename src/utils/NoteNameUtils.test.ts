@@ -17,8 +17,19 @@ describe("NoteNameUtils", () => {
       expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Flat)).toBe("D♭");
     });
 
-    it.skip("should include octave when showOctave is true", () => {
-      expect(getNoteTextFromIndex(12 as ActualIndex, Accidental.Sharp, true)).toBe("C1");
+    it("should include octave when showOctave is true", () => {
+      expect(getNoteTextFromIndex(0 as ActualIndex, Accidental.Sharp, true)).toBe("C4");
+    });
+
+    it("should include octave when showOctave is true", () => {
+      expect(getNoteTextFromIndex(7 as ActualIndex, Accidental.Sharp, true)).toBe("G4");
+    });
+
+    it("should include octave when showOctave is true", () => {
+      expect(getNoteTextFromIndex(12 as ActualIndex, Accidental.Sharp, true)).toBe("C5");
+    });
+    it("should include octave when showOctave is true", () => {
+      expect(getNoteTextFromIndex(14 as ActualIndex, Accidental.Sharp, true)).toBe("D5");
     });
   });
 
