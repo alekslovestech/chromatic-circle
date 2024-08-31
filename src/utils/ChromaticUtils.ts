@@ -1,8 +1,6 @@
 import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingId } from "../types/NoteGrouping";
-import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
-import { getAccidentalSign, getNoteWithAccidentalFromIndex } from "./NoteUtils";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex, ChromaticIndex, IndexAndOffset, OctaveOffset } from "../types/IndexTypes";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
@@ -63,28 +61,11 @@ export const calculateChordNotesFromIndex = (
   return newNotes;
 };
 
-export const getNoteTextFromIndex = (
-  actualIndex: ActualIndex,
-  sharpOrFlat: Accidental,
-  showOctave: boolean = false,
-): string => {
-  const noteWithAccidental = getNoteWithAccidentalFromIndex(actualIndex, sharpOrFlat);
-  const accidentalSign = getAccidentalSign(
-    noteWithAccidental.accidental,
-    NotationType.ScreenDisplay,
-  );
-  const octaveString = showOctave ? noteWithAccidental.octave : "";
-  return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
-};
-
 export const getChordNameFromPreset = (
   rootIndex: ActualIndex,
   chordType: NoteGroupingId,
   accidental: Accidental,
-) => {
-  const rootNote = getNoteTextFromIndex(rootIndex, accidental);
-  if (chordType === NoteGroupingId.Note) {
-    return rootNote;
-  }
-  return `${rootNote} ${chordType}`;
+): string => {
+  const chordNotes = calculateChordNotesFromIndex(rootIndex, chordType);
+  return ChordAndIntervalManager.getChordName(chordNotes, accidental).name;
 };

@@ -4,13 +4,13 @@ import {
   isBlackKey,
   updateIndices,
   calculateChordNotesFromIndex,
-  getNoteTextFromIndex,
   getChordNameFromPreset,
 } from "./ChromaticUtils";
 import { InputMode } from "../types/InputMode";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { Accidental } from "../types/Accidental";
 import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
+import { getNoteTextFromIndex } from "./NoteNameUtils";
 
 describe("ChromaticUtils", () => {
   describe("chromaticToActual", () => {
@@ -113,13 +113,13 @@ describe("ChromaticUtils", () => {
     it("should return correct chord name for major chord", () => {
       expect(
         getChordNameFromPreset(0 as ActualIndex, NoteGroupingId.Chord_Maj, Accidental.Sharp),
-      ).toBe("C maj");
+      ).toBe("C");
     });
 
     it("should return correct chord name for minor chord", () => {
       expect(
         getChordNameFromPreset(2 as ActualIndex, NoteGroupingId.Chord_Min, Accidental.Sharp),
-      ).toBe("D min");
+      ).toBe("Dm");
     });
 
     it("should return only note name for single note", () => {
@@ -131,7 +131,7 @@ describe("ChromaticUtils", () => {
     it("should return correct chord for diminished chord", () => {
       expect(
         getChordNameFromPreset(4 as ActualIndex, NoteGroupingId.Chord_Dim, Accidental.Sharp),
-      ).toBe("E dim");
+      ).toBe("Edim");
     });
   });
 });

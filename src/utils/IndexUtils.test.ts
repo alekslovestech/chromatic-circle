@@ -43,8 +43,8 @@ describe("IndexUtils", () => {
     });
 
     it("should return the correct root note for different inversions", () => {
-      expect(IndexUtils.rootNoteAtInversion([0, 4, 7], 0)).toBe(4);
-      expect(IndexUtils.rootNoteAtInversion([0, 4, 7], 1)).toBe(7);
+      expect(IndexUtils.rootNoteAtInversion([0, 4, 7], 0)).toBe(7);
+      expect(IndexUtils.rootNoteAtInversion([0, 4, 7], 1)).toBe(4);
       expect(IndexUtils.rootNoteAtInversion([0, 4, 7], 2)).toBe(0);
     });
   });

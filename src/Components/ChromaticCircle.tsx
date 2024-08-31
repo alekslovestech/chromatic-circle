@@ -2,11 +2,7 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import {
-  chromaticToActual,
-  getNoteTextFromIndex,
-  updateIndices,
-} from "../utils/ChromaticUtils";
+import { chromaticToActual, updateIndices } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -15,6 +11,7 @@ import {
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
 import { ChromaticIndex } from "../types/IndexTypes";
+import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -31,11 +28,7 @@ const ChromaticCircle: React.FC = () => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      const [pureX, pureY] = CircleMath.ViewportToCartesian(
-        event.clientX,
-        event.clientY,
-        rect
-      );
+      const [pureX, pureY] = CircleMath.ViewportToCartesian(event.clientX, event.clientY, rect);
       const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
 
       if (!CircleMath.IsRadiusInRange(radius)) return;
@@ -46,7 +39,7 @@ const ChromaticCircle: React.FC = () => {
         inputMode,
         selectedChordType,
         selectedNoteIndices,
-        noteIndex
+        noteIndex,
       );
 
       setSelectedNoteIndices(updatedIndices);
@@ -58,41 +51,21 @@ const ChromaticCircle: React.FC = () => {
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-      for (
-        let chromaticIndex = 0 as ChromaticIndex;
-        chromaticIndex < TWELVE;
-        chromaticIndex++
-      ) {
+      for (let chromaticIndex = 0 as ChromaticIndex; chromaticIndex < TWELVE; chromaticIndex++) {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
       }
     };
 
-    const drawWedge = (
-      ctx: CanvasRenderingContext2D,
-      index: ChromaticIndex
-    ) => {
+    const drawWedge = (ctx: CanvasRenderingContext2D, index: ChromaticIndex) => {
       const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
       const innerRadius = CircleMath.getInnerRadius(index);
       const outerRadius = CircleMath.getOuterRadius(index);
 
       ctx.beginPath();
-      ctx.arc(
-        Constants.centerX,
-        Constants.centerY,
-        outerRadius,
-        startAngle,
-        endAngle
-      );
-      ctx.arc(
-        Constants.centerX,
-        Constants.centerY,
-        innerRadius,
-        endAngle,
-        startAngle,
-        true
-      );
+      ctx.arc(Constants.centerX, Constants.centerY, outerRadius, startAngle, endAngle);
+      ctx.arc(Constants.centerX, Constants.centerY, innerRadius, endAngle, startAngle, true);
       ctx.closePath();
 
       ctx.fillStyle = getComputedKeyColorOverlayed(index, selectedNoteIndices);
@@ -102,25 +75,18 @@ const ChromaticCircle: React.FC = () => {
       ctx.stroke();
     };
 
-    const drawText = (
-      ctx: CanvasRenderingContext2D,
-      chromaticIndex: ChromaticIndex
-    ) => {
+    const drawText = (ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) => {
       const innerRadius = CircleMath.getInnerRadius(chromaticIndex);
       const outerRadius = CircleMath.getOuterRadius(chromaticIndex);
       const radius = (outerRadius + innerRadius) / 2;
 
       ctx.save();
       ctx.translate(Constants.centerX, Constants.centerY);
-      ctx.rotate(
-        chromaticIndex * Constants.FULL_KEY_ANGLE + Constants.FULL_KEY_ANGLE / 2
-      );
+      ctx.rotate(chromaticIndex * Constants.FULL_KEY_ANGLE + Constants.FULL_KEY_ANGLE / 2);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      ctx.fillStyle = getComputedTextColor(
-        chromaticToActual(chromaticIndex, 0)
-      );
+      ctx.fillStyle = getComputedTextColor(chromaticToActual(chromaticIndex, 0));
       ctx.font = "bold 20px Arial";
       const noteText = getNoteTextFromIndex(chromaticIndex, selectedAccidental);
       ctx.fillText(noteText, 0, -radius);

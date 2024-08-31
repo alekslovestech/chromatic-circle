@@ -4,9 +4,9 @@ import { ChordDefinition } from "../types/ChordDefinition";
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
-import { getNoteTextFromIndex } from "./ChromaticUtils";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
+import { computeChordName, getNoteTextFromIndex } from "./NoteNameUtils";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -64,13 +64,22 @@ export class ChordAndIntervalManager {
     selectedNoteIndices: ActualIndex[],
     selectedAccidental: Accidental,
   ): NoteGroupingName {
-    if (selectedNoteIndices.length === 0)
+    return this.getChordName(selectedNoteIndices, selectedAccidental);
+  }
+
+  static getChordName(
+    selectedNoteIndices: ActualIndex[],
+    selectedAccidental: Accidental,
+  ): NoteGroupingName {
+    if (selectedNoteIndices.length === 0) {
       return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
-    if (selectedNoteIndices.length === 1)
+    }
+    if (selectedNoteIndices.length === 1) {
       return {
         noteGrouping: NoteGroupingType.Note,
         name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
       };
+    }
 
     const normalizedIndices = IndexUtils.normalizeIndices(selectedNoteIndices);
     let chordMatch =
@@ -83,19 +92,19 @@ export class ChordAndIntervalManager {
         chordMatch.inversionIndex,
       );
       const bassNoteIndex = selectedNoteIndices[0];
+      const chordName = computeChordName(
+        chordMatch.definition.id,
+        rootNoteIndex,
+        bassNoteIndex,
+        selectedAccidental,
+      );
 
       return {
         noteGrouping: chordMatch.definition.getNoteGroupingType(),
-        name: this.computeChordName(
-          chordMatch.definition,
-          rootNoteIndex,
-          bassNoteIndex,
-          selectedAccidental,
-        ),
+        name: chordName,
       };
     }
 
-    console.log("No chord or inversion found");
     return {
       noteGrouping: ChordDefinition.getNoteGroupingTypeWithArg(selectedNoteIndices),
       name: "Unknown",
@@ -108,21 +117,6 @@ export class ChordAndIntervalManager {
 
   private static getAllIntervalDefinitions(): ChordDefinition[] {
     return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
-  }
-
-  private static computeChordName(
-    definition: ChordDefinition,
-    rootNoteIndex: ActualIndex,
-    bassNoteIndex: ActualIndex,
-    preferredAccidental: Accidental,
-  ): string {
-    const rootNoteName = getNoteTextFromIndex(rootNoteIndex, preferredAccidental);
-    const chordNameRoot = `${rootNoteName} ${definition.id.toString()}`;
-    if (definition.hasInversions() && bassNoteIndex !== rootNoteIndex) {
-      const bassNoteName = getNoteTextFromIndex(bassNoteIndex, preferredAccidental);
-      return `${chordNameRoot}/${bassNoteName}`;
-    }
-    return chordNameRoot;
   }
 
   //find the definition that matches the offsets
