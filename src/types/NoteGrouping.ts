@@ -11,6 +11,8 @@ export interface NoteGroupingName {
 }
 
 export enum NoteGroupingId {
+  None = "Ø",
+
   // Single note
   Note = "Note",
 

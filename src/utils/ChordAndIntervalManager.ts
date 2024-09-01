@@ -73,27 +73,10 @@ export class ChordAndIntervalManager {
     return isInterval ? this.getAllIntervalDefinitions() : this.getAllChordDefinitions();
   };
 
-  static detectChordName(
-    selectedNoteIndices: ActualIndex[],
-    selectedAccidental: Accidental,
-  ): NoteGroupingName {
-    return this.getChordName(selectedNoteIndices, selectedAccidental);
-  }
-
   static getChordName(
     selectedNoteIndices: ActualIndex[],
     selectedAccidental: Accidental,
   ): NoteGroupingName {
-    if (selectedNoteIndices.length === 0) {
-      return { noteGrouping: NoteGroupingType.None, name: "No notes selected" };
-    }
-    if (selectedNoteIndices.length === 1) {
-      return {
-        noteGrouping: NoteGroupingType.Note,
-        name: getNoteTextFromIndex(selectedNoteIndices[0], selectedAccidental),
-      };
-    }
-
     let chordMatch = this.getMatchFromIndices(selectedNoteIndices);
 
     if (chordMatch) {
@@ -120,6 +103,10 @@ export class ChordAndIntervalManager {
   }
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
+    if (indices.length === 0) {
+      //we distinguish "no notes specified" from "no match found" (unknown chord)
+      return new ChordMatch(0, new ChordDefinition(NoteGroupingId.None, []));
+    }
     const rootNoteIndex = indices[0]; //this is the absolute index of the root note
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
     const foundRootChord = this.OFFSETS.find((def) =>

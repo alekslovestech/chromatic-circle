@@ -17,12 +17,3 @@ export const getNoteTextFromIndex = (
   const octaveString = showOctave ? noteWithAccidental.octave : "";
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
 };
-
-export function SimplifyMinMaj(groupingId: NoteGroupingId): string {
-  if (groupingId === NoteGroupingId.Chord_Maj) {
-    return "";
-  } else if (groupingId === NoteGroupingId.Chord_Min) {
-    return "m";
-  }
-  return groupingId.toString();
-}
