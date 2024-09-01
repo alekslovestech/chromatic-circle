@@ -113,7 +113,6 @@ describe("ChordAndIntervalManager", () => {
         NoteGroupingId.Chord_Maj,
         0,
       );
-      console.log("result", result);
       expect(result).toEqual([-8, -5, 0]); // E is the bass note, C is the root note
     });
 
@@ -138,7 +137,6 @@ describe("ChordAndIntervalManager", () => {
         NoteGroupingId.Chord_Dom7,
         1,
       );
-      console.log("result", result);
       expect(result).toEqual([-5, -2, 0, 4]); // G is the bass note, C is the root note
     });
 

@@ -94,10 +94,7 @@ export class ChordAndIntervalManager {
       };
     }
 
-    const normalizedIndices = IndexUtils.normalizeIndices(selectedNoteIndices);
-    let chordMatch =
-      this.getDefinitionFromOffsets(normalizedIndices) ||
-      this.getDefinitionWithInversion(normalizedIndices);
+    let chordMatch = this.getMatchFromIndices(selectedNoteIndices);
 
     if (chordMatch) {
       const rootNoteIndex = IndexUtils.rootNoteAtInversion(
@@ -132,24 +129,24 @@ export class ChordAndIntervalManager {
     return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
   }
 
-  //find the definition that matches the offsets
-  private static getDefinitionFromOffsets(offsets: number[]): ChordMatch | undefined {
-    const indexOffsets = offsets.map((index) => (index + TWELVE) % TWELVE);
-    const def = this.OFFSETS.find((def) => IndexUtils.areIndicesEqual(indexOffsets, def.rootChord));
-    return def ? { definition: def, inversionIndex: undefined } : undefined;
-  }
+  static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
+    const rootNoteIndex = indices[0]; //this is the absolute index of the root note
+    const normalizedIndices = IndexUtils.normalizeIndices(indices);
+    const foundRootChord = this.OFFSETS.find((def) =>
+      IndexUtils.areIndicesEqual(normalizedIndices, def.rootChord),
+    );
+    if (foundRootChord) return new ChordMatch(rootNoteIndex, foundRootChord);
 
-  private static getDefinitionWithInversion(normalizedIndices: number[]): ChordMatch | undefined {
+    //root chord not found, try inversions
     for (const def of this.OFFSETS) {
       if (def.hasInversions()) {
         for (let i = 0; i < def.inversions.length; i++) {
           const inversion = def.inversions[i];
           const inversionIndices = IndexUtils.normalizeIndices(inversion);
+          const rootNoteAtInversion = (IndexUtils.rootNoteAtInversion(indices, i) %
+            TWELVE) as ActualIndex;
           if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
-            return {
-              definition: def,
-              inversionIndex: i,
-            };
+            return new ChordMatch(rootNoteAtInversion, def, i);
           }
         }
       }
