@@ -53,6 +53,24 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedAccidental(incomingAccidental);
   };
 
+  const renderInversionButtons = () => {
+    const chordDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
+    if (chordDefinition && chordDefinition.hasInversions()) {
+      const inversionCount = chordDefinition.inversions.length;
+      return (
+        <div>
+          <span>Inversion: </span>
+          {Array.from({ length: inversionCount }, (_, i) => (
+            <button key={i} onClick={() => console.log(`Inversion ${i} selected`)}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     (inputMode === InputMode.IntervalPresets || inputMode === InputMode.ChordPresets) && (
       <div>
@@ -65,6 +83,7 @@ const ChordPresetsSelector: React.FC = () => {
             </option>
           ))}
         </select>
+        {renderInversionButtons()}
       </div>
     )
   );
