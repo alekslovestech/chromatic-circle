@@ -1,4 +1,4 @@
-import { IndexUtils } from "./IndexUtils";
+import { IndexUtils } from "../utils/IndexUtils";
 
 describe("IndexUtils", () => {
   describe("normalizeIndices", () => {

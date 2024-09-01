@@ -1,4 +1,4 @@
-import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ActualIndex } from "../types/IndexTypes";
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingName } from "../types/NoteGrouping";

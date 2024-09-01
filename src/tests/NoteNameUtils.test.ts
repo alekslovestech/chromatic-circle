@@ -1,4 +1,4 @@
-import { getNoteTextFromIndex, computeChordName } from "./NoteNameUtils";
+import { getNoteTextFromIndex, computeChordName } from "../utils/NoteNameUtils";
 import { Accidental } from "../types/Accidental";
 import { ActualIndex } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";

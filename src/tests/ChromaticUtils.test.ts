@@ -5,12 +5,12 @@ import {
   updateIndices,
   calculateChordNotesFromIndex,
   getChordNameFromPreset,
-} from "./ChromaticUtils";
+} from "../utils/ChromaticUtils";
 import { InputMode } from "../types/InputMode";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { Accidental } from "../types/Accidental";
 import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "./NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 describe("ChromaticUtils", () => {
   describe("chromaticToActual", () => {
