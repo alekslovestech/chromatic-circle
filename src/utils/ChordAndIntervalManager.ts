@@ -6,7 +6,7 @@ import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
-import { computeChordName, getNoteTextFromIndex } from "./NoteNameUtils";
+import { getNoteTextFromIndex } from "./NoteNameUtils";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -97,17 +97,7 @@ export class ChordAndIntervalManager {
     let chordMatch = this.getMatchFromIndices(selectedNoteIndices);
 
     if (chordMatch) {
-      const rootNoteIndex = IndexUtils.rootNoteAtInversion(
-        selectedNoteIndices,
-        chordMatch.inversionIndex,
-      );
-      const bassNoteIndex = selectedNoteIndices[0];
-      const chordName = computeChordName(
-        chordMatch.definition.id,
-        rootNoteIndex,
-        bassNoteIndex,
-        selectedAccidental,
-      );
+      const chordName = chordMatch.deriveChordName(selectedNoteIndices, selectedAccidental);
 
       return {
         noteGrouping: chordMatch.definition.getNoteGroupingType(),

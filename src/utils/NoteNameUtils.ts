@@ -18,26 +18,11 @@ export const getNoteTextFromIndex = (
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
 };
 
-function SimplifyMinMaj(groupingId: NoteGroupingId): string {
+export function SimplifyMinMaj(groupingId: NoteGroupingId): string {
   if (groupingId === NoteGroupingId.Chord_Maj) {
     return "";
   } else if (groupingId === NoteGroupingId.Chord_Min) {
     return "m";
   }
   return groupingId.toString();
-}
-
-export function computeChordName(
-  groupingId: NoteGroupingId,
-  rootNoteIndex: ActualIndex,
-  bassNoteIndex: ActualIndex,
-  preferredAccidental: Accidental,
-): string {
-  const rootNoteName = getNoteTextFromIndex(rootNoteIndex, preferredAccidental);
-  const chordNameRoot = `${rootNoteName}${SimplifyMinMaj(groupingId)}`;
-  if (bassNoteIndex !== rootNoteIndex) {
-    const bassNoteName = getNoteTextFromIndex(bassNoteIndex, preferredAccidental);
-    return `${chordNameRoot}/${bassNoteName}`;
-  }
-  return chordNameRoot;
 }

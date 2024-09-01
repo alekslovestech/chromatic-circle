@@ -1,7 +1,6 @@
-import { getNoteTextFromIndex, computeChordName } from "../utils/NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { Accidental } from "../types/Accidental";
 import { ActualIndex } from "../types/IndexTypes";
-import { NoteGroupingId } from "../types/NoteGrouping";
 
 describe("NoteNameUtils", () => {
   describe("getNoteTextFromIndex", () => {
@@ -30,68 +29,6 @@ describe("NoteNameUtils", () => {
     });
     it("should include octave when showOctave is true", () => {
       expect(getNoteTextFromIndex(14 as ActualIndex, Accidental.Sharp, true)).toBe("D5");
-    });
-  });
-
-  describe("computeChordName", () => {
-    it("should compute correct name for major chord", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Maj,
-        0 as ActualIndex,
-        0 as ActualIndex,
-        Accidental.Sharp,
-      );
-      expect(result).toBe("C");
-    });
-
-    it("should compute correct name for minor chord", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Min,
-        2 as ActualIndex,
-        2 as ActualIndex,
-        Accidental.Sharp,
-      );
-      expect(result).toBe("Dm");
-    });
-
-    it("should handle inversions correctly", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Maj,
-        0 as ActualIndex,
-        4 as ActualIndex,
-        Accidental.Sharp,
-      );
-      expect(result).toBe("C/E");
-    });
-
-    it("should use flat accidentals when specified", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Maj,
-        1 as ActualIndex,
-        1 as ActualIndex,
-        Accidental.Flat,
-      );
-      expect(result).toBe("D♭");
-    });
-
-    it("should handle seventh chords", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Dom7,
-        5 as ActualIndex,
-        5 as ActualIndex,
-        Accidental.Sharp,
-      );
-      expect(result).toBe("Fdom7");
-    });
-
-    it("should handle suspended chords", () => {
-      const result = computeChordName(
-        NoteGroupingId.Chord_Sus4,
-        7 as ActualIndex,
-        7 as ActualIndex,
-        Accidental.Sharp,
-      );
-      expect(result).toBe("Gsus4");
     });
   });
 });

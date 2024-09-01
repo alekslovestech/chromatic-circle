@@ -2,6 +2,7 @@ import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ActualIndex } from "../types/IndexTypes";
 import { ChordMatch } from "../types/ChordMatch";
+import { Accidental } from "../types/Accidental";
 
 function expectChordMatch(
   actual: ChordMatch | undefined,
@@ -34,6 +35,9 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: undefined,
       });
+
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("C");
     });
 
     it("should correctly identify a minor chord in root position", () => {
@@ -45,7 +49,38 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Min,
         inversionIndex: undefined,
       });
-      //expect(actualChordMatch?.isEqualTo(0, NoteGroupingId.Chord_Min, undefined)).toBe(true);
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+
+      expect(actualChordName).toBe("Cm");
+    });
+
+    it("should correctly identify Dm", () => {
+      const indices: ActualIndex[] = [2, 5, 9];
+      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      expect(actualChordMatch).toBeDefined();
+      expectChordMatch(actualChordMatch, {
+        rootNote: 2,
+        noteGroupingId: NoteGroupingId.Chord_Min,
+        inversionIndex: undefined,
+      });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+
+      expect(actualChordName).toBe("Dm");
+    });
+
+    it("should correctly identify a flat major ", () => {
+      const indices: ActualIndex[] = [1, 5, 8];
+      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      expect(actualChordMatch).toBeDefined();
+      expectChordMatch(actualChordMatch, {
+        rootNote: 1,
+        noteGroupingId: NoteGroupingId.Chord_Maj,
+        inversionIndex: undefined,
+      });
+      const sharpChordName = actualChordMatch?.deriveChordName(indices, Accidental.Sharp);
+      expect(sharpChordName).toBe("C♯");
+      const flatChordName = actualChordMatch?.deriveChordName(indices, Accidental.Flat);
+      expect(flatChordName).toBe("D♭");
     });
 
     it("should correctly identify a major chord in first inversion [0]", () => {
@@ -58,6 +93,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 0,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("C/E");
     });
 
     it("should correctly identify a major chord in second inversion [1]", () => {
@@ -70,6 +107,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 1,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("C/G");
     });
 
     it("should correctly identify a dominant seventh chord in root position", () => {
@@ -82,6 +121,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Dom7,
         inversionIndex: undefined,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("Cdom7");
     });
     /*
     it("should correctly identify a major seventh chord in third inversion", () => {
@@ -109,6 +150,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Dim,
         inversionIndex: undefined,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("Cdim");
     });
 
     it("should correctly identify an augmented chord", () => {
@@ -120,6 +163,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Aug,
         inversionIndex: undefined,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("Caug");
     });
 
     it("should correctly identify a suspended fourth chord", () => {
@@ -131,6 +176,8 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Sus4,
         inversionIndex: undefined,
       });
+      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      expect(actualChordName).toBe("Csus4");
     });
     /*
 
@@ -157,6 +204,9 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Note,
         inversionIndex: undefined,
       });
+      const actualChordName = result?.deriveChordName(indices);
+      //TODO: deal with distinguishing single note C vs. C major chord later
+      // expect(actualChordName).toBe("C");
     });
 
     it("should correctly identify an interval", () => {
@@ -167,6 +217,9 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Interval_Fifth,
         inversionIndex: undefined,
       });
+      const actualChordName = result?.deriveChordName(indices);
+      //TODO: better text for intervals
+      expect(actualChordName).toBe("CPerfect Fifth");
     });
   });
 });

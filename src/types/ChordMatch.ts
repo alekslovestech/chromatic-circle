@@ -1,6 +1,7 @@
+import { getNoteTextFromIndex, SimplifyMinMaj } from "../utils/NoteNameUtils";
+import { Accidental } from "./Accidental";
 import { ChordDefinition } from "./ChordDefinition";
 import { ActualIndex } from "./IndexTypes";
-import { NoteGroupingId } from "./NoteGrouping";
 
 export class ChordMatch {
   rootNote: ActualIndex;
@@ -11,5 +12,19 @@ export class ChordMatch {
     this.rootNote = rootNote;
     this.definition = definition;
     this.inversionIndex = inversionIndex;
+  }
+
+  deriveChordName(
+    selectedNoteIndices: ActualIndex[],
+    selectedAccidental: Accidental = Accidental.Sharp,
+  ): string {
+    const bassNoteIndex = selectedNoteIndices[0];
+    const rootNoteName = getNoteTextFromIndex(this.rootNote, selectedAccidental);
+    const chordNameRoot = `${rootNoteName}${SimplifyMinMaj(this.definition.id)}`;
+    if (bassNoteIndex !== this.rootNote) {
+      const bassNoteName = getNoteTextFromIndex(bassNoteIndex, selectedAccidental);
+      return `${chordNameRoot}/${bassNoteName}`;
+    }
+    return chordNameRoot;
   }
 }
