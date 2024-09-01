@@ -55,7 +55,7 @@ export const calculateChordNotesFromIndex = (
   rootIndex: ActualIndex,
   chordType: NoteGroupingId,
 ): ActualIndex[] => {
-  const chordOffsets = ChordAndIntervalManager.getOffsetsFromName(chordType);
+  const chordOffsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(chordType);
   const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
 
   return newNotes;

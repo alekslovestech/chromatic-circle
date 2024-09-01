@@ -1,7 +1,7 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ActualIndex } from "../types/IndexTypes";
 import { Accidental } from "../types/Accidental";
-import { NoteGroupingName } from "../types/NoteGrouping";
+import { NoteGroupingId, NoteGroupingName } from "../types/NoteGrouping";
 
 describe("ChordAndIntervalManager", () => {
   describe("getChordName", () => {
@@ -56,6 +56,98 @@ describe("ChordAndIntervalManager", () => {
         Accidental.Sharp,
       );
       expect(result.name).toBe("Unknown");
+    });
+  });
+
+  describe("getOffsetsFromIdAndInversion", () => {
+    it("should return correct offsets for major chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(NoteGroupingId.Chord_Maj);
+      expect(result).toEqual([0, 4, 7]);
+    });
+
+    it("should return correct offsets for minor chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(NoteGroupingId.Chord_Min);
+      expect(result).toEqual([0, 3, 7]);
+    });
+
+    it("should return correct offsets for dominant seventh chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Dom7,
+      );
+      expect(result).toEqual([0, 4, 7, 10]);
+    });
+
+    it("should return correct offsets for major seventh chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Maj7,
+      );
+      expect(result).toEqual([0, 4, 7, 11]);
+    });
+
+    it("should return correct offsets for minor seventh chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Min7,
+      );
+      expect(result).toEqual([0, 3, 7, 10]);
+    });
+
+    it("should return correct offsets for diminished chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(NoteGroupingId.Chord_Dim);
+      expect(result).toEqual([0, 3, 6]);
+    });
+
+    it("should return correct offsets for augmented chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(NoteGroupingId.Chord_Aug);
+      expect(result).toEqual([0, 4, 8]);
+    });
+
+    it("should return correct offsets for suspended fourth chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Sus4,
+      );
+      expect(result).toEqual([0, 5, 7]);
+    });
+
+    it("should handle first inversion of major chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Maj,
+        0,
+      );
+      console.log("result", result);
+      expect(result).toEqual([-8, -5, 0]); // E is the bass note, C is the root note
+    });
+
+    it("should handle second inversion of major chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Maj,
+        1,
+      );
+      expect(result).toEqual([-5, 0, 4]); // G is the bass note, C is the root note
+    });
+
+    it("should handle first inversion of minor chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Min,
+        0,
+      );
+      expect(result).toEqual([-9, -5, 0]); // E is the bass note, C is the root note
+    });
+
+    it("should handle second inversion of dominant seventh chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Dom7,
+        1,
+      );
+      console.log("result", result);
+      expect(result).toEqual([-5, -2, 0, 4]); // G is the bass note, C is the root note
+    });
+
+    it("should handle third inversion of major seventh chord", () => {
+      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+        NoteGroupingId.Chord_Maj7,
+        2,
+      );
+      expect(result).toEqual([-1, 0, 4, 7]); // B is the bass note, C is the root note
     });
   });
 });

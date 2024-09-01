@@ -46,13 +46,26 @@ export class ChordAndIntervalManager {
     new ChordDefinition(NoteGroupingId.Chord_Min6, [0, 3, 7, 9]),
   ];
 
-  static getOffsetsFromName(name: string): number[] {
-    const chordDefinition = this.OFFSETS.find((def) => def.id === name);
+  static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition | undefined =>
+    this.OFFSETS.find((def) => def.id === id);
+
+  static getOffsetsFromIdAndInversion(
+    id: NoteGroupingId,
+    inversionIndex: number | undefined = undefined,
+  ): number[] {
+    const chordDefinition = this.getDefinitionFromId(id);
     if (chordDefinition) {
+      if (inversionIndex !== undefined) {
+        if (chordDefinition.hasInversions()) {
+          return chordDefinition.inversions[inversionIndex];
+        } else {
+          throw new Error("Chord definition has no inversions, but index was provided");
+        }
+      }
       return chordDefinition.rootChord;
     } else {
-      console.warn(`No chord definition found for type: ${name}`);
-      throw new Error(`Invalid chord type: ${name}`);
+      console.warn(`No chord definition found for type: ${id}`);
+      throw new Error(`Invalid chord type: ${id}`);
     }
   }
 

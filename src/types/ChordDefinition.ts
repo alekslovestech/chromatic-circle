@@ -34,7 +34,6 @@ export class ChordDefinition {
   private generateInversions(): number[][] {
     const inversions: number[][] = [];
     let currentInversion = [...this.rootChord];
-    console.log("rootChord", this.rootChord);
     for (let i = 1; i < this.rootChord.length; i++) {
       let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 
