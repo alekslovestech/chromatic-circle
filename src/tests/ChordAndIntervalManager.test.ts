@@ -7,7 +7,7 @@ describe("ChordAndIntervalManager", () => {
   describe("getChordName", () => {
     it('should return "No notes selected" for empty array', () => {
       const result = ChordAndIntervalManager.getChordName([], Accidental.Sharp);
-      expect(result.name).toBe("No notes selected");
+      expect(result.name).toBe("Ø");
     });
 
     it("should return single note name for one note", () => {
@@ -15,7 +15,7 @@ describe("ChordAndIntervalManager", () => {
         [0] as ActualIndex[],
         Accidental.Sharp,
       );
-      expect(result.name).toBe("C");
+      expect(result.name).toBe("C(note)");
     });
 
     it("should return correct name for major chord", () => {

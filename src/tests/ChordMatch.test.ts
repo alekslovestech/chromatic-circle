@@ -190,10 +190,15 @@ describe("ChordMatch tests", () => {
       });
     }); */
 
-    it("should return undefined for an empty array", () => {
+    it("should return None for an empty array", () => {
       const indices: ActualIndex[] = [];
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
-      expect(result).toBeUndefined();
+      expect(result).toBeDefined();
+      expectChordMatch(result, {
+        rootNote: 0,
+        noteGroupingId: NoteGroupingId.None,
+        inversionIndex: undefined,
+      });
     });
 
     it("should correctly identify a single note", () => {

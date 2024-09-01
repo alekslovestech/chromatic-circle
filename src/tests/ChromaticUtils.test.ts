@@ -124,7 +124,7 @@ describe("ChromaticUtils", () => {
 
     it("should return only note name for single note", () => {
       expect(getChordNameFromPreset(4 as ActualIndex, NoteGroupingId.Note, Accidental.Sharp)).toBe(
-        "E",
+        "E(note)",
       );
     });
 
