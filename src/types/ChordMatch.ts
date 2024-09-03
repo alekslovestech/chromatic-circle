@@ -1,7 +1,9 @@
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { Accidental } from "./Accidental";
 import { ChordDefinition } from "./ChordDefinition";
 import { ActualIndex } from "./IndexTypes";
+import { TWELVE } from "./NoteConstants";
 import { NoteGroupingId } from "./NoteGrouping";
 
 export class ChordMatch {
@@ -26,19 +28,18 @@ export class ChordMatch {
     return groupingId.toString();
   }
 
-  deriveChordName(
-    selectedNoteIndices: ActualIndex[],
-    selectedAccidental: Accidental = Accidental.Sharp,
-  ): string {
-    const bassNoteIndex = selectedNoteIndices[0];
+  deriveChordName(selectedAccidental: Accidental = Accidental.Sharp): string {
+    const offsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
+      this.definition.id,
+      this.inversionIndex,
+    );
+    const bassNoteIndex = ((this.rootNote + offsets[0] + TWELVE) % TWELVE) as ActualIndex;
     const rootNoteName = getNoteTextFromIndex(this.rootNote, selectedAccidental);
     const chordNameRoot = `${rootNoteName}${this.SimplifyMinMaj(this.definition.id)}`;
-    if (selectedNoteIndices.length === 0) {
-      return "Ø";
-    }
-    if (selectedNoteIndices.length === 1) {
-      return `${chordNameRoot}`;
-    }
+    if (offsets.length === 0) return "Ø";
+
+    if (offsets.length === 1) return `${chordNameRoot}`;
+
     if (bassNoteIndex !== this.rootNote) {
       const bassNoteName = getNoteTextFromIndex(bassNoteIndex, selectedAccidental);
       return `${chordNameRoot}/${bassNoteName}`;

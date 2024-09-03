@@ -73,12 +73,13 @@ export class ChordAndIntervalManager {
     return isInterval ? this.getAllIntervalDefinitions() : this.getAllChordDefinitions();
   };
 
-  static getChordName(selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental): string {
+  private static getChordName(
+    selectedNoteIndices: ActualIndex[],
+    selectedAccidental: Accidental,
+  ): string {
     let chordMatch = this.getMatchFromIndices(selectedNoteIndices);
 
-    return chordMatch
-      ? chordMatch.deriveChordName(selectedNoteIndices, selectedAccidental)
-      : "Unknown";
+    return chordMatch ? chordMatch.deriveChordName(selectedAccidental) : "Unknown";
   }
 
   private static getAllChordDefinitions(): ChordDefinition[] {

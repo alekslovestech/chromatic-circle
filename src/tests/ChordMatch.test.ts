@@ -36,7 +36,7 @@ describe("ChordMatch tests", () => {
         inversionIndex: undefined,
       });
 
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("C");
     });
 
@@ -49,7 +49,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Min,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
 
       expect(actualChordName).toBe("Cm");
     });
@@ -63,7 +63,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Min,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
 
       expect(actualChordName).toBe("Dm");
     });
@@ -77,9 +77,9 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: undefined,
       });
-      const sharpChordName = actualChordMatch?.deriveChordName(indices, Accidental.Sharp);
+      const sharpChordName = actualChordMatch?.deriveChordName(Accidental.Sharp);
       expect(sharpChordName).toBe("C♯");
-      const flatChordName = actualChordMatch?.deriveChordName(indices, Accidental.Flat);
+      const flatChordName = actualChordMatch?.deriveChordName(Accidental.Flat);
       expect(flatChordName).toBe("D♭");
     });
 
@@ -93,7 +93,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 0,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("C/E");
     });
 
@@ -107,7 +107,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 1,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("C/G");
     });
 
@@ -121,7 +121,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Dom7,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("Cdom7");
     });
     /*
@@ -150,7 +150,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Dim,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("Cdim");
     });
 
@@ -163,7 +163,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Aug,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("Caug");
     });
 
@@ -176,7 +176,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Chord_Sus4,
         inversionIndex: undefined,
       });
-      const actualChordName = actualChordMatch?.deriveChordName(indices);
+      const actualChordName = actualChordMatch?.deriveChordName();
       expect(actualChordName).toBe("Csus4");
     });
     /*
@@ -209,7 +209,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Note,
         inversionIndex: undefined,
       });
-      const actualChordName = result?.deriveChordName(indices);
+      const actualChordName = result?.deriveChordName();
       //TODO: deal with distinguishing single note C vs. C major chord later
       // expect(actualChordName).toBe("C");
     });
@@ -222,7 +222,7 @@ describe("ChordMatch tests", () => {
         noteGroupingId: NoteGroupingId.Interval_Fifth,
         inversionIndex: undefined,
       });
-      const actualChordName = result?.deriveChordName(indices);
+      const actualChordName = result?.deriveChordName();
       //TODO: better text for intervals
       expect(actualChordName).toBe("CPerfect Fifth");
     });
