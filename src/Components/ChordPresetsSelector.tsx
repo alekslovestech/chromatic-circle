@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, updateIndices } from "../utils/ChromaticUtils";
+import { updateIndices } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
@@ -44,7 +44,10 @@ const ChordPresetsSelector: React.FC = () => {
     const incomingChord = event.target.value as NoteGroupingId;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
+    const newNotes = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      incomingChord,
+    );
     setSelectedNoteIndices(newNotes);
   };
 
