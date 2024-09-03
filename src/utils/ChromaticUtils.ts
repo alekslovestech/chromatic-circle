@@ -1,23 +1,8 @@
 import { TWELVE } from "../types/NoteConstants";
 import { NoteGroupingId } from "../types/NoteGrouping";
-import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
-import { ActualIndex, ChromaticIndex, IndexAndOffset, OctaveOffset } from "../types/IndexTypes";
+import { ActualIndex } from "../types/IndexTypes";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
-
-export function chromaticToActual(
-  chromaticIndex: ChromaticIndex,
-  octaveOffset: OctaveOffset,
-): ActualIndex {
-  return (octaveOffset * TWELVE + chromaticIndex) as ActualIndex;
-}
-
-export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
-  return {
-    chromaticIndex: (actualIndex % TWELVE) as ChromaticIndex,
-    octaveOffset: Math.floor(actualIndex / TWELVE) as OctaveOffset,
-  };
-}
 
 export function isBlackKey(actualIndex: ActualIndex) {
   return [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);

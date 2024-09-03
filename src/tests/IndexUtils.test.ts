@@ -1,3 +1,4 @@
+import { createOffsetIndexArray } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 
 describe("IndexUtils", () => {
@@ -34,9 +35,9 @@ describe("IndexUtils", () => {
 
   describe("firstNoteToLast", () => {
     it("should move the first note to the end and add TWELVE", () => {
-      expect(IndexUtils.firstNoteToLast([0, 4, 7])).toEqual([-8, -5, 0]);
-      expect(IndexUtils.firstNoteToLast([2, 6, 9])).toEqual([-6, -3, 2]);
-      expect(IndexUtils.firstNoteToLast([-1, 3, 6])).toEqual([3, 6, 11]);
+      expect(IndexUtils.firstNoteToLast(createOffsetIndexArray([0, 4, 7]))).toEqual([-8, -5, 0]);
+      expect(IndexUtils.firstNoteToLast(createOffsetIndexArray([2, 6, 9]))).toEqual([-6, -3, 2]);
+      expect(IndexUtils.firstNoteToLast(createOffsetIndexArray([-1, 3, 6]))).toEqual([3, 6, 11]);
     });
   });
 

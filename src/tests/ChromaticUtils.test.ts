@@ -1,15 +1,15 @@
-import {
-  chromaticToActual,
-  actualToChromatic,
-  isBlackKey,
-  updateIndices,
-} from "../utils/ChromaticUtils";
+import { isBlackKey, updateIndices } from "../utils/ChromaticUtils";
 import { InputMode } from "../types/InputMode";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { Accidental } from "../types/Accidental";
-import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  actualToChromatic,
+  ChromaticIndex,
+  chromaticToActual,
+  OctaveOffset,
+} from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
 describe("ChromaticUtils", () => {
   describe("chromaticToActual", () => {

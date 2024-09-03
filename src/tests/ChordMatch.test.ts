@@ -1,6 +1,6 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../types/NoteGrouping";
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, createActualIndex, createActualIndexArray } from "../types/IndexTypes";
 import { ChordMatch } from "../types/ChordMatch";
 import { Accidental } from "../types/Accidental";
 
@@ -27,11 +27,11 @@ function expectChordMatch(
 describe("ChordMatch tests", () => {
   describe("getMatchFromIndices", () => {
     it("should correctly identify a major chord in root position", () => {
-      const indices: ActualIndex[] = [0, 4, 7];
+      const indices: ActualIndex[] = createActualIndexArray([0, 4, 7]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: undefined,
       });
@@ -41,11 +41,11 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a minor chord in root position", () => {
-      const indices: ActualIndex[] = [0, 3, 7];
+      const indices: ActualIndex[] = createActualIndexArray([0, 3, 7]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Min,
         inversionIndex: undefined,
       });
@@ -55,11 +55,11 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify Dm", () => {
-      const indices: ActualIndex[] = [2, 5, 9];
+      const indices: ActualIndex[] = createActualIndexArray([2, 5, 9]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 2,
+        rootNote: createActualIndex(2),
         noteGroupingId: NoteGroupingId.Chord_Min,
         inversionIndex: undefined,
       });
@@ -69,11 +69,11 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a flat major ", () => {
-      const indices: ActualIndex[] = [1, 5, 8];
+      const indices: ActualIndex[] = createActualIndexArray([1, 5, 8]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 1,
+        rootNote: createActualIndex(1),
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: undefined,
       });
@@ -84,12 +84,12 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a major chord in first inversion [0]", () => {
-      const indices: ActualIndex[] = [4, 7, 12];
+      const indices: ActualIndex[] = createActualIndexArray([4, 7, 12]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 0,
       });
@@ -98,12 +98,12 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a major chord in second inversion [1]", () => {
-      const indices: ActualIndex[] = [7, 12, 16];
+      const indices: ActualIndex[] = createActualIndexArray([7, 12, 16]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Maj,
         inversionIndex: 1,
       });
@@ -112,12 +112,12 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a dominant seventh chord in root position", () => {
-      const indices: ActualIndex[] = [0, 4, 7, 10];
+      const indices: ActualIndex[] = createActualIndexArray([0, 4, 7, 10]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Dom7,
         inversionIndex: undefined,
       });
@@ -135,18 +135,18 @@ describe("ChordMatch tests", () => {
     });
 */
     it("should return undefined for an unrecognized chord", () => {
-      const indices: ActualIndex[] = [0, 1, 2];
+      const indices: ActualIndex[] = createActualIndexArray([0, 1, 2]);
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(result).toBeUndefined();
     });
 
     it("should correctly identify a diminished chord", () => {
-      const indices: ActualIndex[] = [0, 3, 6];
+      const indices: ActualIndex[] = createActualIndexArray([0, 3, 6]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Dim,
         inversionIndex: undefined,
       });
@@ -155,11 +155,11 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify an augmented chord", () => {
-      const indices: ActualIndex[] = [0, 4, 8];
+      const indices: ActualIndex[] = createActualIndexArray([0, 4, 8]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Aug,
         inversionIndex: undefined,
       });
@@ -168,11 +168,11 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify a suspended fourth chord", () => {
-      const indices: ActualIndex[] = [0, 5, 7];
+      const indices: ActualIndex[] = createActualIndexArray([0, 5, 7]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Chord_Sus4,
         inversionIndex: undefined,
       });
@@ -191,21 +191,21 @@ describe("ChordMatch tests", () => {
     }); */
 
     it("should return None for an empty array", () => {
-      const indices: ActualIndex[] = [];
+      const indices: ActualIndex[] = createActualIndexArray([]);
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expect(result).toBeDefined();
       expectChordMatch(result, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.None,
         inversionIndex: undefined,
       });
     });
 
     it("should correctly identify a single note", () => {
-      const indices: ActualIndex[] = [0];
+      const indices: ActualIndex[] = createActualIndexArray([0]);
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expectChordMatch(result, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Note,
         inversionIndex: undefined,
       });
@@ -215,10 +215,10 @@ describe("ChordMatch tests", () => {
     });
 
     it("should correctly identify an interval", () => {
-      const indices: ActualIndex[] = [0, 7];
+      const indices: ActualIndex[] = createActualIndexArray([0, 7]);
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expectChordMatch(result, {
-        rootNote: 0,
+        rootNote: createActualIndex(0),
         noteGroupingId: NoteGroupingId.Interval_Fifth,
         inversionIndex: undefined,
       });

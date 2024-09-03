@@ -1,43 +1,55 @@
-type Enumerate<N extends number, Acc extends number[] = []> = Acc["length"] extends N
-  ? Acc[number]
-  : Enumerate<N, [...Acc, Acc["length"]]>;
+import { TWELVE } from "./NoteConstants";
 
-type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>;
+type Branded<K, T> = K & { __brand: T };
 
-//convention: chromaticIndex is purely from 0 to 11, usually accompanied by an octave marker
-//convention: actualIndex is an index 0 to 23, which can be converted into (chromaticIndex,octave)
-export type ChromaticIndex = IntRange<0, 12>; // 0..11
-export type ActualIndex = IntRange<0, 24>; //0..23
-export type OffsetIndex =
-  | -12
-  | -11
-  | -10
-  | -9
-  | -8
-  | -7
-  | -6
-  | -5
-  | -4
-  | -3
-  | -2
-  | -1
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14;
-export type OctaveOffset = IntRange<0, 1>; //0..1, relative
+export type ActualIndex = Branded<number, "ActualIndex">;
+export type OffsetIndex = Branded<number, "OffsetIndex">;
+export type ChromaticIndex = Branded<number, "ChromaticIndex">;
+export type OctaveOffset = Branded<number, "OctaveOffset">;
 export interface IndexAndOffset {
   chromaticIndex: ChromaticIndex;
   octaveOffset: OctaveOffset;
+}
+
+export function createActualIndex(n: number): ActualIndex {
+  if (n < 0 || n > 2 * TWELVE || !Number.isInteger(n)) throw new Error("Invalid ActualIndex");
+  return n as ActualIndex;
+}
+
+export function createActualIndexArray(numbers: number[]): ActualIndex[] {
+  return numbers.map(createActualIndex);
+}
+
+export function createOffsetIndex(n: number): OffsetIndex {
+  if (n < -TWELVE || n > 14 || !Number.isInteger(n)) throw new Error("Invalid OffsetIndex");
+  return n as OffsetIndex;
+}
+
+export function createOffsetIndexArray(numbers: number[]): OffsetIndex[] {
+  return numbers.map(createOffsetIndex);
+}
+
+export function createChromaticIndex(n: number): ChromaticIndex {
+  if (n < 0 || n > TWELVE || !Number.isInteger(n)) throw new Error("Invalid ChromaticIndex");
+  return n as ChromaticIndex;
+}
+
+export function createOctaveOffset(n: number): OctaveOffset {
+  if (n < 0 || n > 1 || !Number.isInteger(n)) throw new Error("Invalid OctaveOffset");
+  return n as OctaveOffset;
+}
+
+export function chromaticToActual(
+  chromaticIndex: ChromaticIndex,
+  octaveOffset: OctaveOffset,
+): ActualIndex {
+  const result = octaveOffset * TWELVE + chromaticIndex;
+  return createActualIndex(result);
+}
+
+export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
+  return {
+    chromaticIndex: createChromaticIndex(actualIndex % TWELVE),
+    octaveOffset: createOctaveOffset(Math.floor(actualIndex / TWELVE)),
+  };
 }
