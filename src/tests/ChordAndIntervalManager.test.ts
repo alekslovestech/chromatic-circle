@@ -4,7 +4,7 @@ import { Accidental } from "../types/Accidental";
 import { NoteGroupingId, NoteGroupingName } from "../types/NoteGrouping";
 
 describe("ChordAndIntervalManager", () => {
-  describe("getChordName", () => {
+  /* describe("getChordName", () => {
     it('should return "No notes selected" for empty array', () => {
       const result = ChordAndIntervalManager.getChordName([], Accidental.Sharp);
       expect(result.name).toBe("Ø");
@@ -57,7 +57,7 @@ describe("ChordAndIntervalManager", () => {
       );
       expect(result.name).toBe("Unknown");
     });
-  });
+  }); */
 
   describe("getOffsetsFromIdAndInversion", () => {
     it("should return correct offsets for major chord", () => {

@@ -17,10 +17,9 @@ const ChordDisplay: React.FC = () => {
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
 
   const DetectedChordJSX = (selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental) => {
-    const { noteGrouping, name } = ChordAndIntervalManager.getChordName(
-      selectedNoteIndices,
-      selectedAccidental,
-    );
+    const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
+    const noteGrouping = chordMatch?.definition.getNoteGroupingType();
+    const name = chordMatch?.deriveChordName(selectedNoteIndices, selectedAccidental);
     return (
       <>
         Detected {noteGrouping}:

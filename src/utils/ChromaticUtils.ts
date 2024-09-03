@@ -67,5 +67,5 @@ export const getChordNameFromPreset = (
   accidental: Accidental,
 ): string => {
   const chordNotes = calculateChordNotesFromIndex(rootIndex, chordType);
-  return ChordAndIntervalManager.getChordName(chordNotes, accidental).name;
+  return ChordAndIntervalManager.getChordName(chordNotes, accidental);
 };

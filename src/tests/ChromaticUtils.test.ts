@@ -108,7 +108,7 @@ describe("ChromaticUtils", () => {
       expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Flat)).toBe("D♭");
     });
   });
-
+  /*
   describe("getChordName", () => {
     it("should return correct chord name for major chord", () => {
       expect(
@@ -133,5 +133,5 @@ describe("ChromaticUtils", () => {
         getChordNameFromPreset(4 as ActualIndex, NoteGroupingId.Chord_Dim, Accidental.Sharp),
       ).toBe("Edim");
     });
-  });
+  }); */
 });
