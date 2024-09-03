@@ -3,10 +3,8 @@ import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
-import { NoteGroupingName, NoteGroupingType } from "../types/NoteGrouping";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
-import { getNoteTextFromIndex } from "./NoteNameUtils";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
@@ -70,25 +68,10 @@ export class ChordAndIntervalManager {
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return isInterval ? this.getAllIntervalDefinitions() : this.getAllChordDefinitions();
+    return isInterval
+      ? this.OFFSETS.filter((chordDef) => chordDef.isInterval())
+      : this.OFFSETS.filter((chordDef) => chordDef.isChord());
   };
-
-  private static getChordName(
-    selectedNoteIndices: ActualIndex[],
-    selectedAccidental: Accidental,
-  ): string {
-    let chordMatch = this.getMatchFromIndices(selectedNoteIndices);
-
-    return chordMatch ? chordMatch.deriveChordName(selectedAccidental) : "Unknown";
-  }
-
-  private static getAllChordDefinitions(): ChordDefinition[] {
-    return this.OFFSETS.filter((chordDef) => chordDef.isChord());
-  }
-
-  private static getAllIntervalDefinitions(): ChordDefinition[] {
-    return this.OFFSETS.filter((chordDef) => chordDef.isInterval());
-  }
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
     if (indices.length === 0) {
@@ -125,7 +108,6 @@ export class ChordAndIntervalManager {
   ): ActualIndex[] => {
     const chordOffsets = this.getOffsetsFromIdAndInversion(chordType);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-
     return newNotes;
   };
 
@@ -135,6 +117,7 @@ export class ChordAndIntervalManager {
     accidental: Accidental,
   ): string => {
     const chordNotes = this.calculateChordNotesFromIndex(rootIndex, chordType);
-    return ChordAndIntervalManager.getChordName(chordNotes, accidental);
+    const chordMatch = this.getMatchFromIndices(chordNotes);
+    return chordMatch ? chordMatch.deriveChordName(accidental) : "Unknown";
   };
 }
