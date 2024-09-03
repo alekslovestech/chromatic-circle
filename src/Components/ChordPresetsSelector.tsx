@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { calculateChordNotesFromIndex, updateIndices } from "../utils/ChromaticUtils";
+import { updateIndices } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
@@ -44,13 +44,34 @@ const ChordPresetsSelector: React.FC = () => {
     const incomingChord = event.target.value as NoteGroupingId;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = calculateChordNotesFromIndex(originalRootIndex, incomingChord);
+    const newNotes = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      incomingChord,
+    );
     setSelectedNoteIndices(newNotes);
   };
 
   const handleAccidentalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const incomingAccidental: Accidental = event.target.value as Accidental;
     setSelectedAccidental(incomingAccidental);
+  };
+
+  const renderInversionButtons = () => {
+    const chordDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
+    if (chordDefinition && chordDefinition.hasInversions()) {
+      const inversionCount = chordDefinition.inversions.length;
+      return (
+        <div>
+          <span>Inversion: </span>
+          {Array.from({ length: inversionCount }, (_, i) => (
+            <button key={i} onClick={() => console.log(`Inversion ${i} selected`)}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -65,6 +86,7 @@ const ChordPresetsSelector: React.FC = () => {
             </option>
           ))}
         </select>
+        {renderInversionButtons()}
       </div>
     )
   );

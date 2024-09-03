@@ -2,6 +2,9 @@ import { NoteGroupingId } from "./NoteGrouping";
 import { NoteGroupingType } from "./NoteGrouping";
 
 import { IndexUtils } from "../utils/IndexUtils";
+
+//note grouping definition, including all inversions
+//contains offsets relative to the root note
 export class ChordDefinition {
   id: NoteGroupingId;
   rootChord: number[];
@@ -34,7 +37,6 @@ export class ChordDefinition {
   private generateInversions(): number[][] {
     const inversions: number[][] = [];
     let currentInversion = [...this.rootChord];
-    console.log("rootChord", this.rootChord);
     for (let i = 1; i < this.rootChord.length; i++) {
       let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 

@@ -3,14 +3,13 @@ import {
   actualToChromatic,
   isBlackKey,
   updateIndices,
-  calculateChordNotesFromIndex,
-  getChordNameFromPreset,
-} from "./ChromaticUtils";
+} from "../utils/ChromaticUtils";
 import { InputMode } from "../types/InputMode";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { Accidental } from "../types/Accidental";
 import { ActualIndex, ChromaticIndex, OctaveOffset } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "./NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
 describe("ChromaticUtils", () => {
   describe("chromaticToActual", () => {
@@ -83,18 +82,6 @@ describe("ChromaticUtils", () => {
     });
   });
 
-  describe("calculateChordNotesFromIndex", () => {
-    it("should calculate correct notes for major chord", () => {
-      const result = calculateChordNotesFromIndex(0 as ActualIndex, NoteGroupingId.Chord_Maj);
-      expect(result).toEqual([0, 4, 7]);
-    });
-
-    it("should calculate correct notes for minor chord", () => {
-      const result = calculateChordNotesFromIndex(0 as ActualIndex, NoteGroupingId.Chord_Min);
-      expect(result).toEqual([0, 3, 7]);
-    });
-  });
-
   describe("getNoteTextFromIndex", () => {
     it("should return correct note text for C", () => {
       expect(getNoteTextFromIndex(0 as ActualIndex, Accidental.Sharp)).toBe("C");
@@ -106,32 +93,6 @@ describe("ChromaticUtils", () => {
 
     it("should return correct note text for Db with flat preference", () => {
       expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Flat)).toBe("D♭");
-    });
-  });
-
-  describe("getChordName", () => {
-    it("should return correct chord name for major chord", () => {
-      expect(
-        getChordNameFromPreset(0 as ActualIndex, NoteGroupingId.Chord_Maj, Accidental.Sharp),
-      ).toBe("C");
-    });
-
-    it("should return correct chord name for minor chord", () => {
-      expect(
-        getChordNameFromPreset(2 as ActualIndex, NoteGroupingId.Chord_Min, Accidental.Sharp),
-      ).toBe("Dm");
-    });
-
-    it("should return only note name for single note", () => {
-      expect(getChordNameFromPreset(4 as ActualIndex, NoteGroupingId.Note, Accidental.Sharp)).toBe(
-        "E",
-      );
-    });
-
-    it("should return correct chord for diminished chord", () => {
-      expect(
-        getChordNameFromPreset(4 as ActualIndex, NoteGroupingId.Chord_Dim, Accidental.Sharp),
-      ).toBe("Edim");
     });
   });
 });

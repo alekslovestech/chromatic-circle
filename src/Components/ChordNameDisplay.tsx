@@ -1,6 +1,5 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { getChordNameFromPreset } from "../utils/ChromaticUtils";
 import "../styles/ChordNameDisplay.css";
 import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
@@ -17,10 +16,9 @@ const ChordDisplay: React.FC = () => {
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
 
   const DetectedChordJSX = (selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental) => {
-    const { noteGrouping, name } = ChordAndIntervalManager.detectChordName(
-      selectedNoteIndices,
-      selectedAccidental,
-    );
+    const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
+    const noteGrouping = chordMatch?.definition.getNoteGroupingType();
+    const name = chordMatch?.deriveChordName(selectedNoteIndices, selectedAccidental);
     return (
       <>
         Detected {noteGrouping}:
@@ -38,7 +36,11 @@ const ChordDisplay: React.FC = () => {
           Chord:{" "}
           {selectedNoteIndices.length === 0
             ? "UNKNOWN"
-            : getChordNameFromPreset(selectedNoteIndices[0], selectedChordType, selectedAccidental)}
+            : ChordAndIntervalManager.getChordNameFromPreset(
+                selectedNoteIndices[0],
+                selectedChordType,
+                selectedAccidental,
+              )}
           <br />
         </div>
       )) ||
