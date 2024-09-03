@@ -38,11 +38,17 @@ export function updateIndices(
       updatedIndices.sort((a, b) => a - b);
       break;
     case InputMode.SingleNote:
-      updatedIndices = calculateChordNotesFromIndex(newActualIndex, NoteGroupingId.Note);
+      updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        newActualIndex,
+        NoteGroupingId.Note,
+      );
       break;
     case InputMode.IntervalPresets:
     case InputMode.ChordPresets:
-      updatedIndices = calculateChordNotesFromIndex(newActualIndex, selectedChordType);
+      updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        newActualIndex,
+        selectedChordType,
+      );
       break;
     default:
       // Keep updatedIndices as an empty array for other input modes
@@ -50,22 +56,3 @@ export function updateIndices(
   }
   return updatedIndices;
 }
-
-export const calculateChordNotesFromIndex = (
-  rootIndex: ActualIndex,
-  chordType: NoteGroupingId,
-): ActualIndex[] => {
-  const chordOffsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(chordType);
-  const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-
-  return newNotes;
-};
-
-export const getChordNameFromPreset = (
-  rootIndex: ActualIndex,
-  chordType: NoteGroupingId,
-  accidental: Accidental,
-): string => {
-  const chordNotes = calculateChordNotesFromIndex(rootIndex, chordType);
-  return ChordAndIntervalManager.getChordName(chordNotes, accidental);
-};

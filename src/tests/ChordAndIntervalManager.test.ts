@@ -148,4 +148,64 @@ describe("ChordAndIntervalManager", () => {
       expect(result).toEqual([-1, 0, 4, 7]); // B is the bass note, C is the root note
     });
   });
+
+  describe("calculateChordNotesFromIndex", () => {
+    it("should calculate correct notes for major chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        0 as ActualIndex,
+        NoteGroupingId.Chord_Maj,
+      );
+      expect(result).toEqual([0, 4, 7]);
+    });
+
+    it("should calculate correct notes for minor chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        0 as ActualIndex,
+        NoteGroupingId.Chord_Min,
+      );
+      expect(result).toEqual([0, 3, 7]);
+    });
+  });
+
+  describe("getChordName", () => {
+    it("should return correct chord name for major chord", () => {
+      expect(
+        ChordAndIntervalManager.getChordNameFromPreset(
+          0 as ActualIndex,
+          NoteGroupingId.Chord_Maj,
+          Accidental.Sharp,
+        ),
+      ).toBe("C");
+    });
+
+    it("should return correct chord name for minor chord", () => {
+      expect(
+        ChordAndIntervalManager.getChordNameFromPreset(
+          2 as ActualIndex,
+          NoteGroupingId.Chord_Min,
+          Accidental.Sharp,
+        ),
+      ).toBe("Dm");
+    });
+
+    it("should return only note name for single note", () => {
+      expect(
+        ChordAndIntervalManager.getChordNameFromPreset(
+          4 as ActualIndex,
+          NoteGroupingId.Note,
+          Accidental.Sharp,
+        ),
+      ).toBe("E(note)");
+    });
+
+    it("should return correct chord for diminished chord", () => {
+      expect(
+        ChordAndIntervalManager.getChordNameFromPreset(
+          4 as ActualIndex,
+          NoteGroupingId.Chord_Dim,
+          Accidental.Sharp,
+        ),
+      ).toBe("Edim");
+    });
+  });
 });

@@ -117,4 +117,23 @@ export class ChordAndIntervalManager {
     }
     return undefined;
   }
+
+  static calculateChordNotesFromIndex = (
+    rootIndex: ActualIndex,
+    chordType: NoteGroupingId,
+  ): ActualIndex[] => {
+    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType);
+    const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
+
+    return newNotes;
+  };
+
+  static getChordNameFromPreset = (
+    rootIndex: ActualIndex,
+    chordType: NoteGroupingId,
+    accidental: Accidental,
+  ): string => {
+    const chordNotes = this.calculateChordNotesFromIndex(rootIndex, chordType);
+    return ChordAndIntervalManager.getChordName(chordNotes, accidental);
+  };
 }
