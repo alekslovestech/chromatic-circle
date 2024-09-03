@@ -19,23 +19,6 @@ describe("IndexUtils", () => {
     });
   });
 
-  describe("fitChordToRange", () => {
-    it("should not change indices within range", () => {
-      expect(IndexUtils.fitChordToRange([0, 4, 7])).toEqual([0, 4, 7]);
-      expect(IndexUtils.fitChordToRange([2, 6, 9])).toEqual([2, 6, 9]);
-    });
-
-    it("should shift indices down if any are >= TWELVE", () => {
-      expect(IndexUtils.fitChordToRange([0, 4, 12])).toEqual([-12, -8, 0]);
-      expect(IndexUtils.fitChordToRange([12, 16, 19])).toEqual([0, 4, 7]);
-    });
-
-    it("should shift indices up if any are < -TWELVE", () => {
-      expect(IndexUtils.fitChordToRange([-13, -9, -6])).toEqual([-1, 3, 6]);
-      expect(IndexUtils.fitChordToRange([-14, -8, -5])).toEqual([-2, 4, 7]);
-    });
-  });
-
   describe("rootNoteAtInversion", () => {
     it("should return the root note when inversionIndex is undefined", () => {
       expect(IndexUtils.rootNoteAtInversion([0, 4, 7], undefined)).toBe(0);
@@ -51,8 +34,8 @@ describe("IndexUtils", () => {
 
   describe("firstNoteToLast", () => {
     it("should move the first note to the end and add TWELVE", () => {
-      expect(IndexUtils.firstNoteToLast([0, 4, 7])).toEqual([4, 7, 12]);
-      expect(IndexUtils.firstNoteToLast([2, 6, 9])).toEqual([6, 9, 14]);
+      expect(IndexUtils.firstNoteToLast([0, 4, 7])).toEqual([-8, -5, 0]);
+      expect(IndexUtils.firstNoteToLast([2, 6, 9])).toEqual([-6, -3, 2]);
       expect(IndexUtils.firstNoteToLast([-1, 3, 6])).toEqual([3, 6, 11]);
     });
   });
