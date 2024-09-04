@@ -5,6 +5,7 @@ import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
+import { ixInversion } from "../types/IndexTypes";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -65,7 +66,7 @@ const ChordPresetsSelector: React.FC = () => {
           <span>Inversion: </span>
           {Array.from({ length: inversionCount }, (_, i) => (
             <button key={i} onClick={() => console.log(`Inversion ${i} selected`)}>
-              {i + 1}
+              {ixInversion(i)}
             </button>
           ))}
         </div>

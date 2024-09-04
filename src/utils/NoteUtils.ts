@@ -2,13 +2,9 @@ import { NotationType } from "../types/NotationType";
 import { Accidental } from "../types/Accidental";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
-import { ActualIndex } from "../types/IndexTypes";
-import { actualToChromatic } from "./ChromaticUtils";
+import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
 
-export function getAccidentalSign(
-  accidental: Accidental,
-  displayMode: NotationType
-): string {
+export function getAccidentalSign(accidental: Accidental, displayMode: NotationType): string {
   const accidentalSigns = {
     [NotationType.ScreenDisplay]: {
       [Accidental.None]: "",
@@ -29,7 +25,7 @@ export function getAccidentalSign(
 
 export function getNoteWithAccidentalFromIndex(
   actualIndex: ActualIndex,
-  accidentalPreference: Accidental
+  accidentalPreference: Accidental,
 ): NoteWithAccidental {
   const notesArray = getNotesArray(accidentalPreference);
   const indexAndOctave = actualToChromatic(actualIndex);
@@ -39,9 +35,7 @@ export function getNoteWithAccidentalFromIndex(
   };
 }
 
-export const getOppositeAccidental = (
-  prevAccidental: Accidental
-): Accidental => {
+export const getOppositeAccidental = (prevAccidental: Accidental): Accidental => {
   if (prevAccidental === Accidental.Sharp) return Accidental.Flat;
   if (prevAccidental === Accidental.Flat) return Accidental.Sharp;
   return prevAccidental; //no change

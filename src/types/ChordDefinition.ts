@@ -2,18 +2,20 @@ import { NoteGroupingId } from "./NoteGrouping";
 import { NoteGroupingType } from "./NoteGrouping";
 
 import { IndexUtils } from "../utils/IndexUtils";
+import { OffsetIndex } from "./IndexTypes";
 
 //note grouping definition, including all inversions
 //contains offsets relative to the root note
 export class ChordDefinition {
   id: NoteGroupingId;
-  rootChord: number[];
-  inversions: number[][];
+  inversions: OffsetIndex[][];
+  get rootChord(): OffsetIndex[] {
+    return this.inversions[0];
+  }
 
-  constructor(id: NoteGroupingId, root: number[], generateInversions: boolean = false) {
+  constructor(id: NoteGroupingId, root: OffsetIndex[], generateInversions: boolean = false) {
     this.id = id;
-    this.rootChord = root;
-    this.inversions = generateInversions ? this.generateInversions() : [];
+    this.inversions = generateInversions ? this.generateInversions(root) : [root];
   }
 
   isChord(): boolean {
@@ -24,38 +26,25 @@ export class ChordDefinition {
   }
 
   getNoteGroupingType(): NoteGroupingType {
-    return ChordDefinition.getNoteGroupingTypeWithArg(this.rootChord);
-  }
-
-  static getNoteGroupingTypeWithArg(selectedNoteIndices: number[]): NoteGroupingType {
-    if (selectedNoteIndices.length === 0) return NoteGroupingType.None;
-    if (selectedNoteIndices.length === 1) return NoteGroupingType.Note;
-    if (selectedNoteIndices.length === 2) return NoteGroupingType.Interval;
+    if (this.rootChord.length === 0) return NoteGroupingType.None;
+    if (this.rootChord.length === 1) return NoteGroupingType.Note;
+    if (this.rootChord.length === 2) return NoteGroupingType.Interval;
     return NoteGroupingType.Chord;
   }
 
-  private generateInversions(): number[][] {
-    const inversions: number[][] = [];
-    let currentInversion = [...this.rootChord];
-    for (let i = 1; i < this.rootChord.length; i++) {
+  private generateInversions(rootOffsets: OffsetIndex[]): OffsetIndex[][] {
+    const inversions: OffsetIndex[][] = [rootOffsets];
+    let currentInversion = [...rootOffsets];
+    for (let i = 1; i < rootOffsets.length; i++) {
       let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 
-      newInversion = IndexUtils.fitChordToRange(newInversion);
       inversions.push(newInversion);
       currentInversion = newInversion;
     }
     return inversions;
   }
 
-  getInversion(index: number): number[] {
-    if (index === 0) return this.rootChord;
-    if (index > 0 && index <= this.inversions.length) {
-      return this.inversions[index - 1];
-    }
-    throw new Error(`Invalid inversion index: ${index}`);
-  }
-
   hasInversions(): boolean {
-    return this.inversions.length > 0;
+    return this.inversions.length > 1;
   }
 }

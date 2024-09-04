@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, ixActualArray } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 
 interface NotesContextType {
@@ -34,7 +34,7 @@ const NotesContext = createContext(defaultContextValue);
 
 export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
-  const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>([7]);
+  const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
   const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(NoteGroupingId.Note);
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(Accidental.Sharp);
 
