@@ -8,13 +8,14 @@ import { OffsetIndex } from "./IndexTypes";
 //contains offsets relative to the root note
 export class ChordDefinition {
   id: NoteGroupingId;
-  rootChord: OffsetIndex[];
   inversions: OffsetIndex[][];
+  get rootChord(): OffsetIndex[] {
+    return this.inversions[0];
+  }
 
   constructor(id: NoteGroupingId, root: OffsetIndex[], generateInversions: boolean = false) {
     this.id = id;
-    this.rootChord = root;
-    this.inversions = generateInversions ? this.generateInversions() : [];
+    this.inversions = generateInversions ? this.generateInversions(root) : [root];
   }
 
   isChord(): boolean {
@@ -31,10 +32,10 @@ export class ChordDefinition {
     return NoteGroupingType.Chord;
   }
 
-  private generateInversions(): OffsetIndex[][] {
-    const inversions: OffsetIndex[][] = [];
-    let currentInversion = [...this.rootChord];
-    for (let i = 1; i < this.rootChord.length; i++) {
+  private generateInversions(rootOffsets: OffsetIndex[]): OffsetIndex[][] {
+    const inversions: OffsetIndex[][] = [rootOffsets];
+    let currentInversion = [...rootOffsets];
+    for (let i = 1; i < rootOffsets.length; i++) {
       let newInversion = IndexUtils.firstNoteToLast(currentInversion);
 
       inversions.push(newInversion);
@@ -44,6 +45,6 @@ export class ChordDefinition {
   }
 
   hasInversions(): boolean {
-    return this.inversions.length > 0;
+    return this.inversions.length > 1;
   }
 }

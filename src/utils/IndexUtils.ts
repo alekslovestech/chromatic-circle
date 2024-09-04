@@ -1,4 +1,4 @@
-import { ActualIndex, OffsetIndex } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex, OffsetIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 
 export class IndexUtils {
@@ -19,13 +19,9 @@ export class IndexUtils {
   };
 
   static rootNoteAtInversion = (
-    indices: number[],
-    inversionIndex: number | undefined,
-  ): ActualIndex => {
-    return inversionIndex === undefined
-      ? (indices[0] as ActualIndex)
-      : (indices[(indices.length - (1 + inversionIndex)) % indices.length] as ActualIndex);
-  };
+    indices: ActualIndex[],
+    inversionIndex: InversionIndex,
+  ): ActualIndex => indices[(indices.length - inversionIndex) % indices.length] as ActualIndex;
 
   //put the first note at the end
   static firstNoteToLast = (indices: OffsetIndex[]): OffsetIndex[] => {

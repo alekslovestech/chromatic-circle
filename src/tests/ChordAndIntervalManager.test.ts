@@ -1,7 +1,7 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, ixInversion } from "../types/IndexTypes";
 import { Accidental } from "../types/Accidental";
-import { NoteGroupingId, NoteGroupingName } from "../types/NoteGrouping";
+import { NoteGroupingId } from "../types/NoteGrouping";
 
 describe("ChordAndIntervalManager", () => {
   /* describe("getChordName", () => {
@@ -111,7 +111,7 @@ describe("ChordAndIntervalManager", () => {
     it("should handle first inversion of major chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
         NoteGroupingId.Chord_Maj,
-        0,
+        ixInversion(1),
       );
       expect(result).toEqual([-8, -5, 0]); // E is the bass note, C is the root note
     });
@@ -119,7 +119,7 @@ describe("ChordAndIntervalManager", () => {
     it("should handle second inversion of major chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
         NoteGroupingId.Chord_Maj,
-        1,
+        ixInversion(2),
       );
       expect(result).toEqual([-5, 0, 4]); // G is the bass note, C is the root note
     });
@@ -127,7 +127,7 @@ describe("ChordAndIntervalManager", () => {
     it("should handle first inversion of minor chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
         NoteGroupingId.Chord_Min,
-        0,
+        ixInversion(1),
       );
       expect(result).toEqual([-9, -5, 0]); // E is the bass note, C is the root note
     });
@@ -135,7 +135,7 @@ describe("ChordAndIntervalManager", () => {
     it("should handle second inversion of dominant seventh chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
         NoteGroupingId.Chord_Dom7,
-        1,
+        ixInversion(2),
       );
       expect(result).toEqual([-5, -2, 0, 4]); // G is the bass note, C is the root note
     });
@@ -143,7 +143,7 @@ describe("ChordAndIntervalManager", () => {
     it("should handle third inversion of major seventh chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
         NoteGroupingId.Chord_Maj7,
-        2,
+        ixInversion(3),
       );
       expect(result).toEqual([-1, 0, 4, 7]); // B is the bass note, C is the root note
     });

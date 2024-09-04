@@ -10,12 +10,7 @@ import {
   getComputedKeyColorOverlayed,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
-import {
-  ChromaticIndex,
-  chromaticToActual,
-  createActualIndex,
-  OctaveOffset,
-} from "../types/IndexTypes";
+import { ChromaticIndex, chromaticToActual, ixActual, OctaveOffset } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const ChromaticCircle: React.FC = () => {
@@ -44,7 +39,7 @@ const ChromaticCircle: React.FC = () => {
         inputMode,
         selectedChordType,
         selectedNoteIndices,
-        createActualIndex(noteIndex),
+        ixActual(noteIndex),
       );
 
       setSelectedNoteIndices(updatedIndices);
@@ -93,7 +88,7 @@ const ChromaticCircle: React.FC = () => {
 
       ctx.fillStyle = getComputedTextColor(chromaticToActual(chromaticIndex, 0 as OctaveOffset));
       ctx.font = "bold 20px Arial";
-      const noteText = getNoteTextFromIndex(createActualIndex(chromaticIndex), selectedAccidental);
+      const noteText = getNoteTextFromIndex(ixActual(chromaticIndex), selectedAccidental);
       ctx.fillText(noteText, 0, -radius);
       ctx.restore();
     };
