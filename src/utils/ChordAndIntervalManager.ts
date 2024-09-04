@@ -1,7 +1,13 @@
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
-import { ActualIndex, ixInversion, ixOffsetArray, InversionIndex } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ixInversion,
+  ixOffsetArray,
+  InversionIndex,
+  OffsetIndex,
+} from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
@@ -50,7 +56,7 @@ export class ChordAndIntervalManager {
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
     inversionIndex: InversionIndex = 0 as InversionIndex,
-  ): number[] {
+  ): OffsetIndex[] {
     const chordDefinition = this.getDefinitionFromId(id);
     if (chordDefinition) {
       return chordDefinition.inversions[inversionIndex];
@@ -76,10 +82,9 @@ export class ChordAndIntervalManager {
     for (const def of this.OFFSETS) {
       for (let i = 0 as InversionIndex; i < def.inversions.length; i++) {
         const inversionIndices = IndexUtils.normalizeIndices(def.inversions[i]);
-        if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
-          const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
-          return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
-        }
+        if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) continue;
+        const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
+        return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
       }
     }
 
@@ -89,8 +94,10 @@ export class ChordAndIntervalManager {
   static calculateChordNotesFromIndex = (
     rootIndex: ActualIndex,
     chordType: NoteGroupingId,
+    inversionIndex: InversionIndex = ixInversion(0),
   ): ActualIndex[] => {
-    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, ixInversion(0));
+    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
+    console.log(`calculateChordNotesFromIndex: chordOffsets: ${chordOffsets}`);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
     return newNotes;
   };

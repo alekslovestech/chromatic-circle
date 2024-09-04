@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
 import { updateIndices } from "../utils/ChromaticUtils";
-import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ixInversion } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex, ixInversion } from "../types/IndexTypes";
+import { IndexUtils } from "../utils/IndexUtils";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -14,6 +14,8 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
+    selectedInversionIndex,
+    setSelectedInversionIndex,
     setSelectedAccidental,
   } = useNotes();
 
@@ -41,20 +43,34 @@ const ChordPresetsSelector: React.FC = () => {
 
   if (inputMode === InputMode.Toggle) return null;
 
+  const UpdateNotesFromPresets = (
+    rootIndex: ActualIndex,
+    chordType: NoteGroupingId,
+    inversionIndex: InversionIndex,
+  ) => {
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      rootIndex,
+      chordType,
+      inversionIndex,
+    );
+    const fitChord = IndexUtils.fitChordToAbsoluteRange(updatedIndices);
+    setSelectedNoteIndices(fitChord);
+  };
+
   const handleChordTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const incomingChord = event.target.value as NoteGroupingId;
     setSelectedChordType(incomingChord);
     const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = ChordAndIntervalManager.calculateChordNotesFromIndex(
-      originalRootIndex,
-      incomingChord,
-    );
-    setSelectedNoteIndices(newNotes);
+    UpdateNotesFromPresets(originalRootIndex, incomingChord, selectedInversionIndex);
   };
 
-  const handleAccidentalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const incomingAccidental: Accidental = event.target.value as Accidental;
-    setSelectedAccidental(incomingAccidental);
+  const handleInversionChange = (inversionIndex: InversionIndex) => {
+    const originalRootIndex = IndexUtils.rootNoteAtInversion(
+      selectedNoteIndices,
+      selectedInversionIndex,
+    );
+    setSelectedInversionIndex(inversionIndex);
+    UpdateNotesFromPresets(originalRootIndex, selectedChordType, inversionIndex);
   };
 
   const renderInversionButtons = () => {
@@ -65,7 +81,7 @@ const ChordPresetsSelector: React.FC = () => {
         <div>
           <span>Inversion: </span>
           {Array.from({ length: inversionCount }, (_, i) => (
-            <button key={i} onClick={() => console.log(`Inversion ${i} selected`)}>
+            <button key={i} onClick={() => handleInversionChange(ixInversion(i))}>
               {ixInversion(i)}
             </button>
           ))}

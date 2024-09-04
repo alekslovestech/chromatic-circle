@@ -9,13 +9,22 @@ export class IndexUtils {
   };
 
   //if any of the indices are out of range, shift the whole chord up or down to fit
-  private static fitChordToRange = (indices: number[]): OffsetIndex[] => {
-    if (indices.some((note) => note >= TWELVE)) {
-      return indices.map((note) => note - TWELVE) as OffsetIndex[];
-    } else if (indices.some((note) => note < -TWELVE)) {
-      return indices.map((note) => note + TWELVE) as OffsetIndex[];
-    }
-    return indices as OffsetIndex[];
+  private static fitChordToRelativeRange = (indices: number[]): OffsetIndex[] => {
+    const shift = indices.some((note) => note >= TWELVE)
+      ? -TWELVE
+      : indices.some((note) => note < -TWELVE)
+      ? TWELVE
+      : 0;
+    return indices.map((note) => note + shift) as OffsetIndex[];
+  };
+
+  static fitChordToAbsoluteRange = (indices: number[]): ActualIndex[] => {
+    const shift = indices.some((note) => note >= 2 * TWELVE)
+      ? -TWELVE
+      : indices.some((note) => note < 0)
+      ? +TWELVE
+      : 0;
+    return indices.map((note) => note + shift) as ActualIndex[];
   };
 
   static rootNoteAtInversion = (
@@ -28,7 +37,7 @@ export class IndexUtils {
     let newIndices = [...indices] as number[];
     const firstNote = newIndices.shift()!;
     newIndices.push(firstNote + TWELVE);
-    let normalizedIndices = IndexUtils.fitChordToRange(newIndices);
+    let normalizedIndices = IndexUtils.fitChordToRelativeRange(newIndices);
     return normalizedIndices;
   };
 

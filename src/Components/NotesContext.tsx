@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Accidental } from "../types/Accidental";
 import { InputMode } from "../types/InputMode";
-import { ActualIndex, ixActualArray } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 
 interface NotesContextType {
@@ -13,6 +13,8 @@ interface NotesContextType {
   setSelectedChordType: (type: NoteGroupingId) => void;
   selectedAccidental: Accidental;
   setSelectedAccidental: (sharpFlat: Accidental) => void;
+  selectedInversionIndex: InversionIndex;
+  setSelectedInversionIndex: (index: InversionIndex) => void;
 }
 
 interface NotesProviderProps {
@@ -28,6 +30,8 @@ const defaultContextValue: NotesContextType = {
   setSelectedChordType: () => {},
   selectedAccidental: Accidental.Sharp,
   setSelectedAccidental: () => {},
+  selectedInversionIndex: ixInversion(0),
+  setSelectedInversionIndex: () => {},
 };
 
 const NotesContext = createContext(defaultContextValue);
@@ -37,6 +41,9 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
   const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(NoteGroupingId.Note);
   const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(Accidental.Sharp);
+  const [selectedInversionIndex, setSelectedInversionIndex] = useState<InversionIndex>(
+    ixInversion(0),
+  );
 
   return (
     <NotesContext.Provider
@@ -49,6 +56,8 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
         setSelectedChordType,
         selectedAccidental,
         setSelectedAccidental,
+        selectedInversionIndex,
+        setSelectedInversionIndex,
       }}
     >
       {children}
