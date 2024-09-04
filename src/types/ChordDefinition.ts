@@ -43,14 +43,6 @@ export class ChordDefinition {
     return inversions;
   }
 
-  getInversion(index: number): number[] {
-    if (index === 0) return this.rootChord;
-    if (index > 0 && index <= this.inversions.length) {
-      return this.inversions[index - 1];
-    }
-    throw new Error(`Invalid inversion index: ${index}`);
-  }
-
   hasInversions(): boolean {
     return this.inversions.length > 0;
   }

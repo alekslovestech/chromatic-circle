@@ -1,7 +1,7 @@
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
-import { ActualIndex, createOffsetIndexArray } from "../types/IndexTypes";
+import { ActualIndex, createOffsetIndexArray, InversionIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
@@ -49,7 +49,7 @@ export class ChordAndIntervalManager {
 
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
-    inversionIndex: number | undefined = undefined,
+    inversionIndex: InversionIndex = undefined,
   ): number[] {
     const chordDefinition = this.getDefinitionFromId(id);
     if (chordDefinition) {

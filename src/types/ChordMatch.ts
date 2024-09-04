@@ -2,19 +2,19 @@ import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { Accidental } from "./Accidental";
 import { ChordDefinition } from "./ChordDefinition";
-import { ActualIndex } from "./IndexTypes";
+import { ActualIndex, createInversionIndex, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingId } from "./NoteGrouping";
 
 export class ChordMatch {
   rootNote: ActualIndex;
   definition: ChordDefinition;
-  inversionIndex?: number; //0 is the first inversion (add 1 for display index)
+  inversionIndex?: InversionIndex; //0 is the first inversion (add 1 for display index)
 
   constructor(rootNote: ActualIndex, definition: ChordDefinition, inversionIndex?: number) {
     this.rootNote = rootNote;
     this.definition = definition;
-    this.inversionIndex = inversionIndex;
+    this.inversionIndex = createInversionIndex(inversionIndex);
   }
 
   private SimplifyMinMaj(groupingId: NoteGroupingId): string {

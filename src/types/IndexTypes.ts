@@ -6,9 +6,22 @@ export type ActualIndex = Branded<number, "ActualIndex">;
 export type OffsetIndex = Branded<number, "OffsetIndex">;
 export type ChromaticIndex = Branded<number, "ChromaticIndex">;
 export type OctaveOffset = Branded<number, "OctaveOffset">;
+
+export type InversionIndex = undefined | 0 | 1 | 2 | 3 | 4;
+
 export interface IndexAndOffset {
   chromaticIndex: ChromaticIndex;
   octaveOffset: OctaveOffset;
+}
+
+export function createInversionIndex(n: number | undefined): InversionIndex {
+  if (n === undefined) return undefined;
+  if (n < 0 || n > 4 || !Number.isInteger(n)) throw new Error("Invalid InversionIndex");
+  return n as InversionIndex;
+}
+
+export function getInversionHumanReadable(inversionIndex: InversionIndex): number {
+  return inversionIndex === undefined ? 0 : inversionIndex + 1;
 }
 
 export function createActualIndex(n: number): ActualIndex {
