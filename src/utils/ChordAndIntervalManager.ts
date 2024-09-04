@@ -61,37 +61,28 @@ export class ChordAndIntervalManager {
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return isInterval
-      ? this.OFFSETS.filter((chordDef) => chordDef.isInterval())
-      : this.OFFSETS.filter((chordDef) => chordDef.isChord());
+    return this.OFFSETS.filter((chordDef) =>
+      isInterval ? chordDef.numNotes === 2 : chordDef.numNotes > 2,
+    );
   };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
     if (indices.length === 0) {
-      //we distinguish "no notes specified" from "no match found" (unknown chord)
       return new ChordMatch(0 as ActualIndex, new ChordDefinition(NoteGroupingId.None, []));
     }
-    const rootNoteIndex = indices[0]; //this is the absolute index of the root note
-    const normalizedIndices = IndexUtils.normalizeIndices(indices);
-    const foundRootChord = this.OFFSETS.find((def) =>
-      IndexUtils.areIndicesEqual(normalizedIndices, def.rootChord),
-    );
-    if (foundRootChord) return new ChordMatch(rootNoteIndex, foundRootChord);
 
-    //root chord not found, try inversions
+    const normalizedIndices = IndexUtils.normalizeIndices(indices);
+
     for (const def of this.OFFSETS) {
-      if (def.hasInversions()) {
-        for (let i = 1 as InversionIndex; i < def.inversions.length; i++) {
-          const inversion = def.inversions[i];
-          const inversionIndices = IndexUtils.normalizeIndices(inversion);
-          const rootNoteAtInversion = (IndexUtils.rootNoteAtInversion(indices, i) %
-            TWELVE) as ActualIndex;
-          if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
-            return new ChordMatch(rootNoteAtInversion, def, i);
-          }
+      for (let i = 0 as InversionIndex; i < def.inversions.length; i++) {
+        const inversionIndices = IndexUtils.normalizeIndices(def.inversions[i]);
+        if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
+          const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
+          return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
         }
       }
     }
+
     return undefined;
   }
 
