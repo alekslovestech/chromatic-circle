@@ -57,20 +57,20 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices(fitChord);
   };
 
-  const handleChordTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const incomingChord = event.target.value as NoteGroupingId;
-    setSelectedChordType(incomingChord);
+  const handleChordTypeChange = (incomingChordType: NoteGroupingId) => {
+    setSelectedInversionIndex(ixInversion(0)); //if we're switching chord types, reset to root position
+    setSelectedChordType(incomingChordType);
     const originalRootIndex = selectedNoteIndices[0];
-    UpdateNotesFromPresets(originalRootIndex, incomingChord, selectedInversionIndex);
+    UpdateNotesFromPresets(originalRootIndex, incomingChordType, selectedInversionIndex);
   };
 
-  const handleInversionChange = (inversionIndex: InversionIndex) => {
+  const handleInversionChange = (newInversionIndex: InversionIndex) => {
     const originalRootIndex = IndexUtils.rootNoteAtInversion(
       selectedNoteIndices,
       selectedInversionIndex,
     );
-    setSelectedInversionIndex(inversionIndex);
-    UpdateNotesFromPresets(originalRootIndex, selectedChordType, inversionIndex);
+    setSelectedInversionIndex(newInversionIndex);
+    UpdateNotesFromPresets(originalRootIndex, selectedChordType, newInversionIndex);
   };
 
   const renderInversionButtons = () => {
@@ -81,7 +81,11 @@ const ChordPresetsSelector: React.FC = () => {
         <div>
           <span>Inversion: </span>
           {Array.from({ length: inversionCount }, (_, i) => (
-            <button key={i} onClick={() => handleInversionChange(ixInversion(i))}>
+            <button
+              key={i}
+              onClick={() => handleInversionChange(ixInversion(i))}
+              className={selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""}
+            >
               {ixInversion(i)}
             </button>
           ))}
@@ -94,7 +98,10 @@ const ChordPresetsSelector: React.FC = () => {
   return (
     (inputMode === InputMode.IntervalPresets || inputMode === InputMode.ChordPresets) && (
       <div>
-        <select onChange={handleChordTypeChange} value={selectedChordType}>
+        <select
+          value={selectedChordType}
+          onChange={(e) => handleChordTypeChange(e.target.value as NoteGroupingId)}
+        >
           {ChordAndIntervalManager.IntervalOrChordDefinitions(
             inputMode === InputMode.IntervalPresets,
           ).map((chordDef) => (
