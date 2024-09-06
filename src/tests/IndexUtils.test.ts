@@ -1,4 +1,13 @@
-import { ixActualArray, ixInversion, ixOffsetArray } from "../types/IndexTypes";
+import {
+  actualToChromatic,
+  chromaticToActual,
+  ixActual,
+  ixActualArray,
+  ixChromatic,
+  ixInversion,
+  ixOctaveOffset,
+  ixOffsetArray,
+} from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 
 describe("IndexUtils", () => {
@@ -55,6 +64,44 @@ describe("IndexUtils", () => {
     it("should return false for arrays with different elements", () => {
       expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 8])).toBe(false);
       expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 5, 9])).toBe(false);
+    });
+  });
+
+  describe("chromaticToActual", () => {
+    it("should convert chromatic index and octave offset to actual index", () => {
+      expect(chromaticToActual(ixChromatic(0), ixOctaveOffset(0))).toBe(0);
+      expect(chromaticToActual(ixChromatic(11), ixOctaveOffset(0))).toBe(11);
+      expect(chromaticToActual(ixChromatic(0), ixOctaveOffset(1))).toBe(12);
+      expect(chromaticToActual(ixChromatic(11), ixOctaveOffset(1))).toBe(23);
+    });
+  });
+
+  describe("actualToChromatic", () => {
+    it("should convert actual index to chromatic index and octave offset", () => {
+      expect(actualToChromatic(ixActual(0))).toEqual({ chromaticIndex: 0, octaveOffset: 0 });
+      expect(actualToChromatic(ixActual(11))).toEqual({ chromaticIndex: 11, octaveOffset: 0 });
+      expect(actualToChromatic(ixActual(12))).toEqual({ chromaticIndex: 0, octaveOffset: 1 });
+      expect(actualToChromatic(ixActual(23))).toEqual({ chromaticIndex: 11, octaveOffset: 1 });
+    });
+  });
+
+  describe("isBlackKey", () => {
+    it("should return true for black keys", () => {
+      expect(IndexUtils.isBlackKey(ixActual(1))).toBe(true);
+      expect(IndexUtils.isBlackKey(ixActual(3))).toBe(true);
+      expect(IndexUtils.isBlackKey(ixActual(6))).toBe(true);
+      expect(IndexUtils.isBlackKey(ixActual(8))).toBe(true);
+      expect(IndexUtils.isBlackKey(ixActual(10))).toBe(true);
+    });
+
+    it("should return false for white keys", () => {
+      expect(IndexUtils.isBlackKey(ixActual(0))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(2))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(4))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(5))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(7))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(9))).toBe(false);
+      expect(IndexUtils.isBlackKey(ixActual(11))).toBe(false);
     });
   });
 });

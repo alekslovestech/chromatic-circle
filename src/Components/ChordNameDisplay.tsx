@@ -8,7 +8,13 @@ import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const ChordDisplay: React.FC = () => {
-  const { selectedNoteIndices, inputMode, selectedChordType, selectedAccidental } = useNotes();
+  const {
+    selectedNoteIndices,
+    inputMode,
+    selectedChordType,
+    selectedAccidental,
+    selectedInversionIndex,
+  } = useNotes();
 
   const topDownNotes = selectedNoteIndices
     .slice()
@@ -36,11 +42,7 @@ const ChordDisplay: React.FC = () => {
           Chord:{" "}
           {selectedNoteIndices.length === 0
             ? "UNKNOWN"
-            : ChordAndIntervalManager.getChordNameFromPreset(
-                selectedNoteIndices[0],
-                selectedChordType,
-                selectedAccidental,
-              )}
+            : ChordAndIntervalManager.getChordNameFromIndices(selectedNoteIndices)}
           <br />
         </div>
       )) ||

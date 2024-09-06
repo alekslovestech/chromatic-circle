@@ -37,11 +37,13 @@ export class IndexUtils {
     let newIndices = [...indices] as number[];
     const firstNote = newIndices.shift()!;
     newIndices.push(firstNote + TWELVE);
-    let normalizedIndices = IndexUtils.fitChordToRelativeRange(newIndices);
-    return normalizedIndices;
+    return IndexUtils.fitChordToRelativeRange(newIndices);
   };
 
   static areIndicesEqual = (indices1: number[], indices2: number[]): boolean =>
     indices1.length === indices2.length &&
     indices1.every((note, index) => note === indices2[index]);
+
+  static isBlackKey = (actualIndex: ActualIndex): boolean =>
+    [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
 }

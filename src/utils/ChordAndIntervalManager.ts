@@ -14,6 +14,7 @@ import { ChordMatch } from "../types/ChordMatch";
 
 export class ChordAndIntervalManager {
   private static readonly OFFSETS: ChordDefinition[] = [
+    new ChordDefinition(NoteGroupingId.None, ixOffsetArray([])),
     new ChordDefinition(NoteGroupingId.Note, ixOffsetArray([0])),
     new ChordDefinition(NoteGroupingId.Interval_Min2, ixOffsetArray([0, 1])),
     new ChordDefinition(NoteGroupingId.Interval_Maj2, ixOffsetArray([0, 2])),
@@ -87,24 +88,23 @@ export class ChordAndIntervalManager {
     return undefined;
   }
 
+  static getChordNameFromIndices(
+    indices: ActualIndex[],
+    accidental: Accidental = Accidental.Sharp,
+  ): string {
+    const chordMatch = this.getMatchFromIndices(indices);
+    if (chordMatch) return chordMatch.deriveChordName(accidental);
+
+    return "Unknown";
+  }
+
   static calculateChordNotesFromIndex = (
     rootIndex: ActualIndex,
     chordType: NoteGroupingId,
     inversionIndex: InversionIndex = ixInversion(0),
   ): ActualIndex[] => {
     const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
-    console.log(`calculateChordNotesFromIndex: chordOffsets: ${chordOffsets}`);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
     return IndexUtils.fitChordToAbsoluteRange(newNotes);
-  };
-
-  static getChordNameFromPreset = (
-    rootIndex: ActualIndex,
-    chordType: NoteGroupingId,
-    accidental: Accidental,
-  ): string => {
-    const chordNotes = this.calculateChordNotesFromIndex(rootIndex, chordType);
-    const chordMatch = this.getMatchFromIndices(chordNotes);
-    return chordMatch ? chordMatch.deriveChordName(accidental) : "Unknown";
   };
 }

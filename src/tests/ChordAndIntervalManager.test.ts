@@ -1,64 +1,9 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ActualIndex, ixActual, ixInversion } from "../types/IndexTypes";
+import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 
 describe("ChordAndIntervalManager", () => {
-  /* describe("getChordName", () => {
-    it('should return "No notes selected" for empty array', () => {
-      const result = ChordAndIntervalManager.getChordName([], Accidental.Sharp);
-      expect(result.name).toBe("Ø");
-    });
-
-    it("should return single note name for one note", () => {
-      const result: NoteGroupingName = ChordAndIntervalManager.getChordName(
-        [0] as ActualIndex[],
-        Accidental.Sharp,
-      );
-      expect(result.name).toBe("C(note)");
-    });
-
-    it("should return correct name for major chord", () => {
-      const result = ChordAndIntervalManager.getChordName(
-        [0, 4, 7] as ActualIndex[],
-        Accidental.Sharp,
-      );
-      expect(result.name).toBe("C");
-    });
-
-    it("should return correct name for minor chord", () => {
-      const result = ChordAndIntervalManager.getChordName(
-        [0, 3, 7] as ActualIndex[],
-        Accidental.Sharp,
-      );
-      expect(result.name).toBe("Cm");
-    });
-
-    it.skip("should handle inversions correctly", () => {
-      const result = ChordAndIntervalManager.getChordName(
-        [4, 7, 12] as ActualIndex[],
-        Accidental.Sharp,
-      );
-      expect(result.name).toBe("C/E");
-    });
-
-    it("should use flat accidentals when specified", () => {
-      const result = ChordAndIntervalManager.getChordName(
-        [1, 5, 8] as ActualIndex[],
-        Accidental.Flat,
-      );
-      expect(result.name).toBe("D♭");
-    });
-
-    it('should return "Unknown" for unrecognized chord', () => {
-      const result = ChordAndIntervalManager.getChordName(
-        [0, 1, 2] as ActualIndex[],
-        Accidental.Sharp,
-      );
-      expect(result.name).toBe("Unknown");
-    });
-  }); */
-
   describe("getOffsetsFromIdAndInversion", () => {
     it("should return correct offsets for major chord", () => {
       const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(NoteGroupingId.Chord_Maj);
@@ -221,45 +166,69 @@ describe("ChordAndIntervalManager", () => {
     });
   });
 
-  describe("getChordName", () => {
+  describe("getChordNameFromIndices", () => {
+    it('should return "Ø" for empty array', () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices([])).toBe("Ø");
+    });
+
     it("should return correct chord name for major chord", () => {
-      expect(
-        ChordAndIntervalManager.getChordNameFromPreset(
-          0 as ActualIndex,
-          NoteGroupingId.Chord_Maj,
-          Accidental.Sharp,
-        ),
-      ).toBe("C");
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4, 7]))).toBe("C");
+    });
+
+    it("should return correct chord name for major chord in first inversion", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4, 7, 12]))).toBe(
+        "C/E",
+      );
+    });
+
+    it("should return correct chord name for major chord in second inversion", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([7, 12, 16]))).toBe(
+        "C/G",
+      );
     });
 
     it("should return correct chord name for minor chord", () => {
-      expect(
-        ChordAndIntervalManager.getChordNameFromPreset(
-          2 as ActualIndex,
-          NoteGroupingId.Chord_Min,
-          Accidental.Sharp,
-        ),
-      ).toBe("Dm");
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([2, 5, 9]))).toBe("Dm");
+    });
+
+    it("should return correct chord name for minor chord in first inversion", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([5, 9, 14]))).toBe(
+        "Dm/F",
+      );
     });
 
     it("should return only note name for single note", () => {
-      expect(
-        ChordAndIntervalManager.getChordNameFromPreset(
-          4 as ActualIndex,
-          NoteGroupingId.Note,
-          Accidental.Sharp,
-        ),
-      ).toBe("E(note)");
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4]))).toBe("E(note)");
     });
 
     it("should return correct chord for diminished chord", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4, 7, 10]))).toBe(
+        "Edim",
+      );
+    });
+
+    it("should use flat accidentals when specified", () => {
       expect(
-        ChordAndIntervalManager.getChordNameFromPreset(
-          4 as ActualIndex,
-          NoteGroupingId.Chord_Dim,
-          Accidental.Sharp,
-        ),
-      ).toBe("Edim");
+        ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([1, 5, 8]), Accidental.Flat),
+      ).toBe("D♭");
+    });
+
+    it("should correctly identify a dominant seventh chord in root position", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4, 7, 10]))).toBe(
+        "Cdom7",
+      );
+    });
+
+    it("should correctly identify a sus4 chord", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 5, 7]))).toBe(
+        "Csus4",
+      );
+    });
+
+    it('should return "Unknown" for unrecognized chord', () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 1, 2]))).toBe(
+        "Unknown",
+      );
     });
   });
 });
