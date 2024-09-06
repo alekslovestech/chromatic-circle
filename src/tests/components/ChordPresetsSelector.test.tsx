@@ -3,7 +3,7 @@ import { render, fireEvent, screen } from "@testing-library/react";
 import ChordPresetsSelector from "../../Components/ChordPresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 
-describe("ChordPresetsSelector", () => {
+describe.skip("ChordPresetsSelector", () => {
   const renderComponent = () => {
     return render(
       <NotesProvider>
@@ -11,7 +11,7 @@ describe("ChordPresetsSelector", () => {
       </NotesProvider>,
     );
   };
-  /*
+
   test("selecting a new chord resets inversion to 0", () => {
     renderComponent();
 
@@ -54,5 +54,5 @@ describe("ChordPresetsSelector", () => {
 
     // You might also want to check if the actual notes have been updated
     // This would require mocking the ChordAndIntervalManager or checking the context
-  }); */
+  });
 });

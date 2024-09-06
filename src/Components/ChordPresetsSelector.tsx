@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { updateIndices } from "../utils/ChromaticUtils";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ActualIndex, InversionIndex, ixInversion } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 
@@ -32,36 +31,31 @@ const ChordPresetsSelector: React.FC = () => {
 
   useEffect(() => {
     const originalIndex = selectedNoteIndices[0];
-    const updatedIndices = updateIndices(
-      inputMode,
-      selectedChordType,
-      selectedNoteIndices,
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
       originalIndex,
+      selectedChordType,
+      ixInversion(0),
     );
     setSelectedNoteIndices(updatedIndices);
   }, [selectedChordType]);
 
   if (inputMode === InputMode.Toggle) return null;
 
-  const UpdateNotesFromPresets = (
-    rootIndex: ActualIndex,
-    chordType: NoteGroupingId,
-    inversionIndex: InversionIndex,
-  ) => {
-    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-      rootIndex,
-      chordType,
-      inversionIndex,
-    );
-    const fitChord = IndexUtils.fitChordToAbsoluteRange(updatedIndices);
-    setSelectedNoteIndices(fitChord);
-  };
-
   const handleChordTypeChange = (incomingChordType: NoteGroupingId) => {
+    const originalRootIndex = IndexUtils.rootNoteAtInversion(
+      selectedNoteIndices,
+      selectedInversionIndex,
+    );
     setSelectedInversionIndex(ixInversion(0)); //if we're switching chord types, reset to root position
     setSelectedChordType(incomingChordType);
-    const originalRootIndex = selectedNoteIndices[0];
-    UpdateNotesFromPresets(originalRootIndex, incomingChordType, selectedInversionIndex);
+
+    //UpdateNotesFromPresets(originalRootIndex, incomingChordType, selectedInversionIndex);
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      incomingChordType,
+      selectedInversionIndex,
+    );
+    setSelectedNoteIndices(updatedIndices);
   };
 
   const handleInversionChange = (newInversionIndex: InversionIndex) => {
@@ -70,7 +64,13 @@ const ChordPresetsSelector: React.FC = () => {
       selectedInversionIndex,
     );
     setSelectedInversionIndex(newInversionIndex);
-    UpdateNotesFromPresets(originalRootIndex, selectedChordType, newInversionIndex);
+    //UpdateNotesFromPresets(originalRootIndex, selectedChordType, newInversionIndex);
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      selectedChordType,
+      newInversionIndex,
+    );
+    setSelectedNoteIndices(updatedIndices);
   };
 
   const renderInversionButtons = () => {
