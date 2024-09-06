@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import "../styles/ChromaticCircle.css";
 
 import { useNotes } from "./NotesContext";
-import { updateIndices } from "../utils/ChromaticUtils";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
@@ -10,8 +9,16 @@ import {
   getComputedKeyColorOverlayed,
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
-import { ChromaticIndex, chromaticToActual, ixActual, OctaveOffset } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ChromaticIndex,
+  chromaticToActual,
+  ixActual,
+  ixOctaveOffset,
+  OctaveOffset,
+} from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
 const ChromaticCircle: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -19,6 +26,7 @@ const ChromaticCircle: React.FC = () => {
     inputMode,
     selectedNoteIndices,
     setSelectedNoteIndices,
+    selectedInversionIndex,
     selectedChordType,
     selectedAccidental,
   } = useNotes();
@@ -35,11 +43,10 @@ const ChromaticCircle: React.FC = () => {
 
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
 
-      const updatedIndices = updateIndices(
-        inputMode,
+      const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        chromaticToActual(noteIndex, ixOctaveOffset(0)),
         selectedChordType,
-        selectedNoteIndices,
-        ixActual(noteIndex),
+        selectedInversionIndex, // Assuming no inversion for piano clicks
       );
 
       setSelectedNoteIndices(updatedIndices);

@@ -1,7 +1,13 @@
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
-import { ActualIndex, ixInversion, ixOffsetArray, InversionIndex } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ixInversion,
+  ixOffsetArray,
+  InversionIndex,
+  OffsetIndex,
+} from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
@@ -49,47 +55,33 @@ export class ChordAndIntervalManager {
 
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
-    inversionIndex: InversionIndex = 0 as InversionIndex,
-  ): number[] {
+    inversionIndex: InversionIndex = ixInversion(0),
+  ): OffsetIndex[] {
     const chordDefinition = this.getDefinitionFromId(id);
-    if (chordDefinition) {
-      return chordDefinition.inversions[inversionIndex];
-    } else {
-      console.warn(`No chord definition found for type: ${id}`);
-      throw new Error(`Invalid chord type: ${id}`);
-    }
+    if (chordDefinition) return chordDefinition.inversions[inversionIndex];
+
+    console.warn(`No chord definition found for type: ${id}`);
+    throw new Error(`Invalid chord type: ${id}`);
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return isInterval
-      ? this.OFFSETS.filter((chordDef) => chordDef.isInterval())
-      : this.OFFSETS.filter((chordDef) => chordDef.isChord());
+    return this.OFFSETS.filter((chordDef) =>
+      isInterval ? chordDef.numNotes === 2 : chordDef.numNotes > 2,
+    );
   };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
-    if (indices.length === 0) {
-      //we distinguish "no notes specified" from "no match found" (unknown chord)
+    if (indices.length === 0)
       return new ChordMatch(0 as ActualIndex, new ChordDefinition(NoteGroupingId.None, []));
-    }
-    const rootNoteIndex = indices[0]; //this is the absolute index of the root note
-    const normalizedIndices = IndexUtils.normalizeIndices(indices);
-    const foundRootChord = this.OFFSETS.find((def) =>
-      IndexUtils.areIndicesEqual(normalizedIndices, def.rootChord),
-    );
-    if (foundRootChord) return new ChordMatch(rootNoteIndex, foundRootChord);
 
-    //root chord not found, try inversions
+    const normalizedIndices = IndexUtils.normalizeIndices(indices);
+
     for (const def of this.OFFSETS) {
-      if (def.hasInversions()) {
-        for (let i = 1 as InversionIndex; i < def.inversions.length; i++) {
-          const inversion = def.inversions[i];
-          const inversionIndices = IndexUtils.normalizeIndices(inversion);
-          const rootNoteAtInversion = (IndexUtils.rootNoteAtInversion(indices, i) %
-            TWELVE) as ActualIndex;
-          if (IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) {
-            return new ChordMatch(rootNoteAtInversion, def, i);
-          }
-        }
+      for (let i = 0 as InversionIndex; i < def.inversions.length; i++) {
+        const inversionIndices = IndexUtils.normalizeIndices(def.inversions[i]);
+        if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) continue;
+        const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
+        return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
       }
     }
     return undefined;
@@ -98,10 +90,12 @@ export class ChordAndIntervalManager {
   static calculateChordNotesFromIndex = (
     rootIndex: ActualIndex,
     chordType: NoteGroupingId,
+    inversionIndex: InversionIndex = ixInversion(0),
   ): ActualIndex[] => {
-    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, ixInversion(0));
+    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
+    console.log(`calculateChordNotesFromIndex: chordOffsets: ${chordOffsets}`);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-    return newNotes;
+    return IndexUtils.fitChordToAbsoluteRange(newNotes);
   };
 
   static getChordNameFromPreset = (

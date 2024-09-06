@@ -1,5 +1,5 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ActualIndex, ixInversion } from "../types/IndexTypes";
+import { ActualIndex, ixActual, ixInversion } from "../types/IndexTypes";
 import { Accidental } from "../types/Accidental";
 import { NoteGroupingId } from "../types/NoteGrouping";
 
@@ -152,7 +152,7 @@ describe("ChordAndIntervalManager", () => {
   describe("calculateChordNotesFromIndex", () => {
     it("should calculate correct notes for major chord", () => {
       const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        0 as ActualIndex,
+        ixActual(0),
         NoteGroupingId.Chord_Maj,
       );
       expect(result).toEqual([0, 4, 7]);
@@ -160,10 +160,64 @@ describe("ChordAndIntervalManager", () => {
 
     it("should calculate correct notes for minor chord", () => {
       const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        0 as ActualIndex,
+        ixActual(0),
         NoteGroupingId.Chord_Min,
       );
       expect(result).toEqual([0, 3, 7]);
+    });
+
+    it("should calculate correct notes for first inversion of major chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        NoteGroupingId.Chord_Maj,
+        ixInversion(1),
+      );
+      expect(result).toEqual([4, 7, 12]);
+    });
+
+    it("should calculate correct notes for second inversion of dominant seventh chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        NoteGroupingId.Chord_Dom7,
+        ixInversion(2),
+      );
+      expect(result).toEqual([7, 10, 12, 16]);
+    });
+
+    it("should clip notes to range when doClip is true", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(22),
+        NoteGroupingId.Chord_Maj,
+        ixInversion(0),
+      );
+      expect(result).toEqual([10, 14, 17]);
+    });
+
+    it("should calculate correct notes for first inversion of minor chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        NoteGroupingId.Chord_Min,
+        ixInversion(1),
+      );
+      expect(result).toEqual([3, 7, 12]);
+    });
+
+    it("should calculate correct notes for second inversion of augmented chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        NoteGroupingId.Chord_Min,
+        ixInversion(2),
+      );
+      expect(result).toEqual([7, 12, 15]);
+    });
+
+    it("should calculate correct notes for third inversion of dominant seventh chord", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        NoteGroupingId.Chord_Dom7,
+        ixInversion(3),
+      );
+      expect(result).toEqual([10, 12, 16, 19]);
     });
   });
 

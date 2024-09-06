@@ -31,3 +31,8 @@
   color: white;
   border-color: #2980b9;
 }
+
+.selected-inversion {
+  background-color: #4CAF50;
+  color: white;
+}

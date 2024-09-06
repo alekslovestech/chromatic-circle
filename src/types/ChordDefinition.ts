@@ -9,8 +9,9 @@ import { OffsetIndex } from "./IndexTypes";
 export class ChordDefinition {
   id: NoteGroupingId;
   inversions: OffsetIndex[][];
-  get rootChord(): OffsetIndex[] {
-    return this.inversions[0];
+
+  get numNotes(): number {
+    return this.inversions[0].length;
   }
 
   constructor(id: NoteGroupingId, root: OffsetIndex[], generateInversions: boolean = false) {
@@ -18,17 +19,10 @@ export class ChordDefinition {
     this.inversions = generateInversions ? this.generateInversions(root) : [root];
   }
 
-  isChord(): boolean {
-    return this.rootChord.length > 2;
-  }
-  isInterval(): boolean {
-    return this.rootChord.length === 2;
-  }
-
   getNoteGroupingType(): NoteGroupingType {
-    if (this.rootChord.length === 0) return NoteGroupingType.None;
-    if (this.rootChord.length === 1) return NoteGroupingType.Note;
-    if (this.rootChord.length === 2) return NoteGroupingType.Interval;
+    if (this.numNotes === 0) return NoteGroupingType.None;
+    if (this.numNotes === 1) return NoteGroupingType.Note;
+    if (this.numNotes === 2) return NoteGroupingType.Interval;
     return NoteGroupingType.Chord;
   }
 

@@ -1,6 +1,4 @@
-import { isBlackKey, updateIndices } from "../utils/ChromaticUtils";
-import { InputMode } from "../types/InputMode";
-import { NoteGroupingId } from "../types/NoteGrouping";
+import { isBlackKey } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import {
   ActualIndex,
@@ -47,38 +45,6 @@ describe("ChromaticUtils", () => {
       expect(isBlackKey(7 as ActualIndex)).toBe(false);
       expect(isBlackKey(9 as ActualIndex)).toBe(false);
       expect(isBlackKey(11 as ActualIndex)).toBe(false);
-    });
-  });
-
-  describe("updateIndices", () => {
-    it("should toggle notes in Toggle mode", () => {
-      const result = updateIndices(
-        InputMode.Toggle,
-        NoteGroupingId.Note,
-        [0, 4, 7] as ActualIndex[],
-        4 as ActualIndex,
-      );
-      expect(result).toEqual([0, 7]);
-    });
-
-    it("should return single note in SingleNote mode", () => {
-      const result = updateIndices(
-        InputMode.SingleNote,
-        NoteGroupingId.Note,
-        [0, 4, 7] as ActualIndex[],
-        2 as ActualIndex,
-      );
-      expect(result).toEqual([2]);
-    });
-
-    it("should return chord notes in ChordPresets mode", () => {
-      const result = updateIndices(
-        InputMode.ChordPresets,
-        NoteGroupingId.Chord_Maj,
-        [0, 4, 7] as ActualIndex[],
-        2 as ActualIndex,
-      );
-      expect(result).toEqual([2, 6, 9]);
     });
   });
 

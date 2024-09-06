@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useNotes } from "./NotesContext";
-import { updateIndices } from "../utils/ChromaticUtils";
-import { Accidental } from "../types/Accidental";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ixInversion } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex, ixInversion } from "../types/IndexTypes";
+import { IndexUtils } from "../utils/IndexUtils";
 
 const ChordPresetsSelector: React.FC = () => {
   const {
@@ -14,6 +13,8 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
+    selectedInversionIndex,
+    setSelectedInversionIndex,
     setSelectedAccidental,
   } = useNotes();
 
@@ -30,31 +31,46 @@ const ChordPresetsSelector: React.FC = () => {
 
   useEffect(() => {
     const originalIndex = selectedNoteIndices[0];
-    const updatedIndices = updateIndices(
-      inputMode,
-      selectedChordType,
-      selectedNoteIndices,
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
       originalIndex,
+      selectedChordType,
+      ixInversion(0),
     );
     setSelectedNoteIndices(updatedIndices);
   }, [selectedChordType]);
 
   if (inputMode === InputMode.Toggle) return null;
 
-  const handleChordTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const incomingChord = event.target.value as NoteGroupingId;
-    setSelectedChordType(incomingChord);
-    const originalRootIndex = selectedNoteIndices[0];
-    const newNotes = ChordAndIntervalManager.calculateChordNotesFromIndex(
-      originalRootIndex,
-      incomingChord,
+  const handleChordTypeChange = (incomingChordType: NoteGroupingId) => {
+    const originalRootIndex = IndexUtils.rootNoteAtInversion(
+      selectedNoteIndices,
+      selectedInversionIndex,
     );
-    setSelectedNoteIndices(newNotes);
+    setSelectedInversionIndex(ixInversion(0)); //if we're switching chord types, reset to root position
+    setSelectedChordType(incomingChordType);
+
+    //UpdateNotesFromPresets(originalRootIndex, incomingChordType, selectedInversionIndex);
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      incomingChordType,
+      selectedInversionIndex,
+    );
+    setSelectedNoteIndices(updatedIndices);
   };
 
-  const handleAccidentalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const incomingAccidental: Accidental = event.target.value as Accidental;
-    setSelectedAccidental(incomingAccidental);
+  const handleInversionChange = (newInversionIndex: InversionIndex) => {
+    const originalRootIndex = IndexUtils.rootNoteAtInversion(
+      selectedNoteIndices,
+      selectedInversionIndex,
+    );
+    setSelectedInversionIndex(newInversionIndex);
+    //UpdateNotesFromPresets(originalRootIndex, selectedChordType, newInversionIndex);
+    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+      originalRootIndex,
+      selectedChordType,
+      newInversionIndex,
+    );
+    setSelectedNoteIndices(updatedIndices);
   };
 
   const renderInversionButtons = () => {
@@ -65,7 +81,11 @@ const ChordPresetsSelector: React.FC = () => {
         <div>
           <span>Inversion: </span>
           {Array.from({ length: inversionCount }, (_, i) => (
-            <button key={i} onClick={() => console.log(`Inversion ${i} selected`)}>
+            <button
+              key={i}
+              onClick={() => handleInversionChange(ixInversion(i))}
+              className={selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""}
+            >
               {ixInversion(i)}
             </button>
           ))}
@@ -78,7 +98,10 @@ const ChordPresetsSelector: React.FC = () => {
   return (
     (inputMode === InputMode.IntervalPresets || inputMode === InputMode.ChordPresets) && (
       <div>
-        <select onChange={handleChordTypeChange} value={selectedChordType}>
+        <select
+          value={selectedChordType}
+          onChange={(e) => handleChordTypeChange(e.target.value as NoteGroupingId)}
+        >
           {ChordAndIntervalManager.IntervalOrChordDefinitions(
             inputMode === InputMode.IntervalPresets,
           ).map((chordDef) => (
