@@ -55,15 +55,13 @@ export class ChordAndIntervalManager {
 
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
-    inversionIndex: InversionIndex = 0 as InversionIndex,
+    inversionIndex: InversionIndex = ixInversion(0),
   ): OffsetIndex[] {
     const chordDefinition = this.getDefinitionFromId(id);
-    if (chordDefinition) {
-      return chordDefinition.inversions[inversionIndex];
-    } else {
-      console.warn(`No chord definition found for type: ${id}`);
-      throw new Error(`Invalid chord type: ${id}`);
-    }
+    if (chordDefinition) return chordDefinition.inversions[inversionIndex];
+
+    console.warn(`No chord definition found for type: ${id}`);
+    throw new Error(`Invalid chord type: ${id}`);
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
@@ -73,9 +71,8 @@ export class ChordAndIntervalManager {
   };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
-    if (indices.length === 0) {
+    if (indices.length === 0)
       return new ChordMatch(0 as ActualIndex, new ChordDefinition(NoteGroupingId.None, []));
-    }
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
@@ -87,7 +84,6 @@ export class ChordAndIntervalManager {
         return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
       }
     }
-
     return undefined;
   }
 
@@ -99,7 +95,7 @@ export class ChordAndIntervalManager {
     const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
     console.log(`calculateChordNotesFromIndex: chordOffsets: ${chordOffsets}`);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-    return newNotes;
+    return IndexUtils.fitChordToAbsoluteRange(newNotes);
   };
 
   static getChordNameFromPreset = (

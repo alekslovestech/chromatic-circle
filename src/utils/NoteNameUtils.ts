@@ -1,7 +1,6 @@
 import { Accidental } from "../types/Accidental";
 import { ActualIndex } from "../types/IndexTypes";
 import { NotationType } from "../types/NotationType";
-import { NoteGroupingId } from "../types/NoteGrouping";
 import { getAccidentalSign, getNoteWithAccidentalFromIndex } from "./NoteUtils";
 
 export const getNoteTextFromIndex = (
