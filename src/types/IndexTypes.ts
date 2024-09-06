@@ -20,7 +20,7 @@ export function ixInversion(n: number): InversionIndex {
 }
 
 export function ixActual(n: number): ActualIndex {
-  if (n < 0 || n > 2 * TWELVE || !Number.isInteger(n)) throw new Error("Invalid ActualIndex");
+  if (n < 0 || n > 2 * TWELVE || !Number.isInteger(n)) throw new Error("Invalid ActualIndex=" + n);
   return n as ActualIndex;
 }
 

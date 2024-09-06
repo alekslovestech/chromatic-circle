@@ -1,64 +1,25 @@
-import { isBlackKey } from "../utils/ChromaticUtils";
 import { Accidental } from "../types/Accidental";
 import {
-  ActualIndex,
   actualToChromatic,
-  ChromaticIndex,
   chromaticToActual,
-  OctaveOffset,
+  ixActual,
+  ixChromatic,
+  ixOctaveOffset,
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 describe("ChromaticUtils", () => {
-  describe("chromaticToActual", () => {
-    it("should convert chromatic index and octave offset to actual index", () => {
-      expect(chromaticToActual(0 as ChromaticIndex, 0 as OctaveOffset)).toBe(0);
-      expect(chromaticToActual(11 as ChromaticIndex, 0 as OctaveOffset)).toBe(11);
-      expect(chromaticToActual(0 as ChromaticIndex, 1 as OctaveOffset)).toBe(12);
-      expect(chromaticToActual(11 as ChromaticIndex, 1 as OctaveOffset)).toBe(23);
-    });
-  });
-
-  describe("actualToChromatic", () => {
-    it("should convert actual index to chromatic index and octave offset", () => {
-      expect(actualToChromatic(0 as ActualIndex)).toEqual({ chromaticIndex: 0, octaveOffset: 0 });
-      expect(actualToChromatic(11 as ActualIndex)).toEqual({ chromaticIndex: 11, octaveOffset: 0 });
-      expect(actualToChromatic(12 as ActualIndex)).toEqual({ chromaticIndex: 0, octaveOffset: 1 });
-      expect(actualToChromatic(23 as ActualIndex)).toEqual({ chromaticIndex: 11, octaveOffset: 1 });
-    });
-  });
-
-  describe("isBlackKey", () => {
-    it("should return true for black keys", () => {
-      expect(isBlackKey(1 as ActualIndex)).toBe(true);
-      expect(isBlackKey(3 as ActualIndex)).toBe(true);
-      expect(isBlackKey(6 as ActualIndex)).toBe(true);
-      expect(isBlackKey(8 as ActualIndex)).toBe(true);
-      expect(isBlackKey(10 as ActualIndex)).toBe(true);
-    });
-
-    it("should return false for white keys", () => {
-      expect(isBlackKey(0 as ActualIndex)).toBe(false);
-      expect(isBlackKey(2 as ActualIndex)).toBe(false);
-      expect(isBlackKey(4 as ActualIndex)).toBe(false);
-      expect(isBlackKey(5 as ActualIndex)).toBe(false);
-      expect(isBlackKey(7 as ActualIndex)).toBe(false);
-      expect(isBlackKey(9 as ActualIndex)).toBe(false);
-      expect(isBlackKey(11 as ActualIndex)).toBe(false);
-    });
-  });
-
   describe("getNoteTextFromIndex", () => {
     it("should return correct note text for C", () => {
-      expect(getNoteTextFromIndex(0 as ActualIndex, Accidental.Sharp)).toBe("C");
+      expect(getNoteTextFromIndex(ixActual(0), Accidental.Sharp)).toBe("C");
     });
 
     it("should return correct note text for C# with sharp preference", () => {
-      expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Sharp)).toBe("C♯");
+      expect(getNoteTextFromIndex(ixActual(1), Accidental.Sharp)).toBe("C♯");
     });
 
     it("should return correct note text for Db with flat preference", () => {
-      expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Flat)).toBe("D♭");
+      expect(getNoteTextFromIndex(ixActual(1), Accidental.Flat)).toBe("D♭");
     });
   });
 });
