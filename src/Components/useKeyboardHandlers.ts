@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useNotes } from "./NotesContext";
-import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
+import { ActualIndex } from "../types/IndexTypes";
 import { calculateUpdatedIndices, isRootNote } from "../utils/KeyboardUtils";
 
 export function useKeyboardHandlers() {
@@ -13,7 +13,7 @@ export function useKeyboardHandlers() {
   } = useNotes();
 
   const handleKeyClick = useCallback(
-    (newIndex: ActualIndex | ChromaticIndex) => {
+    (newIndex: ActualIndex) => {
       const updatedIndices = calculateUpdatedIndices(
         newIndex,
         inputMode,

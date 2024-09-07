@@ -1,4 +1,4 @@
-import { ActualIndex, ChromaticIndex, InversionIndex } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { IndexUtils } from "./IndexUtils";
@@ -20,7 +20,7 @@ export function isRootNote(
 }
 
 export function calculateUpdatedIndices(
-  newIndex: ActualIndex | ChromaticIndex,
+  newIndex: ActualIndex,
   inputMode: InputMode,
   selectedNoteIndices: ActualIndex[],
   selectedChordType: NoteGroupingId,
@@ -29,7 +29,7 @@ export function calculateUpdatedIndices(
   if (inputMode === InputMode.Toggle)
     return IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex as ActualIndex);
   return ChordAndIntervalManager.calculateChordNotesFromIndex(
-    newIndex as ActualIndex,
+    newIndex,
     selectedChordType,
     selectedInversionIndex,
   );
