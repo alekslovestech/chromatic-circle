@@ -1,0 +1,85 @@
+.preset-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+h3 {
+    margin: 0 0 10px 0;
+}
+
+.chord-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.interval-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.chord-grid button,
+.interval-column button {
+    width: 70px;
+    height: 35px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 0;
+}
+
+.chord-grid button {
+    width: 50px; /* Narrower buttons for chord presets */
+}
+
+.interval-column button {
+    width: 120px; /* Wider buttons for interval presets */
+    height: 25px; /* Slightly less tall for interval presets */
+}
+
+.chord-grid button:hover,
+.interval-column button:hover {
+    background-color: #e0e0e0;
+}
+
+.chord-grid button.selected-preset,
+.interval-column button.selected-preset {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.inversion-buttons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.inversion-buttons button {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 0;
+}
+
+.inversion-buttons button:hover {
+    background-color: #e0e0e0;
+}
+
+.inversion-buttons button.selected-inversion {
+    background-color: #2196F3;
+    color: white;
+}

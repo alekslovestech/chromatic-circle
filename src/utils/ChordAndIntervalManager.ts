@@ -37,7 +37,7 @@ export class ChordAndIntervalManager {
 
     // Seventh chords
     new ChordDefinition(NoteGroupingId.Chord_Maj7, ixOffsetArray([0, 4, 7, 11]), true),
-    new ChordDefinition(NoteGroupingId.Chord_Min7, ixOffsetArray([0, 3, 7, 10]), true),
+    new ChordDefinition(NoteGroupingId.Chord_Min7, ixOffsetArray([0, 3, 7, 10]), false),
     new ChordDefinition(NoteGroupingId.Chord_Dom7, ixOffsetArray([0, 4, 7, 10]), true),
     new ChordDefinition(NoteGroupingId.Chord_MMaj7, ixOffsetArray([0, 3, 7, 11]), true),
     new ChordDefinition(NoteGroupingId.Chord_M7b5, ixOffsetArray([0, 3, 6, 10]), true),
