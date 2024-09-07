@@ -54,6 +54,11 @@ export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition | undefined =>
     this.OFFSETS.find((def) => def.id === id);
 
+  static hasInversions = (id: NoteGroupingId): boolean => {
+    const definition = this.getDefinitionFromId(id);
+    return definition ? definition.inversions.length > 1 : false;
+  };
+
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
     inversionIndex: InversionIndex = ixInversion(0),

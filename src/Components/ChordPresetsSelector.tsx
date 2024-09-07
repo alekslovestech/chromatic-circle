@@ -15,7 +15,6 @@ const ChordPresetsSelector: React.FC = () => {
     setSelectedChordType,
     selectedInversionIndex,
     setSelectedInversionIndex,
-    setSelectedAccidental,
   } = useNotes();
 
   useEffect(() => {

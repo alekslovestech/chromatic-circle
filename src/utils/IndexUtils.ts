@@ -46,4 +46,16 @@ export class IndexUtils {
 
   static isBlackKey = (actualIndex: ActualIndex): boolean =>
     [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
+
+  //if the new index is already selected, remove it, otherwise add it
+  static ToggleNewIndex = (
+    selectedNoteIndices: ActualIndex[],
+    newIndex: ActualIndex,
+  ): ActualIndex[] => {
+    let updatedIndices = selectedNoteIndices.includes(newIndex)
+      ? selectedNoteIndices.filter((index) => index !== newIndex)
+      : [...selectedNoteIndices, newIndex];
+    updatedIndices = updatedIndices.sort((a, b) => a - b);
+    return updatedIndices;
+  };
 }

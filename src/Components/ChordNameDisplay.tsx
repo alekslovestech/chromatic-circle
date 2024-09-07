@@ -3,25 +3,18 @@ import { useNotes } from "./NotesContext";
 import "../styles/ChordNameDisplay.css";
 import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
-import { Accidental } from "../types/Accidental";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const ChordDisplay: React.FC = () => {
-  const {
-    selectedNoteIndices,
-    inputMode,
-    selectedChordType,
-    selectedAccidental,
-    selectedInversionIndex,
-  } = useNotes();
+  const { selectedNoteIndices, inputMode, selectedAccidental } = useNotes();
 
   const topDownNotes = selectedNoteIndices
     .slice()
     .reverse()
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
 
-  const DetectedChordJSX = (selectedNoteIndices: ActualIndex[], selectedAccidental: Accidental) => {
+  const DetectedChordJSX = () => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
     const noteGrouping = chordMatch?.definition.getNoteGroupingType();
     const name = chordMatch?.deriveChordName(selectedAccidental);
@@ -40,17 +33,11 @@ const ChordDisplay: React.FC = () => {
       {(inputMode === InputMode.ChordPresets && (
         <div className="chord-name">
           Chord:{" "}
-          {selectedNoteIndices.length === 0
-            ? "UNKNOWN"
-            : ChordAndIntervalManager.getChordNameFromIndices(selectedNoteIndices)}
+          {ChordAndIntervalManager.getChordNameFromIndices(selectedNoteIndices, selectedAccidental)}
           <br />
         </div>
       )) ||
-        (inputMode === InputMode.Toggle && (
-          <div className="chord-name">
-            {DetectedChordJSX(selectedNoteIndices, selectedAccidental)}
-          </div>
-        ))}
+        (inputMode === InputMode.Toggle && <div className="chord-name">{DetectedChordJSX()}</div>)}
 
       <div className="chord-notes">
         notes:{" "}
