@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/KeyboardLinear.css";
-
 import { useNotes } from "./NotesContext";
 import {
   getBlackWhiteString,
@@ -11,42 +10,16 @@ import {
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { InputMode } from "../types/InputMode";
-import { IndexUtils } from "../utils/IndexUtils";
+import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
 const KeyboardLinear: React.FC = () => {
-  const {
-    selectedNoteIndices,
-    setSelectedNoteIndices,
-    selectedInversionIndex,
-    selectedAccidental,
-    selectedChordType,
-    inputMode,
-  } = useNotes();
-
-  const handleKeyClick = (newIndex: ActualIndex) => {
-    let updatedIndices = selectedNoteIndices;
-    if (inputMode === InputMode.Toggle) {
-      updatedIndices = IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex);
-    } else {
-      updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        newIndex,
-        selectedChordType,
-        selectedInversionIndex,
-      );
-    }
-    setSelectedNoteIndices(updatedIndices);
-  };
-
-  const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
-  const hasInversions =
-    inputMode !== InputMode.Toggle && ChordAndIntervalManager.hasInversions(selectedChordType);
+  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const keys = [];
   for (let actualIndex = 0 as ActualIndex; actualIndex < 2 * TWELVE; actualIndex++) {
     const isSelected = selectedNoteIndices.includes(actualIndex);
-    const isRootNote = hasInversions && actualIndex === rootNote;
+    const isRootNote = checkIsRootNote(actualIndex);
 
     keys.push(
       <div

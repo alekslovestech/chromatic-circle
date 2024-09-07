@@ -17,18 +17,14 @@ import {
   OctaveOffset,
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
+import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const {
-    inputMode,
-    selectedNoteIndices,
-    setSelectedNoteIndices,
-    selectedInversionIndex,
-    selectedChordType,
-    selectedAccidental,
-  } = useNotes();
+
+  const { selectedNoteIndices, selectedAccidental } = useNotes();
+
+  const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   useEffect(() => {
     const HandleCanvasClick = (event: MouseEvent) => {
@@ -41,14 +37,7 @@ const KeyboardCircular: React.FC = () => {
       if (!CircleMath.IsRadiusInRange(radius)) return;
 
       const noteIndex = CircleMath.AngleToNoteIndex(angle);
-
-      const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        chromaticToActual(noteIndex, ixOctaveOffset(0)),
-        selectedChordType,
-        selectedInversionIndex, // Assuming no inversion for piano clicks
-      );
-
-      setSelectedNoteIndices(updatedIndices);
+      handleKeyClick(chromaticToActual(noteIndex, ixOctaveOffset(0)));
     };
 
     const drawCircle = () => {
@@ -79,6 +68,13 @@ const KeyboardCircular: React.FC = () => {
 
       ctx.strokeStyle = getComputedColor("--key-border");
       ctx.stroke();
+
+      if (checkIsRootNote(chromaticToActual(index, ixOctaveOffset(0)))) {
+        ctx.strokeStyle = getComputedColor("--root-note-highlight");
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.lineWidth = 1;
+      }
     };
 
     const drawText = (ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) => {
@@ -105,13 +101,7 @@ const KeyboardCircular: React.FC = () => {
     return () => {
       canvasRef.current?.removeEventListener("click", HandleCanvasClick);
     };
-  }, [
-    inputMode,
-    selectedNoteIndices,
-    setSelectedNoteIndices,
-    selectedChordType,
-    selectedAccidental,
-  ]);
+  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote]);
 
   return (
     <div className="chromatic-circle-container">
