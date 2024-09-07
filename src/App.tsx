@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles/App.css";
 import { NotesProvider } from "./Components/NotesContext";
-import PianoKeyboard from "./Components/PianoKeyboard";
-import ChromaticCircle from "./Components/ChromaticCircle";
+import KeyboardLinear from "./Components/KeyboardLinear";
+import KeyboardCircular from "./Components/KeyboardCircular";
 import NotesRenderer from "./Components/NotesRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
 import ChordPresetsSelector from "./Components/ChordPresetsSelector";
@@ -19,10 +19,10 @@ function App() {
           <div className="main-layout">
             <div className="grid-layout">
               <div className="piano-keyboard-container">
-                <PianoKeyboard />
+                <KeyboardLinear />
               </div>
               <div className="chromatic-circle-container">
-                <ChromaticCircle />
+                <KeyboardCircular />
               </div>
               <div className="notes-renderer">
                 <NotesRenderer />

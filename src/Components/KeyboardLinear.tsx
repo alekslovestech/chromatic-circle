@@ -1,9 +1,10 @@
 import React from "react";
-import "../styles/PianoKeyboard.css";
+import "../styles/KeyboardLinear.css";
 
 import { useNotes } from "./NotesContext";
 import {
   getBlackWhiteString,
+  getComputedColor,
   getComputedKeyColor,
   getComputedTextColor,
 } from "../utils/ColorUtils";
@@ -11,29 +12,41 @@ import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
+import { InputMode } from "../types/InputMode";
+import { IndexUtils } from "../utils/IndexUtils";
 
-const PianoKeyboard: React.FC = () => {
+const KeyboardLinear: React.FC = () => {
   const {
     selectedNoteIndices,
     setSelectedNoteIndices,
     selectedInversionIndex,
     selectedAccidental,
     selectedChordType,
+    inputMode,
   } = useNotes();
 
-  const handleKeyClick = (newRootIndex: ActualIndex) => {
-    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-      newRootIndex,
-      selectedChordType,
-      selectedInversionIndex, // Assuming no inversion for piano clicks
-    );
-
+  const handleKeyClick = (newIndex: ActualIndex) => {
+    let updatedIndices = selectedNoteIndices;
+    if (inputMode === InputMode.Toggle) {
+      updatedIndices = IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex);
+    } else {
+      updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        newIndex,
+        selectedChordType,
+        selectedInversionIndex,
+      );
+    }
     setSelectedNoteIndices(updatedIndices);
   };
+
+  const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
+  const hasInversions =
+    inputMode !== InputMode.Toggle && ChordAndIntervalManager.hasInversions(selectedChordType);
 
   const keys = [];
   for (let actualIndex = 0 as ActualIndex; actualIndex < 2 * TWELVE; actualIndex++) {
     const isSelected = selectedNoteIndices.includes(actualIndex);
+    const isRootNote = hasInversions && actualIndex === rootNote;
 
     keys.push(
       <div
@@ -42,6 +55,7 @@ const PianoKeyboard: React.FC = () => {
         style={{
           backgroundColor: getComputedKeyColor(actualIndex, isSelected),
           color: getComputedTextColor(actualIndex),
+          border: isRootNote ? `2px solid ${getComputedColor("--root-note-highlight")}` : undefined,
         }}
         onClick={() => handleKeyClick(actualIndex)}
       >
@@ -57,4 +71,4 @@ const PianoKeyboard: React.FC = () => {
   );
 };
 
-export default PianoKeyboard;
+export default KeyboardLinear;

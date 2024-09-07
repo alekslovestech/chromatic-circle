@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import "../styles/ChromaticCircle.css";
+import "../styles/KeyboardCircular.css";
 
 import { useNotes } from "./NotesContext";
 import { Constants, CircleMath } from "../utils/CircleMath";
@@ -10,7 +10,6 @@ import {
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
 import {
-  ActualIndex,
   ChromaticIndex,
   chromaticToActual,
   ixActual,
@@ -20,7 +19,7 @@ import {
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
-const ChromaticCircle: React.FC = () => {
+const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const {
     inputMode,
@@ -126,4 +125,4 @@ const ChromaticCircle: React.FC = () => {
   );
 };
 
-export default ChromaticCircle;
+export default KeyboardCircular;
