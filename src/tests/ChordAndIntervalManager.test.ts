@@ -1,6 +1,6 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
-import { Accidental } from "../types/Accidental";
+import { AccidentalType } from "../types/AccidentalType";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
 describe("ChordAndIntervalManager", () => {
@@ -200,7 +200,7 @@ describe("ChordAndIntervalManager", () => {
         ChordAndIntervalManager.getChordNameFromIndices(
           ixActualArray([1, 5, 8]),
           ChordDisplayMode.Verbose,
-          Accidental.Flat,
+          AccidentalType.Flat,
         ),
       ).toBe("D♭");
     });

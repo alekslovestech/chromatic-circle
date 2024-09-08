@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { Accidental } from "../types/Accidental";
+import { AccidentalType } from "../types/AccidentalType";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
@@ -9,13 +9,13 @@ interface NotesContextType {
   inputMode: InputMode;
   selectedNoteIndices: ActualIndex[];
   selectedChordType: NoteGroupingId;
-  selectedAccidental: Accidental;
+  selectedAccidental: AccidentalType;
   selectedInversionIndex: InversionIndex;
   chordDisplayMode: ChordDisplayMode;
   setInputMode: (mode: InputMode) => void;
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   setSelectedChordType: (type: NoteGroupingId) => void;
-  setSelectedAccidental: (sharpFlat: Accidental) => void;
+  setSelectedAccidental: (sharpFlat: AccidentalType) => void;
   setSelectedInversionIndex: (index: InversionIndex) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
 }
@@ -28,7 +28,9 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(
     "Note" as NoteGroupingId,
   );
-  const [selectedAccidental, setSelectedAccidental] = useState<Accidental>(Accidental.Sharp);
+  const [selectedAccidental, setSelectedAccidental] = useState<AccidentalType>(
+    AccidentalType.Sharp,
+  );
   const [selectedInversionIndex, setSelectedInversionIndex] = useState<InversionIndex>(
     ixInversion(0),
   );

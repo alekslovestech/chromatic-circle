@@ -1,22 +1,22 @@
 import { NotationType } from "../types/NotationType";
-import { Accidental } from "../types/Accidental";
+import { AccidentalType } from "../types/AccidentalType";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
 
-export function getAccidentalSign(accidental: Accidental, displayMode: NotationType): string {
+export function getAccidentalSign(accidental: AccidentalType, displayMode: NotationType): string {
   const accidentalSigns = {
     [NotationType.ScreenDisplay]: {
-      [Accidental.None]: "",
-      [Accidental.Natural]: "♮",
-      [Accidental.Sharp]: "♯",
-      [Accidental.Flat]: "♭",
+      [AccidentalType.None]: "",
+      [AccidentalType.Natural]: "♮",
+      [AccidentalType.Sharp]: "♯",
+      [AccidentalType.Flat]: "♭",
     },
     [NotationType.EasyScore]: {
-      [Accidental.None]: "",
-      [Accidental.Natural]: "n",
-      [Accidental.Sharp]: "#",
-      [Accidental.Flat]: "b",
+      [AccidentalType.None]: "",
+      [AccidentalType.Natural]: "n",
+      [AccidentalType.Sharp]: "#",
+      [AccidentalType.Flat]: "b",
     },
   };
 
@@ -25,7 +25,7 @@ export function getAccidentalSign(accidental: Accidental, displayMode: NotationT
 
 export function getNoteWithAccidentalFromIndex(
   actualIndex: ActualIndex,
-  accidentalPreference: Accidental,
+  accidentalPreference: AccidentalType,
 ): NoteWithAccidental {
   const notesArray = getNotesArray(accidentalPreference);
   const indexAndOctave = actualToChromatic(actualIndex);
@@ -35,15 +35,15 @@ export function getNoteWithAccidentalFromIndex(
   };
 }
 
-export const getOppositeAccidental = (prevAccidental: Accidental): Accidental => {
-  if (prevAccidental === Accidental.Sharp) return Accidental.Flat;
-  if (prevAccidental === Accidental.Flat) return Accidental.Sharp;
+export const getOppositeAccidental = (prevAccidental: AccidentalType): AccidentalType => {
+  if (prevAccidental === AccidentalType.Sharp) return AccidentalType.Flat;
+  if (prevAccidental === AccidentalType.Flat) return AccidentalType.Sharp;
   return prevAccidental; //no change
 };
 
 export const getNoteTextFromIndex = (
   actualIndex: ActualIndex,
-  sharpOrFlat: Accidental,
+  sharpOrFlat: AccidentalType,
   showOctave: boolean = false,
 ): string => {
   const noteWithAccidental = getNoteWithAccidentalFromIndex(actualIndex, sharpOrFlat);

@@ -1,4 +1,4 @@
-import { Accidental } from "../types/Accidental";
+import { AccidentalType } from "../types/AccidentalType";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
 import {
@@ -96,8 +96,8 @@ export class ChordAndIntervalManager {
 
   static getChordNameFromIndices(
     indices: ActualIndex[],
-    displayMode: ChordDisplayMode = ChordDisplayMode.Verbose,
-    accidental: Accidental = Accidental.Sharp,
+    displayMode = ChordDisplayMode.Verbose,
+    accidental = AccidentalType.Sharp,
   ): string {
     const chordMatch = this.getMatchFromIndices(indices);
     if (chordMatch) return chordMatch.deriveChordName(displayMode, accidental);

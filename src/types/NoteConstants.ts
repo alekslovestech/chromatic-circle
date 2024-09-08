@@ -1,36 +1,36 @@
-import { Accidental } from "./Accidental";
+import { AccidentalType } from "./AccidentalType";
 
 export const TWELVE = 12; //the magic number
 
-export const getNotesArray = (preference: Accidental) =>
-  preference === Accidental.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
+export const getNotesArray = (preference: AccidentalType) =>
+  preference === AccidentalType.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
 
 const NOTES_WITH_SHARP = [
-  { noteName: "C", accidental: Accidental.None },
-  { noteName: "C", accidental: Accidental.Sharp },
-  { noteName: "D", accidental: Accidental.None },
-  { noteName: "D", accidental: Accidental.Sharp },
-  { noteName: "E", accidental: Accidental.None },
-  { noteName: "F", accidental: Accidental.None },
-  { noteName: "F", accidental: Accidental.Sharp },
-  { noteName: "G", accidental: Accidental.None },
-  { noteName: "G", accidental: Accidental.Sharp },
-  { noteName: "A", accidental: Accidental.None },
-  { noteName: "A", accidental: Accidental.Sharp },
-  { noteName: "B", accidental: Accidental.None },
+  { noteName: "C", accidental: AccidentalType.None },
+  { noteName: "C", accidental: AccidentalType.Sharp },
+  { noteName: "D", accidental: AccidentalType.None },
+  { noteName: "D", accidental: AccidentalType.Sharp },
+  { noteName: "E", accidental: AccidentalType.None },
+  { noteName: "F", accidental: AccidentalType.None },
+  { noteName: "F", accidental: AccidentalType.Sharp },
+  { noteName: "G", accidental: AccidentalType.None },
+  { noteName: "G", accidental: AccidentalType.Sharp },
+  { noteName: "A", accidental: AccidentalType.None },
+  { noteName: "A", accidental: AccidentalType.Sharp },
+  { noteName: "B", accidental: AccidentalType.None },
 ];
 
 const NOTES_WITH_FLAT = [
-  { noteName: "C", accidental: Accidental.None },
-  { noteName: "D", accidental: Accidental.Flat },
-  { noteName: "D", accidental: Accidental.None },
-  { noteName: "E", accidental: Accidental.Flat },
-  { noteName: "E", accidental: Accidental.None },
-  { noteName: "F", accidental: Accidental.None },
-  { noteName: "G", accidental: Accidental.Flat },
-  { noteName: "G", accidental: Accidental.None },
-  { noteName: "A", accidental: Accidental.Flat },
-  { noteName: "A", accidental: Accidental.None },
-  { noteName: "B", accidental: Accidental.Flat },
-  { noteName: "B", accidental: Accidental.None },
+  { noteName: "C", accidental: AccidentalType.None },
+  { noteName: "D", accidental: AccidentalType.Flat },
+  { noteName: "D", accidental: AccidentalType.None },
+  { noteName: "E", accidental: AccidentalType.Flat },
+  { noteName: "E", accidental: AccidentalType.None },
+  { noteName: "F", accidental: AccidentalType.None },
+  { noteName: "G", accidental: AccidentalType.Flat },
+  { noteName: "G", accidental: AccidentalType.None },
+  { noteName: "A", accidental: AccidentalType.Flat },
+  { noteName: "A", accidental: AccidentalType.None },
+  { noteName: "B", accidental: AccidentalType.Flat },
+  { noteName: "B", accidental: AccidentalType.None },
 ];

@@ -1,7 +1,7 @@
-import { Accidental } from "./Accidental";
+import { AccidentalType } from "./AccidentalType";
 
 export interface NoteWithAccidental {
   noteName: string;
-  accidental: Accidental;
+  accidental: AccidentalType;
   octave: number;
 }

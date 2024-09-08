@@ -1,6 +1,6 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { Accidental } from "./Accidental";
+import { AccidentalType } from "./AccidentalType";
 import { ChordDefinition } from "./ChordDefinition";
 import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
@@ -18,7 +18,7 @@ export class ChordMatch {
     this.inversionIndex = ixInversion(inversionIndex);
   }
 
-  getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: Accidental) => {
+  getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: AccidentalType) => {
     const rootNoteName = getNoteTextFromIndex(this.rootNote, accidental, false);
     const idWithoutRoot = getId(this.definition.id, displayMode);
     const chordNameRoot = `${rootNoteName}${idWithoutRoot || ""}`;
@@ -27,7 +27,7 @@ export class ChordMatch {
 
   deriveChordName(
     displayMode: ChordDisplayMode,
-    selectedAccidental: Accidental = Accidental.Sharp,
+    selectedAccidental = AccidentalType.Sharp,
   ): string {
     const offsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
       this.definition.id,
