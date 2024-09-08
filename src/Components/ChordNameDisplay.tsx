@@ -7,7 +7,7 @@ import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 
 const ChordDisplay: React.FC = () => {
-  const { selectedNoteIndices, inputMode, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, inputMode, selectedAccidental, chordDisplayMode } = useNotes();
 
   const topDownNotes = selectedNoteIndices
     .slice()
@@ -17,7 +17,7 @@ const ChordDisplay: React.FC = () => {
   const DetectedChordJSX = () => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
     const noteGrouping = chordMatch?.definition.getNoteGroupingType();
-    const name = chordMatch?.deriveChordName(selectedAccidental);
+    const name = chordMatch?.deriveChordName(chordDisplayMode, selectedAccidental);
     return (
       <>
         Detected {noteGrouping}:
@@ -33,13 +33,17 @@ const ChordDisplay: React.FC = () => {
       {(inputMode === InputMode.ChordPresets && (
         <div className="chord-name">
           Chord:{" "}
-          {ChordAndIntervalManager.getChordNameFromIndices(selectedNoteIndices, selectedAccidental)}
+          {ChordAndIntervalManager.getChordNameFromIndices(
+            selectedNoteIndices,
+            chordDisplayMode,
+            selectedAccidental,
+          )}
           <br />
         </div>
       )) ||
         (inputMode === InputMode.Toggle && <div className="chord-name">{DetectedChordJSX()}</div>)}
 
-      <div className="chord-notes">
+      <div className="chord-notes" style={{ display: "none" }}>
         notes:{" "}
         {topDownNotes.map((note, index) => (
           <span key={index}>

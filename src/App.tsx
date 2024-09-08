@@ -5,7 +5,7 @@ import KeyboardLinear from "./Components/KeyboardLinear";
 import KeyboardCircular from "./Components/KeyboardCircular";
 import NotesRenderer from "./Components/NotesRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
-import ChordPresetsSelector from "./Components/ChordPresetsSelector";
+import PresetsSelector from "./Components/PresetsSelector";
 import ModeSelector from "./Components/ModeSelector";
 import AccidentalToggle from "./Components/AccidentalToggle";
 import AudioPlayer from "./Components/AudioPlayer";
@@ -31,7 +31,7 @@ function App() {
             <div className="settings-column">
               <AccidentalToggle />
               <ModeSelector />
-              <ChordPresetsSelector />
+              <PresetsSelector />
               <AudioPlayer />
               <ChordDisplay />
             </div>

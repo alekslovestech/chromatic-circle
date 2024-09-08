@@ -1,13 +1,13 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import ChordPresetsSelector from "../../Components/ChordPresetsSelector";
+import PresetsSelector from "../../Components/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 
 describe.skip("ChordPresetsSelector", () => {
   const renderComponent = () => {
     return render(
       <NotesProvider>
-        <ChordPresetsSelector />
+        <PresetsSelector />
       </NotesProvider>,
     );
   };

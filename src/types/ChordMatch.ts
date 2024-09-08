@@ -2,9 +2,10 @@ import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
 import { Accidental } from "./Accidental";
 import { ChordDefinition } from "./ChordDefinition";
+import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
-import { NoteGroupingId } from "./NoteGrouping";
+import { getId } from "./NoteGrouping";
 
 export class ChordMatch {
   rootNote: ActualIndex;
@@ -17,25 +18,23 @@ export class ChordMatch {
     this.inversionIndex = ixInversion(inversionIndex);
   }
 
-  private SimplifyMinMaj(groupingId: NoteGroupingId): string {
-    if (groupingId === NoteGroupingId.Chord_Maj) {
-      return "";
-    } else if (groupingId === NoteGroupingId.Chord_Min) {
-      return "m";
-    } else if (groupingId === NoteGroupingId.Note) {
-      return "(note)";
-    }
-    return groupingId.toString();
-  }
+  getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: Accidental) => {
+    const rootNoteName = getNoteTextFromIndex(this.rootNote, accidental, false);
+    const idWithoutRoot = getId(this.definition.id, displayMode);
+    const chordNameRoot = `${rootNoteName}${idWithoutRoot || ""}`;
+    return chordNameRoot;
+  };
 
-  deriveChordName(selectedAccidental: Accidental = Accidental.Sharp): string {
+  deriveChordName(
+    displayMode: ChordDisplayMode,
+    selectedAccidental: Accidental = Accidental.Sharp,
+  ): string {
     const offsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
       this.definition.id,
       this.inversionIndex,
     );
     const bassNoteIndex = ((this.rootNote + offsets[0] + TWELVE) % TWELVE) as ActualIndex;
-    const rootNoteName = getNoteTextFromIndex(this.rootNote, selectedAccidental);
-    const chordNameRoot = `${rootNoteName}${this.SimplifyMinMaj(this.definition.id)}`;
+    const chordNameRoot = this.getRootNoteChordName(displayMode, selectedAccidental);
     if (offsets.length === 0) return "Ø";
 
     if (offsets.length === 1) return `${chordNameRoot}`;
