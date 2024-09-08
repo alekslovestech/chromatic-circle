@@ -1,11 +1,11 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { NoteGroupingId } from "../types/NoteGrouping";
+import { getDisplayName, NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
-import { ActualIndex, InversionIndex, ixInversion } from "../types/IndexTypes";
+import { InversionIndex, ixInversion } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
-import "../styles/ChordPresetsSelector.css";
+import "../styles/PresetsSelector.css";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -80,7 +80,7 @@ const PresetsSelector: React.FC = () => {
             onClick={() => handlePresetChange(preset.id)}
             className={selectedChordType === preset.id ? "selected-preset" : ""}
           >
-            {preset.id}
+            {getDisplayName(preset.id)}
           </button>
         ))}
       </div>

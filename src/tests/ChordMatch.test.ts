@@ -36,7 +36,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.None,
+        noteGroupingId: "None",
         inversionIndex: ixInversion(0),
       });
     });
@@ -47,7 +47,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Maj,
+        noteGroupingId: "Chord_Maj",
         inversionIndex: ixInversion(0),
       });
     });
@@ -58,7 +58,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Min,
+        noteGroupingId: "Chord_Min",
         inversionIndex: ixInversion(0),
       });
     });
@@ -69,7 +69,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(2),
-        noteGroupingId: NoteGroupingId.Chord_Min,
+        noteGroupingId: "Chord_Min",
         inversionIndex: ixInversion(0),
       });
     });
@@ -80,7 +80,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(1),
-        noteGroupingId: NoteGroupingId.Chord_Maj,
+        noteGroupingId: "Chord_Maj",
         inversionIndex: ixInversion(0),
       });
     });
@@ -92,7 +92,7 @@ describe("ChordMatch tests", () => {
 
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Maj,
+        noteGroupingId: "Chord_Maj",
         inversionIndex: ixInversion(1),
       });
     });
@@ -104,7 +104,7 @@ describe("ChordMatch tests", () => {
 
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Maj,
+        noteGroupingId: "Chord_Maj",
         inversionIndex: ixInversion(2),
       });
     });
@@ -116,7 +116,7 @@ describe("ChordMatch tests", () => {
 
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Dom7,
+        noteGroupingId: "Chord_Dom7",
         inversionIndex: ixInversion(0),
       });
     });
@@ -128,7 +128,7 @@ describe("ChordMatch tests", () => {
 
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Maj7,
+        noteGroupingId: "Chord_Maj7",
         inversionIndex: ixInversion(3),
       });
     });
@@ -146,7 +146,7 @@ describe("ChordMatch tests", () => {
 
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Dim,
+        noteGroupingId: "Chord_Dim",
         inversionIndex: ixInversion(0),
       });
     });
@@ -157,7 +157,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Aug,
+        noteGroupingId: "Chord_Aug",
         inversionIndex: ixInversion(0),
       });
     });
@@ -168,7 +168,7 @@ describe("ChordMatch tests", () => {
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Chord_Sus4,
+        noteGroupingId: "Chord_Sus4",
         inversionIndex: ixInversion(0),
       });
     });
@@ -189,7 +189,7 @@ describe("ChordMatch tests", () => {
       expect(result).toBeDefined();
       expectChordMatch(result, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.None,
+        noteGroupingId: "None",
         inversionIndex: ixInversion(0),
       });
     });
@@ -199,7 +199,7 @@ describe("ChordMatch tests", () => {
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expectChordMatch(result, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Note,
+        noteGroupingId: "Note",
         inversionIndex: ixInversion(0),
       });
     });
@@ -209,7 +209,7 @@ describe("ChordMatch tests", () => {
       const result = ChordAndIntervalManager.getMatchFromIndices(indices);
       expectChordMatch(result, {
         rootNote: ixActual(0),
-        noteGroupingId: NoteGroupingId.Interval_Fifth,
+        noteGroupingId: "Interval_Fifth",
         inversionIndex: ixInversion(0),
       });
     });
