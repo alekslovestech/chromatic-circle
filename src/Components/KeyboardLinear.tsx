@@ -9,7 +9,7 @@ import {
 } from "../utils/ColorUtils";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
 const KeyboardLinear: React.FC = () => {

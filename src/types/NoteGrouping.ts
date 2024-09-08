@@ -7,11 +7,6 @@ export enum NoteGroupingType {
   Chord = "Chord",
 }
 
-export interface NoteGroupingName {
-  noteGrouping: NoteGroupingType;
-  name: string;
-}
-
 export interface NoteGroupingInfo {
   longId: string;
   shortId: string;
@@ -58,7 +53,7 @@ export const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   Chord_Min6: { longId: "min6", shortId: "m6", displayName: "Min 6th" },
 };
 
-export type NoteGroupingId = (typeof NoteGroupings)[keyof typeof NoteGroupings]["longId"];
+export type NoteGroupingId = string;
 
 export const getId = (key: string, chordDisplayMode: ChordDisplayMode): string => {
   return chordDisplayMode === ChordDisplayMode.Abbreviated

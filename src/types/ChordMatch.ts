@@ -1,5 +1,5 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { Accidental } from "./Accidental";
 import { ChordDefinition } from "./ChordDefinition";
 import { ChordDisplayMode } from "./ChordDisplayMode";

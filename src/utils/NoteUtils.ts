@@ -40,3 +40,17 @@ export const getOppositeAccidental = (prevAccidental: Accidental): Accidental =>
   if (prevAccidental === Accidental.Flat) return Accidental.Sharp;
   return prevAccidental; //no change
 };
+
+export const getNoteTextFromIndex = (
+  actualIndex: ActualIndex,
+  sharpOrFlat: Accidental,
+  showOctave: boolean = false,
+): string => {
+  const noteWithAccidental = getNoteWithAccidentalFromIndex(actualIndex, sharpOrFlat);
+  const accidentalSign = getAccidentalSign(
+    noteWithAccidental.accidental,
+    NotationType.ScreenDisplay,
+  );
+  const octaveString = showOctave ? noteWithAccidental.octave : "";
+  return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
+};

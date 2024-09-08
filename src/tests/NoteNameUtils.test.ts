@@ -1,34 +1,34 @@
-import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { Accidental } from "../types/Accidental";
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, ixActual } from "../types/IndexTypes";
 
 describe("NoteNameUtils", () => {
   describe("getNoteTextFromIndex", () => {
     it("should return correct note text for C", () => {
-      expect(getNoteTextFromIndex(0 as ActualIndex, Accidental.Sharp)).toBe("C");
+      expect(getNoteTextFromIndex(ixActual(0), Accidental.Sharp)).toBe("C");
     });
 
     it("should return correct note text for C# with sharp preference", () => {
-      expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Sharp)).toBe("C♯");
+      expect(getNoteTextFromIndex(ixActual(1), Accidental.Sharp)).toBe("C♯");
     });
 
     it("should return correct note text for Db with flat preference", () => {
-      expect(getNoteTextFromIndex(1 as ActualIndex, Accidental.Flat)).toBe("D♭");
+      expect(getNoteTextFromIndex(ixActual(1), Accidental.Flat)).toBe("D♭");
     });
 
     it("should include octave when showOctave is true", () => {
-      expect(getNoteTextFromIndex(0 as ActualIndex, Accidental.Sharp, true)).toBe("C4");
+      expect(getNoteTextFromIndex(ixActual(0), Accidental.Sharp, true)).toBe("C4");
     });
 
     it("should include octave when showOctave is true", () => {
-      expect(getNoteTextFromIndex(7 as ActualIndex, Accidental.Sharp, true)).toBe("G4");
+      expect(getNoteTextFromIndex(ixActual(7), Accidental.Sharp, true)).toBe("G4");
     });
 
     it("should include octave when showOctave is true", () => {
-      expect(getNoteTextFromIndex(12 as ActualIndex, Accidental.Sharp, true)).toBe("C5");
+      expect(getNoteTextFromIndex(ixActual(12), Accidental.Sharp, true)).toBe("C5");
     });
     it("should include octave when showOctave is true", () => {
-      expect(getNoteTextFromIndex(14 as ActualIndex, Accidental.Sharp, true)).toBe("D5");
+      expect(getNoteTextFromIndex(ixActual(14), Accidental.Sharp, true)).toBe("D5");
     });
   });
 });
