@@ -1,4 +1,4 @@
-export enum Accidental {
+export enum AccidentalType {
   None = "None",
   Natural = "Natural",
   Sharp = "Sharp",

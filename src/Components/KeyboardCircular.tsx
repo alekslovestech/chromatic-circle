@@ -16,7 +16,7 @@ import {
   ixOctaveOffset,
   OctaveOffset,
 } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "../utils/NoteNameUtils";
+import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
 const KeyboardCircular: React.FC = () => {

@@ -1,20 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import {
-  getNoteWithAccidentalFromIndex,
-  getAccidentalSign,
-} from "../utils/NoteUtils";
+import { getNoteWithAccidentalFromIndex, getAccidentalSign } from "../utils/NoteUtils";
 import { NotationType } from "../types/NotationType";
-import { Accidental } from "../types/Accidental";
+import { AccidentalType } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
 
 const EasyScoreFromNotes = (
   myNotes: ActualIndex[],
-  selectedAccidental: Accidental
+  selectedAccidental: AccidentalType,
 ): StaveNote[] => {
   const noteInfo = myNotes.map((chromaticIndex) =>
-    getNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental)
+    getNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental),
   );
 
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
@@ -25,10 +22,7 @@ const EasyScoreFromNotes = (
   });
 
   noteInfo.forEach(({ accidental }, index) => {
-    const accidentalSign = getAccidentalSign(
-      accidental,
-      NotationType.EasyScore
-    );
+    const accidentalSign = getAccidentalSign(accidental, NotationType.EasyScore);
     if (accidentalSign) {
       chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }
@@ -69,9 +63,7 @@ const NotesRenderer: React.FC = () => {
     voice.addTickables(notes);
 
     // Format and justify the notes to 400 pixels.
-    const formatter = new VF.Formatter()
-      .joinVoices([voice])
-      .format([voice], 200);
+    const formatter = new VF.Formatter().joinVoices([voice]).format([voice], 200);
 
     // Render voice
     voice.draw(context, stave);
