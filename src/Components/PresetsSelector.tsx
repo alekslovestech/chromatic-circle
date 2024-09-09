@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { getDisplayName, getId, NoteGroupingId } from "../types/NoteGrouping";
+import { getId, NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { InversionIndex, ixInversion } from "../types/IndexTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
@@ -80,9 +80,9 @@ const PresetsSelector: React.FC = () => {
             key={preset.id}
             onClick={() => handlePresetChange(preset.id)}
             className={selectedChordType === preset.id ? "selected-preset" : ""}
-            title={getDisplayName(preset.id)}
+            title={getId(preset.id, ChordDisplayMode.DisplayName)}
           >
-            {getId(preset.id, ChordDisplayMode.Verbose)}
+            {getId(preset.id, ChordDisplayMode.Letters_Long)}
           </button>
         ))}
       </div>

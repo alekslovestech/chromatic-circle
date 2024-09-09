@@ -191,7 +191,7 @@ describe("ChordAndIntervalManager", () => {
       const eDimIndices = ixActualArray([4, 7, 10]);
       expect(ChordAndIntervalManager.getChordNameFromIndices(eDimIndices)).toBe("Edim");
       expect(
-        ChordAndIntervalManager.getChordNameFromIndices(eDimIndices, ChordDisplayMode.Abbreviated),
+        ChordAndIntervalManager.getChordNameFromIndices(eDimIndices, ChordDisplayMode.Symbols),
       ).toBe("E°");
     });
 
@@ -199,7 +199,7 @@ describe("ChordAndIntervalManager", () => {
       expect(
         ChordAndIntervalManager.getChordNameFromIndices(
           ixActualArray([1, 5, 8]),
-          ChordDisplayMode.Verbose,
+          ChordDisplayMode.Letters_Short,
           AccidentalType.Flat,
         ),
       ).toBe("D♭");
@@ -208,10 +208,13 @@ describe("ChordAndIntervalManager", () => {
     it("should correctly identify a dominant seventh chord in root position", () => {
       const cDom7Indices = ixActualArray([0, 4, 7, 10]);
       expect(
-        ChordAndIntervalManager.getChordNameFromIndices(cDom7Indices, ChordDisplayMode.Verbose),
+        ChordAndIntervalManager.getChordNameFromIndices(
+          cDom7Indices,
+          ChordDisplayMode.Letters_Long,
+        ),
       ).toBe("Cdom7");
       expect(
-        ChordAndIntervalManager.getChordNameFromIndices(cDom7Indices, ChordDisplayMode.Abbreviated),
+        ChordAndIntervalManager.getChordNameFromIndices(cDom7Indices, ChordDisplayMode.Symbols),
       ).toBe("C7");
     });
 
