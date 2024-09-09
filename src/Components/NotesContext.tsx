@@ -35,7 +35,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     ixInversion(0),
   );
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
-    ChordDisplayMode.Verbose,
+    ChordDisplayMode.Letters_Short,
   );
 
   const value = {

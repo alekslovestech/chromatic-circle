@@ -14,44 +14,36 @@ const ChordDisplay: React.FC = () => {
     .reverse()
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
 
-  const DetectedChordJSX = () => {
+  const renderNoteGrouping = (inputMode: InputMode) => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
     const noteGrouping = chordMatch?.definition.getNoteGroupingType();
-    const name = chordMatch?.deriveChordName(chordDisplayMode, selectedAccidental);
+    const chordName = chordMatch?.deriveChordName(chordDisplayMode, selectedAccidental);
+    const qualifier = inputMode === InputMode.Toggle ? "Detected" : "Selected";
+
     return (
-      <>
-        Detected {noteGrouping}:
+      <div className="chord-name">
+        {qualifier} {noteGrouping?.toString()}: {chordName}
         <br />
-        {name}
-        <br />
-      </>
+      </div>
     );
   };
 
+  const renderChordNotes = () => (
+    <div className="chord-notes" style={{ display: "none" }}>
+      notes:{" "}
+      {topDownNotes.map((note, index) => (
+        <span key={index}>
+          {<br />}
+          {note}
+        </span>
+      ))}
+    </div>
+  );
+
   return (
     <div className="chord-display">
-      {(inputMode === InputMode.ChordPresets && (
-        <div className="chord-name">
-          Chord:{" "}
-          {ChordAndIntervalManager.getChordNameFromIndices(
-            selectedNoteIndices,
-            chordDisplayMode,
-            selectedAccidental,
-          )}
-          <br />
-        </div>
-      )) ||
-        (inputMode === InputMode.Toggle && <div className="chord-name">{DetectedChordJSX()}</div>)}
-
-      <div className="chord-notes" style={{ display: "none" }}>
-        notes:{" "}
-        {topDownNotes.map((note, index) => (
-          <span key={index}>
-            {<br />}
-            {note}
-          </span>
-        ))}
-      </div>
+      {renderNoteGrouping(inputMode)}
+      {renderChordNotes()}
     </div>
   );
 };

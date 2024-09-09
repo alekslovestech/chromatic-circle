@@ -96,7 +96,7 @@ export class ChordAndIntervalManager {
 
   static getChordNameFromIndices(
     indices: ActualIndex[],
-    displayMode = ChordDisplayMode.Verbose,
+    displayMode = ChordDisplayMode.Letters_Short,
     accidental = AccidentalType.Sharp,
   ): string {
     const chordMatch = this.getMatchFromIndices(indices);

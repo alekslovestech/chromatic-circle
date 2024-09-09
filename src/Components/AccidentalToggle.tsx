@@ -7,8 +7,8 @@ import "../styles/AccidentalToggle.css";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
 const getOppositeDisplayMode = (prevDisplayMode: ChordDisplayMode): ChordDisplayMode => {
-  if (prevDisplayMode === ChordDisplayMode.Verbose) return ChordDisplayMode.Abbreviated;
-  if (prevDisplayMode === ChordDisplayMode.Abbreviated) return ChordDisplayMode.Verbose;
+  if (prevDisplayMode === ChordDisplayMode.Letters_Short) return ChordDisplayMode.Symbols;
+  if (prevDisplayMode === ChordDisplayMode.Symbols) return ChordDisplayMode.Letters_Short;
   return prevDisplayMode; //no change
 };
 

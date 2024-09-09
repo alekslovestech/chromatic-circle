@@ -24,8 +24,9 @@ function App() {
               <div className="chromatic-circle-container">
                 <KeyboardCircular />
               </div>
-              <div className="notes-renderer">
+              <div className="notesAndChordContainer">
                 <NotesRenderer />
+                <ChordDisplay />
               </div>
             </div>
             <div className="settings-column">
@@ -33,7 +34,6 @@ function App() {
               <ModeSelector />
               <PresetsSelector />
               <AudioPlayer />
-              <ChordDisplay />
             </div>
           </div>
         </NotesProvider>
