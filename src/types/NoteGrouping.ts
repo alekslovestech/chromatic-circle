@@ -16,7 +16,7 @@ export interface NoteGroupingInfo {
 const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   None: { lettersId: "Ø", symbolsId: "Ø", displayName: "None" },
 
-  Note: { lettersId: "(note)", symbolsId: "Note", displayName: "Single Note" },
+  Note: { lettersId: "", symbolsId: "", displayName: "Single Note" },
 
   //2 note intervals
   Interval_Min2: { lettersId: "m2", symbolsId: "m2", displayName: "Minor 2nd" },
@@ -41,12 +41,14 @@ const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   Chord_Sus2: { lettersId: "sus2", symbolsId: "sus2", displayName: "Suspended 2nd Chord" },
 
   //4 note chords
-  Chord_Maj7: { lettersId: "maj7", symbolsId: "Δ7", displayName: "Major 7th Chord" },
-  Chord_Min7: { lettersId: "min7", symbolsId: "m7", displayName: "Minor 7th Chord" },
   Chord_Dom7: { lettersId: "dom7", symbolsId: "7", displayName: "Dominant 7th Chord" },
-  Chord_Dim7: { lettersId: "dim7", symbolsId: "°7", displayName: "Diminished 7th Chord" },
+  Chord_Maj7: { lettersId: "maj7", symbolsId: "Δ7", displayName: "Major 7th Chord" },
+
   Chord_MMaj7: { lettersId: "mMaj", symbolsId: "mΔ7", displayName: "Minor Major 7th Chord" },
+  Chord_Min7: { lettersId: "min7", symbolsId: "m7", displayName: "Minor 7th Chord" },
+
   Chord_M7b5: { lettersId: "m7b5", symbolsId: "ø7", displayName: "Half Diminished 7th Chord" },
+  Chord_Dim7: { lettersId: "dim7", symbolsId: "°7", displayName: "Diminished 7th Chord" },
 
   Chord_Add9: { lettersId: "add9", symbolsId: "add9", displayName: "Add 9th Chord" },
   Chord_Six: { lettersId: "6", symbolsId: "6", displayName: "Major 6th Chord" },
