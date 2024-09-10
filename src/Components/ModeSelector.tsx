@@ -2,19 +2,45 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
 import "../styles/ModeSelector.css";
+import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
+import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 
 const ModeSelector = () => {
-  const { inputMode, setInputMode, setSelectedChordType } = useNotes();
+  const {
+    inputMode,
+    setInputMode,
+    setSelectedChordType,
+    selectedNoteIndices,
+    setSelectedNoteIndices,
+    setSelectedInversionIndex,
+  } = useNotes();
 
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
+    setSelectedInversionIndex(ixInversion(0));
+    const origNoteIndices = selectedNoteIndices;
+    let newChordType;
+    let newNoteIndices;
+
     if (newMode === InputMode.SingleNote || newMode === InputMode.Toggle) {
-      setSelectedChordType("Note");
+      newChordType = "Note";
+      newNoteIndices = ixActualArray([7]); // Default to G
     } else if (newMode === InputMode.IntervalPresets) {
-      setSelectedChordType("Interval_Maj3");
+      newChordType = "Interval_Maj3";
+      newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        origNoteIndices[0],
+        "Interval_Maj3",
+      );
     } else if (newMode === InputMode.ChordPresets) {
-      setSelectedChordType("Chord_Maj");
+      newChordType = "Chord_Maj";
+      newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        origNoteIndices[0],
+        "Chord_Maj",
+      );
     }
+
+    setSelectedChordType(newChordType || "Note");
+    setSelectedNoteIndices(newNoteIndices || []);
   };
 
   return (
