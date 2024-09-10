@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { NoteGroupingId } from "../types/NoteGrouping";
+import { NoteGroupingId, NoteGroupings } from "../types/NoteGrouping";
 import { ChordDefinition } from "../types/ChordDefinition";
 import {
   ActualIndex,
@@ -72,9 +72,10 @@ export class ChordAndIntervalManager {
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return this.OFFSETS.filter((chordDef) =>
+    const filteredResult = this.OFFSETS.filter((chordDef) =>
       isInterval ? chordDef.numNotes === 2 : chordDef.numNotes > 2,
     );
+    return filteredResult.sort((a, b) => NoteGroupings[a.id].orderId - NoteGroupings[b.id].orderId);
   };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {

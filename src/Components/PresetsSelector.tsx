@@ -7,6 +7,7 @@ import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { IndexUtils } from "../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import "../styles/PresetsSelector.css";
+import { ChordDefinition } from "../types/ChordDefinition";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -69,24 +70,42 @@ const PresetsSelector: React.FC = () => {
     return null;
   };
 
+  const renderOnePresetButton = (preset: ChordDefinition) => (
+    <button
+      key={preset.id}
+      onClick={() => handlePresetChange(preset.id)}
+      className={selectedChordType === preset.id ? "selected-preset" : ""}
+      title={getId(preset.id, ChordDisplayMode.DisplayName)}
+    >
+      {getId(preset.id, ChordDisplayMode.Letters_Long)}
+    </button>
+  );
+
   const renderPresetButtons = () => {
     const presets = ChordAndIntervalManager.IntervalOrChordDefinitions(
       inputMode === InputMode.IntervalPresets,
     );
-    return (
-      <div className={inputMode === InputMode.IntervalPresets ? "interval-column" : "chord-grid"}>
-        {presets.map((preset) => (
-          <button
-            key={preset.id}
-            onClick={() => handlePresetChange(preset.id)}
-            className={selectedChordType === preset.id ? "selected-preset" : ""}
-            title={getId(preset.id, ChordDisplayMode.DisplayName)}
-          >
-            {getId(preset.id, ChordDisplayMode.Letters_Long)}
-          </button>
-        ))}
-      </div>
-    );
+
+    if (inputMode === InputMode.IntervalPresets) {
+      const midpoint = Math.ceil(presets.length / 2);
+      const leftColumn = presets.slice(0, midpoint);
+      const rightColumn = presets.slice(midpoint);
+
+      return (
+        <div className="interval-grid">
+          <div className="interval-column">
+            {leftColumn.map((preset) => renderOnePresetButton(preset))}
+          </div>
+          <div className="interval-column">
+            {rightColumn.map((preset) => renderOnePresetButton(preset))}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="chord-grid">{presets.map((preset) => renderOnePresetButton(preset))}</div>
+      );
+    }
   };
 
   return (

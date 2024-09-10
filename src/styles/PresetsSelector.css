@@ -16,6 +16,14 @@ h3 {
     margin-bottom: 10px;
 }
 
+.interval-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-bottom: 10px;
+    width: 100%; /* Ensure it uses full width */
+}
+
 .interval-column {
     display: flex;
     flex-direction: column;
@@ -41,7 +49,7 @@ h3 {
 }
 
 .interval-column button {
-    width: 120px; /* Wider buttons for interval presets */
+    width: 70px; /* Wider buttons for interval presets */
     height: 25px; /* Slightly less tall for interval presets */
 }
 
@@ -82,4 +90,9 @@ h3 {
 .inversion-buttons button.selected-inversion {
     background-color: #2196F3;
     color: white;
+}
+
+/* Add this new rule to limit the maximum width of the grid */
+.preset-selector .interval-grid {
+    max-width: 150px; /* Adjust this value as needed */
 }

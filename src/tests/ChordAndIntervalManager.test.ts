@@ -184,7 +184,7 @@ describe("ChordAndIntervalManager", () => {
     });
 
     it("should return only note name for single note", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4]))).toBe("E(note)");
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4]))).toBe("E");
     });
 
     it("should return correct chord for diminished chord", () => {

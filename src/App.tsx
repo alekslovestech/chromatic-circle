@@ -14,7 +14,6 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <h3>Chromatic Circle</h3>
         <NotesProvider>
           <div className="main-layout">
             <div className="grid-layout">
