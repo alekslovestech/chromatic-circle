@@ -79,6 +79,12 @@ export const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   },
 
   Chord_Add9: { lettersId: "add9", symbolsId: "add9", displayName: "Add 9th Chord", orderId: 28 },
+  Chord_7Add13: {
+    lettersId: "7add13",
+    symbolsId: "7add13",
+    displayName: "Dominant 7thAdd 13th Chord",
+    orderId: 29,
+  },
 };
 
 export type NoteGroupingId = string;
@@ -92,13 +98,8 @@ export const getId = (key: string, chordDisplayMode: ChordDisplayMode): string =
     case ChordDisplayMode.Letters_Short:
       const lettersId = NoteGroupings[key]?.lettersId || "";
       const displayId = lettersId === "min" ? "m" : lettersId === "maj" ? "" : lettersId;
-      console.log("lettersId", lettersId, "displayId", displayId);
       return displayId;
     case ChordDisplayMode.DisplayName:
       return NoteGroupings[key]?.displayName || "";
   }
 };
-/*
-export const getDisplayName = (key: string): string => {
-  return NoteGroupings[key]?.displayName || "";
-}; */

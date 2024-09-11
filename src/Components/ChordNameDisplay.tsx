@@ -21,9 +21,10 @@ const ChordDisplay: React.FC = () => {
     const qualifier = inputMode === InputMode.Toggle ? "Detected" : "Selected";
 
     return (
-      <div className="chord-name">
-        {qualifier} {noteGrouping?.toString()}: {chordName}
+      <div className="chord-name-description">
+        {qualifier} {noteGrouping?.toString()}:
         <br />
+        <span className="chord-name-value">{chordName || "Unknown"}</span>
       </div>
     );
   };
@@ -41,7 +42,7 @@ const ChordDisplay: React.FC = () => {
   );
 
   return (
-    <div className="chord-display">
+    <div className="chord-display" style={{ marginTop: "-10px" }}>
       {renderNoteGrouping(inputMode)}
       {renderChordNotes()}
     </div>

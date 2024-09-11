@@ -1,11 +1,17 @@
 .chord-display {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin-top: -10px;
 }
 
-.chord-name {
+.chord-name-description {
+  font-size: 16px;
+  margin: 0;
+}
+
+.chord-name-value {
   font-size: 24px;
+  font-weight: bold;
   margin: 0;
 }
 

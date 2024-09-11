@@ -33,7 +33,7 @@ export class ChordAndIntervalManager {
     // Triads
     new ChordDefinition("Chord_Maj", ixOffsetArray([0, 4, 7]), true),
     new ChordDefinition("Chord_Min", ixOffsetArray([0, 3, 7]), true),
-    new ChordDefinition("Chord_Dim", ixOffsetArray([0, 3, 6])),
+    new ChordDefinition("Chord_Dim", ixOffsetArray([0, 3, 6]), true),
     new ChordDefinition("Chord_Aug", ixOffsetArray([0, 4, 8])),
 
     // Seventh chords
@@ -50,6 +50,7 @@ export class ChordAndIntervalManager {
     new ChordDefinition("Chord_Add9", ixOffsetArray([0, 4, 7, 14])),
     new ChordDefinition("Chord_Six", ixOffsetArray([0, 4, 7, 9])),
     new ChordDefinition("Chord_Min6", ixOffsetArray([0, 3, 7, 9])),
+    new ChordDefinition("Chord_7Add13", ixOffsetArray([0, 4, 7, 10, 13])),
   ];
 
   static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition | undefined =>
