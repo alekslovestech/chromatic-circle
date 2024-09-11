@@ -44,11 +44,11 @@ const NotesRenderer: React.FC = () => {
     const renderer = new VF.Renderer(divRef.current, VF.Renderer.Backends.SVG);
 
     // Configure the rendering context.
-    renderer.resize(500, 200);
+    renderer.resize(500, 120);
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width 400 on the canvas.
-    const stave = new VF.Stave(150, 40, 150);
+    const stave = new VF.Stave(150, 0, 150);
     stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
     stave.setStyle({ strokeStyle: "#000000" });
 
