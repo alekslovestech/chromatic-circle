@@ -48,11 +48,12 @@
 
 .grid-layout {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr;
   gap: 10px;
   width: 1000px;
   height: 600px;
+  box-sizing: border-box;
 }
 
 .grid-layout > * {
@@ -63,20 +64,36 @@
   overflow: hidden;
 }
 
-.piano-keyboard-container {
+.keyboardlinear-container {
   grid-column: 1 / -1; /* Span all columns */
   grid-row: 1;
 }
 
-.chromatic-circle-container {
-  grid-column: 1;
+.keyboardcircular-container {
+  grid-column: 1/3;
+  grid-row: 2/4;
+}
+
+.notes-renderer-container {
+  grid-column: 3;
   grid-row: 2;
 }
 
-.notes-renderer {
-  grid-column: 2;
+.chord-names-display-container {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.mode-selector-container {
+  grid-column: 4;
   grid-row: 2;
 }
+
+.presets-selector {
+  grid-column: 4;
+  grid-row: 3;
+}
+
 
 select {
   font-size: 16px;
@@ -117,9 +134,3 @@ select option {
   }
 }
 
-.notesAndChordContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem; /* Adjust this value to control spacing between NotesRenderer and ChordDisplay */
-}

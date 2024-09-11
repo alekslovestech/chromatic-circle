@@ -17,21 +17,28 @@ function App() {
         <NotesProvider>
           <div className="main-layout">
             <div className="grid-layout">
-              <div className="piano-keyboard-container">
+              <div className="keyboardlinear-container">
                 <KeyboardLinear />
               </div>
-              <div className="chromatic-circle-container">
+              <div className="keyboardcircular-container">
                 <KeyboardCircular />
               </div>
-              <div className="notesAndChordContainer">
+              <div className="notes-renderer-container">
                 <NotesRenderer />
+              </div>
+              <div className="chords-names-display-container">
                 <ChordDisplay />
               </div>
+              <div className="mode-selector-container">
+                <ModeSelector />
+              </div>
+              <div className="presets-selector">
+                <PresetsSelector />
+              </div>
             </div>
+
             <div className="settings-column">
               <AccidentalToggle />
-              <ModeSelector />
-              <PresetsSelector />
               <AudioPlayer />
             </div>
           </div>
