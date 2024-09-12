@@ -6,7 +6,7 @@ import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 
-const ChordDisplay: React.FC = () => {
+const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, inputMode, selectedAccidental, chordDisplayMode } = useNotes();
 
   const topDownNotes = selectedNoteIndices
@@ -49,4 +49,4 @@ const ChordDisplay: React.FC = () => {
   );
 };
 
-export default ChordDisplay;
+export default ChordNameDisplay;
