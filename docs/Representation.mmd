@@ -1,13 +1,22 @@
 flowchart LR
 
-NI["ActualIndex / ChromaticIndex"]
+NI["note indices"]
 NA["NoteAndAccidental"]
 NT["Notes In Text"]
 NV["Notes In Vex notation"]
-NR["Notes Renderer"]
+CM["ChordMatch"]
+CD["ChordDefinition"]
+II["Inversion Index"]
+NG["Note Grouping"]
+OI["Offsets"]
 
-NI --> NA 
-NA --> NT 
-NA --> NV 
-NV --> NR 
+CM --> CD  
+CD --> NG
+CD --> OI
+CM -.-> NT
+CM -.-> NI
+CM --> II
+NI -.-> NA 
+NA -.-> NT 
+NA -.-> NV 
 
