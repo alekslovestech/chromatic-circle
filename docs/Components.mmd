@@ -1,0 +1,13 @@
+flowchart LR
+
+direction TB
+SN["SelectedNotes"]
+
+NR["NotesRenderer"]
+
+KL["KeyboardLinear"]
+KC["KeyboardCircular"]
+
+SN --> NR 
+NR --> KL 
+NR --> KC
