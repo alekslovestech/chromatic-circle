@@ -1,13 +1,21 @@
 flowchart LR
 
 direction TB
-SN["SelectedNotes"]
+SN["🎵SelectedNotes"]
 
-NR["NotesRenderer"]
+NR["🎼NotesRenderer"]
 
-KL["KeyboardLinear"]
-KC["KeyboardCircular"]
+KL["🎹 KeyboardLinear"]
+KC["🎹 KeyboardCircular"]
+AP["🔊 AudioPlayer"]
+CND["ChordNamesDisplay (D♭°7)"]
+MS["ModeSelector"]
+PS["PresetSelector"]
 
+SN <--> KL 
+SN <--> KC
 SN --> NR 
-NR --> KL 
-NR --> KC
+SN --> AP
+SN --> CND
+MS --> PS
+PS --> SN
