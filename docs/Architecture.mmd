@@ -1,0 +1,12 @@
+classDiagram
+direction LR
+
+NoteIndex --> NoteAndAccidental 
+NoteAndAccidental --> NoteInText 
+NoteAndAccidental --> NoteInVex 
+NoteInVex --> NoteRenderer 
+
+SelectedNotes --> KeyboardLinear
+SelectedNotes --> KeyboardCircular
+SelectedNotes --> NotesRenderer
+
