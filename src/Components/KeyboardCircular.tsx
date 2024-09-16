@@ -98,9 +98,7 @@ const KeyboardCircular: React.FC = () => {
 
     const colorFromNoteDistance = (noteDistance: number) => {
       const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-      const saturation = 100;
-      const lightness = 50;
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+      return `hsl(${hue}, 100%, 50%)`;
     };
 
     const drawSelectedNotesPolygon = (ctx: CanvasRenderingContext2D) => {
@@ -108,9 +106,6 @@ const KeyboardCircular: React.FC = () => {
       if (numNotes < 2) return;
 
       const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-
-      ctx.beginPath();
-      ctx.moveTo(coordinates[0].x, coordinates[0].y);
 
       const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
       for (let i = 0; i < theEnd; i++) {
