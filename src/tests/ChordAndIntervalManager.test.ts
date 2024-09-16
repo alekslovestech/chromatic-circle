@@ -157,6 +157,10 @@ describe("ChordAndIntervalManager", () => {
       expect(ChordAndIntervalManager.getChordNameFromIndices([])).toBe("Ø");
     });
 
+    it("should return correct interval name for major third", () => {
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4]))).toBe("M3");
+    });
+
     it("should return correct chord name for major chord", () => {
       expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4, 7]))).toBe("C");
     });
