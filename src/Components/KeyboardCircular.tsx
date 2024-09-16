@@ -50,6 +50,7 @@ const KeyboardCircular: React.FC = () => {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
       }
+      drawSelectedNotesArrows(ctx);
       drawSelectedNotesPolygon(ctx);
     };
 
@@ -118,6 +119,20 @@ const KeyboardCircular: React.FC = () => {
 
         ctx.stroke();
       }
+    };
+
+    const drawSelectedNotesArrows = (ctx: CanvasRenderingContext2D) => {
+      const numNotes = selectedNoteIndices.length;
+      if (numNotes < 2) return;
+
+      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
+      ctx.strokeStyle = getComputedColor("--key-border");
+      ctx.beginPath();
+      for (let i = 0; i < numNotes; i++) {
+        ctx.moveTo(Constants.centerX, Constants.centerY);
+        ctx.lineTo(coordinates[i].x, coordinates[i].y);
+      }
+      ctx.stroke();
     };
 
     drawCircle();
