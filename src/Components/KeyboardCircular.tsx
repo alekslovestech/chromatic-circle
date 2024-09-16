@@ -50,7 +50,7 @@ const KeyboardCircular: React.FC = () => {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
       }
-      drawSelectedNotesArrows(ctx);
+      //drawSelectedNotesArrows(ctx);
       drawSelectedNotesPolygon(ctx);
     };
 
@@ -109,16 +109,16 @@ const KeyboardCircular: React.FC = () => {
       const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
 
       const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
+      ctx.beginPath();
       for (let i = 0; i < theEnd; i++) {
         const nextIndex = (i + 1) % numNotes;
-        ctx.beginPath();
         ctx.moveTo(coordinates[i].x, coordinates[i].y);
         ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
         const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
         ctx.strokeStyle = colorFromNoteDistance(nd);
-
         ctx.stroke();
       }
+      ctx.closePath();
     };
 
     const drawSelectedNotesArrows = (ctx: CanvasRenderingContext2D) => {
@@ -131,8 +131,9 @@ const KeyboardCircular: React.FC = () => {
       for (let i = 0; i < numNotes; i++) {
         ctx.moveTo(Constants.centerX, Constants.centerY);
         ctx.lineTo(coordinates[i].x, coordinates[i].y);
+        ctx.stroke();
       }
-      ctx.stroke();
+      ctx.closePath();
     };
 
     drawCircle();
