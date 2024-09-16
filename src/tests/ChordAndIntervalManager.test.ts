@@ -212,7 +212,7 @@ describe("ChordAndIntervalManager", () => {
           cDom7Indices,
           ChordDisplayMode.Letters_Long,
         ),
-      ).toBe("Cdom7");
+      ).toBe("C7");
       expect(
         ChordAndIntervalManager.getChordNameFromIndices(cDom7Indices, ChordDisplayMode.Symbols),
       ).toBe("C7");
