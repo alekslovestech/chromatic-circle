@@ -1,4 +1,4 @@
-import { ChromaticIndex } from "../types/IndexTypes";
+import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 
 const TWO_PI = 2 * Math.PI;
@@ -87,4 +87,8 @@ export class CircleMath {
 
     return { x, y };
   }
+
+  static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
+    return (note2 - note1 + TWELVE) % TWELVE;
+  };
 }

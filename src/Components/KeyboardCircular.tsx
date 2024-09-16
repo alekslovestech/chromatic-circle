@@ -97,39 +97,32 @@ const KeyboardCircular: React.FC = () => {
     };
 
     const colorFromNoteDistance = (noteDistance: number) => {
-      const hue = 240 - (noteDistance / TWELVE) * 240; // Map note distance from red (0) to dark blue (240)
+      const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
       const saturation = 100;
-      const lightness = 50 - (noteDistance / TWELVE) * 25; // Darken the blue end
+      const lightness = 50;
       return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     };
 
     const drawSelectedNotesPolygon = (ctx: CanvasRenderingContext2D) => {
-      if (selectedNoteIndices.length < 2) return;
+      const numNotes = selectedNoteIndices.length;
+      if (numNotes < 2) return;
 
       const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
 
       ctx.beginPath();
       ctx.moveTo(coordinates[0].x, coordinates[0].y);
-      for (let i = 1; i < coordinates.length; i++) {
+
+      const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
+      for (let i = 0; i < theEnd; i++) {
+        const nextIndex = (i + 1) % numNotes;
         ctx.beginPath();
-        ctx.moveTo(coordinates[i - 1].x, coordinates[i - 1].y);
-        ctx.lineTo(coordinates[i].x, coordinates[i].y);
-        const noteDistance = (selectedNoteIndices[i] - selectedNoteIndices[i - 1]) % TWELVE;
-        ctx.strokeStyle = colorFromNoteDistance(noteDistance);
+        ctx.moveTo(coordinates[i].x, coordinates[i].y);
+        ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
+        const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
+        ctx.strokeStyle = colorFromNoteDistance(nd);
+
         ctx.stroke();
       }
-      // Connect last point to first point
-      const lastNoteDistance =
-        (selectedNoteIndices[0] - selectedNoteIndices[selectedNoteIndices.length - 1] + TWELVE) %
-        TWELVE;
-      ctx.strokeStyle = colorFromNoteDistance(lastNoteDistance);
-      ctx.beginPath();
-      ctx.moveTo(coordinates[coordinates.length - 1].x, coordinates[coordinates.length - 1].y);
-      ctx.lineTo(coordinates[0].x, coordinates[0].y);
-      ctx.stroke();
-
-      ctx.lineWidth = 2;
-      ctx.stroke();
     };
 
     drawCircle();
