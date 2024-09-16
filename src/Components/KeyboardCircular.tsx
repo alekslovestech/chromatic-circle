@@ -104,10 +104,10 @@ const KeyboardCircular: React.FC = () => {
   }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote]);
 
   return (
-    <div className="chromatic-circle-container">
+    <div className="keyboardcircular-container">
       <canvas
         ref={canvasRef}
-        className="chromatic-circle"
+        className="keyboardcircular"
         width={2 * Constants.CANVAS_RADIUS}
         height={2 * Constants.CANVAS_RADIUS}
       />

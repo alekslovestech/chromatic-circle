@@ -7,7 +7,7 @@ export enum NoteGroupingType {
   Chord = "Chord",
 }
 
-export interface NoteGroupingInfo {
+interface NoteGroupingInfo {
   lettersId: string;
   symbolsId: string;
   displayName: string;
