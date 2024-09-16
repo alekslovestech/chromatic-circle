@@ -1,0 +1,26 @@
+flowchart LR
+
+NI["note indices"]
+NA["NoteAndAccidental"]
+NT["Notes In Text"]
+NV["Notes In Vex notation"]
+CM["ChordMatch"]
+CD["ChordDefinition"]
+CIM["Chord Interval Manager"]
+II["Inversion Index"]
+NG["Note Grouping"]
+OI["Offsets"]
+AC["Accidental"]
+
+AC --> NA
+CM --> CD  
+CD --> NG
+CD --> OI
+CIM --> CD
+CM -.-> NT
+CM -.-> NI
+CM --> II
+NI -.-> NA 
+NA -.-> NT 
+NA -.-> NV 
+

@@ -38,8 +38,8 @@ const KeyboardLinear: React.FC = () => {
   }
 
   return (
-    <div className="piano-keyboard-container">
-      <div className="piano-keyboard">{keys}</div>
+    <div className="keyboardlinear-container">
+      <div className="keyboardlinear">{keys}</div>
     </div>
   );
 };

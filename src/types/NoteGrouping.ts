@@ -7,7 +7,7 @@ export enum NoteGroupingType {
   Chord = "Chord",
 }
 
-export interface NoteGroupingInfo {
+interface NoteGroupingInfo {
   lettersId: string;
   symbolsId: string;
   displayName: string;
@@ -54,9 +54,8 @@ export const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   Chord_Min6: { lettersId: "m6", symbolsId: "m6", displayName: "Minor 6th Chord", orderId: 21 },
 
   //4 note chords
-  Chord_Dom7: { lettersId: "dom7", symbolsId: "7", displayName: "Dominant 7th Chord", orderId: 22 },
+  Chord_Dom7: { lettersId: "7", symbolsId: "7", displayName: "7th (Dominant) Chord", orderId: 22 },
   Chord_Maj7: { lettersId: "maj7", symbolsId: "Δ7", displayName: "Major 7th Chord", orderId: 23 },
-
   Chord_Min7: { lettersId: "min7", symbolsId: "m7", displayName: "Minor 7th Chord", orderId: 24 },
 
   Chord_MMaj7: {

@@ -5,7 +5,7 @@ import { ChordDefinition } from "./ChordDefinition";
 import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
-import { getId } from "./NoteGrouping";
+import { getId, NoteGroupingType } from "./NoteGrouping";
 
 export class ChordMatch {
   rootNote: ActualIndex;
@@ -35,14 +35,21 @@ export class ChordMatch {
     );
     const bassNoteIndex = ((this.rootNote + offsets[0] + TWELVE) % TWELVE) as ActualIndex;
     const chordNameRoot = this.getRootNoteChordName(displayMode, selectedAccidental);
-    if (offsets.length === 0) return "Ø";
 
-    if (offsets.length === 1) return `${chordNameRoot}`;
-
-    if (bassNoteIndex !== this.rootNote) {
-      const bassNoteName = getNoteTextFromIndex(bassNoteIndex, selectedAccidental);
-      return `${chordNameRoot}/${bassNoteName}`;
+    const noteGroupingType = this.definition.getNoteGroupingType();
+    switch (noteGroupingType) {
+      case NoteGroupingType.None:
+        return "Ø";
+      case NoteGroupingType.Note:
+        return `${chordNameRoot}`;
+      case NoteGroupingType.Interval:
+        return getId(this.definition.id, displayMode);
+      default:
+        if (bassNoteIndex !== this.rootNote) {
+          const bassNoteName = getNoteTextFromIndex(bassNoteIndex, selectedAccidental);
+          return `${chordNameRoot}/${bassNoteName}`;
+        }
+        return chordNameRoot;
     }
-    return chordNameRoot;
   }
 }

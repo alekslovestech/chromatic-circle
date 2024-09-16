@@ -1,0 +1,21 @@
+flowchart LR
+
+direction TB
+SN["🎵SelectedNotes"]
+
+NR["🎼NotesRenderer"]
+
+KL["🎹 KeyboardLinear"]
+KC["🎹 KeyboardCircular"]
+AP["🔊 AudioPlayer"]
+CND["ChordNamesDisplay (D♭°7)"]
+MS["ModeSelector"]
+PS["PresetSelector"]
+
+SN <--> KL 
+SN <--> KC
+SN --> NR 
+SN --> AP
+SN --> CND
+MS --> PS
+PS --> SN

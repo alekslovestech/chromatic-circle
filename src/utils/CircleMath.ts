@@ -43,8 +43,7 @@ export class CircleMath {
 
   // pure circular coors 0 degrees at x-horizontal, θ-clockwise
   static AngleToNoteIndex(angle: number): ChromaticIndex {
-    const index =
-      Math.floor(((angle - INIT_ANGLE + TWO_PI) * TWELVE) / TWO_PI) % TWELVE;
+    const index = Math.floor(((angle - INIT_ANGLE + TWO_PI) * TWELVE) / TWO_PI) % TWELVE;
     return index as ChromaticIndex;
   }
 
@@ -72,13 +71,20 @@ export class CircleMath {
     return [radius, angle];
   }
 
-  static ViewportToCartesian(
-    clientX: number,
-    clientY: number,
-    rect: RectCoordinates
-  ) {
+  static ViewportToCartesian(clientX: number, clientY: number, rect: RectCoordinates) {
     const x = clientX - rect.left - Constants.centerX;
     const y = clientY - rect.top - Constants.centerY;
     return [x, y];
+  }
+
+  static getPolyCoors(index: number) {
+    const startAngle = CircleMath.NoteIndexToLeftAngle(index);
+    const centerAngle = startAngle + Constants.FULL_KEY_ANGLE / 2;
+    const innerRadius = CircleMath.getInnerRadius(index);
+
+    const x = Constants.centerX + innerRadius * Math.cos(centerAngle);
+    const y = Constants.centerY + innerRadius * Math.sin(centerAngle);
+
+    return { x, y };
   }
 }
