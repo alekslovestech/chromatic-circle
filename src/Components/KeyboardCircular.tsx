@@ -105,9 +105,9 @@ const KeyboardCircular: React.FC = () => {
       const numNotes = selectedNoteIndices.length;
       if (numNotes < 2) return;
 
-      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-
       const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
+
+      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
       for (let i = 0; i < theEnd; i++) {
         const nextIndex = (i + 1) % numNotes;
         ctx.beginPath();
