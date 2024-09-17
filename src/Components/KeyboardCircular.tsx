@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "../styles/KeyboardCircular.css";
 
 import { useNotes } from "./NotesContext";
@@ -19,11 +19,17 @@ import {
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
+enum DrawingMode {
+  None = "None",
+  Arrows = "Arrows",
+  Polygon = "Polygon",
+}
+
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [drawingMode, setDrawingMode] = useState<DrawingMode>(DrawingMode.Arrows);
 
   const { selectedNoteIndices, selectedAccidental } = useNotes();
-
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   useEffect(() => {
@@ -50,8 +56,12 @@ const KeyboardCircular: React.FC = () => {
         drawWedge(ctx, chromaticIndex);
         drawText(ctx, chromaticIndex);
       }
-      //drawSelectedNotesArrows(ctx);
-      drawSelectedNotesPolygon(ctx);
+
+      if (drawingMode === DrawingMode.Arrows) {
+        drawSelectedNotesArrows(ctx);
+      } else if (drawingMode === DrawingMode.Polygon) {
+        drawSelectedNotesPolygon(ctx);
+      }
     };
 
     const drawWedge = (ctx: CanvasRenderingContext2D, index: ChromaticIndex) => {
@@ -142,7 +152,11 @@ const KeyboardCircular: React.FC = () => {
     return () => {
       canvasRef.current?.removeEventListener("click", HandleCanvasClick);
     };
-  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote]);
+  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, drawingMode]);
+
+  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setDrawingMode(event.target.value as DrawingMode);
+  };
 
   return (
     <div className="keyboardcircular-container">
@@ -152,6 +166,17 @@ const KeyboardCircular: React.FC = () => {
         width={2 * Constants.CANVAS_RADIUS}
         height={2 * Constants.CANVAS_RADIUS}
       />
+      {selectedNoteIndices.length > 1 && (
+        <select
+          className="drawing-mode-select"
+          value={drawingMode}
+          onChange={handleDrawingModeChange}
+        >
+          <option value={DrawingMode.None}>None</option>
+          <option value={DrawingMode.Arrows}>Arrows</option>
+          <option value={DrawingMode.Polygon}>Polygon</option>
+        </select>
+      )}
     </div>
   );
 };
