@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import "../styles/KeyboardCircular.css";
-
 import { useNotes } from "./NotesContext";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
@@ -18,12 +17,11 @@ import {
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
-
-enum CircularVisMode {
-  None = "None",
-  Arrows = "Arrows",
-  Polygon = "Polygon",
-}
+import {
+  CircularVisMode,
+  drawSelectedNotesArrows,
+  drawSelectedNotesPolygon,
+} from "./CircularVisualizations";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -31,6 +29,7 @@ const KeyboardCircular: React.FC = () => {
 
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
+
   const HandleCanvasClick = (event: MouseEvent) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -49,11 +48,6 @@ const KeyboardCircular: React.FC = () => {
   };
 
   useEffect(() => {
-    const colorFromNoteDistance = (noteDistance: number) => {
-      const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-      return `hsl(${hue}, 100%, 50%)`;
-    };
-
     function drawCircle() {
       const ctx = canvasRef.current?.getContext("2d");
       if (!ctx) return;
@@ -66,9 +60,9 @@ const KeyboardCircular: React.FC = () => {
       }
 
       if (drawingMode === CircularVisMode.Arrows) {
-        drawSelectedNotesArrows(ctx);
+        drawSelectedNotesArrows(ctx, selectedNoteIndices);
       } else if (drawingMode === CircularVisMode.Polygon) {
-        drawSelectedNotesPolygon(ctx);
+        drawSelectedNotesPolygon(ctx, selectedNoteIndices);
       }
     }
 
@@ -113,40 +107,6 @@ const KeyboardCircular: React.FC = () => {
       const noteText = getNoteTextFromIndex(ixActual(chromaticIndex), selectedAccidental);
       ctx.fillText(noteText, 0, -radius);
       ctx.restore();
-    }
-
-    function drawSelectedNotesPolygon(ctx: CanvasRenderingContext2D) {
-      const numNotes = selectedNoteIndices.length;
-      if (numNotes < 2) return;
-
-      const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
-
-      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-      ctx.beginPath();
-      for (let i = 0; i < theEnd; i++) {
-        const nextIndex = (i + 1) % numNotes;
-        ctx.moveTo(coordinates[i].x, coordinates[i].y);
-        ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
-        const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
-        ctx.strokeStyle = colorFromNoteDistance(nd);
-        ctx.stroke();
-      }
-      ctx.closePath();
-    }
-
-    function drawSelectedNotesArrows(ctx: CanvasRenderingContext2D) {
-      const numNotes = selectedNoteIndices.length;
-      if (numNotes < 2) return;
-
-      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-      ctx.strokeStyle = getComputedColor("--key-border");
-      ctx.beginPath();
-      for (let i = 0; i < numNotes; i++) {
-        ctx.moveTo(Constants.centerX, Constants.centerY);
-        ctx.lineTo(coordinates[i].x, coordinates[i].y);
-        ctx.stroke();
-      }
-      ctx.closePath();
     }
 
     drawCircle();
