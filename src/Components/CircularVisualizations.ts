@@ -9,10 +9,27 @@ export enum CircularVisMode {
   Polygon = "Polygon",
 }
 
-export const drawSelectedNotesArrows = (
+const colorFromNoteDistance = (noteDistance: number) => {
+  const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
+  return `hsl(${hue}, 100%, 50%)`;
+};
+
+export function drawCircularVisualizations(
   ctx: CanvasRenderingContext2D,
   selectedNoteIndices: ActualIndex[],
-) => {
+  drawingMode: CircularVisMode,
+) {
+  if (drawingMode === CircularVisMode.Arrows) {
+    drawSelectedNotesArrows(ctx, selectedNoteIndices);
+  } else if (drawingMode === CircularVisMode.Polygon) {
+    drawSelectedNotesPolygon(ctx, selectedNoteIndices);
+  }
+}
+
+function drawSelectedNotesArrows(
+  ctx: CanvasRenderingContext2D,
+  selectedNoteIndices: ActualIndex[],
+) {
   const numNotes = selectedNoteIndices.length;
   if (numNotes < 2) return;
 
@@ -37,12 +54,12 @@ export const drawSelectedNotesArrows = (
   ctx.fill();
   ctx.strokeStyle = getComputedColor("--key-border");
   ctx.stroke();
-};
+}
 
-export const drawSelectedNotesPolygon = (
+function drawSelectedNotesPolygon(
   ctx: CanvasRenderingContext2D,
   selectedNoteIndices: ActualIndex[],
-) => {
+) {
   const numNotes = selectedNoteIndices.length;
   if (numNotes < 2) return;
 
@@ -59,9 +76,4 @@ export const drawSelectedNotesPolygon = (
     ctx.stroke();
   }
   ctx.closePath();
-};
-
-const colorFromNoteDistance = (noteDistance: number) => {
-  const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-  return `hsl(${hue}, 100%, 50%)`;
-};
+}

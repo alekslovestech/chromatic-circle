@@ -17,11 +17,7 @@ import {
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
-import {
-  CircularVisMode,
-  drawSelectedNotesArrows,
-  drawSelectedNotesPolygon,
-} from "./CircularVisualizations";
+import { CircularVisMode, drawCircularVisualizations } from "./CircularVisualizations";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,11 +55,7 @@ const KeyboardCircular: React.FC = () => {
         drawText(ctx, chromaticIndex);
       }
 
-      if (drawingMode === CircularVisMode.Arrows) {
-        drawSelectedNotesArrows(ctx, selectedNoteIndices);
-      } else if (drawingMode === CircularVisMode.Polygon) {
-        drawSelectedNotesPolygon(ctx, selectedNoteIndices);
-      }
+      drawCircularVisualizations(ctx, selectedNoteIndices, drawingMode);
     }
 
     function drawWedge(ctx: CanvasRenderingContext2D, index: ChromaticIndex) {
