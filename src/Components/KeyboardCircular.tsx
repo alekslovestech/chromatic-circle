@@ -19,7 +19,7 @@ import {
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 
-enum DrawingMode {
+enum CircularVisMode {
   None = "None",
   Arrows = "Arrows",
   Polygon = "Polygon",
@@ -27,7 +27,7 @@ enum DrawingMode {
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [drawingMode, setDrawingMode] = useState<DrawingMode>(DrawingMode.Arrows);
+  const [drawingMode, setDrawingMode] = useState<CircularVisMode>(CircularVisMode.Arrows);
 
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
@@ -57,9 +57,9 @@ const KeyboardCircular: React.FC = () => {
         drawText(ctx, chromaticIndex);
       }
 
-      if (drawingMode === DrawingMode.Arrows) {
+      if (drawingMode === CircularVisMode.Arrows) {
         drawSelectedNotesArrows(ctx);
-      } else if (drawingMode === DrawingMode.Polygon) {
+      } else if (drawingMode === CircularVisMode.Polygon) {
         drawSelectedNotesPolygon(ctx);
       }
     };
@@ -155,7 +155,7 @@ const KeyboardCircular: React.FC = () => {
   }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, drawingMode]);
 
   const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDrawingMode(event.target.value as DrawingMode);
+    setDrawingMode(event.target.value as CircularVisMode);
   };
 
   return (
@@ -172,9 +172,9 @@ const KeyboardCircular: React.FC = () => {
           value={drawingMode}
           onChange={handleDrawingModeChange}
         >
-          <option value={DrawingMode.None}>None</option>
-          <option value={DrawingMode.Arrows}>Arrows</option>
-          <option value={DrawingMode.Polygon}>Polygon</option>
+          <option value={CircularVisMode.None}>None</option>
+          <option value={CircularVisMode.Arrows}>Arrows</option>
+          <option value={CircularVisMode.Polygon}>Polygon</option>
         </select>
       )}
     </div>
