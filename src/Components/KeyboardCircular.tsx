@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import "../styles/KeyboardCircular.css";
-
 import { useNotes } from "./NotesContext";
 import { Constants, CircleMath } from "../utils/CircleMath";
 import {
@@ -18,12 +17,7 @@ import {
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
-
-enum CircularVisMode {
-  None = "None",
-  Arrows = "Arrows",
-  Polygon = "Polygon",
-}
+import { CircularVisMode, drawCircularVisualizations } from "./CircularVisualizations";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,21 +26,25 @@ const KeyboardCircular: React.FC = () => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
+  const HandleCanvasClick = (event: MouseEvent) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const [pureX, pureY] = CircleMath.ViewportToCartesian(event.clientX, event.clientY, rect);
+    const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
+
+    if (!CircleMath.IsRadiusInRange(radius)) return;
+
+    const noteIndex = CircleMath.AngleToNoteIndex(angle);
+    handleKeyClick(chromaticToActual(noteIndex, ixOctaveOffset(0)));
+  };
+
+  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setDrawingMode(event.target.value as CircularVisMode);
+  };
+
   useEffect(() => {
-    const HandleCanvasClick = (event: MouseEvent) => {
-      const rect = canvasRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const [pureX, pureY] = CircleMath.ViewportToCartesian(event.clientX, event.clientY, rect);
-      const [radius, angle] = CircleMath.CartesianToCircular(pureX, pureY);
-
-      if (!CircleMath.IsRadiusInRange(radius)) return;
-
-      const noteIndex = CircleMath.AngleToNoteIndex(angle);
-      handleKeyClick(chromaticToActual(noteIndex, ixOctaveOffset(0)));
-    };
-
-    const drawCircle = () => {
+    function drawCircle() {
       const ctx = canvasRef.current?.getContext("2d");
       if (!ctx) return;
 
@@ -57,14 +55,10 @@ const KeyboardCircular: React.FC = () => {
         drawText(ctx, chromaticIndex);
       }
 
-      if (drawingMode === CircularVisMode.Arrows) {
-        drawSelectedNotesArrows(ctx);
-      } else if (drawingMode === CircularVisMode.Polygon) {
-        drawSelectedNotesPolygon(ctx);
-      }
-    };
+      drawCircularVisualizations(ctx, selectedNoteIndices, drawingMode);
+    }
 
-    const drawWedge = (ctx: CanvasRenderingContext2D, index: ChromaticIndex) => {
+    function drawWedge(ctx: CanvasRenderingContext2D, index: ChromaticIndex) {
       const startAngle = CircleMath.NoteIndexToLeftAngle(index);
       const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
       const innerRadius = CircleMath.getInnerRadius(index);
@@ -87,9 +81,9 @@ const KeyboardCircular: React.FC = () => {
         ctx.stroke();
         ctx.lineWidth = 1;
       }
-    };
+    }
 
-    const drawText = (ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) => {
+    function drawText(ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) {
       const innerRadius = CircleMath.getInnerRadius(chromaticIndex);
       const outerRadius = CircleMath.getOuterRadius(chromaticIndex);
       const radius = (outerRadius + innerRadius) / 2;
@@ -105,46 +99,7 @@ const KeyboardCircular: React.FC = () => {
       const noteText = getNoteTextFromIndex(ixActual(chromaticIndex), selectedAccidental);
       ctx.fillText(noteText, 0, -radius);
       ctx.restore();
-    };
-
-    const colorFromNoteDistance = (noteDistance: number) => {
-      const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-      return `hsl(${hue}, 100%, 50%)`;
-    };
-
-    const drawSelectedNotesPolygon = (ctx: CanvasRenderingContext2D) => {
-      const numNotes = selectedNoteIndices.length;
-      if (numNotes < 2) return;
-
-      const theEnd = numNotes === 2 ? 1 : numNotes; //intervals don't wrap around, but chords do
-
-      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-      ctx.beginPath();
-      for (let i = 0; i < theEnd; i++) {
-        const nextIndex = (i + 1) % numNotes;
-        ctx.moveTo(coordinates[i].x, coordinates[i].y);
-        ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
-        const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
-        ctx.strokeStyle = colorFromNoteDistance(nd);
-        ctx.stroke();
-      }
-      ctx.closePath();
-    };
-
-    const drawSelectedNotesArrows = (ctx: CanvasRenderingContext2D) => {
-      const numNotes = selectedNoteIndices.length;
-      if (numNotes < 2) return;
-
-      const coordinates = selectedNoteIndices.map((index) => CircleMath.getPolyCoors(index));
-      ctx.strokeStyle = getComputedColor("--key-border");
-      ctx.beginPath();
-      for (let i = 0; i < numNotes; i++) {
-        ctx.moveTo(Constants.centerX, Constants.centerY);
-        ctx.lineTo(coordinates[i].x, coordinates[i].y);
-        ctx.stroke();
-      }
-      ctx.closePath();
-    };
+    }
 
     drawCircle();
 
@@ -153,10 +108,6 @@ const KeyboardCircular: React.FC = () => {
       canvasRef.current?.removeEventListener("click", HandleCanvasClick);
     };
   }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, drawingMode]);
-
-  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDrawingMode(event.target.value as CircularVisMode);
-  };
 
   return (
     <div className="keyboardcircular-container">
