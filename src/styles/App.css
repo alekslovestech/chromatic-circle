@@ -68,6 +68,8 @@
 .keyboardlinear-container {
   grid-column: 1 / -1; /* Span all columns */
   grid-row: 1;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .keyboardcircular-container {
