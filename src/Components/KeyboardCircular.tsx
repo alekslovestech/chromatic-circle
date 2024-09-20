@@ -123,9 +123,11 @@ const KeyboardCircular: React.FC = () => {
           value={drawingMode}
           onChange={handleDrawingModeChange}
         >
-          <option value={CircularVisMode.None}>None</option>
-          <option value={CircularVisMode.Arrows}>Arrows</option>
-          <option value={CircularVisMode.Polygon}>Polygon</option>
+          {Object.values(CircularVisMode).map((mode) => (
+            <option key={mode} value={mode}>
+              {mode}
+            </option>
+          ))}
         </select>
       )}
     </div>
