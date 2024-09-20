@@ -2,11 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+    width: 100%; /* Ensure it takes full width of its container */
+    box-sizing: border-box;
+    padding: 0 10px; /* Add some padding on the sides */
 }
 
 h3 {
     margin: 0 0 10px 0;
+    width: 100%;
+    text-align: center;
 }
 
 .chord-grid {
@@ -14,26 +18,26 @@ h3 {
     grid-template-columns: repeat(4, 1fr);
     gap: 5px;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .interval-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 5px;
     margin-bottom: 10px;
-    width: 100%; /* Ensure it uses full width */
+    width: 100%;
 }
 
 .interval-column {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    margin-bottom: 5px;
 }
 
 .chord-grid button,
 .interval-column button {
-    width: 50px;
+    width: 100%; /* Make buttons take full width of their grid cell */
     height: 25px;
     font-size: 12px;
     background-color: #f0f0f0;
@@ -42,15 +46,9 @@ h3 {
     cursor: pointer;
     transition: background-color 0.3s;
     padding: 0;
-}
-
-.chord-grid button {
-    width: 50px; /* Narrower buttons for chord presets */
-}
-
-.interval-column button {
-    width: 70px; /* Wider buttons for interval presets */
-    height: 25px; /* Slightly less tall for interval presets */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chord-grid button:hover,
@@ -69,6 +67,8 @@ h3 {
     gap: 5px;
     align-items: center;
     margin-top: 5px;
+    width: 100%;
+    justify-content: center;
 }
 
 .inversion-buttons button {
@@ -92,7 +92,7 @@ h3 {
     color: white;
 }
 
-/* Add this new rule to limit the maximum width of the grid */
-.preset-selector .interval-grid {
-    max-width: 150px; /* Adjust this value as needed */
-}
+/* Remove this rule as it's no longer needed */
+/* .preset-selector .interval-grid {
+    max-width: 150px;
+} */
