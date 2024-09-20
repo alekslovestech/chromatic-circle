@@ -83,22 +83,22 @@
   height: auto; /* Allow height to be determined by aspect ratio */
 }
 
-.notes-renderer-container {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.chord-names-display-container {
-  grid-column: 3;
-  grid-row: 3;
-}
-
 .mode-selector-container {
-  grid-column: 4;
+  grid-column: 3;
   grid-row: 2;
 }
 
 .presets-selector {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.notes-renderer-container {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.chord-names-display-container {
   grid-column: 4;
   grid-row: 3;
 }
