@@ -5,7 +5,7 @@ import { TWELVE } from "../types/NoteConstants";
 
 export enum CircularVisMode {
   None = "None",
-  Arrows = "Arrows",
+  Arrows = "Radial",
   Polygon = "Polygon",
 }
 
@@ -44,16 +44,7 @@ function drawSelectedNotesArrows(
     ctx.stroke();
   }
 
-  // Emphasize the bass note with a small circle
-  const bassNoteCoords = coordinates[0];
-  const circleRadius = 5; // Adjust this value to change the size of the circle
-
-  ctx.beginPath();
-  ctx.arc(bassNoteCoords.x, bassNoteCoords.y, circleRadius, 0, 2 * Math.PI);
-  ctx.fillStyle = getComputedColor("--root-note-highlight");
-  ctx.fill();
-  ctx.strokeStyle = getComputedColor("--key-border");
-  ctx.stroke();
+  emphasizeBaseNote(ctx, coordinates[0]);
 }
 
 function drawSelectedNotesPolygon(
@@ -76,4 +67,20 @@ function drawSelectedNotesPolygon(
     ctx.stroke();
   }
   ctx.closePath();
+
+  emphasizeBaseNote(ctx, coordinates[0]);
+}
+
+function emphasizeBaseNote(
+  ctx: CanvasRenderingContext2D,
+  bassNoteCoords: { x: number; y: number },
+) {
+  const circleRadius = 5; // Adjust this value to change the size of the circle
+
+  ctx.beginPath();
+  ctx.arc(bassNoteCoords.x, bassNoteCoords.y, circleRadius, 0, 2 * Math.PI);
+  ctx.fillStyle = getComputedColor("--root-note-highlight");
+  ctx.fill();
+  ctx.strokeStyle = getComputedColor("--key-border");
+  ctx.stroke();
 }

@@ -1,18 +1,30 @@
+:root {
+  --h2wratio: 0.25;
+  --b2wKeyRatio: 0.7; /* Black to white key width ratio */
+  --wKeysPer2Octaves: 14; /* 14 white keys fit into the full width */
+  --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
+}
+
 .keyboardlinear-container {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  max-width: 500px; 
+  height: calc(100vw * var(--h2wratio)); /* Adjust the multiplier to change the aspect ratio */
+  max-height: calc(500px * var(--h2wratio)); /* Set the maximum height based on the max width */
   display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid #ffffff;
   border-radius: 0px;
   box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 auto; /* Center the container horizontally */
 }
 
 .keyboardlinear {
   display: flex;
   position: relative;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .piano-key {
@@ -22,25 +34,23 @@
   justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
-  font-size: 24px;
+  font-size: calc(1vw + 5px);
+  font-weight: bold;
 }
 
 .piano-key.white {
-  width: 60px;
+  width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
   height: 100%;
   z-index: 1;
   color: var(--note-text-on-white);
 }
 
 .piano-key.black {
-  /*background-color: var(--key-black-bg);*/
-  width: 40px;
+  width: calc(100% / var(--bKeysPer2Octaves));
   height: 60%;
-  margin-left: -20px;
-  margin-right: -20px;
+  margin-left: calc(-100% / var(--bKeysPer2Octaves)  / 2);
+  margin-right: calc(-100% / var(--bKeysPer2Octaves)  / 2);
   margin-top: 0;
-  margin-bottom: 80px;
-  top: 0;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -53,10 +63,21 @@
   transform: rotate(-90deg);
   transform-origin: center center;
   white-space: nowrap;
-  margin-left: -25px;
+  margin-left: -25%;
 }
 
 .piano-key.root-note {
   border: 2px solid var(--root-note-highlight);
+}
+
+/* Media query for larger screens */
+@media (min-width: 500px) {
+  .keyboardlinear-container {
+    height: calc(500px * var(--h2wratio)); /* Set the height based on the max width */
+  }
+
+  .piano-key {
+    font-size: calc(500px / var(--bKeysPer2Octaves) * 0.4); /* Adjust font size based on black key width, allowing for max 2 characters */
+  }
 }
 
