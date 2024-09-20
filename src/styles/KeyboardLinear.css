@@ -1,8 +1,8 @@
 :root {
   --h2wratio: 0.25;
-  --wKeyPerOctave: 7;
-  --wKeysPer2Octaves: 14;
   --b2wKeyRatio: 0.7; /* Black to white key width ratio */
+  --wKeysPer2Octaves: 14; /* 14 white keys fit into the full width */
+  --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
 }
 
 .keyboardlinear-container {
@@ -34,21 +34,22 @@
   justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
-  font-size: calc(1vw + 8px);
+  font-size: calc(1vw + 5px);
+  font-weight: bold;
 }
 
 .piano-key.white {
-  width: calc(100% / (2 * var(--wKeyPerOctave))); /* 14 white keys */
+  width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
   height: 100%;
   z-index: 1;
   color: var(--note-text-on-white);
 }
 
 .piano-key.black {
-  width: calc(100% / var(--wKeysPer2Octaves) * var(--b2wKeyRatio)); /* 70% of white key width */
+  width: calc(100% / var(--bKeysPer2Octaves));
   height: 60%;
-  margin-left: calc(-100% / var(--wKeysPer2Octaves) * var(--b2wKeyRatio) / 2);
-  margin-right: calc(-100% / var(--wKeysPer2Octaves) * var(--b2wKeyRatio) / 2);
+  margin-left: calc(-100% / var(--bKeysPer2Octaves)  / 2);
+  margin-right: calc(-100% / var(--bKeysPer2Octaves)  / 2);
   margin-top: 0;
   z-index: 2;
   display: flex;
@@ -76,7 +77,7 @@
   }
 
   .piano-key {
-    font-size: calc(500px / 14 * var(--b2wKeyRatio)); /* Adjust font size based on the max width */
+    font-size: calc(500px / var(--bKeysPer2Octaves) * 0.4); /* Adjust font size based on black key width, allowing for max 2 characters */
   }
 }
 
