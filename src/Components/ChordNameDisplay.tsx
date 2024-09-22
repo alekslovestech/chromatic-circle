@@ -29,9 +29,7 @@ const ChordNameDisplay: React.FC = () => {
   };
 
   function toggleChordDisplayMode(): void {
-    console.log("toggleChordDisplayMode", chordDisplayMode);
     setChordDisplayMode(getOppositeDisplayMode(chordDisplayMode));
-    console.log("toggleChordDisplayMode", chordDisplayMode);
   }
 
   const renderNoteGrouping = (inputMode: InputMode) => {
