@@ -5,21 +5,6 @@
   --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
 }
 
-.keyboardlinear-container {
-  width: 100vw;
-  max-width: 500px; 
-  height: calc(100vw * var(--h2wratio)); /* Adjust the multiplier to change the aspect ratio */
-  max-height: calc(500px * var(--h2wratio)); /* Set the maximum height based on the max width */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ffffff;
-  border-radius: 0px;
-  box-sizing: border-box;
-  overflow: hidden;
-  margin: 0 auto; /* Center the container horizontally */
-}
-
 .keyboardlinear {
   display: flex;
   position: relative;
