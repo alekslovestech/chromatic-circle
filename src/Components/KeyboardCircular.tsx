@@ -18,6 +18,7 @@ import {
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { CircularVisMode, drawCircularVisualizations } from "./CircularVisualizations";
+import AccidentalToggle from "./AccidentalToggle";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -111,25 +112,28 @@ const KeyboardCircular: React.FC = () => {
 
   return (
     <div className="keyboardcircular-container">
+      <div className="keyboardcircular-overlay">
+        <AccidentalToggle />
+        {selectedNoteIndices.length > 1 && (
+          <select
+            className="drawing-mode-select"
+            value={drawingMode}
+            onChange={handleDrawingModeChange}
+          >
+            {Object.values(CircularVisMode).map((mode) => (
+              <option key={mode} value={mode}>
+                {mode}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
       <canvas
         ref={canvasRef}
         className="keyboardcircular"
         width={2 * Constants.CANVAS_RADIUS}
         height={2 * Constants.CANVAS_RADIUS}
       />
-      {selectedNoteIndices.length > 1 && (
-        <select
-          className="drawing-mode-select"
-          value={drawingMode}
-          onChange={handleDrawingModeChange}
-        >
-          {Object.values(CircularVisMode).map((mode) => (
-            <option key={mode} value={mode}>
-              {mode}
-            </option>
-          ))}
-        </select>
-      )}
     </div>
   );
 };
