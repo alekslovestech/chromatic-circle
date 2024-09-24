@@ -5,14 +5,32 @@ import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
+import { getComputedColor } from "../utils/ColorUtils";
+import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
 const ChordNameDisplay: React.FC = () => {
-  const { selectedNoteIndices, inputMode, selectedAccidental, chordDisplayMode } = useNotes();
+  const {
+    selectedNoteIndices,
+    inputMode,
+    selectedAccidental,
+    chordDisplayMode,
+    setChordDisplayMode,
+  } = useNotes();
 
   const topDownNotes = selectedNoteIndices
     .slice()
     .reverse()
     .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
+
+  const getOppositeDisplayMode = (prevDisplayMode: ChordDisplayMode): ChordDisplayMode => {
+    if (prevDisplayMode === ChordDisplayMode.Letters_Short) return ChordDisplayMode.Symbols;
+    if (prevDisplayMode === ChordDisplayMode.Symbols) return ChordDisplayMode.Letters_Short;
+    return prevDisplayMode; //no change
+  };
+
+  function toggleChordDisplayMode(): void {
+    setChordDisplayMode(getOppositeDisplayMode(chordDisplayMode));
+  }
 
   const renderNoteGrouping = (inputMode: InputMode) => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
@@ -45,6 +63,12 @@ const ChordNameDisplay: React.FC = () => {
     <div className="chord-display" style={{ marginTop: "-10px" }}>
       {renderNoteGrouping(inputMode)}
       {renderChordNotes()}
+      {inputMode === InputMode.Toggle ||
+        (inputMode === InputMode.ChordPresets && (
+          <button className="chord-display-mode-toggle" onClick={toggleChordDisplayMode}>
+            Long / Short
+          </button>
+        ))}
     </div>
   );
 };

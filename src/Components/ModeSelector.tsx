@@ -45,30 +45,17 @@ const ModeSelector = () => {
 
   return (
     <div className="mode-selector">
-      <button
-        className={inputMode === InputMode.Toggle ? "active" : ""}
-        onClick={() => handleModeChange(InputMode.Toggle)}
-      >
-        Free-form Input
-      </button>
-      <button
-        className={inputMode === InputMode.SingleNote ? "active" : ""}
-        onClick={() => handleModeChange(InputMode.SingleNote)}
-      >
-        Single Notes
-      </button>
-      <button
-        className={inputMode === InputMode.IntervalPresets ? "active" : ""}
-        onClick={() => handleModeChange(InputMode.IntervalPresets)}
-      >
-        Interval Presets
-      </button>
-      <button
-        className={inputMode === InputMode.ChordPresets ? "active" : ""}
-        onClick={() => handleModeChange(InputMode.ChordPresets)}
-      >
-        Chord Presets
-      </button>
+      {Object.values(InputMode)
+        .filter((mode) => mode !== InputMode.None)
+        .map((mode) => (
+          <button
+            key={mode}
+            className={inputMode === mode ? "active" : ""}
+            onClick={() => handleModeChange(mode)}
+          >
+            {mode}
+          </button>
+        ))}
     </div>
   );
 };

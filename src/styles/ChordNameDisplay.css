@@ -19,3 +19,12 @@
   font-size: 20px;
   margin: 0;
 }
+
+.chord-display-mode-toggle {
+  font-size: 12px;
+  background-color: grey;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 0;
+}

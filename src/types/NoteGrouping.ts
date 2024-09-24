@@ -40,7 +40,7 @@ export const NoteGroupings: { [key: string]: NoteGroupingInfo } = {
   Chord_Aug: { lettersId: "aug", symbolsId: "+", displayName: "Augmented Chord", orderId: 17 },
   Chord_Sus4: {
     lettersId: "sus4",
-    symbolsId: "sus4",
+    symbolsId: "sus",
     displayName: "Suspended 4th Chord",
     orderId: 18,
   },

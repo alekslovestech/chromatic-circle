@@ -7,7 +7,6 @@ import NotesRenderer from "./Components/NotesRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/PresetsSelector";
 import ModeSelector from "./Components/ModeSelector";
-import AccidentalToggle from "./Components/AccidentalToggle";
 import AudioPlayer from "./Components/AudioPlayer";
 
 function App() {
@@ -38,7 +37,6 @@ function App() {
             </div>
 
             <div className="settings-column">
-              <AccidentalToggle />
               <AudioPlayer />
             </div>
           </div>
