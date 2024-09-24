@@ -54,7 +54,7 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 5px;
-   background-color: var(--key-black);
+  background-color: var(--key-black);
   color: var(--note-text-on-black);
 }
 

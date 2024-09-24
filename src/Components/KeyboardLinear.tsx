@@ -5,8 +5,7 @@ import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
-import { IndexUtils } from "../utils/IndexUtils";
-
+import { getBlackWhiteString } from "../utils/ColorUtils";
 const KeyboardLinear: React.FC = () => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
@@ -15,8 +14,7 @@ const KeyboardLinear: React.FC = () => {
   for (let actualIndex = 0 as ActualIndex; actualIndex < 2 * TWELVE; actualIndex++) {
     const isSelected = selectedNoteIndices.includes(actualIndex);
     const isRootNote = checkIsRootNote(actualIndex);
-    const isBlack = IndexUtils.isBlackKey(actualIndex);
-    const blackWhiteString = isBlack ? "black" : "white";
+    const blackWhiteString = getBlackWhiteString(actualIndex);
 
     //later classes override earlier ones
     const classNames = ["piano-key"];
