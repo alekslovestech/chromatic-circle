@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Ensure it takes full width of its container */
+    width: 100%; 
     box-sizing: border-box;
     padding: 0 10px; /* Add some padding on the sides */
 }
@@ -37,7 +37,7 @@ h3 {
 
 .chord-grid button,
 .interval-column button {
-    width: 100%; /* Make buttons take full width of their grid cell */
+    width: 100%; 
     height: 25px;
     font-size: 12px;
     background-color: #f0f0f0;
@@ -91,8 +91,3 @@ h3 {
     background-color: #2196F3;
     color: white;
 }
-
-/* Remove this rule as it's no longer needed */
-/* .preset-selector .interval-grid {
-    max-width: 150px;
-} */
