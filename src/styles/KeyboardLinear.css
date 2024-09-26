@@ -23,11 +23,24 @@
   font-weight: bold;
 }
 
+.piano-key.white.root-note {
+  border: 2px solid var(--root-note-highlight);
+}
+
+.piano-key.black.root-note {
+  border: 2px solid var(--root-note-highlight);
+}
+
 .piano-key.white {
   width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
   height: 100%;
   z-index: 1;
   color: var(--note-text-on-white);
+  background-color: var(--key-white);
+}
+
+.piano-key.white.selected {
+  background-color: var(--key-white-selected0);
 }
 
 .piano-key.black {
@@ -41,7 +54,12 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 5px;
+  background-color: var(--key-black);
   color: var(--note-text-on-black);
+}
+
+.piano-key.black.selected {
+  background-color: var(--key-black-selected0);
 }
 
 .piano-key.black span {

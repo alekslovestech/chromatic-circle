@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
-import { NotesProvider, useNotes } from "../../Components/NotesContext";
+import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/ModeSelector";
 
 describe("KeyboardLinear", () => {
@@ -29,7 +29,7 @@ describe("KeyboardLinear", () => {
     fireEvent.click(freeFormButton);
     expect(freeFormButton).toHaveClass("active");
     expect(singleNotesButton).not.toHaveClass("active");
-    //expect(freeFormButton).toHaveTextContent("Free-form Input");
+    expect(freeFormButton).toHaveTextContent("Free-form Input");
   });
 
   test("initial selected note is G", () => {
@@ -53,10 +53,7 @@ describe("KeyboardLinear", () => {
     expect(gNote).toBeInTheDocument();
     expect(gNote).toHaveClass("piano-key white");
     expect(gNote).toHaveTextContent("G");
-    //   expect(gNote).toHaveStyle("background-color: #7f7fff");
     fireEvent.click(gNote);
-    //expect(gNote).toHaveClass("selected");
-    // expect(gNote).toHaveStyle("background-color: #7f7fff");
-    //  expect(fSharpNote).toHaveStyle("background-color: #7f7fff");
+    expect(gNote).toHaveClass("selected");
   });
 });
