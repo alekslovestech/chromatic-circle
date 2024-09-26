@@ -1,0 +1,40 @@
+.pie-slice-keyboard {
+  border-radius: 50%;
+  background-color: white;
+}
+
+.slice {
+  fill: lightblue;
+  stroke: black;
+  stroke-width: 1px;
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+
+/* Specific slice styles */
+.slice-0 {
+  fill: lightcoral;
+}
+
+.slice-1 {
+  fill: lightseagreen;
+}
+
+.slice-2 {
+  fill: lightgoldenrodyellow;
+}
+
+.slice-3 {
+  fill: lightsalmon;
+}
+
+.slice-4 {
+  fill: lightpink;
+}
+
+/* Add more colors for other slices, or use a generic color scheme */
+
+/* Hover effect */
+.slice:hover {
+  fill: orange;
+}

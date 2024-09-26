@@ -8,6 +8,7 @@ import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/PresetsSelector";
 import ModeSelector from "./Components/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
+import KeyboardPieSlice from "./Components/KeyboardPieSlice";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
               <div className="keyboardcircular-container">
                 <KeyboardCircular />
               </div>
+              {/* <div className="keyboardcircle-container">
+                <KeyboardPieSlice />
+              </div> */}
               <div className="notes-renderer-container">
                 <NotesRenderer />
               </div>
