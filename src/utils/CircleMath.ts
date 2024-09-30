@@ -1,11 +1,11 @@
 import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 
-const TWO_PI = 2 * Math.PI;
-const INIT_ANGLE = -Math.PI / 2; //vertical up
+export const TWO_PI = 2 * Math.PI;
+export const INIT_ANGLE = -Math.PI / 2; //vertical up
 
-const INNER_RADIUS_WHITE = 80;
-const OUTER_RADIUS = 160;
+export const INNER_RADIUS = 60;
+export const OUTER_RADIUS = 120;
 
 interface RectCoordinates {
   top: number;
@@ -20,9 +20,6 @@ export class Constants {
   static centerY = Constants.CANVAS_RADIUS;
 
   static FULL_KEY_ANGLE = TWO_PI / TWELVE;
-
-  static SELECTED_WHITE_COLOR = "#ffff00";
-  static SELECTED_BLACK_COLOR = "#7f7f00";
 }
 
 // utilities related to the coordinate system transformations between
@@ -48,7 +45,7 @@ export class CircleMath {
   }
 
   static IsRadiusInRange(radius: number) {
-    return radius >= INNER_RADIUS_WHITE && radius <= OUTER_RADIUS;
+    return radius >= INNER_RADIUS && radius <= OUTER_RADIUS;
   }
 
   //working with spirals requires more care:
@@ -57,7 +54,7 @@ export class CircleMath {
   // 3. indices past 12 are supported
   static getInnerRadius(index: number) {
     const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-    return multiplier * INNER_RADIUS_WHITE;
+    return multiplier * INNER_RADIUS;
   }
 
   static getOuterRadius(index: number) {
@@ -91,4 +88,10 @@ export class CircleMath {
   static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
     return (note2 - note1 + TWELVE) % TWELVE;
   };
+}
+
+export class PolarMath {
+  static getCartesianFromPolar(radius: number, angle: number) {
+    return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
+  }
 }

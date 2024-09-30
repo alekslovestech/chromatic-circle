@@ -1,40 +1,46 @@
 .pie-slice-keyboard {
-  border-radius: 50%;
-  background-color: white;
+  background-color: transparent;
 }
 
-.slice {
-  fill: lightblue;
-  stroke: black;
-  stroke-width: 1px;
+.pie-slice-key {
   cursor: pointer;
-  transition: fill 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* Specific slice styles */
-.slice-0 {
-  fill: lightcoral;
+.pie-slice-key:hover path {
+  opacity: 0.8;
 }
 
-.slice-1 {
-  fill: lightseagreen;
+.pie-slice-key.white path {
+  fill: var(--key-white);
+  stroke: grey;
+  stroke-width: 1px;
 }
 
-.slice-2 {
-  fill: lightgoldenrodyellow;
+.pie-slice-key.black path {
+  fill: var(--key-black);
+  stroke: grey;
+  stroke-width: 1px;
 }
 
-.slice-3 {
-  fill: lightsalmon;
+.pie-slice-key.white.selected path {
+  fill: var(--key-white-selected0);
 }
 
-.slice-4 {
-  fill: lightpink;
+.pie-slice-key.black.selected path {
+  fill: var(--key-black-selected0);
 }
 
-/* Add more colors for other slices, or use a generic color scheme */
+.pie-slice-key.white text {
+  fill: var(--note-text-on-white);
+}
 
-/* Hover effect */
-.slice:hover {
-  fill: orange;
+.pie-slice-key.black text {
+  fill: var(--note-text-on-black);
+}
+
+.pie-slice-key text {
+  font-size: 12px;
+  font-weight: bold;
+  pointer-events: none;
 }
