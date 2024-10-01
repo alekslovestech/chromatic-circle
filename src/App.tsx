@@ -20,12 +20,11 @@ function App() {
               <div className="keyboardlinear-container">
                 <KeyboardLinear />
               </div>
-              {/*<div className="keyboardcircular-container">
+              <KeyboardPieSlice />
+              {/* <div className="keyboardcircular-container">
                 <KeyboardCircular />
-              </div>*/}
-              <div className="keyboardcircle-container">
-                <KeyboardPieSlice />
-              </div>
+              </div> */}
+
               <div className="notes-renderer-container">
                 <NotesRenderer />
               </div>

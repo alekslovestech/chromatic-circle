@@ -4,6 +4,7 @@ import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
+import { CircularVisMode } from "./CircularVisualizations";
 
 interface NotesContextType {
   inputMode: InputMode;
@@ -12,12 +13,14 @@ interface NotesContextType {
   selectedAccidental: AccidentalType;
   selectedInversionIndex: InversionIndex;
   chordDisplayMode: ChordDisplayMode;
+  circularVisMode: CircularVisMode;
   setInputMode: (mode: InputMode) => void;
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   setSelectedChordType: (type: NoteGroupingId) => void;
   setSelectedAccidental: (sharpFlat: AccidentalType) => void;
   setSelectedInversionIndex: (index: InversionIndex) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
+  setCircularVisMode: (mode: CircularVisMode) => void;
 }
 
 const NotesContext = createContext<NotesContextType>({} as NotesContextType);
@@ -37,6 +40,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
+  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Arrows);
 
   const value = {
     inputMode,
@@ -45,12 +49,14 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     selectedAccidental,
     selectedInversionIndex,
     chordDisplayMode,
+    circularVisMode,
     setInputMode,
     setSelectedNoteIndices,
     setSelectedChordType,
     setSelectedAccidental,
     setSelectedInversionIndex,
     setChordDisplayMode,
+    setCircularVisMode,
   };
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>;

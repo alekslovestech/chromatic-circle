@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/KeyboardPieSlice.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { Constants, INIT_ANGLE, INNER_RADIUS, OUTER_RADIUS, PolarMath } from "../utils/CircleMath";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { AccidentalType } from "../types/AccidentalType";
-import { getBlackWhiteString } from "../utils/ColorUtils";
+import { getBlackWhiteString, getComputedColor } from "../utils/ColorUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { useNotes } from "./NotesContext";
+import AccidentalToggle from "./AccidentalToggle";
+import CircularVisModeSelect from "./CircularVizModeSelect";
+import { CircularVisMode } from "./CircularVisualizations";
 
 interface PieSliceProps {
   index: number;
@@ -15,7 +17,7 @@ interface PieSliceProps {
 }
 
 const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
-  const { selectedNoteIndices } = useNotes();
+  const { selectedNoteIndices, selectedAccidental } = useNotes();
   const sliceAngle = Constants.FULL_KEY_ANGLE;
   const startAngle = INIT_ANGLE + index * sliceAngle;
   const endAngle = startAngle + sliceAngle;
@@ -44,7 +46,7 @@ const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
     <g className={`pie-slice-key ${blackWhiteClass} ${selectedClass}`}>
       <path d={pathData} onClick={onClick} />
       <text x={textPosition.x} y={textPosition.y} textAnchor="middle" dominantBaseline="middle">
-        {getNoteTextFromIndex(index as ActualIndex, AccidentalType.Sharp)}
+        {getNoteTextFromIndex(index as ActualIndex, selectedAccidental)}
       </text>
     </g>
   );
@@ -52,16 +54,147 @@ const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
 
 const KeyboardPieSlice: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();
+  const { selectedNoteIndices, circularVisMode } = useNotes();
   const handleClick = (index: number) => {
     handleKeyClick(index as ActualIndex);
   };
 
+  useEffect(() => {
+    function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[]) {
+      const svgElement = document.querySelector(".pie-slice-keyboard");
+      if (!svgElement) return;
+
+      // Remove existing lines
+      svgElement.querySelectorAll(".selected-note-line").forEach((el) => el.remove());
+
+      selectedNoteIndices.forEach((index) => {
+        const sliceAngle = Constants.FULL_KEY_ANGLE;
+        const startAngle = INIT_ANGLE + index * sliceAngle;
+        const middleAngle = startAngle + sliceAngle / 2;
+        const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", "0");
+        line.setAttribute("y1", "0");
+        line.setAttribute("x2", innerPoint.x.toString());
+        line.setAttribute("y2", innerPoint.y.toString());
+        line.setAttribute("stroke", getComputedColor("--key-border"));
+        line.setAttribute("stroke-width", "2");
+        line.classList.add("selected-note-line");
+
+        svgElement.appendChild(line);
+      });
+
+      // Emphasize the base note
+      if (selectedNoteIndices.length > 0) {
+        const baseIndex = selectedNoteIndices[0];
+        const sliceAngle = Constants.FULL_KEY_ANGLE;
+        const startAngle = INIT_ANGLE + baseIndex * sliceAngle;
+        const middleAngle = startAngle + sliceAngle / 2;
+        const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
+
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", innerPoint.x.toString());
+        circle.setAttribute("cy", innerPoint.y.toString());
+        circle.setAttribute("r", "5");
+        circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
+        circle.setAttribute("stroke", getComputedColor("--key-border"));
+        circle.setAttribute("stroke-width", "1");
+        circle.classList.add("selected-note-line");
+
+        svgElement.appendChild(circle);
+      }
+    }
+
+    function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[]) {
+      const svgElement = document.querySelector(".pie-slice-keyboard");
+      if (!svgElement || selectedNoteIndices.length < 2) return;
+
+      // Remove existing lines
+      svgElement.querySelectorAll(".selected-note-line").forEach((el) => el.remove());
+
+      const numNotes = selectedNoteIndices.length;
+      const theEnd = numNotes === 2 ? 1 : numNotes; // intervals don't wrap around, but chords do
+
+      for (let i = 0; i < theEnd; i++) {
+        const currentIndex = selectedNoteIndices[i];
+        const nextIndex = selectedNoteIndices[(i + 1) % numNotes];
+
+        const startAngle = INIT_ANGLE + currentIndex * Constants.FULL_KEY_ANGLE;
+        const endAngle = INIT_ANGLE + nextIndex * Constants.FULL_KEY_ANGLE;
+
+        const startPoint = PolarMath.getCartesianFromPolar(
+          INNER_RADIUS,
+          startAngle + Constants.FULL_KEY_ANGLE / 2,
+        );
+        const endPoint = PolarMath.getCartesianFromPolar(
+          INNER_RADIUS,
+          endAngle + Constants.FULL_KEY_ANGLE / 2,
+        );
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", startPoint.x.toString());
+        line.setAttribute("y1", startPoint.y.toString());
+        line.setAttribute("x2", endPoint.x.toString());
+        line.setAttribute("y2", endPoint.y.toString());
+
+        const noteDistance = (nextIndex - currentIndex + TWELVE) % TWELVE;
+        const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
+        line.setAttribute("stroke", `hsl(${hue}, 100%, 50%)`);
+
+        line.setAttribute("stroke-width", "2");
+        line.classList.add("selected-note-line");
+
+        svgElement.appendChild(line);
+      }
+
+      // Emphasize the base note
+      if (selectedNoteIndices.length > 0) {
+        const baseIndex = selectedNoteIndices[0];
+        const startAngle = INIT_ANGLE + baseIndex * Constants.FULL_KEY_ANGLE;
+        const middleAngle = startAngle + Constants.FULL_KEY_ANGLE / 2;
+        const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
+
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", innerPoint.x.toString());
+        circle.setAttribute("cy", innerPoint.y.toString());
+        circle.setAttribute("r", "5");
+        circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
+        circle.setAttribute("stroke", getComputedColor("--key-border"));
+        circle.setAttribute("stroke-width", "1");
+        circle.classList.add("selected-note-line");
+
+        svgElement.appendChild(circle);
+      }
+    }
+    function drawCircularVisualizations() {
+      if (circularVisMode === CircularVisMode.Arrows) {
+        drawSelectedNotesArrows(selectedNoteIndices);
+      } else if (circularVisMode === CircularVisMode.Polygon) {
+        drawSelectedNotesPolygon(selectedNoteIndices);
+      }
+    }
+
+    drawCircularVisualizations();
+  }, [selectedNoteIndices, handleKeyClick, circularVisMode]);
   return (
-    <svg width="300" height="300" viewBox="-150 -150 300 300" className="pie-slice-keyboard">
-      {Array.from({ length: TWELVE }).map((_, index) => (
-        <PieSliceKey key-index={index} index={index} onClick={() => handleClick(index)} />
-      ))}
-    </svg>
+    <div className="keyboardpieslice-container">
+      <div className="keyboardpieslice-overlay">
+        <div className="top-left">
+          <AccidentalToggle />
+        </div>
+        {selectedNoteIndices.length > 1 && (
+          <div className="top-right">
+            <CircularVisModeSelect />
+          </div>
+        )}
+      </div>
+      <svg width="300" height="300" viewBox="-150 -150 300 300" className="pie-slice-keyboard">
+        {Array.from({ length: TWELVE }).map((_, index) => (
+          <PieSliceKey key={index} index={index} onClick={() => handleClick(index)} />
+        ))}
+      </svg>
+    </div>
   );
 };
 

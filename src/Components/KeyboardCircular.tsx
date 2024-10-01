@@ -19,12 +19,12 @@ import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { CircularVisMode, drawCircularVisualizations } from "./CircularVisualizations";
 import AccidentalToggle from "./AccidentalToggle";
+import CircularVisModeSelect from "./CircularVizModeSelect";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [drawingMode, setDrawingMode] = useState<CircularVisMode>(CircularVisMode.Arrows);
 
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, selectedAccidental, circularVisMode } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const HandleCanvasClick = (event: MouseEvent) => {
@@ -40,10 +40,6 @@ const KeyboardCircular: React.FC = () => {
     handleKeyClick(chromaticToActual(noteIndex, ixOctaveOffset(0)));
   };
 
-  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDrawingMode(event.target.value as CircularVisMode);
-  };
-
   useEffect(() => {
     function drawCircle() {
       const ctx = canvasRef.current?.getContext("2d");
@@ -56,7 +52,7 @@ const KeyboardCircular: React.FC = () => {
         drawText(ctx, chromaticIndex);
       }
 
-      drawCircularVisualizations(ctx, selectedNoteIndices, drawingMode);
+      drawCircularVisualizations(ctx, selectedNoteIndices, circularVisMode);
     }
 
     function drawWedge(ctx: CanvasRenderingContext2D, index: ChromaticIndex) {
@@ -108,25 +104,13 @@ const KeyboardCircular: React.FC = () => {
     return () => {
       canvasRef.current?.removeEventListener("click", HandleCanvasClick);
     };
-  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, drawingMode]);
+  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, circularVisMode]);
 
   return (
     <div className="keyboardcircular-container">
       <div className="keyboardcircular-overlay">
         <AccidentalToggle />
-        {selectedNoteIndices.length > 1 && (
-          <select
-            className="drawing-mode-select"
-            value={drawingMode}
-            onChange={handleDrawingModeChange}
-          >
-            {Object.values(CircularVisMode).map((mode) => (
-              <option key={mode} value={mode}>
-                {mode}
-              </option>
-            ))}
-          </select>
-        )}
+        {selectedNoteIndices.length > 1 && <CircularVisModeSelect />}
       </div>
       <canvas
         ref={canvasRef}

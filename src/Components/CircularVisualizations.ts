@@ -9,7 +9,7 @@ export enum CircularVisMode {
   Polygon = "Polygon",
 }
 
-const colorFromNoteDistance = (noteDistance: number) => {
+export const colorFromNoteDistance = (noteDistance: number) => {
   const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
   return `hsl(${hue}, 100%, 50%)`;
 };
