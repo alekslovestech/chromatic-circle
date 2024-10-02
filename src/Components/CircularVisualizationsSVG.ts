@@ -48,22 +48,22 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[]) {
   });
 
   // Emphasize the base note
-  if (selectedNoteIndices.length > 0) {
-    const baseIndex = selectedNoteIndices[0];
-    const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
-    const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
+  if (selectedNoteIndices.length === 0) return;
 
-    const circle = document.createElementNS(SVG_URL, "circle");
-    circle.setAttribute("cx", innerPoint.x.toString());
-    circle.setAttribute("cy", innerPoint.y.toString());
-    circle.setAttribute("r", "5");
-    circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
-    circle.setAttribute("stroke", getComputedColor("--key-border"));
-    circle.setAttribute("stroke-width", "1");
-    circle.classList.add("selected-note-line");
+  const baseIndex = selectedNoteIndices[0];
+  const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
+  const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
 
-    svgElement.appendChild(circle);
-  }
+  const circle = document.createElementNS(SVG_URL, "circle");
+  circle.setAttribute("cx", innerPoint.x.toString());
+  circle.setAttribute("cy", innerPoint.y.toString());
+  circle.setAttribute("r", "5");
+  circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
+  circle.setAttribute("stroke", getComputedColor("--key-border"));
+  circle.setAttribute("stroke-width", "1");
+  circle.classList.add("selected-note-line");
+
+  svgElement.appendChild(circle);
 }
 
 function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[]) {
