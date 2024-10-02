@@ -6,6 +6,9 @@ export const INIT_ANGLE = -Math.PI / 2; //vertical up
 
 export const INNER_RADIUS = 60;
 export const OUTER_RADIUS = 120;
+export const MIDDLE_RADIUS = (INNER_RADIUS + OUTER_RADIUS) / 2;
+const FULL_KEY_ANGLE = TWO_PI / TWELVE;
+const HALF_KEY_ANGLE = FULL_KEY_ANGLE / 2;
 
 interface RectCoordinates {
   top: number;
@@ -18,8 +21,12 @@ export class Constants {
   static CANVAS_RADIUS = 200;
   static centerX = Constants.CANVAS_RADIUS;
   static centerY = Constants.CANVAS_RADIUS;
+}
 
-  static FULL_KEY_ANGLE = TWO_PI / TWELVE;
+export class PolarMath {
+  static getCartesianFromPolar(radius: number, angle: number) {
+    return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
+  }
 }
 
 // utilities related to the coordinate system transformations between
@@ -34,8 +41,11 @@ export class CircleMath {
     return Math.round((radians * 180) / Math.PI);
   }
 
-  static NoteIndexToLeftAngle(index: number) {
-    return INIT_ANGLE + index * Constants.FULL_KEY_ANGLE;
+  static NoteIndexToAngles(index: number) {
+    const startAngle = INIT_ANGLE + index * FULL_KEY_ANGLE;
+    const middleAngle = startAngle + HALF_KEY_ANGLE;
+    const endAngle = startAngle + FULL_KEY_ANGLE;
+    return { startAngle, middleAngle, endAngle };
   }
 
   // pure circular coors 0 degrees at x-horizontal, θ-clockwise
@@ -46,20 +56,6 @@ export class CircleMath {
 
   static IsRadiusInRange(radius: number) {
     return radius >= INNER_RADIUS && radius <= OUTER_RADIUS;
-  }
-
-  //working with spirals requires more care:
-  // 1. the radius is not the same as the radius in the circle
-  // 2. multiple octaves supported
-  // 3. indices past 12 are supported
-  static getInnerRadius(index: number) {
-    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-    return multiplier * INNER_RADIUS;
-  }
-
-  static getOuterRadius(index: number) {
-    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-    return multiplier * OUTER_RADIUS;
   }
 
   static CartesianToCircular(pureX: number, pureY: number) {
@@ -75,12 +71,10 @@ export class CircleMath {
   }
 
   static getPolyCoors(index: number) {
-    const startAngle = CircleMath.NoteIndexToLeftAngle(index);
-    const centerAngle = startAngle + Constants.FULL_KEY_ANGLE / 2;
-    const innerRadius = CircleMath.getInnerRadius(index);
+    const { middleAngle } = CircleMath.NoteIndexToAngles(index);
 
-    const x = Constants.centerX + innerRadius * Math.cos(centerAngle);
-    const y = Constants.centerY + innerRadius * Math.sin(centerAngle);
+    const x = Constants.centerX + INNER_RADIUS * Math.cos(middleAngle);
+    const y = Constants.centerY + INNER_RADIUS * Math.sin(middleAngle);
 
     return { x, y };
   }
@@ -88,10 +82,4 @@ export class CircleMath {
   static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
     return (note2 - note1 + TWELVE) % TWELVE;
   };
-}
-
-export class PolarMath {
-  static getCartesianFromPolar(radius: number, angle: number) {
-    return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
-  }
 }

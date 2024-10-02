@@ -21,9 +21,9 @@ function App() {
                 <KeyboardLinear />
               </div>
               <KeyboardPieSlice />
-              {/* <div className="keyboardcircular-container">
+              <div className="keyboardcircular-container">
                 <KeyboardCircular />
-              </div> */}
+              </div>
 
               <div className="notes-renderer-container">
                 <NotesRenderer />
