@@ -1,14 +1,6 @@
 import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
-
-export const TWO_PI = 2 * Math.PI;
-export const INIT_ANGLE = -Math.PI / 2; //vertical up
-
-export const INNER_RADIUS = 60;
-export const OUTER_RADIUS = 120;
-export const MIDDLE_RADIUS = (INNER_RADIUS + OUTER_RADIUS) / 2;
-const FULL_KEY_ANGLE = TWO_PI / TWELVE;
-const HALF_KEY_ANGLE = FULL_KEY_ANGLE / 2;
+import { CommonMath, INIT_ANGLE, INNER_RADIUS, OUTER_RADIUS, TWO_PI } from "./CommonMath";
 
 interface RectCoordinates {
   top: number;
@@ -23,12 +15,6 @@ export class Constants {
   static centerY = Constants.CANVAS_RADIUS;
 }
 
-export class PolarMath {
-  static getCartesianFromPolar(radius: number, angle: number) {
-    return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
-  }
-}
-
 // utilities related to the coordinate system transformations between
 // canvas space (0 in top-left corner) <=>
 //    ==> cartesian coors (0 in center of circle)
@@ -39,13 +25,6 @@ export class PolarMath {
 export class CircleMath {
   static ToDegrees(radians: number) {
     return Math.round((radians * 180) / Math.PI);
-  }
-
-  static NoteIndexToAngles(index: number) {
-    const startAngle = INIT_ANGLE + index * FULL_KEY_ANGLE;
-    const middleAngle = startAngle + HALF_KEY_ANGLE;
-    const endAngle = startAngle + FULL_KEY_ANGLE;
-    return { startAngle, middleAngle, endAngle };
   }
 
   // pure circular coors 0 degrees at x-horizontal, θ-clockwise
@@ -71,7 +50,7 @@ export class CircleMath {
   }
 
   static getPolyCoors(index: number) {
-    const { middleAngle } = CircleMath.NoteIndexToAngles(index);
+    const { middleAngle } = CommonMath.NoteIndexToAngles(index);
 
     const x = Constants.centerX + INNER_RADIUS * Math.cos(middleAngle);
     const y = Constants.centerY + INNER_RADIUS * Math.sin(middleAngle);

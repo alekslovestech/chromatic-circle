@@ -2,13 +2,7 @@ import React, { useEffect } from "react";
 import "../styles/KeyboardPieSlice.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import {
-  CircleMath,
-  INNER_RADIUS,
-  MIDDLE_RADIUS,
-  OUTER_RADIUS,
-  PolarMath,
-} from "../utils/CircleMath";
+import { CircleMath } from "../utils/CircleMath";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { getBlackWhiteString, getComputedColor } from "../utils/ColorUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
@@ -16,6 +10,8 @@ import { useNotes } from "./NotesContext";
 import AccidentalToggle from "./AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
 import { CircularVisMode } from "./CircularVisualizations";
+import { PolarMath } from "../utils/PolarMath";
+import { CommonMath, INNER_RADIUS, MIDDLE_RADIUS, OUTER_RADIUS } from "../utils/CommonMath";
 
 interface PieSliceProps {
   index: number;
@@ -24,7 +20,7 @@ interface PieSliceProps {
 
 const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
-  const { startAngle, middleAngle, endAngle } = CircleMath.NoteIndexToAngles(index);
+  const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
   const outerStart = PolarMath.getCartesianFromPolar(OUTER_RADIUS, startAngle);
   const outerEnd = PolarMath.getCartesianFromPolar(OUTER_RADIUS, endAngle);
@@ -70,7 +66,7 @@ const KeyboardPieSlice: React.FC = () => {
       svgElement.querySelectorAll(".selected-note-line").forEach((el) => el.remove());
 
       selectedNoteIndices.forEach((index) => {
-        const { middleAngle } = CircleMath.NoteIndexToAngles(index);
+        const { middleAngle } = CommonMath.NoteIndexToAngles(index);
         const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
 
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -88,7 +84,7 @@ const KeyboardPieSlice: React.FC = () => {
       // Emphasize the base note
       if (selectedNoteIndices.length > 0) {
         const baseIndex = selectedNoteIndices[0];
-        const { middleAngle } = CircleMath.NoteIndexToAngles(baseIndex);
+        const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
         const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
 
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -118,9 +114,9 @@ const KeyboardPieSlice: React.FC = () => {
         const currentIndex = selectedNoteIndices[i];
         const nextIndex = selectedNoteIndices[(i + 1) % numNotes];
 
-        const { middleAngle: middleAngleCur } = CircleMath.NoteIndexToAngles(currentIndex);
+        const { middleAngle: middleAngleCur } = CommonMath.NoteIndexToAngles(currentIndex);
 
-        const { middleAngle: middleAngleNext } = CircleMath.NoteIndexToAngles(nextIndex);
+        const { middleAngle: middleAngleNext } = CommonMath.NoteIndexToAngles(nextIndex);
 
         const startPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngleCur);
         const endPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngleNext);
@@ -144,7 +140,7 @@ const KeyboardPieSlice: React.FC = () => {
       // Emphasize the base note
       if (selectedNoteIndices.length > 0) {
         const baseIndex = selectedNoteIndices[0];
-        const { middleAngle } = CircleMath.NoteIndexToAngles(baseIndex);
+        const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
         const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
 
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");

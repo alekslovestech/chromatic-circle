@@ -1,14 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import "../styles/KeyboardCircular.css";
 import { useNotes } from "./NotesContext";
-import {
-  Constants,
-  CircleMath,
-  OUTER_RADIUS,
-  INNER_RADIUS,
-  MIDDLE_RADIUS,
-  INIT_ANGLE,
-} from "../utils/CircleMath";
+import { Constants, CircleMath } from "../utils/CircleMath";
 import {
   getComputedColor,
   getComputedTextColor,
@@ -27,6 +20,13 @@ import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { drawCircularVisualizations } from "./CircularVisualizations";
 import AccidentalToggle from "./AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
+import {
+  CommonMath,
+  INIT_ANGLE,
+  INNER_RADIUS,
+  MIDDLE_RADIUS,
+  OUTER_RADIUS,
+} from "../utils/CommonMath";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,7 +63,7 @@ const KeyboardCircular: React.FC = () => {
     }
 
     function drawWedge(ctx: CanvasRenderingContext2D, index: ChromaticIndex) {
-      const { startAngle, endAngle } = CircleMath.NoteIndexToAngles(index);
+      const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
       ctx.beginPath();
       ctx.arc(Constants.centerX, Constants.centerY, OUTER_RADIUS, startAngle, endAngle);
@@ -87,7 +87,7 @@ const KeyboardCircular: React.FC = () => {
     function drawText(ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) {
       ctx.save();
       ctx.translate(Constants.centerX, Constants.centerY);
-      const { middleAngle } = CircleMath.NoteIndexToAngles(chromaticIndex);
+      const { middleAngle } = CommonMath.NoteIndexToAngles(chromaticIndex);
       ctx.rotate(middleAngle - INIT_ANGLE);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
