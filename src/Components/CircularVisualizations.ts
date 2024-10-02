@@ -2,6 +2,7 @@ import { CircleMath, Constants } from "../utils/CircleMath";
 import { getComputedColor } from "../utils/ColorUtils";
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
+import { CommonMath } from "../utils/CommonMath";
 
 export enum CircularVisMode {
   None = "None",
@@ -62,7 +63,7 @@ function drawSelectedNotesPolygon(
     const nextIndex = (i + 1) % numNotes;
     ctx.moveTo(coordinates[i].x, coordinates[i].y);
     ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
-    const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
+    const nd = CommonMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
     ctx.strokeStyle = colorFromNoteDistance(nd);
     ctx.stroke();
   }

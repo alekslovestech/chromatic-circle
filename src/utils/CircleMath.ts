@@ -57,8 +57,4 @@ export class CircleMath {
 
     return { x, y };
   }
-
-  static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
-    return (note2 - note1 + TWELVE) % TWELVE;
-  };
 }

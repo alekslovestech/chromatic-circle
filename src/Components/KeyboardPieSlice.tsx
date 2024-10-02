@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "../styles/KeyboardPieSlice.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { CircleMath } from "../utils/CircleMath";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { getBlackWhiteString, getComputedColor } from "../utils/ColorUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
@@ -69,16 +68,13 @@ const KeyboardPieSlice: React.FC = () => {
         const { middleAngle } = CommonMath.NoteIndexToAngles(index);
         const innerPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngle);
 
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", "0");
-        line.setAttribute("y1", "0");
-        line.setAttribute("x2", innerPoint.x.toString());
-        line.setAttribute("y2", innerPoint.y.toString());
-        line.setAttribute("stroke", getComputedColor("--key-border"));
-        line.setAttribute("stroke-width", "2");
-        line.classList.add("selected-note-line");
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M0,0 L${innerPoint.x},${innerPoint.y}`);
+        path.setAttribute("stroke", getComputedColor("--key-border"));
+        path.setAttribute("stroke-width", "2");
+        path.classList.add("selected-note-line");
 
-        svgElement.appendChild(line);
+        svgElement.appendChild(path);
       });
 
       // Emphasize the base note
@@ -121,20 +117,17 @@ const KeyboardPieSlice: React.FC = () => {
         const startPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngleCur);
         const endPoint = PolarMath.getCartesianFromPolar(INNER_RADIUS, middleAngleNext);
 
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", startPoint.x.toString());
-        line.setAttribute("y1", startPoint.y.toString());
-        line.setAttribute("x2", endPoint.x.toString());
-        line.setAttribute("y2", endPoint.y.toString());
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M${startPoint.x},${startPoint.y} L${endPoint.x},${endPoint.y}`);
 
-        const noteDistance = (nextIndex - currentIndex + TWELVE) % TWELVE;
+        const noteDistance = CommonMath.noteDistance(currentIndex, nextIndex);
         const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-        line.setAttribute("stroke", `hsl(${hue}, 100%, 50%)`);
+        path.setAttribute("stroke", `hsl(${hue}, 100%, 50%)`);
 
-        line.setAttribute("stroke-width", "2");
-        line.classList.add("selected-note-line");
+        path.setAttribute("stroke-width", "2");
+        path.classList.add("selected-note-line");
 
-        svgElement.appendChild(line);
+        svgElement.appendChild(path);
       }
 
       // Emphasize the base note
