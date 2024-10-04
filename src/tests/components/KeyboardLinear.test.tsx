@@ -4,6 +4,7 @@ import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/ModeSelector";
 import NotesRenderer from "../../Components/NotesRenderer";
+import PresetsSelector from "../../Components/PresetsSelector";
 
 describe("KeyboardLinear", () => {
   const renderComponent = () => {
@@ -11,6 +12,7 @@ describe("KeyboardLinear", () => {
       <NotesProvider>
         <KeyboardLinear />
         <ModeSelector />
+        <PresetsSelector />
         <NotesRenderer />
       </NotesProvider>,
     );
@@ -34,7 +36,7 @@ describe("KeyboardLinear", () => {
     expect(freeFormButton).toHaveTextContent("Free-form Input");
   });
 
-  test("initial selected note is G", () => {
+  test("test initial setup (G selected)", () => {
     renderComponent();
 
     const pianoKeys = document.querySelectorAll(".piano-key");
@@ -72,5 +74,23 @@ describe("KeyboardLinear", () => {
     // Wrap the click event in a function to check if it throws an error
     fireEvent.click(gNote); //removing the last note can throw
     expect(gNote).not.toHaveClass("selected");
+  });
+
+  test("7add13 chord doesn't crash", () => {
+    renderComponent();
+
+    const chordPresetsButton = screen.getByText(/Chord Presets/i);
+    fireEvent.click(chordPresetsButton);
+    expect(chordPresetsButton).toHaveClass("active");
+
+    // Find and click the 7add13 chord preset button
+    const sevenAdd13Button = screen.getByText(/7add13/i);
+    expect(sevenAdd13Button).toBeInTheDocument();
+    fireEvent.click(sevenAdd13Button);
+
+    const pianoKeys = document.querySelectorAll(".piano-key");
+    const bNote = pianoKeys[23];
+
+    fireEvent.click(bNote);
   });
 });
