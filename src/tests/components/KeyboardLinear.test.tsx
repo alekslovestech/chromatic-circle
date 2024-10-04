@@ -3,6 +3,7 @@ import { render, fireEvent, screen } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/ModeSelector";
+import NotesRenderer from "../../Components/NotesRenderer";
 
 describe("KeyboardLinear", () => {
   const renderComponent = () => {
@@ -10,6 +11,7 @@ describe("KeyboardLinear", () => {
       <NotesProvider>
         <KeyboardLinear />
         <ModeSelector />
+        <NotesRenderer />
       </NotesProvider>,
     );
   };
@@ -55,5 +57,20 @@ describe("KeyboardLinear", () => {
     expect(gNote).toHaveTextContent("G");
     fireEvent.click(gNote);
     expect(gNote).toHaveClass("selected");
+  });
+
+  test("removing last note doesn't crash", () => {
+    renderComponent();
+
+    const freeFormButton = screen.getByText(/Free-form Input/i);
+    fireEvent.click(freeFormButton);
+    expect(freeFormButton).toHaveClass("active");
+
+    const pianoKeys = document.querySelectorAll(".piano-key");
+    const gNote = pianoKeys[7];
+
+    // Wrap the click event in a function to check if it throws an error
+    fireEvent.click(gNote); //removing the last note can throw
+    expect(gNote).not.toHaveClass("selected");
   });
 });
