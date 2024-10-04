@@ -21,6 +21,7 @@ const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
+  //get the inner and outer radius from the width of the container (extract from the CSS)
   const outerStart = PolarMath.getCartesianFromPolar(OUTER_RADIUS, startAngle);
   const outerEnd = PolarMath.getCartesianFromPolar(OUTER_RADIUS, endAngle);
   const innerStart = PolarMath.getCartesianFromPolar(INNER_RADIUS, startAngle);
