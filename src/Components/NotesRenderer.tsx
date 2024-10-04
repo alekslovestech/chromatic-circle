@@ -54,6 +54,7 @@ const NotesRenderer: React.FC = () => {
 
     stave.setContext(context).draw();
 
+    if (selectedNoteIndices.length === 0) return;
     // Create notes
     const notes = EasyScoreFromNotes(selectedNoteIndices, selectedAccidental);
 
@@ -62,8 +63,7 @@ const NotesRenderer: React.FC = () => {
     voice.setStrict(false);
     voice.addTickables(notes);
 
-    // Format and justify the notes to 400 pixels.
-    const formatter = new VF.Formatter().joinVoices([voice]).format([voice], 200);
+    new VF.Formatter().joinVoices([voice]).format([voice], 200);
 
     // Render voice
     voice.draw(context, stave);
