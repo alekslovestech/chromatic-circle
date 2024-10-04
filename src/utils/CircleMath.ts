@@ -1,11 +1,6 @@
 import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
-
-const TWO_PI = 2 * Math.PI;
-const INIT_ANGLE = -Math.PI / 2; //vertical up
-
-const INNER_RADIUS_WHITE = 80;
-const OUTER_RADIUS = 160;
+import { CommonMath, INIT_ANGLE, INNER_RADIUS, OUTER_RADIUS, TWO_PI } from "./CommonMath";
 
 interface RectCoordinates {
   top: number;
@@ -18,11 +13,6 @@ export class Constants {
   static CANVAS_RADIUS = 200;
   static centerX = Constants.CANVAS_RADIUS;
   static centerY = Constants.CANVAS_RADIUS;
-
-  static FULL_KEY_ANGLE = TWO_PI / TWELVE;
-
-  static SELECTED_WHITE_COLOR = "#ffff00";
-  static SELECTED_BLACK_COLOR = "#7f7f00";
 }
 
 // utilities related to the coordinate system transformations between
@@ -37,10 +27,6 @@ export class CircleMath {
     return Math.round((radians * 180) / Math.PI);
   }
 
-  static NoteIndexToLeftAngle(index: number) {
-    return INIT_ANGLE + index * Constants.FULL_KEY_ANGLE;
-  }
-
   // pure circular coors 0 degrees at x-horizontal, θ-clockwise
   static AngleToNoteIndex(angle: number): ChromaticIndex {
     const index = Math.floor(((angle - INIT_ANGLE + TWO_PI) * TWELVE) / TWO_PI) % TWELVE;
@@ -48,21 +34,7 @@ export class CircleMath {
   }
 
   static IsRadiusInRange(radius: number) {
-    return radius >= INNER_RADIUS_WHITE && radius <= OUTER_RADIUS;
-  }
-
-  //working with spirals requires more care:
-  // 1. the radius is not the same as the radius in the circle
-  // 2. multiple octaves supported
-  // 3. indices past 12 are supported
-  static getInnerRadius(index: number) {
-    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-    return multiplier * INNER_RADIUS_WHITE;
-  }
-
-  static getOuterRadius(index: number) {
-    const multiplier = 1.0; //CircleMath.GetMultiplierFromIndex(index);
-    return multiplier * OUTER_RADIUS;
+    return radius >= INNER_RADIUS && radius <= OUTER_RADIUS;
   }
 
   static CartesianToCircular(pureX: number, pureY: number) {
@@ -78,17 +50,11 @@ export class CircleMath {
   }
 
   static getPolyCoors(index: number) {
-    const startAngle = CircleMath.NoteIndexToLeftAngle(index);
-    const centerAngle = startAngle + Constants.FULL_KEY_ANGLE / 2;
-    const innerRadius = CircleMath.getInnerRadius(index);
+    const { middleAngle } = CommonMath.NoteIndexToAngles(index);
 
-    const x = Constants.centerX + innerRadius * Math.cos(centerAngle);
-    const y = Constants.centerY + innerRadius * Math.sin(centerAngle);
+    const x = Constants.centerX + INNER_RADIUS * Math.cos(middleAngle);
+    const y = Constants.centerY + INNER_RADIUS * Math.sin(middleAngle);
 
     return { x, y };
   }
-
-  static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
-    return (note2 - note1 + TWELVE) % TWELVE;
-  };
 }

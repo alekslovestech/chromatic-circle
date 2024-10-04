@@ -17,14 +17,21 @@ import {
 } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
-import { CircularVisMode, drawCircularVisualizations } from "./CircularVisualizations";
+import { drawCircularVisualizations } from "./CircularVisualizations";
 import AccidentalToggle from "./AccidentalToggle";
+import CircularVisModeSelect from "./CircularVizModeSelect";
+import {
+  CommonMath,
+  INIT_ANGLE,
+  INNER_RADIUS,
+  MIDDLE_RADIUS,
+  OUTER_RADIUS,
+} from "../utils/CommonMath";
 
 const KeyboardCircular: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [drawingMode, setDrawingMode] = useState<CircularVisMode>(CircularVisMode.Arrows);
 
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, selectedAccidental, circularVisMode } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const HandleCanvasClick = (event: MouseEvent) => {
@@ -40,10 +47,6 @@ const KeyboardCircular: React.FC = () => {
     handleKeyClick(chromaticToActual(noteIndex, ixOctaveOffset(0)));
   };
 
-  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDrawingMode(event.target.value as CircularVisMode);
-  };
-
   useEffect(() => {
     function drawCircle() {
       const ctx = canvasRef.current?.getContext("2d");
@@ -56,18 +59,15 @@ const KeyboardCircular: React.FC = () => {
         drawText(ctx, chromaticIndex);
       }
 
-      drawCircularVisualizations(ctx, selectedNoteIndices, drawingMode);
+      drawCircularVisualizations(ctx, selectedNoteIndices, circularVisMode);
     }
 
     function drawWedge(ctx: CanvasRenderingContext2D, index: ChromaticIndex) {
-      const startAngle = CircleMath.NoteIndexToLeftAngle(index);
-      const endAngle = startAngle + Constants.FULL_KEY_ANGLE;
-      const innerRadius = CircleMath.getInnerRadius(index);
-      const outerRadius = CircleMath.getOuterRadius(index);
+      const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
       ctx.beginPath();
-      ctx.arc(Constants.centerX, Constants.centerY, outerRadius, startAngle, endAngle);
-      ctx.arc(Constants.centerX, Constants.centerY, innerRadius, endAngle, startAngle, true);
+      ctx.arc(Constants.centerX, Constants.centerY, OUTER_RADIUS, startAngle, endAngle);
+      ctx.arc(Constants.centerX, Constants.centerY, INNER_RADIUS, endAngle, startAngle, true);
       ctx.closePath();
 
       ctx.fillStyle = getComputedKeyColorOverlayed(index, selectedNoteIndices);
@@ -85,20 +85,17 @@ const KeyboardCircular: React.FC = () => {
     }
 
     function drawText(ctx: CanvasRenderingContext2D, chromaticIndex: ChromaticIndex) {
-      const innerRadius = CircleMath.getInnerRadius(chromaticIndex);
-      const outerRadius = CircleMath.getOuterRadius(chromaticIndex);
-      const radius = (outerRadius + innerRadius) / 2;
-
       ctx.save();
       ctx.translate(Constants.centerX, Constants.centerY);
-      ctx.rotate(chromaticIndex * Constants.FULL_KEY_ANGLE + Constants.FULL_KEY_ANGLE / 2);
+      const { middleAngle } = CommonMath.NoteIndexToAngles(chromaticIndex);
+      ctx.rotate(middleAngle - INIT_ANGLE);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
       ctx.fillStyle = getComputedTextColor(chromaticToActual(chromaticIndex, 0 as OctaveOffset));
       ctx.font = "bold 20px Arial";
       const noteText = getNoteTextFromIndex(ixActual(chromaticIndex), selectedAccidental);
-      ctx.fillText(noteText, 0, -radius);
+      ctx.fillText(noteText, 0, -MIDDLE_RADIUS);
       ctx.restore();
     }
 
@@ -108,25 +105,13 @@ const KeyboardCircular: React.FC = () => {
     return () => {
       canvasRef.current?.removeEventListener("click", HandleCanvasClick);
     };
-  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, drawingMode]);
+  }, [selectedNoteIndices, selectedAccidental, handleKeyClick, checkIsRootNote, circularVisMode]);
 
   return (
     <div className="keyboardcircular-container">
       <div className="keyboardcircular-overlay">
         <AccidentalToggle />
-        {selectedNoteIndices.length > 1 && (
-          <select
-            className="drawing-mode-select"
-            value={drawingMode}
-            onChange={handleDrawingModeChange}
-          >
-            {Object.values(CircularVisMode).map((mode) => (
-              <option key={mode} value={mode}>
-                {mode}
-              </option>
-            ))}
-          </select>
-        )}
+        {selectedNoteIndices.length > 1 && <CircularVisModeSelect />}
       </div>
       <canvas
         ref={canvasRef}

@@ -2,6 +2,7 @@ import { CircleMath, Constants } from "../utils/CircleMath";
 import { getComputedColor } from "../utils/ColorUtils";
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
+import { CommonMath } from "../utils/CommonMath";
 
 export enum CircularVisMode {
   None = "None",
@@ -9,7 +10,7 @@ export enum CircularVisMode {
   Polygon = "Polygon",
 }
 
-const colorFromNoteDistance = (noteDistance: number) => {
+export const colorFromNoteDistance = (noteDistance: number) => {
   const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
   return `hsl(${hue}, 100%, 50%)`;
 };
@@ -62,7 +63,7 @@ function drawSelectedNotesPolygon(
     const nextIndex = (i + 1) % numNotes;
     ctx.moveTo(coordinates[i].x, coordinates[i].y);
     ctx.lineTo(coordinates[nextIndex].x, coordinates[nextIndex].y);
-    const nd = CircleMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
+    const nd = CommonMath.noteDistance(selectedNoteIndices[i], selectedNoteIndices[nextIndex]);
     ctx.strokeStyle = colorFromNoteDistance(nd);
     ctx.stroke();
   }
