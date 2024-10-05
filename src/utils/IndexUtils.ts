@@ -8,23 +8,41 @@ export class IndexUtils {
     return indices.map((note) => (note - rootNote + TWELVE) % TWELVE);
   };
 
-  //if any of the indices are out of range, shift the whole chord up or down to fit
-  private static fitChordToRelativeRange = (indices: number[]): OffsetIndex[] => {
-    const shift = indices.some((note) => note >= TWELVE)
+  private static getShiftForRange = (indices: number[], min: number, max: number): number => {
+    const shift = indices.some((note) => note >= max)
       ? -TWELVE
-      : indices.some((note) => note < -TWELVE)
+      : indices.some((note) => note < min)
       ? TWELVE
       : 0;
-    return indices.map((note) => note + shift) as OffsetIndex[];
+    return shift;
   };
 
-  static fitChordToAbsoluteRange = (indices: number[]): ActualIndex[] => {
-    const shift = indices.some((note) => note >= 2 * TWELVE)
-      ? -TWELVE
-      : indices.some((note) => note < 0)
-      ? +TWELVE
-      : 0;
-    return indices.map((note) => note + shift) as ActualIndex[];
+  //if any of the indices are out of range, shift the whole chord up or down to fit
+  private static fitChordToRelativeRange = (indices: number[]): OffsetIndex[] => {
+    const shift = this.getShiftForRange(indices, -TWELVE, TWELVE);
+    return indices.map((note) => (note + shift) as OffsetIndex);
+  };
+
+  static isNoteInRange = (note: ActualIndex): boolean => note >= 0 && note < 2 * TWELVE;
+
+  static fitChordToAbsoluteRange = (indices: ActualIndex[]): ActualIndex[] => {
+    // Step 1: Determine if a shift is needed to bring notes into range
+    const shift = this.getShiftForRange(indices, 0, 2 * TWELVE);
+
+    // Step 2: Apply the shift to all indices
+    let newIndices = indices.map((note) => (note + shift) as ActualIndex);
+
+    // Step 3: Check if all notes are now within range
+    if (newIndices.every((note) => this.isNoteInRange(note))) return newIndices as ActualIndex[];
+
+    // Step 4: If not all notes fit, create two possible fits
+    const lowerFit = newIndices.filter((note) => this.isNoteInRange(note));
+    const upperFit = newIndices
+      .map((note) => (note - TWELVE) as ActualIndex)
+      .filter((note) => this.isNoteInRange(note));
+
+    // Step 5: Return the fit that preserves more notes
+    return lowerFit.length >= upperFit.length ? lowerFit : upperFit;
   };
 
   static rootNoteAtInversion = (
