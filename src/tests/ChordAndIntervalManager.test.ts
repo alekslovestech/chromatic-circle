@@ -150,6 +150,51 @@ describe("ChordAndIntervalManager", () => {
       );
       expect(result).toEqual([10, 12, 16, 19]);
     });
+
+    it("7add13 should span 13 semitones", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(0),
+        "Chord_7Add13",
+      );
+      expect(result.length).toEqual(5);
+      expect(result).toEqual([0, 4, 7, 10, 13]);
+    });
+
+    it("7add13 starting at 12, fit to range by being moved to 0", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(12),
+        "Chord_7Add13",
+      );
+      expect(result.length).toEqual(5);
+      expect(result).toEqual([0, 4, 7, 10, 13]);
+    });
+
+    it("7add13 starting at 11, doesn't fit, so we truncate", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(11),
+        "Chord_7Add13",
+      );
+      expect(result.length).toEqual(4);
+      //expect(result).toEqual([0, 4, 7, 10, 13]);
+    });
+
+    it("7add9 should span 14 semitones", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(12),
+        "Chord_Add9",
+      );
+      expect(result.length).toEqual(4);
+      expect(result).toEqual([0, 4, 7, 14]);
+    });
+
+    it("7add9 starting at 11 doesn't fit, so we truncate", () => {
+      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+        ixActual(11),
+        "Chord_Add9",
+      );
+      expect(result.length).toEqual(3);
+      // expect(result).toEqual([0, 4, 7, 14]);
+    });
   });
 
   describe("getChordNameFromIndices", () => {
