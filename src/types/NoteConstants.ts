@@ -1,7 +1,7 @@
 import { AccidentalType } from "./AccidentalType";
 
 export const TWELVE = 12; //the magic number
-
+export const TWENTY4 = 2 * TWELVE;
 export const getNotesArray = (preference: AccidentalType) =>
   preference === AccidentalType.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
 
