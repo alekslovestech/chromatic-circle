@@ -1,5 +1,5 @@
 import { ActualIndex, InversionIndex, OffsetIndex } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
+import { TWELVE, TWENTY4 } from "../types/NoteConstants";
 
 export class IndexUtils {
   //everything relative to root note
@@ -23,11 +23,11 @@ export class IndexUtils {
     return indices.map((note) => (note + shift) as OffsetIndex);
   };
 
-  static isNoteInRange = (note: ActualIndex): boolean => note >= 0 && note < 2 * TWELVE;
+  static isNoteInRange = (note: ActualIndex): boolean => note >= 0 && note < TWENTY4;
 
   static fitChordToAbsoluteRange = (indices: ActualIndex[]): ActualIndex[] => {
     // Step 1: Determine if a shift is needed to bring notes into range
-    const shift = this.getShiftForRange(indices, 0, 2 * TWELVE);
+    const shift = this.getShiftForRange(indices, 0, TWENTY4);
 
     // Step 2: Apply the shift to all indices
     let newIndices = indices.map((note) => (note + shift) as ActualIndex);

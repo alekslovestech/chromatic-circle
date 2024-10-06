@@ -1,4 +1,4 @@
-import { TWELVE } from "./NoteConstants";
+import { TWELVE, TWENTY4 } from "./NoteConstants";
 
 type Branded<K, T> = K & { __brand: T };
 
@@ -20,7 +20,7 @@ export function ixInversion(n: number): InversionIndex {
 }
 
 export function ixActual(n: number): ActualIndex {
-  if (n < 0 || n > 2 * TWELVE || !Number.isInteger(n)) throw new Error("Invalid ActualIndex=" + n);
+  if (n < 0 || n > TWENTY4 || !Number.isInteger(n)) throw new Error("Invalid ActualIndex=" + n);
   return n as ActualIndex;
 }
 

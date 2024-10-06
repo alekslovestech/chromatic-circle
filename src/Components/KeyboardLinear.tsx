@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/KeyboardLinear.css";
 import { useNotes } from "./NotesContext";
-import { TWELVE } from "../types/NoteConstants";
+import { TWENTY4 } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
@@ -11,7 +11,7 @@ const KeyboardLinear: React.FC = () => {
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const keys = [];
-  for (let actualIndex = 0 as ActualIndex; actualIndex < 2 * TWELVE; actualIndex++) {
+  for (let actualIndex = 0 as ActualIndex; actualIndex < TWENTY4; actualIndex++) {
     const isSelected = selectedNoteIndices.includes(actualIndex);
     const isRootNote = checkIsRootNote(actualIndex);
     const blackWhiteString = getBlackWhiteString(actualIndex);
