@@ -73,7 +73,7 @@ const KeyboardPieSlice: React.FC = () => {
           </div>
         )}
       </div>
-      <svg width="300" height="300" viewBox="-150 -150 300 300" className="pie-slice-keyboard">
+      <svg width="100%" height="100%" viewBox="-150 -150 300 300" className="pie-slice-keyboard">
         {Array.from({ length: TWELVE }).map((_, index) => (
           <PieSliceKey key={index} index={index} onClick={() => handleClick(index)} />
         ))}

@@ -27,12 +27,12 @@ body {
 }
 
 .keyboardpieslice-container {
-  justify-self: start; /* Align to the left */
-  max-width: 400px; /* Or any other maximum size you prefer */
-  overflow: hidden; /* Prevent content from spilling out */
-  aspect-ratio: 1 / 1; /* Ensure a square aspect ratio for modern browsers */
+  width: 100vw;
+  max-width: 600px;
+  max-height: 600px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
 }
-
 
 .mode-selector-container {
   width: 100%;
