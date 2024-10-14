@@ -1,4 +1,10 @@
-import { ActualIndex, InversionIndex, OffsetIndex } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  InversionIndex,
+  ixActual,
+  ixActualArray,
+  OffsetIndex,
+} from "../types/IndexTypes";
 import { TWELVE, TWENTY4 } from "../types/NoteConstants";
 
 export class IndexUtils {
@@ -33,16 +39,20 @@ export class IndexUtils {
     let newIndices = indices.map((note) => (note + shift) as ActualIndex);
 
     // Step 3: Check if all notes are now within range
-    if (newIndices.every((note) => this.isNoteInRange(note))) return newIndices as ActualIndex[];
+    if (newIndices.every((note) => this.isNoteInRange(note))) return ixActualArray(newIndices);
 
     // Step 4: If not all notes fit, create two possible fits
     const lowerFit = newIndices.filter((note) => this.isNoteInRange(note));
     const upperFit = newIndices
-      .map((note) => (note - TWELVE) as ActualIndex)
+      .map((note) => (note + TWELVE) as ActualIndex)
       .filter((note) => this.isNoteInRange(note));
 
     // Step 5: Return the fit that preserves more notes
-    return lowerFit.length >= upperFit.length ? lowerFit : upperFit;
+    if (lowerFit.length !== upperFit.length)
+      return lowerFit.length > upperFit.length ? lowerFit : upperFit;
+
+    // If both fits have the same number of notes, prefer the one that includes the lowest note
+    return lowerFit.includes(ixActual(indices[0])) ? lowerFit : upperFit;
   };
 
   static rootNoteAtInversion = (
