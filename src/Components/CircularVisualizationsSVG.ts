@@ -12,7 +12,7 @@ export function drawCircularVisualizationsSVG(
   circularVisMode: CircularVisMode,
 ) {
   // Remove existing lines
-  const svgElement = document.querySelector(".pie-slice-keyboard");
+  const svgElement = document.querySelector(".keyboard-pieslice");
   if (svgElement) {
     svgElement.querySelectorAll(".selected-note-line").forEach((el) => el.remove());
   }
@@ -28,7 +28,7 @@ export function drawCircularVisualizationsSVG(
 function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[]) {
   const numNotes = selectedNoteIndices.length;
   if (numNotes < 2) return;
-  const svgElement = document.querySelector(".pie-slice-keyboard");
+  const svgElement = document.querySelector(".keyboard-pieslice");
   if (!svgElement) return;
 
   // Remove existing lines
@@ -68,7 +68,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[]) {
 
 function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[]) {
   const numNotes = selectedNoteIndices.length;
-  const svgElement = document.querySelector(".pie-slice-keyboard");
+  const svgElement = document.querySelector(".keyboard-pieslice");
   if (!svgElement || numNotes < 2) return;
 
   // Remove existing lines
