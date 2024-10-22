@@ -34,7 +34,7 @@ function App() {
           <div className="mode-selector-container">
             <ModeSelector />
           </div>
-          <div className="chords-names-display-container">
+          <div className="chord-names-display-container">
             <ChordDisplay />
           </div>
           <div className="notes-renderer-container">

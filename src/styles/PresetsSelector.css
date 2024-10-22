@@ -1,10 +1,12 @@
-.preset-selector {
+.presets-selector {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%; 
+    max-width: var(--buttons-container-max-width);
     box-sizing: border-box;
     padding: 0 10px; /* Add some padding on the sides */
+    margin: 0 auto;
 }
 
 h3 {
@@ -13,17 +15,11 @@ h3 {
     text-align: center;
 }
 
-.chord-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
+.chord-grid,
 .interval-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 5px;
     margin-bottom: 10px;
     width: 100%;
@@ -33,6 +29,8 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    flex: 1 1 calc(50% - 2.5px);
+    max-width: calc(50% - 2.5px);
 }
 
 .chord-grid button,
@@ -68,6 +66,7 @@ h3 {
     align-items: center;
     margin-top: 5px;
     width: 100%;
+    max-width: var(--buttons-container-max-width);
     justify-content: center;
 }
 

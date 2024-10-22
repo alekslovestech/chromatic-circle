@@ -9,6 +9,8 @@ body {
 :root {
   --keyboardlinear-max-width: 600px;
   --keyboardcircular-max-width: 400px;
+  --buttons-container-max-width: 300px;
+  --buttons-max-width: 200px;
 }
 
 .App {
@@ -17,6 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
 }
 
 .keyboardlinear-container {
@@ -41,21 +44,25 @@ body {
   margin: 0 auto;
 }
 
-.mode-selector-container {
-  width: 100%;
-}
-
-.presets-selector {
-  width: 100%;
-}
-
+.mode-selector-container,
+.presets-selector,
+.chord-display-container,
 .notes-renderer-container {
-  justify-self: middle;
   width: 100%;
+  max-width: var(--buttons-container-max-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
-.chord-names-display-container {
+.mode-selector-container > *,
+.presets-selector > *,
+.chord-display-container > *,
+.notes-renderer-container > * {
   width: 100%;
+  max-width: var(--buttons-container-max-width);
 }
 
 select {

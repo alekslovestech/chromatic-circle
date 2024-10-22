@@ -109,7 +109,7 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div className="preset-selector">
+    <div className="presets-selector">
       <h3 hidden={true}>
         {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
       </h3>
