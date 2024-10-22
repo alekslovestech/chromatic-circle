@@ -6,6 +6,11 @@ body {
   box-sizing: border-box;
 }
 
+:root {
+  --keyboardlinear-max-width: 600px;
+  --keyboardcircular-max-width: 400px;
+}
+
 .App {
   max-width: 800px;
   margin: 0 auto;
@@ -16,14 +21,22 @@ body {
 
 .keyboardlinear-container {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: var(--keyboardlinear-max-width);
+  height: calc(100vw * var(--h2wratio));
+  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
+  margin: 0 auto; 
+}
+
+/* Media query for larger screens */
+@media (min-width: 500px) {
+  .keyboardlinear-container {
+    height: calc(500px * var(--h2wratio)); /* Set the height based on the max width */
+  }
 }
 
 .keyboardpieslice-container {
   width: 100vw;
-  max-width: 600px;
-  max-height: 600px;
+  max-width: var(--keyboardcircular-max-width);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
 }
@@ -58,14 +71,6 @@ select {
 /* Optional: Style for dropdown options */
 select option {
   font-size: 16px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1000px) {
-  .main-layout {
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 /*replaced by keyboardpieslice*/

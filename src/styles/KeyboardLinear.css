@@ -39,6 +39,13 @@
   background-color: var(--key-white);
 }
 
+/* Media query for larger screens */
+@media (min-width: 450px) {
+  .piano-key {
+    font-size: calc(1vw + 3px) 
+  }
+}
+
 .piano-key.white.selected {
   background-color: var(--key-white-selected0);
 }
@@ -73,14 +80,4 @@
   border: 2px solid var(--root-note-highlight);
 }
 
-/* Media query for larger screens */
-@media (min-width: 500px) {
-  .keyboardlinear-container {
-    height: calc(500px * var(--h2wratio)); /* Set the height based on the max width */
-  }
-
-  .piano-key {
-    font-size: calc(500px / var(--bKeysPer2Octaves) * 0.4); /* Adjust font size based on black key width, allowing for max 2 characters */
-  }
-}
 
