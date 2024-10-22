@@ -33,9 +33,23 @@ h3 {
     max-width: calc(50% - 2.5px);
 }
 
-.chord-grid button,
-.interval-column button {
-    width: 100%; 
+.chord-grid button {
+    width: 20%; 
+    height: 25px;
+    font-size:  12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.interval-grid button {
+    width: 45%; 
     height: 25px;
     font-size: 12px;
     background-color: #f0f0f0;
@@ -50,12 +64,12 @@ h3 {
 }
 
 .chord-grid button:hover,
-.interval-column button:hover {
+.interval-grid button:hover {
     background-color: #e0e0e0;
 }
 
 .chord-grid button.selected-preset,
-.interval-column button.selected-preset {
+.interval-grid button.selected-preset {
     background-color: #4CAF50;
     color: white;
 }
@@ -65,7 +79,7 @@ h3 {
     gap: 5px;
     align-items: center;
     margin-top: 5px;
-    width: 100%;
+    width: 70%;
     max-width: var(--buttons-container-max-width);
     justify-content: center;
 }

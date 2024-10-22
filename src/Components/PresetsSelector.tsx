@@ -86,26 +86,11 @@ const PresetsSelector: React.FC = () => {
       inputMode === InputMode.IntervalPresets,
     );
 
-    if (inputMode === InputMode.IntervalPresets) {
-      const midpoint = Math.ceil(presets.length / 2);
-      const leftColumn = presets.slice(0, midpoint);
-      const rightColumn = presets.slice(midpoint);
+    const gridClassName = inputMode === InputMode.IntervalPresets ? "interval-grid" : "chord-grid";
 
-      return (
-        <div className="interval-grid">
-          <div className="interval-column">
-            {leftColumn.map((preset) => renderOnePresetButton(preset))}
-          </div>
-          <div className="interval-column">
-            {rightColumn.map((preset) => renderOnePresetButton(preset))}
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="chord-grid">{presets.map((preset) => renderOnePresetButton(preset))}</div>
-      );
-    }
+    return (
+      <div className={gridClassName}>{presets.map((preset) => renderOnePresetButton(preset))}</div>
+    );
   };
 
   return (
