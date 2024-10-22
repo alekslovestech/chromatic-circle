@@ -1,14 +1,19 @@
-.mode-selector {
+.mode-selector-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: var(--buttons-container-max-width);
+  margin: 0 auto;
 }
 
-.mode-selector button {
-  width: 100%;
+.mode-selector-container button {
+  flex: 1 1 auto;
+  min-width: 120px;
+  max-width: var(--buttons-max-width);
   padding: 5px 5px;
   font-size: 12px;
   border: 2px solid #ccc;
@@ -23,11 +28,11 @@
   text-align: center;
 }
 
-.mode-selector button:hover {
+.mode-selector-container button:hover {
   background-color: #e0e0e0;
 }
 
-.mode-selector button.active {
+.mode-selector-container button.active {
   background-color: #2980b9;
   color: white;
   border-color: #2980b9;

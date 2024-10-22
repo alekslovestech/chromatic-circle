@@ -1,7 +1,17 @@
 .chord-display {
   display: flex;
   flex-direction: column;
-  margin-top: -10px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px; /* Add top margin to create space */
+}
+
+.chord-name-description,
+.chord-name-value,
+.chord-notes {
+  text-align: center;
+  width: 100%;
 }
 
 .chord-name-description {

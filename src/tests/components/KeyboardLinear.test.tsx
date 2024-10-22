@@ -101,6 +101,34 @@ describe("KeyboardLinear", () => {
     fireEvent.click(bNote);
   });
 
+  test("add9 chord at A configured correctly", () => {
+    const chordPresetsButton = screen.getByText(/Chord Presets/i);
+    fireEvent.click(chordPresetsButton);
+    expect(chordPresetsButton).toHaveClass("active");
+
+    // Find and click the add9 chord preset button
+    const add9Button = screen.getByText(/add9/i);
+    expect(add9Button).toBeInTheDocument();
+    fireEvent.click(add9Button);
+
+    const aNote = pianoKeys[9];
+    fireEvent.click(aNote);
+    verifySelectedKeys([9, 13, 16, 23]); //A C# E B
+  });
+
+  test("add9 chord at A# truncates correctly", () => {
+    const chordPresetsButton = screen.getByText(/Chord Presets/i);
+    fireEvent.click(chordPresetsButton);
+
+    // Find and click the add9 chord preset button
+    const add9Button = screen.getByText(/add9/i);
+    fireEvent.click(add9Button);
+
+    const aSharpNote = pianoKeys[10];
+    fireEvent.click(aSharpNote);
+    verifySelectedKeys([10, 14, 17]); //A# D F (truncated)
+  });
+
   //NB: these tests are not very good, because they are testing
   //the behavior of the chord presets,
   //and not the keyboard functionality.

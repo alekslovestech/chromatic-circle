@@ -44,7 +44,7 @@ const ModeSelector = () => {
   };
 
   return (
-    <div className="mode-selector">
+    <div className="mode-selector-container">
       {Object.values(InputMode)
         .filter((mode) => mode !== InputMode.None)
         .map((mode) => (

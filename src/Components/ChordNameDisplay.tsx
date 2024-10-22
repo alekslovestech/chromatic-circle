@@ -5,7 +5,6 @@ import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { getComputedColor } from "../utils/ColorUtils";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
 const ChordNameDisplay: React.FC = () => {
@@ -60,7 +59,7 @@ const ChordNameDisplay: React.FC = () => {
   );
 
   return (
-    <div className="chord-display" style={{ marginTop: "-10px" }}>
+    <div className="chord-display">
       {renderNoteGrouping(inputMode)}
       {renderChordNotes()}
       {inputMode === InputMode.Toggle ||
