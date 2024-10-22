@@ -34,22 +34,7 @@ h3 {
 }
 
 .chord-grid button {
-    width: 20%; 
-    height: 25px;
-    font-size:  12px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    padding: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.interval-grid button {
-    width: 45%; 
+    width: calc(25% - 10px); /* 1/4 of the active area, excluding padding */
     height: 25px;
     font-size: 12px;
     background-color: #f0f0f0;
@@ -57,7 +42,22 @@ h3 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    padding: 0;
+    padding: 5px; /* Set padding to 5px */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.interval-grid button {
+    width: calc(50% - 5px); /* Adjusted for padding */
+    height: 25px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px; /* 50% padding */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

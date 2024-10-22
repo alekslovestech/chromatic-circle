@@ -59,7 +59,7 @@ const ChordNameDisplay: React.FC = () => {
   );
 
   return (
-    <div className="chord-display" style={{ marginTop: "-10px" }}>
+    <div className="chord-display">
       {renderNoteGrouping(inputMode)}
       {renderChordNotes()}
       {inputMode === InputMode.Toggle ||

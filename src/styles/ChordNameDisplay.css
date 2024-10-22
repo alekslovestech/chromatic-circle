@@ -4,6 +4,7 @@
   align-items: center;
   text-align: center;
   width: 100%;
+  margin-top: 20px; /* Add top margin to create space */
 }
 
 .chord-name-description,
@@ -36,5 +37,4 @@
   border: 2px solid white;
   border-radius: 5px;
   padding: 0;
-  margin-top: 10px;
 }

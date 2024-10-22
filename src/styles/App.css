@@ -54,7 +54,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 20px auto; /* Add vertical margin */
 }
 
 .mode-selector-container > *,
