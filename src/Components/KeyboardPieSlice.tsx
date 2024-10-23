@@ -92,7 +92,7 @@ const KeyboardPieSlice: React.FC = () => {
   const { innerRadius, middleRadius } = useMemo(() => {
     const innerRadius = outerRadius * 0.5;
     const middleRadius = outerRadius * 0.75;
-    console.log(`inner, middle, outer: ${innerRadius}, ${middleRadius}, ${outerRadius}`);
+    //console.log(`inner, middle, outer: ${innerRadius}, ${middleRadius}, ${outerRadius}`);
     return {
       innerRadius,
       middleRadius,
