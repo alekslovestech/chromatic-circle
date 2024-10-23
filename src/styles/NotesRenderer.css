@@ -1,8 +1,6 @@
 /* .notes-renderer-container => already defined in App.css */
 
 .staff-container {
-  display: flex;
-  justify-content: center;
   width: 60%;
   max-width: var(--buttons-container-max-width);
   padding: 20% 20%; /* Use padding instead of margin to avoid interference */
