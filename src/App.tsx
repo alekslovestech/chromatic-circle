@@ -14,21 +14,28 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ border: "1px solid black" }}>
           <NotesProvider>
-            {" "}
-            {/* 
-            1. Do the first round with components in 1 column. 
-            2. Divs fill the whole width 100% 
-            3. use bootstrap 
-            4. add grid-bootstrap class to page */}
-            <KeyboardLinear />
-            <KeyboardPieSlice />
-            {/*<KeyboardCircular />*/}
-            <PresetsSelector />
-            <ModeSelector />
-            <ChordDisplay />
-            <NotesRenderer />
+            <div className="row" style={{ border: "1px solid black" }}>
+              <div className="col-12" style={{ border: "1px solid black" }}>
+                <KeyboardLinear />
+              </div>
+              <div className="col-8" style={{ border: "1px solid black" }}>
+                <KeyboardPieSlice />
+              </div>
+              <div className="col-4" style={{ border: "1px solid black" }}>
+                <ModeSelector />
+                <PresetsSelector />
+              </div>
+            </div>
+            <div className="row" style={{ border: "1px solid black" }}>
+              <div className="col-6" style={{ border: "1px solid black" }}>
+                <ChordDisplay />
+              </div>
+              <div className="col-6" style={{ border: "1px solid black" }}>
+                <NotesRenderer />
+              </div>
+            </div>
             <AudioPlayer />
           </NotesProvider>
         </div>

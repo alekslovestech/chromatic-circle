@@ -44,13 +44,14 @@ const ModeSelector = () => {
   };
 
   return (
-    <div className="mode-selector-container">
+    <div className="btn-group mode-selector-container" role="group" aria-label="Mode Selector">
       {Object.values(InputMode)
         .filter((mode) => mode !== InputMode.None)
         .map((mode) => (
           <button
             key={mode}
-            className={inputMode === mode ? "active" : ""}
+            type="button"
+            className={`btn ${inputMode === mode ? "active" : ""}`}
             onClick={() => handleModeChange(mode)}
           >
             {mode}

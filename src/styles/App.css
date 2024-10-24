@@ -10,8 +10,10 @@ body {
 :root {
   --keyboardlinear-max-width: 600px;
   --keyboardcircular-max-width: 400px;
+  --keyboardcircular-max-height: 200px;
   --buttons-container-max-width: 300px;
   --buttons-max-width: 200px;
+  --border-color:  grey;
 }
 
 .App {
@@ -41,12 +43,11 @@ body {
 .keyboardpieslice-container {
   width: 100vw;
   max-width: var(--keyboardcircular-max-width);
+  max-height: var(--keyboardcircular-max-width);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
 }
 
-.mode-selector-container,
-.presets-selector,
 .chord-display-container,
 .notes-renderer-container {
   width: 100%;

@@ -52,14 +52,8 @@ const NotesRenderer: React.FC = () => {
     const originalContainerWidth =
       document.querySelector(".notes-renderer-container")?.clientWidth || 0;
     const staveWidth = originalContainerWidth * 0.75;
-    const staveOffset = (originalContainerWidth - curStaffDiv.clientWidth) / 2; // Center the stave in the container
-    console.log(
-      `clientWidth, staveWidth, staveOffset =`,
-      curStaffDiv.clientWidth,
-      staveWidth,
-      staveOffset,
-    );
-    const stave = new VF.Stave(staveOffset, 0, staveWidth);
+    console.log(`clientWidth, staveWidth =`, curStaffDiv.clientWidth, staveWidth);
+    const stave = new VF.Stave(0, 0, staveWidth);
     stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
     stave.setStyle({ strokeStyle: "#000000" });
 
@@ -85,8 +79,10 @@ const NotesRenderer: React.FC = () => {
   }, [selectedNoteIndices, selectedAccidental]);
 
   return (
-    <div className="notes-renderer-container">
-      <div className="staff-container" ref={staffDivRef} />
+    <div className="container notes-renderer-container">
+      <div className="row">
+        <div className="col-12 staff-container" ref={staffDivRef} />
+      </div>
     </div>
   );
 };

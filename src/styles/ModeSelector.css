@@ -8,6 +8,8 @@
   width: 100%;
   max-width: var(--buttons-container-max-width);
   margin: 0 auto;
+  margin-bottom: 20px; /* Add bottom margin */
+  border: 1px solid var(--border-color);  /* Add border to the mode selector container */
 }
 
 .mode-selector-container button {
