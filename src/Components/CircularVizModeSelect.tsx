@@ -9,17 +9,21 @@ const CircularVisModeSelect: React.FC = () => {
     setCircularVisMode(event.target.value as CircularVisMode);
   };
   return (
-    <select
-      className="drawing-mode-select"
-      value={circularVisMode}
-      onChange={handleDrawingModeChange}
-    >
-      {Object.values(CircularVisMode).map((mode) => (
-        <option key={mode} value={mode}>
-          {mode}
-        </option>
-      ))}
-    </select>
+    <div className="form-group">
+      <select
+        id="drawingModeSelect"
+        className="form-control"
+        style={{ fontSize: "0.7rem" }} // Smaller font size
+        value={circularVisMode}
+        onChange={handleDrawingModeChange}
+      >
+        {Object.values(CircularVisMode).map((mode) => (
+          <option key={mode} value={mode}>
+            {mode}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };
 
