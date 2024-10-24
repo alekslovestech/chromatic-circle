@@ -14,36 +14,24 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <NotesProvider>
-          {" "}
-          {/* 
-          1. Do the first round with components in 1 column. 
-          2. Divs fill the whole width 100% 
-          3. use bootstrap 
-          4. add grid-bootstrap class to page */}
-          <div className="keyboardlinear-container">
+        <div className="container-fluid">
+          <NotesProvider>
+            {" "}
+            {/* 
+            1. Do the first round with components in 1 column. 
+            2. Divs fill the whole width 100% 
+            3. use bootstrap 
+            4. add grid-bootstrap class to page */}
             <KeyboardLinear />
-          </div>
-          <KeyboardPieSlice />
-          {/* <div className="keyboardcircular-container">
-                <KeyboardCircular />
-              </div> */}
-          <div className="presets-selector">
+            <KeyboardPieSlice />
+            {/*<KeyboardCircular />*/}
             <PresetsSelector />
-          </div>
-          <div className="mode-selector-container">
             <ModeSelector />
-          </div>
-          <div className="chord-names-display-container">
             <ChordDisplay />
-          </div>
-          <div className="notes-renderer-container">
             <NotesRenderer />
-          </div>
-          <div>
             <AudioPlayer />
-          </div>
-        </NotesProvider>
+          </NotesProvider>
+        </div>
       </header>
     </div>
   );
