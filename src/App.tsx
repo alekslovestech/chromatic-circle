@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles/App.css";
 import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
@@ -10,12 +9,45 @@ import ModeSelector from "./Components/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardPieSlice from "./Components/KeyboardPieSlice";
 
+import React, { useEffect, useState } from "react";
+
 function App() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const [orientation, setOrientation] = useState(
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+  );
   const borderStyle = { border: `1px solid var(--border-color)` };
+
+  const handleResize = () => {
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
+    const newOrientation = newWidth > newHeight ? "landscape" : "portrait";
+    console.log(
+      `resizing with width: ${newWidth} and height: ${newHeight}, orientation: ${newOrientation}`,
+    );
+    setWindowSize({ width: newWidth, height: newHeight });
+    setOrientation(newOrientation);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Force re-render on orientation change
+  useEffect(() => {
+    setOrientation(window.innerWidth > window.innerHeight ? "landscape" : "portrait");
+  }, [orientation]);
+
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <div className="container-fluid" style={borderStyle}>
+        <div className="container" style={borderStyle}>
           <NotesProvider>
             <div className="row" style={borderStyle}>
               <div className="col-12" style={borderStyle}>
