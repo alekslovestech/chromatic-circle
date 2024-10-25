@@ -11,28 +11,29 @@ import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardPieSlice from "./Components/KeyboardPieSlice";
 
 function App() {
+  const borderStyle = { border: `1px solid var(--border-color)` };
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <div className="container-fluid" style={{ border: "1px solid black" }}>
+        <div className="container-fluid" style={borderStyle}>
           <NotesProvider>
-            <div className="row" style={{ border: "1px solid black" }}>
-              <div className="col-12" style={{ border: "1px solid black" }}>
+            <div className="row" style={borderStyle}>
+              <div className="col-12" style={borderStyle}>
                 <KeyboardLinear />
               </div>
-              <div className="col-8" style={{ border: "1px solid black" }}>
+              <div className="col-6" style={borderStyle}>
                 <KeyboardPieSlice />
               </div>
-              <div className="col-4" style={{ border: "1px solid black" }}>
+              <div className="col-6" style={borderStyle}>
                 <ModeSelector />
                 <PresetsSelector />
               </div>
             </div>
-            <div className="row" style={{ border: "1px solid black" }}>
-              <div className="col-6" style={{ border: "1px solid black" }}>
+            <div className="row" style={borderStyle}>
+              <div className="col-6" style={borderStyle}>
                 <ChordDisplay />
               </div>
-              <div className="col-6" style={{ border: "1px solid black" }}>
+              <div className="col-6" style={borderStyle}>
                 <NotesRenderer />
               </div>
             </div>
