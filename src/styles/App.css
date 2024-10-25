@@ -40,14 +40,6 @@ body {
   }
 }
 
-.keyboardpieslice-container {
-  width: 100vw;
-  max-width: var(--keyboardcircular-max-width);
-  max-height: var(--keyboardcircular-max-width);
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
-}
-
 .chord-display-container,
 .notes-renderer-container {
   width: 100%;

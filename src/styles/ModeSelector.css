@@ -1,44 +1,4 @@
-.mode-selector-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: var(--buttons-container-max-width);
-  margin: 0 auto;
-  margin-bottom: 20px; /* Add bottom margin */
-  border: 1px solid var(--border-color);  /* Add border to the mode selector container */
-}
 
-.mode-selector-container button {
-  flex: 1 1 auto;
-  min-width: 120px;
-  max-width: var(--buttons-max-width);
-  padding: 5px 5px;
-  font-size: 12px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  text-align: center;
-}
-
-.mode-selector-container button:hover {
-  background-color: #e0e0e0;
-}
-
-.mode-selector-container button.active {
-  background-color: #2980b9;
-  color: white;
-  border-color: #2980b9;
-}
 
 .selected-inversion {
   background-color: #4CAF50;
