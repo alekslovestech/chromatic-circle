@@ -44,14 +44,19 @@ const ModeSelector = () => {
   };
 
   return (
-    <div className="btn-group mode-selector-container" role="group" aria-label="Mode Selector">
+    <div
+      className="btn-group-vertical d-flex justify-content-center align-items-center"
+      role="group"
+      aria-label="Mode Selector"
+      style={{ maxWidth: "var(--buttons-max-width)", gap: "10px" }} // Added gap for spacing between buttons
+    >
       {Object.values(InputMode)
         .filter((mode) => mode !== InputMode.None)
         .map((mode) => (
           <button
             key={mode}
             type="button"
-            className={`btn ${inputMode === mode ? "active" : ""}`}
+            className={`btn btn-outline-primary ${inputMode === mode ? "active" : ""}`}
             onClick={() => handleModeChange(mode)}
           >
             {mode}

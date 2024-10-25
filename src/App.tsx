@@ -47,9 +47,9 @@ function App() {
   return (
     <div className="Chromatic">
       <header className="App-header">
-        <div className="container" style={borderStyle}>
+        <div className="container-fluid d-flex flex-wrap" style={borderStyle}>
           <NotesProvider>
-            <div className="row" style={borderStyle}>
+            <div className="row d-flex flex-wrap" style={borderStyle}>
               <div className="col-12" style={borderStyle}>
                 <KeyboardLinear />
               </div>

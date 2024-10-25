@@ -100,20 +100,18 @@ const KeyboardPieSlice: React.FC = () => {
   }, [outerRadius]);
 
   return (
-    <div className="container keyboardpieslice-container">
-      <div className="row keyboardpieslice-overlay">
-        <div className="d-flex justify-content-between w-100">
-          <div className="top-left">
-            <AccidentalToggle />
-          </div>
-          {selectedNoteIndices.length > 1 && (
-            <div className="top-right" style={{ marginRight: "-20px" }}>
-              <CircularVisModeSelect />
-            </div>
-          )}
+    <div className="keyboardpieslice-container">
+      <div className="keyboardpieslice-overlay">
+        <div className="top-left">
+          <AccidentalToggle />
         </div>
+        {selectedNoteIndices.length > 1 && (
+          <div className="top-right">
+            <CircularVisModeSelect />
+          </div>
+        )}
       </div>
-      <svg width="100%" height="100%" viewBox="-150 -150 300 300" className="keyboard-pieslice">
+      <svg viewBox="-150 -150 300 300" className="keyboard-pieslice">
         {Array.from({ length: TWELVE }).map((_, index) => (
           <PieSliceKey
             key={index}
