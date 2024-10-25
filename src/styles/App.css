@@ -67,21 +67,6 @@ body {
   max-width: var(--buttons-container-max-width);
 }
 
-select {
-  font-size: 16px;
-  padding: 8px 12px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  color: #333;
-}
-
-/* Optional: Style for dropdown options */
-select option {
-  font-size: 16px;
-}
-
 /*replaced by keyboardpieslice*/
 .keyboardcircular-container {
   justify-self: start; /* Align to the left */
