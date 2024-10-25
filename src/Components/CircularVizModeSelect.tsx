@@ -13,6 +13,7 @@ const CircularVisModeSelect: React.FC = () => {
     <div className="dropdown">
       <select
         className="form-select"
+        style={{ fontSize: "calc(0.7rem)" }} // Responsive font size
         value={circularVisMode}
         onChange={(e) => handleDrawingModeChange(e.target.value as CircularVisMode)}
         aria-label="Select Visualization Mode"
