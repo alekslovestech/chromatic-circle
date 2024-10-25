@@ -1,7 +1,6 @@
 import "./styles/App.css";
 import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
-import KeyboardCircular from "./Components/KeyboardCircular";
 import NotesRenderer from "./Components/NotesRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/PresetsSelector";
