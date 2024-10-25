@@ -3,7 +3,6 @@ import { useNotes } from "./NotesContext";
 import { NotationType } from "../types/NotationType";
 import { getAccidentalSign, getOppositeAccidental } from "../utils/NoteUtils";
 import { getComputedColor } from "../utils/ColorUtils";
-import "../styles/AccidentalToggle.css";
 
 const AccidentalToggle: React.FC = () => {
   const { selectedAccidental, setSelectedAccidental } = useNotes();
@@ -15,7 +14,7 @@ const AccidentalToggle: React.FC = () => {
   return (
     <div className="accidental-toggle-container">
       <button
-        className="accidental-toggle"
+        className="btn btn-dark"
         onClick={toggleAccidental}
         style={{
           backgroundColor: getComputedColor(`--key-black`),
