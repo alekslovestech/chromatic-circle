@@ -5,7 +5,7 @@
   max-width: var(--keyboardcircular-max-width);
   margin: 0 auto;
 }
-
+/*
 .keyboardpieslice-overlay {
   position: absolute;
   top: 0;
@@ -15,6 +15,7 @@
   pointer-events: none;
   z-index: 10;
 }
+
 
 .top-left {
   position: absolute;
@@ -28,7 +29,7 @@
   top: 10px;
   right: 10px;
   pointer-events: auto;
-}
+} */
 
 .keyboard-pieslice {
   width: 100%;

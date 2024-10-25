@@ -1,21 +1,21 @@
 import { useNotes } from "./NotesContext";
-
 import { CircularVisMode } from "./CircularVisualizations";
 
 const CircularVisModeSelect: React.FC = () => {
   const { circularVisMode, setCircularVisMode } = useNotes();
-  const handleDrawingModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("handleDrawingModeChange", event.target.value);
-    setCircularVisMode(event.target.value as CircularVisMode);
+
+  const handleDrawingModeChange = (mode: CircularVisMode) => {
+    console.log("handleDrawingModeChange", mode);
+    setCircularVisMode(mode);
   };
+
   return (
-    <div className="form-group">
+    <div className="dropdown">
       <select
-        id="drawingModeSelect"
-        className="form-control"
-        style={{ fontSize: "0.7rem" }} // Smaller font size
+        className="form-select"
         value={circularVisMode}
-        onChange={handleDrawingModeChange}
+        onChange={(e) => handleDrawingModeChange(e.target.value as CircularVisMode)}
+        aria-label="Select Visualization Mode"
       >
         {Object.values(CircularVisMode).map((mode) => (
           <option key={mode} value={mode}>
