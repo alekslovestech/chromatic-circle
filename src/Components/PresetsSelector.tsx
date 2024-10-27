@@ -53,13 +53,13 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions()) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="inversion-buttons d-flex justify-content-center align-items-center">
+        <div className="inversion-buttons d-flex justify-content-center align-items-center ">
           <span className="me-2">Inversion:</span>
           {Array.from({ length: inversionCount }, (_, i) => (
             <button
               key={i}
               onClick={() => handleInversionChange(ixInversion(i))}
-              className={`btn btn-outline-primary me-1 ${
+              className={`btn btn-primary me-1 ${
                 selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
               }`}
             >
@@ -76,8 +76,15 @@ const PresetsSelector: React.FC = () => {
     <button
       key={preset.id}
       onClick={() => handlePresetChange(preset.id)}
-      className={selectedChordType === preset.id ? "selected-preset" : ""}
+      className={`btn btn-outline-primary d-flex justify-content-center align-items-center`} // Added flex classes for centering
       title={getId(preset.id, ChordDisplayMode.DisplayName)}
+      style={{
+        width: "100%",
+        height: "18px",
+        fontSize: "0.8rem",
+        margin: "2px 0",
+        borderRadius: "0",
+      }} // Set width to 25% for uniformity
     >
       {getId(preset.id, ChordDisplayMode.Letters_Long)}
     </button>
@@ -88,10 +95,16 @@ const PresetsSelector: React.FC = () => {
       inputMode === InputMode.IntervalPresets,
     );
 
-    const gridClassName = inputMode === InputMode.IntervalPresets ? "interval-grid" : "chord-grid";
+    const gridClassName = inputMode === InputMode.IntervalPresets ? "col-6" : "col-3";
 
     return (
-      <div className={gridClassName}>{presets.map((preset) => renderOnePresetButton(preset))}</div>
+      <div className="row">
+        {presets.map((preset) => (
+          <div className={gridClassName} key={preset.id}>
+            {renderOnePresetButton(preset)}
+          </div>
+        ))}
+      </div>
     );
   };
 
