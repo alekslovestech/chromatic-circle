@@ -1,5 +1,5 @@
 :root {
-  --h2wratio: 0.25;
+  --h2wratio: 0.15; /* Height to width ratio of the linear keyboard */
   --b2wKeyRatio: 0.7; /* Black to white key width ratio */
   --wKeysPer2Octaves: 14; /* 14 white keys fit into the full width */
   --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
