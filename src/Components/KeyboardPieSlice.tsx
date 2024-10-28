@@ -83,7 +83,6 @@ const KeyboardPieSlice: React.FC = () => {
   }, []);
 
   const innerRadius = 0.5 * outerRadius;
-  const middleRadius = 0.75 * outerRadius;
 
   return (
     <div className="container" id="keyboardpieslice-container">
@@ -119,24 +118,5 @@ const KeyboardPieSlice: React.FC = () => {
     </div>
   );
 };
-
-/* working SVG Pie Slice 
-<svg width="300" height="300" viewBox="-150 -150 300 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- Circle centered at (0, 0) with radius 10 -->
-  <circle cx="0" cy="0" r="5" stroke="black" fill="none" stroke-width="2"/>
-  <defs>
-    <path id="pie-slice" d="
-      M 100 0 
-      A 100 100 0 0 1 86.60254 50 
-      L 43.30127 25 
-      A 50 50 0 0 0 50 0 
-      Z
-    " />
-  </defs>
-  <use href="#pie-slice" stroke="black" fill="lightblue" stroke-width="2" />
-  <use href="#pie-slice" stroke="black" fill="lightgreen" stroke-width="2" transform="rotate(30)" />
-  Sorry, your browser does not support inline SVG.
-</svg>
-*/
 
 export default KeyboardPieSlice;
