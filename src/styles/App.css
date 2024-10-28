@@ -12,6 +12,7 @@ body {
   --keyboardcircular-max-width: 400px;
   --keyboardcircular-max-height: 200px;
   --buttons-container-max-width: 300px;
+  --buttons-container-min-width: 200px;
   --buttons-max-width: 200px;
   --border-color:  yellow;
 }
@@ -28,22 +29,24 @@ body {
 .keyboardlinear-container {
   width: 100%;
   max-width: var(--keyboardlinear-max-width);
-  height: calc(100vw * var(--h2wratio));
+  aspect-ratio: min(var(--h2wratio), 1); /* Limit aspect ratio to be less than or equal to h2wratio */
   max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
   margin: 0 auto; 
 }
 
 /* Media query for larger screens */
-@media (min-width: 500px) {
+@media (min-width: var(--keyboardlinear-max-width)) {
   .keyboardlinear-container {
-    height: calc(500px * var(--h2wratio)); /* Set the height based on the max width */
+    aspect-ratio: min(var(--h2wratio), 1); 
+    width: var(--keyboardlinear-max-width); /* Set a fixed width for larger screens */
   }
 }
 
 .chord-display-container,
 .notes-renderer-container {
   width: 100%;
-  max-width: var(--buttons-container-max-width);
+  min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,7 +59,8 @@ body {
 .chord-display-container > *,
 .notes-renderer-container > * {
   width: 100%;
-  max-width: var(--buttons-container-max-width);
+  min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  
 }
 
 /*replaced by keyboardpieslice*/

@@ -11,13 +11,7 @@ import KeyboardPieSlice from "./Components/KeyboardPieSlice";
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-  const [orientation, setOrientation] = useState(
-    window.innerWidth > window.innerHeight ? "landscape" : "portrait",
-  );
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const borderStyle = { border: `1px solid var(--border-color)` };
 
   const handleResize = () => {
@@ -27,8 +21,7 @@ function App() {
     console.log(
       `resizing with width: ${newWidth} and height: ${newHeight}, orientation: ${newOrientation}`,
     );
-    setWindowSize({ width: newWidth, height: newHeight });
-    setOrientation(newOrientation);
+    setViewportWidth(newWidth);
   };
 
   useEffect(() => {
@@ -37,11 +30,6 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  // Force re-render on orientation change
-  useEffect(() => {
-    setOrientation(window.innerWidth > window.innerHeight ? "landscape" : "portrait");
-  }, [orientation]);
 
   return (
     <div className="Chromatic">
@@ -55,7 +43,7 @@ function App() {
               <div className="col-6" style={borderStyle}>
                 <KeyboardPieSlice />
               </div>
-              <div className="col-6" style={borderStyle}>
+              <div className="col-6 settings-container" style={borderStyle}>
                 <ModeSelector />
                 <PresetsSelector />
               </div>
