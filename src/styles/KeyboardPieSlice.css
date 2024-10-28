@@ -4,7 +4,11 @@
   aspect-ratio: 1 / 1;
   max-width: var(--keyboardcircular-max-width);
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 /*
 .keyboardpieslice-overlay {
   position: absolute;
@@ -34,6 +38,7 @@
 .keyboard-pieslice {
   width: 100%;
   height: 100%;
+  display: block; /* Ensure SVG takes full space */
 }
 
 .pie-slice-key {

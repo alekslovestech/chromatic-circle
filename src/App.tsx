@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const borderStyle = { border: `1px solid var(--border-color)` };
+  const borderStyle = { border: `1px solid var(--debug-border-color)` };
 
   const handleResize = () => {
     const newWidth = window.innerWidth;

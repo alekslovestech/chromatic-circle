@@ -30,7 +30,6 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
-  //TODO: get the inner and outer radius from the width of the container (extract from the CSS)
   const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
   const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
   const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
@@ -92,7 +91,7 @@ const KeyboardPieSlice: React.FC = () => {
   const { innerRadius, middleRadius } = useMemo(() => {
     const innerRadius = outerRadius * 0.5;
     const middleRadius = outerRadius * 0.75;
-    //console.log(`inner, middle, outer: ${innerRadius}, ${middleRadius}, ${outerRadius}`);
+    console.log(`inner, middle, outer: ${innerRadius}, ${middleRadius}, ${outerRadius}`);
     return {
       innerRadius,
       middleRadius,
@@ -101,22 +100,46 @@ const KeyboardPieSlice: React.FC = () => {
 
   return (
     <div className="container" id="keyboardpieslice-container">
-      <div className="d-flex justify-content-between w-100">
-        <AccidentalToggle />
-        {selectedNoteIndices.length > 1 && <CircularVisModeSelect />}
+      <div className="d-flex justify-content-between w-100" id="keyboardpieslice-topbar">
+        <div className="me-auto">
+          <AccidentalToggle />
+        </div>
+        {selectedNoteIndices.length > 1 && (
+          <div className="ms-auto">
+            <CircularVisModeSelect />
+          </div>
+        )}
       </div>
-      <svg viewBox="-150 -150 300 300" className="keyboard-pieslice">
-        {Array.from({ length: TWELVE }).map((_, index) => (
-          <PieSliceKey
-            key={index}
-            index={index}
-            onClick={() => handleClick(index)}
-            outerRadius={outerRadius}
-            middleRadius={middleRadius}
-            innerRadius={innerRadius}
-          />
-        ))}
-      </svg>
+      <div className="container" id="svg-container">
+        <svg
+          width="100%"
+          height="100%"
+          viewBox={`-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="keyboard-pieslice"
+          ref={(svg) => {
+            if (svg) {
+              const actualWidth = svg.clientWidth;
+              const containerWidth =
+                document.querySelector(".keyboardpieslice-container")?.clientWidth || 0;
+              console.log(
+                `Actual width of keyboard-pieslice: ${actualWidth}px, Width of keyboardpieslice-container: ${containerWidth}px`,
+              );
+            }
+          }}
+        >
+          {Array.from({ length: TWELVE }).map((_, index) => (
+            <PieSliceKey
+              key={index}
+              index={index}
+              onClick={() => handleClick(index)}
+              outerRadius={outerRadius}
+              middleRadius={middleRadius}
+              innerRadius={innerRadius}
+            />
+          ))}
+        </svg>
+      </div>
     </div>
   );
 };

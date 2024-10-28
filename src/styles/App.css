@@ -12,9 +12,9 @@ body {
   --keyboardcircular-max-width: 400px;
   --keyboardcircular-max-height: 200px;
   --buttons-container-max-width: 300px;
-  --buttons-container-min-width: 200px;
+  --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
-  --border-color:  yellow;
+  --debug-border-color:  yellow;
 }
 
 .App {

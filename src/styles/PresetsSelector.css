@@ -8,7 +8,7 @@
     padding: 0 10px; /* Add some padding on the sides */
     margin: 0 auto;
     margin-top: 20px;
-    border: 1px solid var(--border-color);  /* Add border to the mode selector container */
+    border: 1px solid var(--debug-border-color);  /* Add border to the mode selector container */
 }
 
 h3 {
