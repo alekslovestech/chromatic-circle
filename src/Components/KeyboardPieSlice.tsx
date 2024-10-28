@@ -16,17 +16,10 @@ interface PieSliceProps {
   index: number;
   onClick: () => void;
   outerRadius: number;
-  middleRadius: number;
   innerRadius: number;
 }
 
-const PieSliceKey: React.FC<PieSliceProps> = ({
-  index,
-  onClick,
-  outerRadius,
-  middleRadius,
-  innerRadius,
-}) => {
+const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick, outerRadius, innerRadius }) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
@@ -38,6 +31,7 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
   const blackWhiteClass = getBlackWhiteString(index as ActualIndex);
   const isSelected = selectedNoteIndices.includes(index as ActualIndex);
   const selectedClass = isSelected ? "selected" : "";
+  const middleRadius = (innerRadius + outerRadius) / 2;
   const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle);
 
   const pathData = [
@@ -88,15 +82,8 @@ const KeyboardPieSlice: React.FC = () => {
     };
   }, []);
 
-  const { innerRadius, middleRadius } = useMemo(() => {
-    const innerRadius = outerRadius * 0.5;
-    const middleRadius = outerRadius * 0.75;
-    console.log(`inner, middle, outer: ${innerRadius}, ${middleRadius}, ${outerRadius}`);
-    return {
-      innerRadius,
-      middleRadius,
-    };
-  }, [outerRadius]);
+  const innerRadius = 0.5 * outerRadius;
+  const middleRadius = 0.75 * outerRadius;
 
   return (
     <div className="container" id="keyboardpieslice-container">
@@ -117,16 +104,6 @@ const KeyboardPieSlice: React.FC = () => {
           viewBox={`-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`}
           preserveAspectRatio="xMidYMid meet"
           className="keyboard-pieslice"
-          ref={(svg) => {
-            if (svg) {
-              const actualWidth = svg.clientWidth;
-              const containerWidth =
-                document.querySelector(".keyboardpieslice-container")?.clientWidth || 0;
-              console.log(
-                `Actual width of keyboard-pieslice: ${actualWidth}px, Width of keyboardpieslice-container: ${containerWidth}px`,
-              );
-            }
-          }}
         >
           {Array.from({ length: TWELVE }).map((_, index) => (
             <PieSliceKey
@@ -134,7 +111,6 @@ const KeyboardPieSlice: React.FC = () => {
               index={index}
               onClick={() => handleClick(index)}
               outerRadius={outerRadius}
-              middleRadius={middleRadius}
               innerRadius={innerRadius}
             />
           ))}
