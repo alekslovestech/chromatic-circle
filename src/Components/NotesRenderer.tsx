@@ -78,10 +78,8 @@ const NotesRenderer: React.FC = () => {
   }, [selectedNoteIndices, selectedAccidental]);
 
   return (
-    <div className="container notes-renderer-container">
-      <div className="row">
-        <div className="col-12 staff-container" ref={staffDivRef} />
-      </div>
+    <div className="row">
+      <div className="col-12 staff-container" ref={staffDivRef} />
     </div>
   );
 };

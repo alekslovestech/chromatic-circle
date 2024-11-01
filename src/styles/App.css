@@ -53,7 +53,7 @@ body {
   aspect-ratio: min(var(--h2wratio), 1);
   max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
   max-width: var(--keyboardlinear-max-width);
-    margin: 0 auto;  
+  margin: 0 auto;  
 }
 
 .keyboardpieslice-container {
@@ -76,10 +76,6 @@ body {
 
 .chord-display-container {
   grid-area: chords;
-}
-
-.chord-display-container {
-  grid-area: chords;
   width: 100%;
  /* min-width: var(--buttons-container-min-width);
   max-width: var(--buttons-container-max-width);  */
@@ -92,15 +88,15 @@ body {
 
 .notes-renderer-container {
   grid-area: staff;
-  width: 60%;
-  
+  width: 100%;
+  /*
   min-width: var(--buttons-container-min-width);
   max-width: var(--buttons-container-max-width);  
   
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   margin: 20px auto; /* Add vertical margin */
 }
 
