@@ -33,15 +33,7 @@ const KeyboardLinear: React.FC = () => {
     );
   }
 
-  return (
-    <div className="container-fluid">
-      <div className="row justify-content-center">
-        <div className="col-12 keyboardlinear-container">
-          <div className="keyboardlinear">{keys}</div>
-        </div>
-      </div>
-    </div>
-  );
+  return <div className="keyboardlinear">{keys}</div>;
 };
 
 export default KeyboardLinear;

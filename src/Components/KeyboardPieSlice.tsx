@@ -85,7 +85,7 @@ const KeyboardPieSlice: React.FC = () => {
   const innerRadius = 0.5 * outerRadius;
 
   return (
-    <div className="container" id="keyboardpieslice-container">
+    <div>
       <div className="d-flex justify-content-between w-100" id="keyboardpieslice-topbar">
         <div className="me-auto">
           <AccidentalToggle />

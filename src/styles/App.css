@@ -14,7 +14,7 @@ body {
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
-  --debug-border-color:  yellow;
+  --debug-border-color:  transparent;
 }
 
 .App {
@@ -51,9 +51,9 @@ body {
   grid-area: linear;
   width: 100%;
   aspect-ratio: min(var(--h2wratio), 1);
-  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
-  max-width: var(--keyboardlinear-max-width);
-    margin: 0 auto;  
+  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio)); 
+  /* max-width: var(--keyboardlinear-max-width); 
+   /* margin: 0 auto; */  
 }
 
 .keyboardpieslice-container {
@@ -76,32 +76,28 @@ body {
 
 .chord-display-container {
   grid-area: chords;
-}
-
-.chord-display-container {
-  grid-area: chords;
-  width: 100%;
+  /*width: 100%;
  /* min-width: var(--buttons-container-min-width);
   max-width: var(--buttons-container-max-width);  */
-  display: flex;
+ /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px auto; /* Add vertical margin */
+ /* margin: 20px auto; /* Add vertical margin */
 }
 
 .notes-renderer-container {
   grid-area: staff;
-  width: 60%;
+  /*width: 60%;*/
   
   min-width: var(--buttons-container-min-width);
   max-width: var(--buttons-container-max-width);  
   
   display: flex;
   flex-direction: column;
-  justify-content: center;
+ /* justify-content: center;
   align-items: center;
-  margin: 20px auto; /* Add vertical margin */
+ /* margin: 20px auto; /* Add vertical margin */
 }
 
 .mode-selector-container > *,
