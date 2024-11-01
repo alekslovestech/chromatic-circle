@@ -8,8 +8,8 @@ body {
 }
 
 :root {
-  --keyboardlinear-max-width: 600px;
-  --keyboardcircular-max-width: 400px;
+  --keyboardlinear-max-width: 500px;
+  --keyboardcircular-max-width: 300px;
   --keyboardcircular-max-height: 200px;
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
@@ -18,35 +18,85 @@ body {
 }
 
 .App {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
-
-.keyboardlinear-container {
   width: 100%;
-  max-width: var(--keyboardlinear-max-width);
-  aspect-ratio: min(var(--h2wratio), 1); /* Limit aspect ratio to be less than or equal to h2wratio */
-  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
-/* Media query for larger screens */
-@media (min-width: var(--keyboardlinear-max-width)) {
-  .keyboardlinear-container {
-    aspect-ratio: min(var(--h2wratio), 1); 
-    width: var(--keyboardlinear-max-width); /* Set a fixed width for larger screens */
+.grid-container {
+  display: grid;
+  height: 100vh; 
+  width: 100vw; 
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  /*default: portrait mode */
+  grid-template-areas:
+    "linear linear"
+    "circular circular"
+    "settings chords"
+    "settings staff";
+ /* grid-gap: 20px;*/
+}
+
+@media (orientation: landscape) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "linear linear settings chords"
+      "circular circular settings staff";
   }
 }
 
-.chord-display-container,
-.notes-renderer-container {
+.keyboardlinear-container {
+  grid-area: linear;
   width: 100%;
+  aspect-ratio: min(var(--h2wratio), 1);
+  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio));
+  max-width: var(--keyboardlinear-max-width);
+    margin: 0 auto;  
+}
+
+.keyboardpieslice-container {
+  grid-area: circular;
+  width: 100%;
+/*
+  position: relative;
+
+  aspect-ratio: 1 / 1;
+  max-width: var(--keyboardcircular-max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;*/
+}
+
+.settings-container {
+  grid-area: settings;
+}
+
+.chord-display-container {
+  grid-area: chords;
+}
+
+.chord-display-container {
+  grid-area: chords;
+  width: 100%;
+ /* min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto; /* Add vertical margin */
+}
+
+.notes-renderer-container {
+  grid-area: staff;
+  width: 60%;
+  
   min-width: var(--buttons-container-min-width);
   max-width: var(--buttons-container-max-width);  
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,21 +109,8 @@ body {
 .chord-display-container > *,
 .notes-renderer-container > * {
   width: 100%;
-  min-width: var(--buttons-container-min-width);
-  max-width: var(--buttons-container-max-width);  
-}
-
-/*replaced by keyboardpieslice*/
-.keyboardcircular-container {
-  justify-self: start; /* Align to the left */
-  align-self: start; /* Align to the top */
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%; /* This creates a 1:1 aspect ratio */
-  max-width: 400px; /* Or any other maximum size you prefer */
-  overflow: hidden; /* Prevent content from spilling out */
-  aspect-ratio: 1 / 1; /* Ensure a square aspect ratio for modern browsers */
+  /*min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  */
 }
 
 .chord-grid {

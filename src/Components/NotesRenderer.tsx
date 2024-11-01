@@ -5,7 +5,6 @@ import { AccidentalType } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
-import "../styles/NotesRenderer.css";
 
 const EasyScoreFromNotes = (
   myNotes: ActualIndex[],

@@ -90,11 +90,9 @@ const KeyboardPieSlice: React.FC = () => {
         <div className="me-auto">
           <AccidentalToggle />
         </div>
-        {selectedNoteIndices.length > 1 && (
-          <div className="ms-auto">
-            <CircularVisModeSelect />
-          </div>
-        )}
+        <div className={`ms-auto ${selectedNoteIndices.length > 1 ? "" : "invisible"}`}>
+          <CircularVisModeSelect />
+        </div>
       </div>
       <div className="container" id="svg-container">
         <svg

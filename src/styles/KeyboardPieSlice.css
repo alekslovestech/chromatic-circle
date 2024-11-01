@@ -1,13 +1,3 @@
-.keyboardpieslice-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  max-width: var(--keyboardcircular-max-width);
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 
 .pie-slice-key {

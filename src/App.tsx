@@ -33,32 +33,28 @@ function App() {
 
   return (
     <div className="Chromatic">
-      <header className="App-header">
-        <div className="container-fluid d-flex flex-wrap" style={borderStyle}>
-          <NotesProvider>
-            <div className="row d-flex flex-wrap" style={borderStyle}>
-              <div className="col-12" style={borderStyle}>
-                <KeyboardLinear />
-              </div>
-              <div className="col-6" style={borderStyle}>
-                <KeyboardPieSlice />
-              </div>
-              <div className="col-6 settings-container" style={borderStyle}>
-                <ModeSelector />
-                <PresetsSelector />
-              </div>
+      <header className="App-header" style={borderStyle}>
+        <NotesProvider>
+          <div className="grid-container" style={borderStyle}>
+            <div className="keyboardlinear-container" style={borderStyle}>
+              <KeyboardLinear />
             </div>
-            <div className="row" style={borderStyle}>
-              <div className="col-6" style={borderStyle}>
-                <ChordDisplay />
-              </div>
-              <div className="col-6" style={borderStyle}>
-                <NotesRenderer />
-              </div>
+            <div className="keyboardpieslice-container" style={borderStyle}>
+              <KeyboardPieSlice />
             </div>
-            <AudioPlayer />
-          </NotesProvider>
-        </div>
+            <div className="settings-container" style={borderStyle}>
+              <ModeSelector />
+              <PresetsSelector />
+            </div>
+            <div className="chord-display-container" style={borderStyle}>
+              <ChordDisplay />
+            </div>
+            <div className="notes-renderer-container" style={borderStyle}>
+              <NotesRenderer />
+            </div>
+          </div>
+          <AudioPlayer />
+        </NotesProvider>
       </header>
     </div>
   );
