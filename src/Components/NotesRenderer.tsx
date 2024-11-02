@@ -32,23 +32,27 @@ const EasyScoreFromNotes = (
 };
 
 const NotesRenderer: React.FC = () => {
-  const divRef = useRef(null);
+  const staffDivRef = useRef(null);
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   useEffect(() => {
-    if (!divRef.current) return;
+    if (!staffDivRef.current) return;
 
-    let curDivRef = divRef.current as HTMLElement;
-    curDivRef.innerHTML = "";
+    let curStaffDiv = staffDivRef.current as HTMLElement;
+    curStaffDiv.innerHTML = "";
 
     const VF = Vex.Flow;
-    const renderer = new VF.Renderer(divRef.current, VF.Renderer.Backends.SVG);
+    const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
 
     // Configure the rendering context.
     renderer.resize(500, 120);
     const context = renderer.getContext();
 
-    // Create a stave at position 10, 40 of width 400 on the canvas.
-    const stave = new VF.Stave(150, 0, 150);
+    // Create a stave at position 10, 40 of width half the enclosing container's width.
+    const originalContainerWidth =
+      document.querySelector(".notes-renderer-container")?.clientWidth || 0;
+    const staveWidth = originalContainerWidth * 0.75;
+    console.log(`clientWidth, staveWidth =`, curStaffDiv.clientWidth, staveWidth);
+    const stave = new VF.Stave(0, 0, staveWidth);
     stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
     stave.setStyle({ strokeStyle: "#000000" });
 
@@ -73,7 +77,7 @@ const NotesRenderer: React.FC = () => {
     };
   }, [selectedNoteIndices, selectedAccidental]);
 
-  return <div ref={divRef} />;
+  return <div ref={staffDivRef} />;
 };
 
 export default NotesRenderer;

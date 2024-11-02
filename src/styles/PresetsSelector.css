@@ -1,10 +1,14 @@
-.preset-selector {
+.presets-selector {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%; 
+    max-width: var(--buttons-container-max-width);
     box-sizing: border-box;
     padding: 0 10px; /* Add some padding on the sides */
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid var(--debug-border-color);  /* Add border to the mode selector container */
 }
 
 h3 {
@@ -14,16 +18,22 @@ h3 {
 }
 
 .chord-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 5px;
     margin-bottom: 10px;
     width: 100%;
 }
 
+.chord-grid button {
+    flex: 1 1 calc(25% - 10px); /* Ensure no more than 4 elements in a row */
+}
+
 .interval-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 5px;
     margin-bottom: 10px;
     width: 100%;
@@ -33,11 +43,12 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    flex: 1 1 calc(50% - 2.5px);
+    max-width: calc(50% - 2.5px);
 }
 
-.chord-grid button,
-.interval-column button {
-    width: 100%; 
+.chord-grid button {
+    width: calc(25% - 10px); /* 1/4 of the active area, excluding padding */
     height: 25px;
     font-size: 12px;
     background-color: #f0f0f0;
@@ -45,19 +56,34 @@ h3 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    padding: 0;
+    padding: 5px; /* Set padding to 5px */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.interval-grid button {
+    width: calc(50% - 5px); /* Adjusted for padding */
+    height: 25px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px; /* 50% padding */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .chord-grid button:hover,
-.interval-column button:hover {
+.interval-grid button:hover {
     background-color: #e0e0e0;
 }
 
 .chord-grid button.selected-preset,
-.interval-column button.selected-preset {
+.interval-grid button.selected-preset {
     background-color: #4CAF50;
     color: white;
 }
@@ -67,8 +93,10 @@ h3 {
     gap: 5px;
     align-items: center;
     margin-top: 5px;
-    width: 100%;
-    justify-content: center;
+    margin-left: 20%;
+    width: 70%;
+    max-width: var(--buttons-container-max-width);
+    justify-content: center; 
 }
 
 .inversion-buttons button {

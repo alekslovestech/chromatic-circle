@@ -3,7 +3,7 @@ import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
 import "../styles/ModeSelector.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
+import { ixActualArray, ixInversion } from "../types/IndexTypes";
 
 const ModeSelector = () => {
   const {
@@ -44,13 +44,32 @@ const ModeSelector = () => {
   };
 
   return (
-    <div className="mode-selector">
+    <div
+      className="btn-group-vertical d-flex flex-column justify-content-center align-items-center"
+      role="group"
+      aria-label="Mode Selector"
+      style={{
+        minWidth: "var(--buttons-container-min-width)",
+        maxWidth: "var(--buttons-max-width)",
+
+        gap: "10px",
+        margin: "0 auto",
+        // padding: "20px",
+      }} // Added margin for horizontal centering
+    >
       {Object.values(InputMode)
         .filter((mode) => mode !== InputMode.None)
         .map((mode) => (
           <button
             key={mode}
-            className={inputMode === mode ? "active" : ""}
+            type="button"
+            className={`btn btn-outline-primary ${inputMode === mode ? "active" : ""}`} // Changed to grey color scheme
+            style={{
+              height: "30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }} // Vertically center text
             onClick={() => handleModeChange(mode)}
           >
             {mode}

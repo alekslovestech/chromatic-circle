@@ -6,6 +6,7 @@ import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
+
 const KeyboardLinear: React.FC = () => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
@@ -16,7 +17,6 @@ const KeyboardLinear: React.FC = () => {
     const isRootNote = checkIsRootNote(actualIndex);
     const blackWhiteString = getBlackWhiteString(actualIndex);
 
-    //later classes override earlier ones
     const classNames = ["piano-key"];
     classNames.push(blackWhiteString);
     if (isSelected) classNames.push("selected");
@@ -33,11 +33,7 @@ const KeyboardLinear: React.FC = () => {
     );
   }
 
-  return (
-    <div className="keyboardlinear-container">
-      <div className="keyboardlinear">{keys}</div>
-    </div>
-  );
+  return <div className="keyboardlinear">{keys}</div>;
 };
 
 export default KeyboardLinear;

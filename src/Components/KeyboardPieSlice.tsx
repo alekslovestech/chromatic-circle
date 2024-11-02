@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import "../styles/KeyboardPieSlice.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
@@ -9,34 +9,36 @@ import { useNotes } from "./NotesContext";
 import AccidentalToggle from "./AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
 import { PolarMath } from "../utils/PolarMath";
-import { CommonMath, INNER_RADIUS, MIDDLE_RADIUS, OUTER_RADIUS } from "../utils/CommonMath";
+import { CommonMath, OUTER_RADIUS } from "../utils/CommonMath";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
 
 interface PieSliceProps {
   index: number;
   onClick: () => void;
+  outerRadius: number;
+  innerRadius: number;
 }
 
-const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick }) => {
+const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick, outerRadius, innerRadius }) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
 
-  //get the inner and outer radius from the width of the container (extract from the CSS)
-  const outerStart = PolarMath.getCartesianFromPolar(OUTER_RADIUS, startAngle);
-  const outerEnd = PolarMath.getCartesianFromPolar(OUTER_RADIUS, endAngle);
-  const innerStart = PolarMath.getCartesianFromPolar(INNER_RADIUS, startAngle);
-  const innerEnd = PolarMath.getCartesianFromPolar(INNER_RADIUS, endAngle);
+  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
+  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
+  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
+  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
 
   const blackWhiteClass = getBlackWhiteString(index as ActualIndex);
   const isSelected = selectedNoteIndices.includes(index as ActualIndex);
   const selectedClass = isSelected ? "selected" : "";
-  const textPosition = PolarMath.getCartesianFromPolar(MIDDLE_RADIUS, middleAngle);
+  const middleRadius = (innerRadius + outerRadius) / 2;
+  const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle);
 
   const pathData = [
     `M ${outerStart.x} ${outerStart.y}`,
-    `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
+    `A ${outerRadius} ${outerRadius} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
     `L ${innerEnd.x} ${innerEnd.y}`,
-    `A ${INNER_RADIUS} ${INNER_RADIUS} 0 0 0 ${innerStart.x} ${innerStart.y}`,
+    `A ${innerRadius} ${innerRadius} 0 0 0 ${innerStart.x} ${innerStart.y}`,
     "Z",
   ].join(" ");
 
@@ -57,48 +59,66 @@ const KeyboardPieSlice: React.FC = () => {
     handleKeyClick(index as ActualIndex);
   };
 
+  const [outerRadius, setOuterRadius] = React.useState(OUTER_RADIUS);
+
   useEffect(() => {
-    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode);
-  }, [selectedNoteIndices, handleKeyClick, circularVisMode]);
+    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, innerRadius);
+  }, [selectedNoteIndices, handleKeyClick, circularVisMode, outerRadius]);
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      const container = document.querySelector(".keyboardpieslice-container");
+      const containerWidth = container?.clientWidth || 2 * OUTER_RADIUS;
+      const containerHeight = container?.clientHeight || 2 * OUTER_RADIUS;
+      const newOuterRadius = (0.65 * Math.min(containerWidth, containerHeight)) / 2;
+      console.log(`containerWidth: ${containerWidth}, containerHeight: ${containerHeight}`);
+      console.log(`newOuterRadius: ${newOuterRadius}`);
+      setOuterRadius(newOuterRadius);
+    };
+
+    updateDimensions(); // Initial calculation
+    window.addEventListener("resize", updateDimensions);
+
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+    };
+  }, []);
+
+  const innerRadius = 0.5 * outerRadius;
 
   return (
-    <div className="keyboardpieslice-container">
-      <div className="keyboardpieslice-overlay">
-        <div className="top-left">
+    <div>
+      <div className="d-flex justify-content-between w-100" id="keyboardpieslice-topbar">
+        <div className="me-auto">
           <AccidentalToggle />
         </div>
-        {selectedNoteIndices.length > 1 && (
-          <div className="top-right">
-            <CircularVisModeSelect />
-          </div>
-        )}
+        <div className={`ms-auto ${selectedNoteIndices.length > 1 ? "" : "invisible"}`}>
+          <CircularVisModeSelect />
+        </div>
       </div>
-      <svg width="300" height="300" viewBox="-150 -150 300 300" className="pie-slice-keyboard">
-        {Array.from({ length: TWELVE }).map((_, index) => (
-          <PieSliceKey key={index} index={index} onClick={() => handleClick(index)} />
-        ))}
-      </svg>
+      <div
+        id="svg-container"
+        style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
+      >
+        <svg
+          width={outerRadius * 2}
+          height={outerRadius * 2}
+          viewBox={`-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`}
+          className="keyboardcircular-internal"
+        >
+          {Array.from({ length: TWELVE }).map((_, index) => (
+            <PieSliceKey
+              key={index}
+              index={index}
+              onClick={() => handleClick(index)}
+              outerRadius={outerRadius}
+              innerRadius={innerRadius}
+            />
+          ))}
+        </svg>
+      </div>
     </div>
   );
 };
-
-/* working SVG Pie Slice 
-<svg width="300" height="300" viewBox="-150 -150 300 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- Circle centered at (0, 0) with radius 10 -->
-  <circle cx="0" cy="0" r="5" stroke="black" fill="none" stroke-width="2"/>
-  <defs>
-    <path id="pie-slice" d="
-      M 100 0 
-      A 100 100 0 0 1 86.60254 50 
-      L 43.30127 25 
-      A 50 50 0 0 0 50 0 
-      Z
-    " />
-  </defs>
-  <use href="#pie-slice" stroke="black" fill="lightblue" stroke-width="2" />
-  <use href="#pie-slice" stroke="black" fill="lightgreen" stroke-width="2" transform="rotate(30)" />
-  Sorry, your browser does not support inline SVG.
-</svg>
-*/
 
 export default KeyboardPieSlice;

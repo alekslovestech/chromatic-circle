@@ -1,175 +1,142 @@
 @import "./Colors.css";
-.App {
-  text-align: center;
-}
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #5b6477;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  overflow: auto;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.main-layout {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: flex-start;
+body {
+  margin: 0;
   padding: 20px;
+  box-sizing: border-box;
 }
 
-.grid-layout {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto 1fr 1fr;
+:root {
+  --keyboardlinear-max-width: 500px;
+  --keyboardcircular-max-width: 300px;
+  --keyboardcircular-max-height: 200px;
+  --buttons-container-max-width: 300px;
+  --buttons-container-min-width: 150px;
+  --buttons-max-width: 200px;
+  --debug-border-color:  green;
+}
+
+.App {
   width: 100%;
-  max-width: 1000px;
-  height: 600px;
-  box-sizing: border-box;
   margin: 0 auto;
 }
 
-.grid-layout > * {
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.grid-container {
+  display: grid;
+  height: 100vh; 
+  width: 100vw; 
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 4fr 3fr 3fr;
+  /*default: portrait mode */
+  grid-template-areas:
+    "linear linear"
+    "circular circular"
+    "settings chords"
+    "settings staff";
+  /* grid-gap: 20px;*/
   overflow: hidden;
+  > * {
+    min-height: 0; /* Important for Firefox */
+ /*   overflow: auto; /* Allow scrolling if content is too large */
+  }
+}
+
+@media (orientation: landscape) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 2fr 4fr;
+    grid-template-areas:
+      "linear linear settings chords"
+      "circular circular settings staff";
+  }
 }
 
 .keyboardlinear-container {
-  grid-column: 1 / -1; /* Span all columns */
-  grid-row: 1;
-  width: 100vw;
-  max-width: 500px; 
-  height: calc(100vw * var(--h2wratio)); /* Adjust the multiplier to change the aspect ratio */
-  max-height: calc(500px * var(--h2wratio)); /* Set the maximum height based on the max width */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ffffff;
-  border-radius: 0px;
-  box-sizing: border-box;
-  overflow: hidden;
-  margin: 0 auto; /* Center the container horizontally */
-}
-
-.keyboardcircular-container {
-  /*grid-column: 1 / 3; /* Span first two columns */
-  /*grid-row: 2 / 4; /* Span second and third rows */
-  justify-self: start; /* Align to the left */
-  align-self: start; /* Align to the top */
-  position: relative;
+  grid-area: linear;
   width: 100%;
-  height: 0;
-  padding-bottom: 100%; /* This creates a 1:1 aspect ratio */
-  max-width: 400px; /* Or any other maximum size you prefer */
-  max-height: 400px;
-  overflow: hidden; /* Prevent content from spilling out */
-  aspect-ratio: 1 / 1; /* Ensure a square aspect ratio for modern browsers */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .keyboardpieslice-container {
-  grid-column: 1 / 3; /* Span first two columns */
-  grid-row: 2 / 4; /* Span second and third rows */
-  justify-self: start; /* Align to the left */
-  /*align-self: start; /* Align to the top */
-  /*position: relative; *
+  grid-area: circular;
   width: 100%;
-  height: 0;
-  padding-bottom: 100%; /* This creates a 1:1 aspect ratio */
-  max-width: 400px; /* Or any other maximum size you prefer */
-  max-height: 400px;
-  overflow: hidden; /* Prevent content from spilling out */
-  aspect-ratio: 1 / 1; /* Ensure a square aspect ratio for modern browsers */
+ /* max-width: var(--keyboardcircular-max-width);
+/*
+  position: relative;
+
+  aspect-ratio: 1 / 1;
+ 
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;*/
 }
 
-
-.mode-selector-container {
-  grid-column: 3;
-  grid-row: 2;
+.settings-container {
+  grid-area: settings;
 }
 
-.presets-selector {
-  grid-column: 3;
-  grid-row: 3;
+.chord-display-container {
+  grid-area: chords;
+  /*width: 100%;
+ /* min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  */
+ /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ /* margin: 20px auto; /* Add vertical margin */
 }
 
 .notes-renderer-container {
-  grid-column: 4;
-  grid-row: 2;
-}
-
-.chord-names-display-container {
-  grid-column: 4;
-  grid-row: 3;
-}
-
-select {
-  font-size: 16px;
-  padding: 8px 12px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  color: #333;
-}
-
-/* Optional: Style for dropdown options */
-select option {
-  font-size: 16px;
-}
-
-.settings-column {
+  grid-area: staff;
+  /*width: 60%;*/
+  
+  min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  
+  
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 220px; /* Adjust as needed */
-  align-self: stretch; /* Make it full height */
+ /* justify-content: center;
+  align-items: center;
+ /* margin: 20px auto; /* Add vertical margin */
 }
 
-.settings-column > * {
+.mode-selector-container > *,
+.presets-selector > *,
+.chord-display-container > *,
+.notes-renderer-container > * {
   width: 100%;
+  /*min-width: var(--buttons-container-min-width);
+  max-width: var(--buttons-container-max-width);  */
 }
 
-/* Responsive adjustments */
-@media (max-width: 1000px) {
-  .main-layout {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .settings-column {
-    width: 600px; /* Match grid width on smaller screens */
-  }
+.chord-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
+.interval-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.keyboardlinear-container,
+.keyboardpieslice-container,
+.settings-container,
+.chord-display-container,
+.notes-renderer-container {
+  height: 100%;
+ /* overflow: auto;*/
+}

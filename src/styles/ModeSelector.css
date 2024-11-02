@@ -1,37 +1,4 @@
-.mode-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
 
-.mode-selector button {
-  width: 100%;
-  padding: 5px 5px;
-  font-size: 12px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  text-align: center;
-}
-
-.mode-selector button:hover {
-  background-color: #e0e0e0;
-}
-
-.mode-selector button.active {
-  background-color: #2980b9;
-  color: white;
-  border-color: #2980b9;
-}
 
 .selected-inversion {
   background-color: #4CAF50;
