@@ -67,10 +67,12 @@ const KeyboardPieSlice: React.FC = () => {
 
   useEffect(() => {
     const updateDimensions = () => {
-      const containerWidth =
-        document.querySelector(".keyboardpieslice-container")?.clientWidth || 2 * OUTER_RADIUS;
-      console.log(`containerWidth: ${containerWidth}`);
-      const newOuterRadius = containerWidth / 4;
+      const container = document.querySelector(".keyboardpieslice-container");
+      const containerWidth = container?.clientWidth || 2 * OUTER_RADIUS;
+      const containerHeight = container?.clientHeight || 2 * OUTER_RADIUS;
+      const newOuterRadius = (0.65 * Math.min(containerWidth, containerHeight)) / 2;
+      console.log(`containerWidth: ${containerWidth}, containerHeight: ${containerHeight}`);
+      console.log(`newOuterRadius: ${newOuterRadius}`);
       setOuterRadius(newOuterRadius);
     };
 
@@ -94,13 +96,15 @@ const KeyboardPieSlice: React.FC = () => {
           <CircularVisModeSelect />
         </div>
       </div>
-      <div className="container" id="svg-container">
+      <div
+        id="svg-container"
+        style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
+      >
         <svg
-          width="100%"
-          height="100%"
+          width={outerRadius * 2}
+          height={outerRadius * 2}
           viewBox={`-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`}
-          preserveAspectRatio="xMidYMid meet"
-          className="keyboard-pieslice"
+          className="keyboardcircular-internal"
         >
           {Array.from({ length: TWELVE }).map((_, index) => (
             <PieSliceKey

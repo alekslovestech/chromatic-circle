@@ -33,9 +33,9 @@ function App() {
 
   return (
     <div className="Chromatic">
-      <header className="App-header" style={borderStyle}>
+      <header className="App-header" /* style={borderStyle} */>
         <NotesProvider>
-          <div className="grid-container" style={borderStyle}>
+          <div className="grid-container" /* style={borderStyle} */>
             <div className="keyboardlinear-container" style={borderStyle}>
               <KeyboardLinear />
             </div>

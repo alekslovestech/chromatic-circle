@@ -14,7 +14,7 @@ body {
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
-  --debug-border-color:  transparent;
+  --debug-border-color:  green;
 }
 
 .App {
@@ -27,20 +27,25 @@ body {
   height: 100vh; 
   width: 100vw; 
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 2fr 4fr 3fr 3fr;
   /*default: portrait mode */
   grid-template-areas:
     "linear linear"
     "circular circular"
     "settings chords"
     "settings staff";
- /* grid-gap: 20px;*/
+  /* grid-gap: 20px;*/
+  overflow: hidden;
+  > * {
+    min-height: 0; /* Important for Firefox */
+ /*   overflow: auto; /* Allow scrolling if content is too large */
+  }
 }
 
 @media (orientation: landscape) {
   .grid-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 2fr 4fr;
     grid-template-areas:
       "linear linear settings chords"
       "circular circular settings staff";
@@ -50,7 +55,7 @@ body {
 .keyboardlinear-container {
   grid-area: linear;
   width: 100%;
-  aspect-ratio: min(var(--h2wratio), 1);
+  /*aspect-ratio: min(var(--h2wratio), 1);
   max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio)); 
   /* max-width: var(--keyboardlinear-max-width); 
    /* margin: 0 auto; */  
@@ -59,11 +64,12 @@ body {
 .keyboardpieslice-container {
   grid-area: circular;
   width: 100%;
+ /* max-width: var(--keyboardcircular-max-width);
 /*
   position: relative;
 
   aspect-ratio: 1 / 1;
-  max-width: var(--keyboardcircular-max-width);
+ 
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -123,4 +129,13 @@ body {
     gap: 5px;
     margin-bottom: 10px;
     width: 100%;
+}
+
+.keyboardlinear-container,
+.keyboardpieslice-container,
+.settings-container,
+.chord-display-container,
+.notes-renderer-container {
+  height: 100%;
+ /* overflow: auto;*/
 }
