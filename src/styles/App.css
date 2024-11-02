@@ -62,7 +62,7 @@ body {
   overflow: hidden;
 }
 
-.keyboardpieslice-container {
+.keyboardcircular-container {
   grid-area: circular;
   width: 100%;
  /* max-width: var(--keyboardcircular-max-width);
@@ -133,7 +133,7 @@ body {
 }
 
 .keyboardlinear-container,
-.keyboardpieslice-container,
+.keyboardcircular-container,
 .settings-container,
 .chord-display-container,
 .notes-renderer-container {

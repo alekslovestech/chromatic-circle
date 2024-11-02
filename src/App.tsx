@@ -6,7 +6,7 @@ import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/PresetsSelector";
 import ModeSelector from "./Components/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
-import KeyboardPieSlice from "./Components/KeyboardPieSlice";
+import KeyboardCircular from "./Components/KeyboardCircular";
 
 import React, { useEffect, useState } from "react";
 
@@ -39,8 +39,8 @@ function App() {
             <div className="keyboardlinear-container" style={borderStyle}>
               <KeyboardLinear />
             </div>
-            <div className="keyboardpieslice-container" style={borderStyle}>
-              <KeyboardPieSlice />
+            <div className="keyboardcircular-container" style={borderStyle}>
+              <KeyboardCircular />
             </div>
             <div className="settings-container" style={borderStyle}>
               <ModeSelector />
