@@ -55,10 +55,11 @@ body {
 .keyboardlinear-container {
   grid-area: linear;
   width: 100%;
-  /*aspect-ratio: min(var(--h2wratio), 1);
-  max-height: calc(var(--keyboardlinear-max-width) * var(--h2wratio)); 
-  /* max-width: var(--keyboardlinear-max-width); 
-   /* margin: 0 auto; */  
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .keyboardpieslice-container {
