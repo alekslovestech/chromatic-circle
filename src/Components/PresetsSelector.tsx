@@ -53,19 +53,21 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions()) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="inversion-buttons d-flex justify-content-center align-items-center ">
+        <div className="inversion-controls d-flex flex-column justify-content-center align-items-center ">
           <span className="me-2">Inversion:</span>
-          {Array.from({ length: inversionCount }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => handleInversionChange(ixInversion(i))}
-              className={`btn btn-primary me-1 ${
-                selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
-              }`}
-            >
-              {ixInversion(i)}
-            </button>
-          ))}
+          <div className="d-flex">
+            {Array.from({ length: inversionCount }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => handleInversionChange(ixInversion(i))}
+                className={`btn btn-primary me-1 ${
+                  selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
+                }`}
+              >
+                {ixInversion(i)}
+              </button>
+            ))}
+          </div>
         </div>
       );
     }
@@ -76,7 +78,7 @@ const PresetsSelector: React.FC = () => {
     <button
       key={preset.id}
       onClick={() => handlePresetChange(preset.id)}
-      className={`btn btn-outline-primary d-flex justify-content-center align-items-center`} // Added flex classes for centering
+      className={`btn btn-outline-secondary d-flex justify-content-center align-items-center`} // Added flex classes for centering
       title={getId(preset.id, ChordDisplayMode.DisplayName)}
       style={{
         width: "100%",
@@ -98,7 +100,7 @@ const PresetsSelector: React.FC = () => {
     const gridClassName = inputMode === InputMode.IntervalPresets ? "col-6" : "col-3";
 
     return (
-      <div className="row">
+      <div className="row g-1">
         {presets.map((preset) => (
           <div className={gridClassName} key={preset.id}>
             {renderOnePresetButton(preset)}

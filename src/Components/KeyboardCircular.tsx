@@ -1,58 +1,16 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import "../styles/KeyboardPieSlice.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { getBlackWhiteString } from "../utils/ColorUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { useNotes } from "./NotesContext";
 import AccidentalToggle from "./AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
-import { PolarMath } from "../utils/PolarMath";
-import { CommonMath, OUTER_RADIUS } from "../utils/CommonMath";
+import { OUTER_RADIUS } from "../utils/CommonMath";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
+import PieSliceKey from "./PieSlice";
 
-interface PieSliceProps {
-  index: number;
-  onClick: () => void;
-  outerRadius: number;
-  innerRadius: number;
-}
-
-const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick, outerRadius, innerRadius }) => {
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
-  const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
-
-  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
-  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
-  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
-  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
-
-  const blackWhiteClass = getBlackWhiteString(index as ActualIndex);
-  const isSelected = selectedNoteIndices.includes(index as ActualIndex);
-  const selectedClass = isSelected ? "selected" : "";
-  const middleRadius = (innerRadius + outerRadius) / 2;
-  const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle);
-
-  const pathData = [
-    `M ${outerStart.x} ${outerStart.y}`,
-    `A ${outerRadius} ${outerRadius} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
-    `L ${innerEnd.x} ${innerEnd.y}`,
-    `A ${innerRadius} ${innerRadius} 0 0 0 ${innerStart.x} ${innerStart.y}`,
-    "Z",
-  ].join(" ");
-
-  return (
-    <g className={`pie-slice-key ${blackWhiteClass} ${selectedClass}`}>
-      <path d={pathData} onClick={onClick} />
-      <text x={textPosition.x} y={textPosition.y} textAnchor="middle" dominantBaseline="middle">
-        {getNoteTextFromIndex(index as ActualIndex, selectedAccidental)}
-      </text>
-    </g>
-  );
-};
-
-const KeyboardPieSlice: React.FC = () => {
+const KeyboardCircular: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
   const handleClick = (index: number) => {
@@ -67,7 +25,7 @@ const KeyboardPieSlice: React.FC = () => {
 
   useEffect(() => {
     const updateDimensions = () => {
-      const container = document.querySelector(".keyboardpieslice-container");
+      const container = document.querySelector(".keyboardcircular-container");
       const containerWidth = container?.clientWidth || 2 * OUTER_RADIUS;
       const containerHeight = container?.clientHeight || 2 * OUTER_RADIUS;
       const newOuterRadius = (0.65 * Math.min(containerWidth, containerHeight)) / 2;
@@ -86,6 +44,7 @@ const KeyboardPieSlice: React.FC = () => {
 
   const innerRadius = 0.5 * outerRadius;
 
+  //CONSIDER MOVING THE TOPBAR OUTSIDE THIS COMPONENT
   return (
     <div>
       <div className="d-flex justify-content-between w-100" id="keyboardpieslice-topbar">
@@ -121,4 +80,4 @@ const KeyboardPieSlice: React.FC = () => {
   );
 };
 
-export default KeyboardPieSlice;
+export default KeyboardCircular;

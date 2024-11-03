@@ -63,8 +63,10 @@ const ModeSelector = () => {
           <button
             key={mode}
             type="button"
-            className={`btn btn-outline-primary ${inputMode === mode ? "active" : ""}`} // Changed to grey color scheme
+            className={`btn btn-outline-secondary ${inputMode === mode ? "active" : ""}`}
             style={{
+              maxWidth: "140px",
+              textAlign: "center",
               height: "30px",
               display: "flex",
               alignItems: "center",
