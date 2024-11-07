@@ -60,9 +60,14 @@ const PresetsSelector: React.FC = () => {
               <button
                 key={i}
                 onClick={() => handleInversionChange(ixInversion(i))}
-                className={`btn btn-primary me-1 ${
+                className={`btn btn-outline-primary me-1 ${
                   selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
                 }`}
+                style={{
+                  backgroundColor:
+                    selectedInversionIndex === ixInversion(i) ? "#2196F3" : "#f0f0f0",
+                  color: selectedInversionIndex === ixInversion(i) ? "white" : "black",
+                }}
               >
                 {ixInversion(i)}
               </button>
