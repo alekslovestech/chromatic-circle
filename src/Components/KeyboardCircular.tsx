@@ -13,9 +13,6 @@ import PieSliceKey from "./PieSlice";
 const KeyboardCircular: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
-  const handleClick = (index: number) => {
-    handleKeyClick(index as ActualIndex);
-  };
 
   const [outerRadius, setOuterRadius] = React.useState(OUTER_RADIUS);
 
@@ -68,8 +65,8 @@ const KeyboardCircular: React.FC = () => {
           {Array.from({ length: TWELVE }).map((_, index) => (
             <PieSliceKey
               key={index}
-              index={index}
-              onClick={() => handleClick(index)}
+              index={index as ActualIndex}
+              onClick={() => handleKeyClick(index as ActualIndex)}
               outerRadius={outerRadius}
               innerRadius={innerRadius}
             />

@@ -3,7 +3,7 @@ import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
 import "../styles/ModeSelector.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ixActualArray, ixInversion } from "../types/IndexTypes";
+import { ActualIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 
 const ModeSelector = () => {
   const {
@@ -20,23 +20,31 @@ const ModeSelector = () => {
     setSelectedInversionIndex(ixInversion(0));
     const origNoteIndices = selectedNoteIndices;
     let newChordType;
-    let newNoteIndices;
+    let newNoteIndices: ActualIndex[];
 
-    if (newMode === InputMode.SingleNote || newMode === InputMode.Toggle) {
-      newChordType = "Note";
-      newNoteIndices = ixActualArray([7]); // Default to G
-    } else if (newMode === InputMode.IntervalPresets) {
-      newChordType = "Interval_Maj3";
-      newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        origNoteIndices[0],
-        "Interval_Maj3",
-      );
-    } else if (newMode === InputMode.ChordPresets) {
-      newChordType = "Chord_Maj";
-      newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        origNoteIndices[0],
-        "Chord_Maj",
-      );
+    switch (newMode) {
+      case InputMode.SingleNote:
+        newChordType = "Note";
+        newNoteIndices =
+          origNoteIndices.length > 0 ? ixActualArray([origNoteIndices[0]]) : ixActualArray([7]); // Default to G if no notes are selected
+        break;
+      case InputMode.IntervalPresets:
+        newChordType = "Interval_Maj3";
+        newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+          origNoteIndices[0],
+          "Interval_Maj3",
+        );
+        break;
+      case InputMode.ChordPresets:
+        newChordType = "Chord_Maj";
+        newNoteIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+          origNoteIndices[0],
+          "Chord_Maj",
+        );
+        break;
+      default:
+        //Doing nothing when switching to Freeform mode, preserving current state
+        newNoteIndices = origNoteIndices;
     }
 
     setSelectedChordType(newChordType || "Note");
