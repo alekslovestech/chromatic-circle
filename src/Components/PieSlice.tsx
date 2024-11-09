@@ -6,7 +6,7 @@ import { PolarMath } from "../utils/PolarMath";
 import { useNotes } from "./NotesContext";
 
 interface PieSliceProps {
-  index: number;
+  index: ActualIndex;
   onClick: () => void;
   outerRadius: number;
   innerRadius: number;

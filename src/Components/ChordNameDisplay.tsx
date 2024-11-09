@@ -62,12 +62,11 @@ const ChordNameDisplay: React.FC = () => {
     <div className="chord-display">
       {renderNoteGrouping(inputMode)}
       {renderChordNotes()}
-      {inputMode === InputMode.Toggle ||
-        (inputMode === InputMode.ChordPresets && (
-          <button className="chord-display-mode-toggle" onClick={toggleChordDisplayMode}>
-            Long / Short
-          </button>
-        ))}
+      {(inputMode === InputMode.Toggle || inputMode === InputMode.ChordPresets) && (
+        <button className="chord-display-mode-toggle" onClick={toggleChordDisplayMode}>
+          Long / Short
+        </button>
+      )}
     </div>
   );
 };

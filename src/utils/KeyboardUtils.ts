@@ -3,7 +3,6 @@ import { NoteGroupingId } from "../types/NoteGrouping";
 import { InputMode } from "../types/InputMode";
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
-import { TWELVE } from "../types/NoteConstants";
 
 export function isRootNote(
   index: ActualIndex,
@@ -16,7 +15,7 @@ export function isRootNote(
     return false;
   }
   const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
-  return index === rootNote; //|| index === rootNote + TWELVE;
+  return index === rootNote;
 }
 
 export function calculateUpdatedIndices(
