@@ -42,7 +42,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
 
     const path = document.createElementNS(SVG_URL, "path");
     path.setAttribute("d", `M0,0 L${innerPoint.x},${innerPoint.y}`);
-    path.setAttribute("stroke", getComputedColor("--key-border"));
+    path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke"));
     path.setAttribute("stroke-width", "2");
     path.classList.add("selected-note-line");
 
@@ -61,7 +61,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
   circle.setAttribute("cy", innerPoint.y.toString());
   circle.setAttribute("r", "5");
   circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
-  circle.setAttribute("stroke", getComputedColor("--key-border"));
+  circle.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke"));
   circle.setAttribute("stroke-width", "1");
   circle.classList.add("selected-note-line");
 
@@ -92,9 +92,7 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
     const path = document.createElementNS(SVG_URL, "path");
     path.setAttribute("d", `M${startPoint.x},${startPoint.y} L${endPoint.x},${endPoint.y}`);
 
-    const noteDistance = CommonMath.noteDistance(currentIndex, nextIndex);
-    const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
-    path.setAttribute("stroke", `hsl(${hue}, 100%, 50%)`);
+    path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke")); // Use grey color at all times
 
     path.setAttribute("stroke-width", "2");
     path.classList.add("selected-note-line");
