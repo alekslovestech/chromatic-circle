@@ -10,23 +10,23 @@
 }
 
 .pie-slice-key.white path {
-  fill: var(--key-white);
+  fill: var(--serenity-key-white);
   stroke: grey;
   stroke-width: 1px;
 }
 
 .pie-slice-key.black path {
-  fill: var(--key-black);
+  fill: var(--serenity-key-black);
   stroke: grey;
   stroke-width: 1px;
 }
 
 .pie-slice-key.white.selected path {
-  fill: var(--key-white-selected0);
+  fill: var(--serenity-key-white-selected0);
 }
 
 .pie-slice-key.black.selected path {
-  fill: var(--key-black-selected0);
+  fill: var(--serenity-key-black-selected0);
 }
 
 .pie-slice-key.white text {

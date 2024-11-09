@@ -38,7 +38,7 @@
   height: 100%;
   z-index: 1;
   color: var(--note-text-on-white);
-  background-color: var(--key-white);
+  background-color: var(--serenity-key-white);
 }
 
 /* Media query for larger screens */
@@ -49,7 +49,7 @@
 }
 
 .piano-key.white.selected {
-  background-color: var(--key-white-selected0);
+  background-color: var(--serenity-key-white-selected0);
 }
 
 .piano-key.black {
@@ -63,12 +63,12 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 5px;
-  background-color: var(--key-black);
+  background-color: var(--serenity-key-black);
   color: var(--note-text-on-black);
 }
 
 .piano-key.black.selected {
-  background-color: var(--key-black-selected0);
+  background-color: var(--serenity-key-black-selected0);
 }
 
 .piano-key.black span {

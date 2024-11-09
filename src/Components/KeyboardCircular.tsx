@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/KeyboardPieSlice.css";
+import "../styles/KeyboardCircular.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
