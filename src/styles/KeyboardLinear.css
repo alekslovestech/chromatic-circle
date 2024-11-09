@@ -21,8 +21,9 @@
   justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
-  font-size: calc(1vw + 5px);
+  font-size: 0.8em;
   font-weight: bold;
+  padding: 0 5px; /* Added padding to center the text */
 }
 
 .piano-key.white.root-note {
@@ -37,16 +38,10 @@
   width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
   height: 100%;
   z-index: 1;
-  color: var(--note-text-on-white);
+  color: var(--serenity-note-text-on-white);
   background-color: var(--serenity-key-white);
 }
 
-/* Media query for larger screens */
-@media (min-width: 450px) {
-  .piano-key {
-    font-size: calc(1vw + 3px) 
-  }
-}
 
 .piano-key.white.selected {
   background-color: var(--serenity-key-white-selected0);
@@ -64,7 +59,7 @@
   justify-content: flex-start;
   padding-left: 5px;
   background-color: var(--serenity-key-black);
-  color: var(--note-text-on-black);
+  color: var(--serenity-note-text-on-black);
 }
 
 .piano-key.black.selected {

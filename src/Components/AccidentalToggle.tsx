@@ -18,7 +18,7 @@ const AccidentalToggle: React.FC = () => {
         onClick={toggleAccidental}
         style={{
           backgroundColor: getComputedColor(`--key-black`),
-          color: getComputedColor(`--note-text-on-black`),
+          color: getComputedColor(`--serenity-note-text-on-black`),
         }}
       >
         {getAccidentalSign(selectedAccidental, NotationType.ScreenDisplay)}

@@ -9,16 +9,18 @@
   opacity: 0.8;
 }
 
-.pie-slice-key.white path {
-  fill: var(--serenity-key-white);
+.pie-slice-key path {
   stroke: grey;
   stroke-width: 1px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.pie-slice-key.white path {
+  fill: var(--serenity-key-white);
 }
 
 .pie-slice-key.black path {
   fill: var(--serenity-key-black);
-  stroke: grey;
-  stroke-width: 1px;
 }
 
 .pie-slice-key.white.selected path {
@@ -30,15 +32,15 @@
 }
 
 .pie-slice-key.white text {
-  fill: var(--note-text-on-white);
+  fill: var(--serenity-note-text-on-white);
 }
 
 .pie-slice-key.black text {
-  fill: var(--note-text-on-black);
+  fill: var(--serenity-note-text-on-black);
 }
 
 .pie-slice-key text {
-  font-size: 13px;
+  font-size: 1.2em;
   font-weight: bold;
   pointer-events: none;
 }

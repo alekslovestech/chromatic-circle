@@ -29,14 +29,6 @@
   --serenity-key-white-selected1: #F3D9A4;
   --serenity-key-black-selected0: #6BB4C7;
   --serenity-key-black-selected1: #D3B77E;
+  --serenity-note-text-on-white: #333333;
+  --serenity-note-text-on-black: #F5F5F5;
 }
-
-/*--white-key-unselected: #FAFAF6;
-  --black-key-unselected: #444444;
-
-  --white-key-octave-0: #A8D5E2;
-  --white-key-octave-1: #F3D9A4;
-
-  --black-key-octave-0: #6BB4C7;
-  --black-key-octave-1: #D3B77E;
-  */

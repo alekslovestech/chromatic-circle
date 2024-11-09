@@ -5,6 +5,7 @@ body {
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #F7F8FA, #EAEFF3);
 }
 
 :root {
