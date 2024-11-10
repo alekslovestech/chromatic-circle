@@ -1,5 +1,4 @@
 import { ActualIndex } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
 import { getComputedColor } from "../utils/ColorUtils";
 import { CommonMath } from "../utils/CommonMath";
 import { PolarMath } from "../utils/PolarMath";

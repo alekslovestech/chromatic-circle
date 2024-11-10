@@ -99,7 +99,8 @@ h3 {
     width: 25px;
     height: 25px;
     font-size: 12px;
-    background-color: #f0f0f0;
+    background-color: red; /* #E0E0E0; /* Light neutral grey */
+    color: blue; /* #333333; */
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
@@ -108,10 +109,11 @@ h3 {
 }
 
 .inversion-buttons button:hover {
-    background-color: #e0e0e0;
+    background-color: #C9C9C9; /* Slightly darker grey */
+    border-color: #B0B0B0;
 }
 
 .inversion-buttons button.selected-inversion {
-    background-color: #2196F3;
-    color: white;
+    background-color: red; /*#A8D5E2;*/
+    color: yellowgreen;
 }
