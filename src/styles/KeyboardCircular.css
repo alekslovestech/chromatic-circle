@@ -12,7 +12,7 @@
 .pie-slice-key path {
   stroke: grey;
   stroke-width: 1px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--serenity-border-color);
 }
 
 .pie-slice-key.white path {
