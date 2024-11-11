@@ -48,6 +48,18 @@ const PresetsSelector: React.FC = () => {
     setSelectedNoteIndices(updatedIndices);
   };
 
+  const renderOneInversionButton = (i: InversionIndex) => (
+    <button
+      key={i}
+      onClick={() => handleInversionChange(ixInversion(i))}
+      className={`inversion-buttons button ${
+        selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
+      }`}
+    >
+      {ixInversion(i)}
+    </button>
+  );
+
   const renderInversionButtons = () => {
     const presetDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
     if (presetDefinition && presetDefinition.hasInversions()) {
@@ -56,22 +68,9 @@ const PresetsSelector: React.FC = () => {
         <div className="inversion-controls d-flex flex-column justify-content-center align-items-center ">
           <span className="me-2">Inversion:</span>
           <div className="d-flex">
-            {Array.from({ length: inversionCount }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => handleInversionChange(ixInversion(i))}
-                className={`btn btn-outline-primary me-1 ${
-                  selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
-                }`}
-                style={{
-                  backgroundColor:
-                    selectedInversionIndex === ixInversion(i) ? "#2196F3" : "#f0f0f0",
-                  color: selectedInversionIndex === ixInversion(i) ? "white" : "black",
-                }}
-              >
-                {ixInversion(i)}
-              </button>
-            ))}
+            {Array.from({ length: inversionCount }, (_, i) =>
+              renderOneInversionButton(ixInversion(i)),
+            )}
           </div>
         </div>
       );

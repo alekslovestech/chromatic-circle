@@ -1,4 +1,5 @@
 import { ActualIndex } from "../types/IndexTypes";
+import { TWELVE } from "../types/NoteConstants";
 import { getBlackWhiteString } from "../utils/ColorUtils";
 import { CommonMath } from "../utils/CommonMath";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
@@ -6,23 +7,32 @@ import { PolarMath } from "../utils/PolarMath";
 import { useNotes } from "./NotesContext";
 
 interface PieSliceProps {
-  index: ActualIndex;
+  actualIndex: ActualIndex;
   onClick: () => void;
   outerRadius: number;
   innerRadius: number;
 }
 
-const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick, outerRadius, innerRadius }) => {
+const PieSliceKey: React.FC<PieSliceProps> = ({
+  actualIndex,
+  onClick,
+  outerRadius,
+  innerRadius,
+}) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
-  const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(index);
+  const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
 
   const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
   const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
   const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
   const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
 
-  const blackWhiteClass = getBlackWhiteString(index as ActualIndex);
-  const isSelected = selectedNoteIndices.includes(index as ActualIndex);
+  const blackWhiteClass = getBlackWhiteString(actualIndex);
+
+  const isSelected0 = selectedNoteIndices.includes(actualIndex);
+  const isSelected1 = selectedNoteIndices.includes((actualIndex + TWELVE) as ActualIndex);
+  const isSelected = isSelected0 || isSelected1;
+
   const selectedClass = isSelected ? "selected" : "";
   const middleRadius = (innerRadius + outerRadius) / 2;
   const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle);
@@ -39,7 +49,7 @@ const PieSliceKey: React.FC<PieSliceProps> = ({ index, onClick, outerRadius, inn
     <g className={`pie-slice-key ${blackWhiteClass} ${selectedClass}`}>
       <path d={pathData} onClick={onClick} />
       <text x={textPosition.x} y={textPosition.y} textAnchor="middle" dominantBaseline="middle">
-        {getNoteTextFromIndex(index as ActualIndex, selectedAccidental)}
+        {getNoteTextFromIndex(actualIndex, selectedAccidental)}
       </text>
     </g>
   );

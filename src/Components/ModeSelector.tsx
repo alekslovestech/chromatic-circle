@@ -1,7 +1,6 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import { InputMode } from "../types/InputMode";
-import "../styles/ModeSelector.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ActualIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 

@@ -58,6 +58,6 @@ export function chromaticToActual(
 export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
   return {
     chromaticIndex: ixChromatic(actualIndex % TWELVE),
-    octaveOffset: ixOctaveOffset(Math.floor(actualIndex / TWELVE)),
+    octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
   };
 }

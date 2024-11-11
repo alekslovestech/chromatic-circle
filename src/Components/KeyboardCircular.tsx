@@ -65,7 +65,7 @@ const KeyboardCircular: React.FC = () => {
           {Array.from({ length: TWELVE }).map((_, index) => (
             <PieSliceKey
               key={index}
-              index={index as ActualIndex}
+              actualIndex={index as ActualIndex}
               onClick={() => handleKeyClick(index as ActualIndex)}
               outerRadius={outerRadius}
               innerRadius={innerRadius}
