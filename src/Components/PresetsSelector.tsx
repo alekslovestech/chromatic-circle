@@ -48,15 +48,13 @@ const PresetsSelector: React.FC = () => {
     setSelectedNoteIndices(updatedIndices);
   };
 
-  const renderOneInversionButton = (i: InversionIndex) => (
+  const renderOneInversionButton = (inversionIndex: InversionIndex) => (
     <button
-      key={i}
-      onClick={() => handleInversionChange(ixInversion(i))}
-      className={`inversion-buttons button ${
-        selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
-      }`}
+      key={inversionIndex}
+      onClick={() => handleInversionChange(inversionIndex)}
+      className={`btn btn-outline-secondary`}
     >
-      {ixInversion(i)}
+      {inversionIndex}
     </button>
   );
 
@@ -67,7 +65,7 @@ const PresetsSelector: React.FC = () => {
       return (
         <div className="col-12 inversion-controls d-flex flex-column align-items-center">
           <div className="text-center">Inversion</div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center gap-2">
             {Array.from({ length: inversionCount }, (_, i) =>
               renderOneInversionButton(ixInversion(i)),
             )}

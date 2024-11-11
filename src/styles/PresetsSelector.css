@@ -87,9 +87,7 @@ h3 {
 .inversion-buttons {
     display: flex;
     gap: 5px;
-    align-items: center;
-    margin-top: 5px;
-    margin-left: 20%;
+    margin: 5px 20% 0;
     width: 70%;
     max-width: var(--buttons-container-max-width);
     justify-content: center; 
@@ -105,15 +103,13 @@ h3 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    padding: 0;
 }
 
 .inversion-buttons button:hover {
-    background-color: #C9C9C9; /* Slightly darker grey */
-    border-color: #B0B0B0;
+    background-color: #C9C9C9;
 }
 
-.inversion-buttons button.selected-inversion {
+.inversion-buttons button.selected {
     background-color: red; /*#A8D5E2;*/
     color: yellowgreen;
 }
