@@ -15,7 +15,7 @@ body {
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
-  --debug-border-color:  transparent;
+  --debug-border-color:  grey;
 }
 
 .App {

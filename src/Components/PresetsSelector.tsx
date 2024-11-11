@@ -65,9 +65,9 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions()) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="inversion-controls d-flex flex-column justify-content-center align-items-center ">
-          <span className="me-2">Inversion:</span>
-          <div className="d-flex">
+        <div className="col-12 inversion-controls d-flex flex-column align-items-center">
+          <div className="text-center">Inversion</div>
+          <div className="d-flex justify-content-center">
             {Array.from({ length: inversionCount }, (_, i) =>
               renderOneInversionButton(ixInversion(i)),
             )}
@@ -115,15 +115,13 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div className="presets-selector container">
-      <h3 className="text-center" hidden={true}>
+    <div>
+      <div className="presets-selector container">
+        {/*<h3 className="text-center" hidden={true}>
         {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-      </h3>
-      <div className="row">
-        <div className="col-12">{renderPresetButtons()}</div>
-      </div>
-      <div className="row">
-        <div className="col-12">{renderInversionButtons()}</div>
+      </h3>*/}
+        {renderPresetButtons()}
+        <div className="row">{renderInversionButtons()}</div>
       </div>
     </div>
   );
