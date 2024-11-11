@@ -48,15 +48,13 @@ const PresetsSelector: React.FC = () => {
     setSelectedNoteIndices(updatedIndices);
   };
 
-  const renderOneInversionButton = (i: InversionIndex) => (
+  const renderOneInversionButton = (inversionIndex: InversionIndex) => (
     <button
-      key={i}
-      onClick={() => handleInversionChange(ixInversion(i))}
-      className={`inversion-buttons button ${
-        selectedInversionIndex === ixInversion(i) ? "selected-inversion" : ""
-      }`}
+      key={inversionIndex}
+      onClick={() => handleInversionChange(inversionIndex)}
+      className={`btn btn-outline-secondary`}
     >
-      {ixInversion(i)}
+      {inversionIndex}
     </button>
   );
 
@@ -65,9 +63,9 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions()) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="inversion-controls d-flex flex-column justify-content-center align-items-center ">
-          <span className="me-2">Inversion:</span>
-          <div className="d-flex">
+        <div className="col-12 inversion-controls d-flex flex-column align-items-center">
+          <div className="text-center">Inversion</div>
+          <div className="d-flex justify-content-center gap-2">
             {Array.from({ length: inversionCount }, (_, i) =>
               renderOneInversionButton(ixInversion(i)),
             )}
@@ -115,15 +113,13 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div className="presets-selector container">
-      <h3 className="text-center" hidden={true}>
+    <div>
+      <div className="presets-selector container">
+        {/*<h3 className="text-center" hidden={true}>
         {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-      </h3>
-      <div className="row">
-        <div className="col-12">{renderPresetButtons()}</div>
-      </div>
-      <div className="row">
-        <div className="col-12">{renderInversionButtons()}</div>
+      </h3>*/}
+        {renderPresetButtons()}
+        <div className="row">{renderInversionButtons()}</div>
       </div>
     </div>
   );
