@@ -2,24 +2,20 @@ import React, { useEffect } from "react";
 import "../styles/KeyboardCircular.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { useNotes } from "./NotesContext";
 import AccidentalToggle from "./AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
 import { OUTER_RADIUS } from "../utils/CommonMath";
-import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
 import PieSliceKey from "./PieSlice";
 
-const KeyboardCircular: React.FC = () => {
-  const { handleKeyClick } = useKeyboardHandlers();
+const KeyboardLogo: React.FC = () => {
   const { selectedNoteIndices, circularVisMode } = useNotes();
 
   const [outerRadius, setOuterRadius] = React.useState(OUTER_RADIUS);
 
   useEffect(() => {
-    console.log(`in KeyboardCircular`);
-    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, innerRadius);
-  }, [selectedNoteIndices, handleKeyClick, circularVisMode, outerRadius]);
+    console.log(`in KeyboardLogo`);
+  }, [selectedNoteIndices, circularVisMode, outerRadius]);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -67,10 +63,10 @@ const KeyboardCircular: React.FC = () => {
             <PieSliceKey
               key={index}
               actualIndex={index as ActualIndex}
-              onClick={() => handleKeyClick(index as ActualIndex)}
+              onClick={() => {}}
               outerRadius={outerRadius}
               innerRadius={innerRadius}
-              showText={true}
+              showText={false}
             />
           ))}
         </svg>
@@ -79,4 +75,4 @@ const KeyboardCircular: React.FC = () => {
   );
 };
 
-export default KeyboardCircular;
+export default KeyboardLogo;

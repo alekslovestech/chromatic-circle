@@ -9,11 +9,15 @@ import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardCircular from "./Components/KeyboardCircular";
 
 import React, { useEffect, useState } from "react";
+import KeyboardLogo from "./Components/KeyboardLogo";
+
+const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
 
+  console.log(`isLogo: ${isLogo}`);
   const handleResize = () => {
     const newWidth = window.innerWidth;
     const newHeight = window.innerHeight;
@@ -40,7 +44,7 @@ function App() {
               <KeyboardLinear />
             </div>
             <div className="keyboardcircular-container" style={borderStyle}>
-              <KeyboardCircular />
+              {isLogo ? <KeyboardLogo /> : <KeyboardCircular />}
             </div>
             <div className="settings-container" style={borderStyle}>
               <ModeSelector />
