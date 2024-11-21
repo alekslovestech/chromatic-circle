@@ -86,11 +86,10 @@ h3 {
 
 .inversion-buttons {
     display: flex;
-    gap: 5px;
-    margin: 5px 20% 0;
-    width: 70%;
-    max-width: var(--buttons-container-max-width);
-    justify-content: center; 
+    gap: 4px;
+    margin-top: 8px;
+    width: auto; /* Remove fixed width */
+    justify-content: center;
 }
 
 .inversion-buttons button {
@@ -103,13 +102,14 @@ h3 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-}
-
-.inversion-buttons button:hover {
-    background-color: #C9C9C9;
-}
-
-.inversion-buttons button.selected {
-    background-color: red; /*#A8D5E2;*/
-    color: yellowgreen;
+    color: blue; /* #333333; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: blue; /* #333333; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }

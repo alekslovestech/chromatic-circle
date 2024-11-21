@@ -76,38 +76,37 @@ const PresetsSelector: React.FC = () => {
     return null;
   };
 
-  const renderOnePresetButton = (preset: ChordDefinition) => (
-    <button
-      key={preset.id}
-      onClick={() => handlePresetChange(preset.id)}
-      className={`btn btn-outline-secondary d-flex justify-content-center align-items-center`} // Added flex classes for centering
-      title={getId(preset.id, ChordDisplayMode.DisplayName)}
-      style={{
-        width: "100%",
-        height: "18px",
-        fontSize: "0.8rem",
-        margin: "2px 0",
-        borderRadius: "0",
-      }} // Set width to 25% for uniformity
-    >
-      {getId(preset.id, ChordDisplayMode.Letters_Long)}
-    </button>
-  );
+  const renderOnePresetButton = (preset: ChordDefinition) => {
+    const gridClassName = inputMode === InputMode.IntervalPresets ? "col-6" : "col-3";
+    return (
+      <div className={gridClassName} key={preset.id}>
+        <button
+          key={preset.id}
+          onClick={() => handlePresetChange(preset.id)}
+          className={`btn btn-outline-secondary d-flex justify-content-center align-items-center`} // Added flex classes for centering
+          title={getId(preset.id, ChordDisplayMode.DisplayName)}
+          style={{
+            width: "100%",
+            maxWidth: "50px",
+            height: "18px",
+            fontSize: "0.8rem",
+            margin: "2px 0",
+            borderRadius: "0",
+          }} // Set width to 25% for uniformity
+        >
+          {getId(preset.id, ChordDisplayMode.Letters_Long)}
+        </button>
+      </div>
+    );
+  };
 
   const renderPresetButtons = () => {
     const presets = ChordAndIntervalManager.IntervalOrChordDefinitions(
       inputMode === InputMode.IntervalPresets,
     );
-
-    const gridClassName = inputMode === InputMode.IntervalPresets ? "col-6" : "col-3";
-
     return (
-      <div className="row g-1">
-        {presets.map((preset) => (
-          <div className={gridClassName} key={preset.id}>
-            {renderOnePresetButton(preset)}
-          </div>
-        ))}
+      <div className="row justify-content-between">
+        {presets.map((preset) => renderOnePresetButton(preset))}
       </div>
     );
   };
