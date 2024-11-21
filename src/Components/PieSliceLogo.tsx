@@ -11,12 +11,10 @@ interface PieSliceLogoProps {
 const PieSliceLogo: React.FC<PieSliceLogoProps> = ({ actualIndex, outerRadius, innerRadius }) => {
   const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
 
-  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
-  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
-  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
-  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
-
-  const blackWhiteClass = getBlackWhiteString(actualIndex);
+  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle, true);
+  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle, true);
+  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle, true);
+  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle, true);
 
   const pathData = [
     `M ${outerStart.x} ${outerStart.y}`,
@@ -26,8 +24,10 @@ const PieSliceLogo: React.FC<PieSliceLogoProps> = ({ actualIndex, outerRadius, i
     "Z",
   ].join(" ");
 
+  const color = getBlackWhiteString(actualIndex);
+
   return (
-    <g className={`pie-slice-key ${blackWhiteClass}`}>
+    <g fill={color}>
       <path d={pathData} />
     </g>
   );
