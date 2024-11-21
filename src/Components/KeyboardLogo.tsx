@@ -1,54 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../styles/KeyboardCircular.css";
 import { TWELVE } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { useNotes } from "./NotesContext";
-import AccidentalToggle from "./AccidentalToggle";
-import CircularVisModeSelect from "./CircularVizModeSelect";
-import { OUTER_RADIUS } from "../utils/CommonMath";
-import PieSliceKey from "./PieSlice";
+import PieSliceLogo from "./PieSliceLogo";
 
 const KeyboardLogo: React.FC = () => {
-  const { selectedNoteIndices, circularVisMode } = useNotes();
-
-  const [outerRadius, setOuterRadius] = React.useState(OUTER_RADIUS);
-
-  useEffect(() => {
-    console.log(`in KeyboardLogo`);
-  }, [selectedNoteIndices, circularVisMode, outerRadius]);
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      const container = document.querySelector(".keyboardcircular-container");
-      const containerWidth = container?.clientWidth || 2 * OUTER_RADIUS;
-      const containerHeight = container?.clientHeight || 2 * OUTER_RADIUS;
-      const newOuterRadius = (0.65 * Math.min(containerWidth, containerHeight)) / 2;
-      console.log(`containerWidth: ${containerWidth}, containerHeight: ${containerHeight}`);
-      console.log(`newOuterRadius: ${newOuterRadius}`);
-      setOuterRadius(newOuterRadius);
-    };
-
-    updateDimensions(); // Initial calculation
-    window.addEventListener("resize", updateDimensions);
-
-    return () => {
-      window.removeEventListener("resize", updateDimensions);
-    };
-  }, []);
-
+  const outerRadius = 50;
+  console.log(`in KeyboardLogo`);
   const innerRadius = 0.5 * outerRadius;
 
-  //CONSIDER MOVING THE TOPBAR OUTSIDE THIS COMPONENT
   return (
     <div>
-      <div className="d-flex justify-content-between w-100" id="keyboardpieslice-topbar">
-        <div className="me-auto">
-          <AccidentalToggle />
-        </div>
-        <div className={`ms-auto ${selectedNoteIndices.length > 1 ? "" : "invisible"}`}>
-          <CircularVisModeSelect />
-        </div>
-      </div>
       <div
         id="svg-container"
         style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
@@ -60,13 +22,11 @@ const KeyboardLogo: React.FC = () => {
           className="keyboardcircular-internal"
         >
           {Array.from({ length: TWELVE }).map((_, index) => (
-            <PieSliceKey
+            <PieSliceLogo
               key={index}
               actualIndex={index as ActualIndex}
-              onClick={() => {}}
               outerRadius={outerRadius}
               innerRadius={innerRadius}
-              showText={false}
             />
           ))}
         </svg>
