@@ -17,6 +17,7 @@ const KeyboardCircular: React.FC = () => {
   const [outerRadius, setOuterRadius] = React.useState(OUTER_RADIUS);
 
   useEffect(() => {
+    console.log(`in KeyboardCircular`);
     drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, innerRadius);
   }, [selectedNoteIndices, handleKeyClick, circularVisMode, outerRadius]);
 
@@ -69,6 +70,7 @@ const KeyboardCircular: React.FC = () => {
               onClick={() => handleKeyClick(index as ActualIndex)}
               outerRadius={outerRadius}
               innerRadius={innerRadius}
+              showText={true}
             />
           ))}
         </svg>

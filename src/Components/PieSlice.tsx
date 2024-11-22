@@ -11,6 +11,7 @@ interface PieSliceProps {
   onClick: () => void;
   outerRadius: number;
   innerRadius: number;
+  showText: boolean;
 }
 
 const PieSliceKey: React.FC<PieSliceProps> = ({
@@ -18,6 +19,7 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
   onClick,
   outerRadius,
   innerRadius,
+  showText,
 }) => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
@@ -48,9 +50,11 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
   return (
     <g className={`pie-slice-key ${blackWhiteClass} ${selectedClass}`}>
       <path d={pathData} onClick={onClick} />
-      <text x={textPosition.x} y={textPosition.y} textAnchor="middle" dominantBaseline="middle">
-        {getNoteTextFromIndex(actualIndex, selectedAccidental)}
-      </text>
+      {showText && (
+        <text x={textPosition.x} y={textPosition.y} textAnchor="middle" dominantBaseline="middle">
+          {getNoteTextFromIndex(actualIndex, selectedAccidental)}
+        </text>
+      )}
     </g>
   );
 };
