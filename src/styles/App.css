@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
   background: linear-gradient(135deg, #F7F8FA, #EAEFF3);
 }
@@ -15,7 +15,7 @@ body {
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
-  --debug-border-color:  grey;
+  --debug-border-color:  rgb(188, 188, 188);
 }
 
 .App {
@@ -82,10 +82,11 @@ body {
 .settings-container {
   grid-area: settings;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display:flex;
+  flex-direction: row;
   overflow: auto;
-  gap: 20px; /* vertical space between mode selector and presets selector*/
+  gap: 10px 0; /* horizontal space between mode selector and presets selector */
+  padding: 20px;
 }
 
 .chord-display-container {
@@ -97,15 +98,23 @@ body {
 
 .notes-renderer-container {
   grid-area: staff;
-  
-  min-width: var(--buttons-container-min-width);
-  max-width: var(--buttons-container-max-width);  
-  
+  height: 120px !important;
+  /*min-width: 700px;*/
+  min-width: 100%;
+  max-width: 100%;  
+  border-bottom: 1px solid rgb(188, 188, 188);
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center content vertically */
   align-items: center; /* Center content horizontally */
-  margin: 20px auto; /* Add vertical margin */
+  margin: 0px auto; /* Add vertical margin */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.btn, .btn-outline-secondary {
+  max-height: 45px !important;
+  border-radius: 4px !important;
 }
 
 .mode-selector-container > *,

@@ -52,15 +52,14 @@ const ModeSelector = () => {
 
   return (
     <div
-      className="btn-group-vertical d-flex flex-column justify-content-center align-items-center"
+      className="btn-group-vertical d-flex flex-column justify-content-left align-items-top"
       role="group"
       aria-label="Mode Selector"
       style={{
         minWidth: "var(--buttons-container-min-width)",
         maxWidth: "var(--buttons-max-width)",
-
         gap: "10px",
-        margin: "0 auto",
+        margin: "0 0",
         // padding: "20px",
       }} // Added margin for horizontal centering
     >
@@ -72,9 +71,9 @@ const ModeSelector = () => {
             type="button"
             className={`btn btn-outline-secondary ${inputMode === mode ? "active" : ""}`}
             style={{
-              maxWidth: "140px",
-              textAlign: "center",
+              width: "140px",
               height: "30px",
+              textAlign: "center",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
