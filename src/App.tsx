@@ -50,7 +50,7 @@ function App() {
               <ModeSelector />
               <PresetsSelector />
             </div>
-            <div className="chord-display-container" style={borderStyle}>
+            <div className="chord-display-container" style={{ display: "none" }}>
               <ChordDisplay />
             </div>
             <div className="notes-renderer-container" style={borderStyle}>

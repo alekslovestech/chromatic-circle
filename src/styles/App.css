@@ -28,13 +28,13 @@ body {
   height: 100vh; 
   width: 100vw; 
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 4fr 3fr 3fr;
+  grid-template-rows: 3fr 3fr 4fr 2fr;
   /*default: portrait mode */
   grid-template-areas:
-    "linear linear"
+    "staff staff"
+    "settings settings"
     "circular circular"
-    "settings chords"
-    "settings staff";
+    "linear linear";
   /* grid-gap: 20px;*/
   overflow: hidden;
   > * {
@@ -46,10 +46,11 @@ body {
 @media (orientation: landscape) {
   .grid-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 2fr 4fr;
+    grid-template-rows:  2fr 2fr 2fr;
     grid-template-areas:
-      "linear linear settings chords"
-      "circular circular settings staff";
+      "circular circular staff staff"
+      "circular circular settings settings"
+      "linear linear settings settings";
   }
 }
 
