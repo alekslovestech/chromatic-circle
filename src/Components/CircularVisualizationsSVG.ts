@@ -2,11 +2,21 @@ import { ActualIndex } from "../types/IndexTypes";
 import { getComputedColor } from "../utils/ColorUtils";
 import { CommonMath } from "../utils/CommonMath";
 import { PolarMath } from "../utils/PolarMath";
-import { CircularVisMode } from "./CircularVisualizations";
-
+import { TWELVE } from "../types/NoteConstants";
 const SVG_URL = "http://www.w3.org/2000/svg";
 const STROKE_WIDTH_LINES = 6;
 const DOT_RADIUS = 6;
+
+export enum CircularVisMode {
+  None = "None",
+  Radial = "Radial",
+  Polygon = "Polygon",
+}
+
+export const colorFromNoteDistance = (noteDistance: number) => {
+  const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
+  return `hsl(${hue}, 100%, 50%)`;
+};
 
 export function drawCircularVisualizationsSVG(
   selectedNoteIndices: ActualIndex[],
@@ -21,7 +31,7 @@ export function drawCircularVisualizationsSVG(
 
   // Only draw visualizations if there's more than one selected note
   if (selectedNoteIndices.length > 1) {
-    if (circularVisMode === CircularVisMode.Arrows)
+    if (circularVisMode === CircularVisMode.Radial)
       drawSelectedNotesArrows(selectedNoteIndices, innerRadius);
     else if (circularVisMode === CircularVisMode.Polygon)
       drawSelectedNotesPolygon(selectedNoteIndices, innerRadius);

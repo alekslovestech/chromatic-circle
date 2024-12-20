@@ -4,7 +4,7 @@ import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { CircularVisMode } from "./CircularVisualizations";
+import { CircularVisMode } from "./CircularVisualizationsSVG";
 
 interface NotesContextType {
   inputMode: InputMode;
@@ -40,7 +40,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
-  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Arrows);
+  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
 
   const value = {
     inputMode,
