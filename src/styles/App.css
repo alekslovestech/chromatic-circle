@@ -25,8 +25,8 @@ body {
 
 .grid-container {
   display: grid;
-  height: 100vh; 
-  width: 100vw; 
+  width: 100vw;
+  height: 100vh;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 3fr 3fr 4fr 2fr;
   /*default: portrait mode */
@@ -66,34 +66,34 @@ body {
 
 .keyboardcircular-container {
   grid-area: circular;
-  width: 100%;
- /* max-width: var(--keyboardcircular-max-width);
-/*
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0.5rem;
   position: relative;
+}
 
-  aspect-ratio: 1 / 1;
- 
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;*/
+#svg-container {
+  justify-self: start;
+  align-self: center;
 }
 
 .settings-container {
   grid-area: settings;
-  height: 100%;
-  display:flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
   overflow: auto;
-  gap: 10px 0; /* horizontal space between mode selector and presets selector */
-  padding: 20px;
+  padding: 1rem;
 }
 
 .chord-display-container {
-  grid-area: chords;
-  display: flex;
-  justify-content: center;
-  align-items: center; /* Center text vertically */
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  justify-items: end;
 }
 
 .notes-renderer-container {

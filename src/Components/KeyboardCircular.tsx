@@ -55,7 +55,13 @@ const KeyboardCircular: React.FC = () => {
       </div>
       <div
         id="svg-container"
-        style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          height: "100%",
+          marginLeft: 0, // Ensure it aligns to the left
+        }} // Changed to align against the left border
       >
         <svg
           width={outerRadius * 2}

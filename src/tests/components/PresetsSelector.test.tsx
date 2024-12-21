@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import PresetsSelector from "../../Components/PresetsSelector";
+import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 
 describe.skip("ChordPresetsSelector", () => {

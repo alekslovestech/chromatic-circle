@@ -3,8 +3,8 @@ import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
 import NotesRenderer from "./Components/NotesRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
-import PresetsSelector from "./Components/PresetsSelector";
-import ModeSelector from "./Components/ModeSelector";
+import PresetsSelector from "./Components/Settings/PresetsSelector";
+import ModeSelector from "./Components/Settings/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardCircular from "./Components/KeyboardCircular";
 
@@ -45,13 +45,13 @@ function App() {
             </div>
             <div className="keyboardcircular-container" style={borderStyle}>
               {isLogo ? <KeyboardLogo /> : <KeyboardCircular />}
+              <div className="chord-display-container">
+                <ChordDisplay />
+              </div>
             </div>
             <div className="settings-container" style={borderStyle}>
               <ModeSelector />
               <PresetsSelector />
-            </div>
-            <div className="chord-display-container" style={{ display: "none" }}>
-              <ChordDisplay />
             </div>
             <div className="notes-renderer-container" style={borderStyle}>
               <NotesRenderer />
