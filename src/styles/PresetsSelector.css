@@ -1,67 +1,76 @@
-.presets-selector {
-    display: grid;
-    gap: 1rem;
-    padding: 1rem;
-    height: 100%;
-}
-
-.preset-grid {
-    display: grid;
-    gap: 0.5rem;
-    align-content: start;
-}
-
-.preset-grid.chord {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.preset-grid.interval {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.preset-button {
+.presets-selector > * {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--serenity-border-color);
-    border-radius: 4px;
-    background: var(--serenity-button-bg);
-    color: var(--serenity-button-text);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
 }
 
-.preset-button:hover {
-    background: var(--serenity-button-hover-bg);
+.presets-selector {
+    flex: 1;
+    max-width: 100%;
 }
 
-.preset-button.active {
-    background: var(--serenity-button-active-bg);
-    color: var(--serenity-button-active-text);
+.preset-buttons-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.preset-buttons-grid {
+    display: grid;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.preset-button-wrapper {
+    min-width: 0;  /* Allow shrinking */
+}
+
+.btn-preset {
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inversion-controls {
+    margin-top: 1rem;
 }
 
 .inversion-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(2.5rem, 1fr));
+    display: flex;
     gap: 0.5rem;
-    max-width: 300px;
-    margin: 0 auto;
+    justify-content: center;
+    margin-top: 0.5rem;
 }
 
-.inversion-button {
+.btn-inversion {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    border: 1px solid var(--serenity-border-color);
-    background: var(--serenity-button-bg);
-    color: var(--serenity-button-text);
-    transition: all 0.2s ease;
 }
 
-.inversion-button:hover {
-    background: var(--serenity-button-hover-bg);
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
 }
 
-.inversion-button.active {
-    background: var(--serenity-button-active-bg);
-    color: var(--serenity-button-active-text);
+.row > div {
+    display: flex;
+    padding: 0.125rem;
+}
+
+.row > div > button {
+    flex: 1;
+}
+
+/* Remove old grid classes */
+.preset-grid,
+.preset-grid.chord,
+.preset-grid.interval {
+    display: none;
 }

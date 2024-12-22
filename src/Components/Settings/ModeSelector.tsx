@@ -1,6 +1,7 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
 import { InputMode } from "../../types/InputMode";
+import "../../styles/ModeSelector.css";
 
 interface ModeSelectorButton {
   mode: InputMode;
@@ -13,12 +14,12 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
     description: "Click notes to toggle them on/off",
   },
   {
-    mode: InputMode.ChordPresets,
-    description: "Select from predefined chord patterns",
-  },
-  {
     mode: InputMode.IntervalPresets,
     description: "Select from predefined intervals",
+  },
+  {
+    mode: InputMode.ChordPresets,
+    description: "Select from predefined chord patterns",
   },
 ];
 
@@ -37,7 +38,7 @@ export const ModeSelector: React.FC = () => {
           <button
             key={mode}
             onClick={() => handleModeChange(mode)}
-            className={`mode-button ${inputMode === mode ? "active" : ""}`}
+            className={`btn btn-outline-secondary ${inputMode === mode ? "active" : ""}`}
             title={description}
           >
             {mode.toString()}

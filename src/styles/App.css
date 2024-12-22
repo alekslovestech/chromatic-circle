@@ -80,11 +80,11 @@ body {
 
 .settings-container {
   grid-area: settings;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  display: flex;
   gap: 1rem;
   overflow: auto;
   padding: 1rem;
+  padding-right: 2rem;
 }
 
 .chord-display-container {
@@ -117,36 +117,7 @@ body {
   border-radius: 4px !important;
 }
 
-.mode-selector-container > *,
-.presets-selector > *,
 .chord-display-container > *,
 .notes-renderer-container > * {
   width: 100%;
-  /*min-width: var(--buttons-container-min-width);
-  max-width: var(--buttons-container-max-width);  */
-}
-
-.chord-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.interval-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.keyboardlinear-container,
-.keyboardcircular-container,
-.settings-container,
-.chord-display-container,
-.notes-renderer-container {
-  height: 100%;
- /* overflow: auto;*/
 }

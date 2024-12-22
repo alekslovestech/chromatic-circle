@@ -1,0 +1,22 @@
+.mode-selector {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.mode-selector .btn {
+  width: 100%;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 12px !important;
+}
+
+.mode-selector h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.mode-selector-container > * {
+  width: 100%;
+} 
