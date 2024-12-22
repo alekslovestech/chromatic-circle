@@ -14,6 +14,10 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
     description: "Click notes to toggle them on/off",
   },
   {
+    mode: InputMode.SingleNote,
+    description: "Click a note to select it",
+  },
+  {
     mode: InputMode.IntervalPresets,
     description: "Select from predefined intervals",
   },
@@ -31,8 +35,8 @@ export const ModeSelector: React.FC = () => {
   };
 
   return (
-    <div className="mode-selector">
-      <h3>Input Mode</h3>
+    <div className="mode-selector text-center">
+      <div className="mode-selector-title">Input Mode</div>
       <div className="mode-buttons">
         {AVAILABLE_MODES.map(({ mode, description }) => (
           <button
