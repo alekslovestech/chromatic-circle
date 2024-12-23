@@ -1,6 +1,6 @@
 import React from "react";
-import { TWELVE } from "../types/NoteConstants";
-import { ActualIndex } from "../types/IndexTypes";
+import { TWELVE } from "../../types/NoteConstants";
+import { ActualIndex } from "../../types/IndexTypes";
 import PieSliceLogo from "./PieSliceLogo";
 
 const KeyboardLogo: React.FC = () => {
@@ -9,10 +9,7 @@ const KeyboardLogo: React.FC = () => {
   const innerRadius = 0.5 * outerRadius;
 
   return (
-    <div
-      id="svg-container"
-      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
-    >
+    <div id="svg-container" className="svg-container">
       <svg
         width={outerRadius * 2}
         height={outerRadius * 2}

@@ -1,10 +1,21 @@
+/* Container Layout */
+.svg-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  margin-left: 0;
+}
+
+/* Top Bar */
+#keyboardpieslice-topbar {
+  padding: 0.5rem;
+}
+
+/* Pie Slice Keys */
 .pie-slice-key {
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.pie-slice-key:hover path {
-  opacity: 0.8;
 }
 
 .pie-slice-key path {
@@ -13,6 +24,12 @@
   border: 1px solid var(--serenity-border-color);
 }
 
+/* Hover States */
+.pie-slice-key:hover path {
+  opacity: 0.8;
+}
+
+/* Key Colors */
 .pie-slice-key.white path {
   fill: var(--serenity-key-white);
 }
@@ -21,6 +38,7 @@
   fill: var(--serenity-key-black);
 }
 
+/* Selected States */
 .pie-slice-key.white.selected path {
   fill: var(--serenity-key-white-selected0);
 }
@@ -29,16 +47,17 @@
   fill: var(--serenity-key-black-selected0);
 }
 
+/* Text Styles */
+.pie-slice-key text {
+  font-size: 1.2em;
+  font-weight: bold;
+  pointer-events: none;
+}
+
 .pie-slice-key.white text {
   fill: var(--serenity-note-text-on-white);
 }
 
 .pie-slice-key.black text {
   fill: var(--serenity-note-text-on-black);
-}
-
-.pie-slice-key text {
-  font-size: 1.2em;
-  font-weight: bold;
-  pointer-events: none;
 }
