@@ -44,7 +44,7 @@ const NotesRenderer: React.FC = () => {
     const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
 
     // Configure the rendering context.
-    renderer.resize(500, 120);
+    renderer.resize(800, 120);
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width half the enclosing container's width.
@@ -77,7 +77,7 @@ const NotesRenderer: React.FC = () => {
     };
   }, [selectedNoteIndices, selectedAccidental]);
 
-  return <div ref={staffDivRef} />;
+  return <div ref={staffDivRef} style={{ height: "100%" }}></div>;
 };
 
 export default NotesRenderer;

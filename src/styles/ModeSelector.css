@@ -1,0 +1,24 @@
+.mode-selector {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.mode-selector-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.mode-selector .btn {
+  width: 100%;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 12px !important;
+}
+
+.mode-selector-container > * {
+  width: 100%;
+} 

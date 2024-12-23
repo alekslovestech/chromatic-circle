@@ -1,13 +1,13 @@
 import React from "react";
-import { useNotes } from "./NotesContext";
-import { getId, NoteGroupingId } from "../types/NoteGrouping";
-import { InputMode } from "../types/InputMode";
-import { InversionIndex, ixInversion } from "../types/IndexTypes";
-import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { IndexUtils } from "../utils/IndexUtils";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import "../styles/PresetsSelector.css";
-import { ChordDefinition } from "../types/ChordDefinition";
+import { useNotes } from "../NotesContext";
+import { getId, NoteGroupingId } from "../../types/NoteGrouping";
+import { InputMode } from "../../types/InputMode";
+import { InversionIndex, ixInversion } from "../../types/IndexTypes";
+import { ChordDisplayMode } from "../../types/ChordDisplayMode";
+import { IndexUtils } from "../../utils/IndexUtils";
+import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
+import "../../styles/PresetsSelector.css";
+import { ChordDefinition } from "../../types/ChordDefinition";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -52,7 +52,7 @@ const PresetsSelector: React.FC = () => {
     <button
       key={inversionIndex}
       onClick={() => handleInversionChange(inversionIndex)}
-      className={`btn btn-outline-secondary`}
+      className={`btn btn-outline-secondary btn-inversion`}
     >
       {inversionIndex}
     </button>
@@ -80,15 +80,8 @@ const PresetsSelector: React.FC = () => {
     <button
       key={preset.id}
       onClick={() => handlePresetChange(preset.id)}
-      className={`btn btn-outline-secondary d-flex justify-content-center align-items-center`} // Added flex classes for centering
+      className={`btn btn-outline-secondary btn-preset`}
       title={getId(preset.id, ChordDisplayMode.DisplayName)}
-      style={{
-        width: "100%",
-        height: "18px",
-        fontSize: "0.8rem",
-        margin: "2px 0",
-        borderRadius: "0",
-      }} // Set width to 25% for uniformity
     >
       {getId(preset.id, ChordDisplayMode.Letters_Long)}
     </button>
@@ -99,15 +92,21 @@ const PresetsSelector: React.FC = () => {
       inputMode === InputMode.IntervalPresets,
     );
 
-    const gridClassName = inputMode === InputMode.IntervalPresets ? "col-6" : "col-3";
+    // Calculate number of columns based on mode
+    const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;
 
     return (
-      <div className="row g-1">
-        {presets.map((preset) => (
-          <div className={gridClassName} key={preset.id}>
-            {renderOnePresetButton(preset)}
-          </div>
-        ))}
+      <div className="preset-buttons-container">
+        <div
+          className="preset-buttons-grid"
+          style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
+        >
+          {presets.map((preset) => (
+            <div className="preset-button-wrapper" key={preset.id}>
+              {renderOnePresetButton(preset)}
+            </div>
+          ))}
+        </div>
       </div>
     );
   };
@@ -119,7 +118,9 @@ const PresetsSelector: React.FC = () => {
         {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
       </h3>*/}
         {renderPresetButtons()}
-        <div className="row">{renderInversionButtons()}</div>
+        {inputMode === InputMode.ChordPresets && (
+          <div className="row">{renderInversionButtons()}</div>
+        )}
       </div>
     </div>
   );

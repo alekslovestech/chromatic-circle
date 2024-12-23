@@ -2,9 +2,21 @@ import { ActualIndex } from "../types/IndexTypes";
 import { getComputedColor } from "../utils/ColorUtils";
 import { CommonMath } from "../utils/CommonMath";
 import { PolarMath } from "../utils/PolarMath";
-import { CircularVisMode } from "./CircularVisualizations";
-
+import { TWELVE } from "../types/NoteConstants";
 const SVG_URL = "http://www.w3.org/2000/svg";
+const STROKE_WIDTH_LINES = 6;
+const DOT_RADIUS = 6;
+
+export enum CircularVisMode {
+  None = "None",
+  Radial = "Radial",
+  Polygon = "Polygon",
+}
+
+export const colorFromNoteDistance = (noteDistance: number) => {
+  const hue = (noteDistance / TWELVE) * 240; // Map note distance from red (0) to blue (240)
+  return `hsl(${hue}, 100%, 50%)`;
+};
 
 export function drawCircularVisualizationsSVG(
   selectedNoteIndices: ActualIndex[],
@@ -19,7 +31,7 @@ export function drawCircularVisualizationsSVG(
 
   // Only draw visualizations if there's more than one selected note
   if (selectedNoteIndices.length > 1) {
-    if (circularVisMode === CircularVisMode.Arrows)
+    if (circularVisMode === CircularVisMode.Radial)
       drawSelectedNotesArrows(selectedNoteIndices, innerRadius);
     else if (circularVisMode === CircularVisMode.Polygon)
       drawSelectedNotesPolygon(selectedNoteIndices, innerRadius);
@@ -42,7 +54,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
     const path = document.createElementNS(SVG_URL, "path");
     path.setAttribute("d", `M0,0 L${innerPoint.x},${innerPoint.y}`);
     path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke"));
-    path.setAttribute("stroke-width", "2");
+    path.setAttribute("stroke-width", STROKE_WIDTH_LINES.toString());
     path.classList.add("selected-note-line");
 
     svgElement.appendChild(path);
@@ -58,7 +70,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
   const circle = document.createElementNS(SVG_URL, "circle");
   circle.setAttribute("cx", innerPoint.x.toString());
   circle.setAttribute("cy", innerPoint.y.toString());
-  circle.setAttribute("r", "5");
+  circle.setAttribute("r", DOT_RADIUS.toString());
   circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
   circle.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke"));
   circle.setAttribute("stroke-width", "1");
@@ -93,7 +105,7 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
 
     path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke")); // Use grey color at all times
 
-    path.setAttribute("stroke-width", "2");
+    path.setAttribute("stroke-width", STROKE_WIDTH_LINES.toString());
     path.classList.add("selected-note-line");
 
     svgElement.appendChild(path);
@@ -108,7 +120,7 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
     const circle = document.createElementNS(SVG_URL, "circle");
     circle.setAttribute("cx", innerPoint.x.toString());
     circle.setAttribute("cy", innerPoint.y.toString());
-    circle.setAttribute("r", "5");
+    circle.setAttribute("r", DOT_RADIUS.toString());
     circle.setAttribute("fill", getComputedColor("--root-note-highlight"));
     circle.setAttribute("stroke", getComputedColor("--key-border"));
     circle.setAttribute("stroke-width", "1");
