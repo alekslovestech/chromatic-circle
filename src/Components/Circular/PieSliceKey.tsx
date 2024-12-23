@@ -1,10 +1,10 @@
-import { ActualIndex } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
-import { getBlackWhiteString } from "../utils/ColorUtils";
-import { CommonMath } from "../utils/CommonMath";
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { PolarMath } from "../utils/PolarMath";
-import { useNotes } from "./NotesContext";
+import { ActualIndex } from "../../types/IndexTypes";
+import { TWELVE } from "../../types/NoteConstants";
+import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { CommonMath } from "../../utils/CommonMath";
+import { getNoteTextFromIndex } from "../../utils/NoteUtils";
+import { PolarMath } from "../../utils/PolarMath";
+import { useNotes } from "../NotesContext";
 
 interface PieSliceProps {
   actualIndex: ActualIndex;

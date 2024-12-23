@@ -8,7 +8,7 @@ import AccidentalToggle from "../AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
 import { OUTER_RADIUS } from "../../utils/CommonMath";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
-import PieSliceKey from "./PieSlice";
+import PieSliceKey from "./PieSliceKey";
 
 const KeyboardCircular: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();

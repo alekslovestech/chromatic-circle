@@ -1,7 +1,7 @@
-import { ActualIndex } from "../types/IndexTypes";
-import { getBlackWhiteString } from "../utils/ColorUtils";
-import { CommonMath } from "../utils/CommonMath";
-import { PolarMath } from "../utils/PolarMath";
+import { ActualIndex } from "../../types/IndexTypes";
+import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { CommonMath } from "../../utils/CommonMath";
+import { PolarMath } from "../../utils/PolarMath";
 
 interface PieSliceLogoProps {
   actualIndex: ActualIndex;
