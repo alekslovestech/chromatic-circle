@@ -6,10 +6,10 @@ import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/Settings/PresetsSelector";
 import ModeSelector from "./Components/Settings/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
-import KeyboardCircular from "./Components/KeyboardCircular";
+import KeyboardCircular from "./Components/Circular/KeyboardCircular";
 
 import React, { useEffect, useState } from "react";
-import KeyboardLogo from "./Components/KeyboardLogo";
+import KeyboardLogo from "./Components/Circular/KeyboardLogo";
 
 const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 

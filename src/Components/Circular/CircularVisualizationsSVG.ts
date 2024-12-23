@@ -1,8 +1,8 @@
-import { ActualIndex } from "../types/IndexTypes";
-import { getComputedColor } from "../utils/ColorUtils";
-import { CommonMath } from "../utils/CommonMath";
-import { PolarMath } from "../utils/PolarMath";
-import { TWELVE } from "../types/NoteConstants";
+import { ActualIndex } from "../../types/IndexTypes";
+import { getComputedColor } from "../../utils/ColorUtils";
+import { CommonMath } from "../../utils/CommonMath";
+import { PolarMath } from "../../utils/PolarMath";
+import { TWELVE } from "../../types/NoteConstants";
 const SVG_URL = "http://www.w3.org/2000/svg";
 const STROKE_WIDTH_LINES = 6;
 const DOT_RADIUS = 6;

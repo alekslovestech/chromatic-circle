@@ -4,7 +4,7 @@ import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGrouping";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { CircularVisMode } from "./CircularVisualizationsSVG";
+import { CircularVisMode } from "./Circular/CircularVisualizationsSVG";
 
 interface NotesContextType {
   inputMode: InputMode;

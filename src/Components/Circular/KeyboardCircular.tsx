@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import "../styles/KeyboardCircular.css";
-import { TWELVE } from "../types/NoteConstants";
-import { ActualIndex } from "../types/IndexTypes";
-import { useKeyboardHandlers } from "./useKeyboardHandlers";
-import { useNotes } from "./NotesContext";
-import AccidentalToggle from "./AccidentalToggle";
+import "../../styles/KeyboardCircular.css";
+import { TWELVE } from "../../types/NoteConstants";
+import { ActualIndex } from "../../types/IndexTypes";
+import { useKeyboardHandlers } from "../useKeyboardHandlers";
+import { useNotes } from "../NotesContext";
+import AccidentalToggle from "../AccidentalToggle";
 import CircularVisModeSelect from "./CircularVizModeSelect";
-import { OUTER_RADIUS } from "../utils/CommonMath";
+import { OUTER_RADIUS } from "../../utils/CommonMath";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
 import PieSliceKey from "./PieSlice";
 
