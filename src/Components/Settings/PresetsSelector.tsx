@@ -118,7 +118,9 @@ const PresetsSelector: React.FC = () => {
         {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
       </h3>*/}
         {renderPresetButtons()}
-        <div className="row">{renderInversionButtons()}</div>
+        {inputMode === InputMode.ChordPresets && (
+          <div className="row">{renderInversionButtons()}</div>
+        )}
       </div>
     </div>
   );

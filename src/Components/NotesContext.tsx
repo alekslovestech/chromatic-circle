@@ -42,6 +42,23 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
 
+  const handleInputModeChange = (newMode: InputMode) => {
+    setInputMode(newMode);
+    // Reset to default preset based on mode
+    switch (newMode) {
+      case InputMode.IntervalPresets:
+        setSelectedChordType("Interval_Maj3" as NoteGroupingId);
+        break;
+      case InputMode.ChordPresets:
+        setSelectedChordType("Chord_Maj" as NoteGroupingId);
+        break;
+      default:
+        setSelectedChordType("Note" as NoteGroupingId);
+    }
+    // Reset inversion
+    setSelectedInversionIndex(ixInversion(0));
+  };
+
   const value = {
     inputMode,
     selectedNoteIndices,
@@ -50,7 +67,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     selectedInversionIndex,
     chordDisplayMode,
     circularVisMode,
-    setInputMode,
+    setInputMode: handleInputModeChange,
     setSelectedNoteIndices,
     setSelectedChordType,
     setSelectedAccidental,
