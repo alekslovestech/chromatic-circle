@@ -16,7 +16,8 @@ const KeyboardCircular: React.FC = () => {
   const { outerRadius, innerRadius } = useCircularLayout();
 
   const svgWidthHeight = outerRadius * 2;
-  const svgViewBox = `-${outerRadius} -${outerRadius} ${svgWidthHeight} ${svgWidthHeight}`;
+  const getViewBox = (outerRadius: number) =>
+    `-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`;
 
   useEffect(() => {
     drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, innerRadius);
@@ -29,7 +30,7 @@ const KeyboardCircular: React.FC = () => {
         <svg
           width={svgWidthHeight}
           height={svgWidthHeight}
-          viewBox={svgViewBox}
+          viewBox={getViewBox(outerRadius)}
           className="keyboardcircular-internal"
         >
           {Array.from({ length: TWELVE }).map((_, index) => (
