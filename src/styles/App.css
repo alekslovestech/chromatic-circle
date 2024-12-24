@@ -35,7 +35,7 @@ body {
     "settings settings"
     "circular circular"
     "linear linear";
-  /* grid-gap: 20px;*/
+  gap: 0.25rem;
   overflow: hidden;
   > * {
     min-height: 0; /* Important for Firefox */
