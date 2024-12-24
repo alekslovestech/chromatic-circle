@@ -4,7 +4,6 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
-import { CircularTopBar } from "./CircularTopBar";
 import { useCircularLayout } from "./useCircularLayout";
 import PieSliceKey from "./PieSliceKey";
 
@@ -25,26 +24,23 @@ const KeyboardCircular: React.FC = () => {
   }, [selectedNoteIndices, circularVisMode, innerRadius]);
 
   return (
-    <div>
-      <CircularTopBar showVisualizationMode={selectedNoteIndices.length > 1} />
-      <svg
-        width={outerDiameter}
-        height={outerDiameter}
-        viewBox={getViewBox(roundedOuterRadius)}
-        className="svg-container"
-      >
-        {Array.from({ length: TWELVE }).map((_, index) => (
-          <PieSliceKey
-            key={index}
-            actualIndex={index as ActualIndex}
-            onClick={() => handleKeyClick(index as ActualIndex)}
-            outerRadius={outerRadius}
-            innerRadius={innerRadius}
-            showText={true}
-          />
-        ))}
-      </svg>
-    </div>
+    <svg
+      width={outerDiameter}
+      height={outerDiameter}
+      viewBox={getViewBox(roundedOuterRadius)}
+      className="svg-container"
+    >
+      {Array.from({ length: TWELVE }).map((_, index) => (
+        <PieSliceKey
+          key={index}
+          actualIndex={index as ActualIndex}
+          onClick={() => handleKeyClick(index as ActualIndex)}
+          outerRadius={outerRadius}
+          innerRadius={innerRadius}
+          showText={true}
+        />
+      ))}
+    </svg>
   );
 };
 

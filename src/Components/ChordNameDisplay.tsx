@@ -39,7 +39,9 @@ const ChordNameDisplay: React.FC = () => {
 
     return (
       <div className="chord-name-description">
-        {qualifier} {noteGrouping?.toString()}:
+        <span>
+          {qualifier} {noteGrouping?.toString()}:
+        </span>
         <br />
         <span className="chord-name-value">{chordName || "Unknown"}</span>
       </div>
