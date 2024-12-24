@@ -1,10 +1,10 @@
-import { ActualIndex } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
-import { getBlackWhiteString } from "../utils/ColorUtils";
-import { CommonMath } from "../utils/CommonMath";
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
-import { PolarMath } from "../utils/PolarMath";
-import { useNotes } from "./NotesContext";
+import { ActualIndex } from "../../types/IndexTypes";
+import { TWELVE } from "../../types/NoteConstants";
+import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { CommonMath } from "../../utils/CommonMath";
+import { getNoteTextFromIndex } from "../../utils/NoteUtils";
+import { PolarMath } from "../../utils/PolarMath";
+import { useNotes } from "../NotesContext";
 
 interface PieSliceProps {
   actualIndex: ActualIndex;
@@ -24,10 +24,12 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   const { startAngle, middleAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
 
-  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
-  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
-  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
-  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
+  const innerRadiusRounded = Math.round(innerRadius * 100) / 100;
+  const outerRadiusRounded = Math.round(outerRadius * 100) / 100;
+  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle, true);
+  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle, true);
+  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle, true);
+  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle, true);
 
   const blackWhiteClass = getBlackWhiteString(actualIndex);
 
@@ -37,13 +39,13 @@ const PieSliceKey: React.FC<PieSliceProps> = ({
 
   const selectedClass = isSelected ? "selected" : "";
   const middleRadius = (innerRadius + outerRadius) / 2;
-  const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle);
+  const textPosition = PolarMath.getCartesianFromPolar(middleRadius, middleAngle, true);
 
   const pathData = [
     `M ${outerStart.x} ${outerStart.y}`,
-    `A ${outerRadius} ${outerRadius} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
+    `A ${outerRadiusRounded} ${outerRadiusRounded} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
     `L ${innerEnd.x} ${innerEnd.y}`,
-    `A ${innerRadius} ${innerRadius} 0 0 0 ${innerStart.x} ${innerStart.y}`,
+    `A ${innerRadiusRounded} ${innerRadiusRounded} 0 0 0 ${innerStart.x} ${innerStart.y}`,
     "Z",
   ].join(" ");
 

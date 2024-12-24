@@ -6,10 +6,11 @@ import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/Settings/PresetsSelector";
 import ModeSelector from "./Components/Settings/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
-import KeyboardCircular from "./Components/KeyboardCircular";
+import KeyboardCircular from "./Components/Circular/KeyboardCircular";
+import { CircularTopBar } from "./Components/Circular/CircularTopBar";
 
 import React, { useEffect, useState } from "react";
-import KeyboardLogo from "./Components/KeyboardLogo";
+import KeyboardLogo from "./Components/Circular/KeyboardLogo";
 
 const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 
@@ -36,7 +37,7 @@ function App() {
   }, []);
 
   return (
-    <div className="Chromatic">
+    <div className="ChromaticCircle">
       <header className="App-header" /* style={borderStyle} */>
         <NotesProvider>
           <div className="grid-container" /* style={borderStyle} */>
@@ -44,10 +45,15 @@ function App() {
               <KeyboardLinear />
             </div>
             <div className="keyboardcircular-container" style={borderStyle}>
-              {isLogo ? <KeyboardLogo /> : <KeyboardCircular />}
-              <div className="chord-display-container">
-                <ChordDisplay />
-              </div>
+              {isLogo ? (
+                <KeyboardLogo />
+              ) : (
+                <>
+                  <CircularTopBar />
+                  <KeyboardCircular />
+                  <ChordDisplay />
+                </>
+              )}
             </div>
             <div className="settings-container" style={borderStyle}>
               <ModeSelector />

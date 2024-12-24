@@ -1,4 +1,4 @@
-import { useNotes } from "./NotesContext";
+import { useNotes } from "../NotesContext";
 import { CircularVisMode } from "./CircularVisualizationsSVG";
 
 const CircularVisModeSelect: React.FC = () => {
