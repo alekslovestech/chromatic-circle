@@ -5,6 +5,8 @@
   align-items: center;
   height: 100%;
   margin-left: 0;
+  padding: 5px;
+  transform: translateX(10px);
 }
 
 /* Top Bar */

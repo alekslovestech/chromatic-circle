@@ -26,25 +26,23 @@ const KeyboardCircular: React.FC = () => {
   return (
     <div>
       <CircularTopBar showVisualizationMode={selectedNoteIndices.length > 1} />
-      <div id="svg-container" className="svg-container">
-        <svg
-          width={svgWidthHeight}
-          height={svgWidthHeight}
-          viewBox={getViewBox(outerRadius)}
-          className="keyboardcircular-internal"
-        >
-          {Array.from({ length: TWELVE }).map((_, index) => (
-            <PieSliceKey
-              key={index}
-              actualIndex={index as ActualIndex}
-              onClick={() => handleKeyClick(index as ActualIndex)}
-              outerRadius={outerRadius}
-              innerRadius={innerRadius}
-              showText={true}
-            />
-          ))}
-        </svg>
-      </div>
+      <svg
+        width={svgWidthHeight}
+        height={svgWidthHeight}
+        viewBox={getViewBox(outerRadius)}
+        className="svg-container"
+      >
+        {Array.from({ length: TWELVE }).map((_, index) => (
+          <PieSliceKey
+            key={index}
+            actualIndex={index as ActualIndex}
+            onClick={() => handleKeyClick(index as ActualIndex)}
+            outerRadius={outerRadius}
+            innerRadius={innerRadius}
+            showText={true}
+          />
+        ))}
+      </svg>
     </div>
   );
 };
