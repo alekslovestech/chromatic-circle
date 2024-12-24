@@ -116,18 +116,15 @@ body {
   word-wrap: break-word;
 }
 
-.notes-renderer-container {
+.staff-container {
   grid-area: staff;
   height: 120px !important;
-  /*min-width: 700px;*/
-  min-width: 100%;
-  max-width: 100%;  
-  border-bottom: 1px solid rgb(188, 188, 188);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  margin: 0px auto; /* Add vertical margin */
+  justify-content: center;
+  align-items: center;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -138,6 +135,6 @@ body {
 }
 
 .chord-display-container > *,
-.notes-renderer-container > * {
+.staff-container > * {
   width: 100%;
 }

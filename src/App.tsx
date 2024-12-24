@@ -1,7 +1,7 @@
 import "./styles/App.css";
 import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
-import NotesRenderer from "./Components/NotesRenderer";
+import StaffRenderer from "./Components/StaffRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
 import PresetsSelector from "./Components/Settings/PresetsSelector";
 import ModeSelector from "./Components/Settings/ModeSelector";
@@ -59,9 +59,7 @@ function App() {
               <ModeSelector />
               <PresetsSelector />
             </div>
-            <div className="notes-renderer-container" style={borderStyle}>
-              <NotesRenderer />
-            </div>
+            <StaffRenderer />
           </div>
           <AudioPlayer />
         </NotesProvider>
