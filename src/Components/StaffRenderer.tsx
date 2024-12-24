@@ -31,7 +31,7 @@ const EasyScoreFromNotes = (
   return [chordNote];
 };
 
-const NotesRenderer: React.FC = () => {
+const StaffRenderer: React.FC = () => {
   const staffDivRef = useRef(null);
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   useEffect(() => {
@@ -80,4 +80,4 @@ const NotesRenderer: React.FC = () => {
   return <div ref={staffDivRef} style={{ height: "100%" }}></div>;
 };
 
-export default NotesRenderer;
+export default StaffRenderer;
