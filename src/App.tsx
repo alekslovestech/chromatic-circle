@@ -59,9 +59,7 @@ function App() {
               <ModeSelector />
               <PresetsSelector />
             </div>
-            <div className="notes-renderer-container" style={borderStyle}>
-              <StaffRenderer />
-            </div>
+            <StaffRenderer />
           </div>
           <AudioPlayer />
         </NotesProvider>
