@@ -15,7 +15,8 @@ const KeyboardCircular: React.FC = () => {
   const { selectedNoteIndices, circularVisMode } = useNotes();
   const { outerRadius, innerRadius } = useCircularLayout();
 
-  const svgWidthHeight = outerRadius * 2;
+  const roundedOuterRadius = Math.round(outerRadius * 100) / 100; // round to 2 decimal places, for viewBox debugging in browser
+  const outerDiameter = 2 * roundedOuterRadius;
   const getViewBox = (outerRadius: number) =>
     `-${outerRadius} -${outerRadius} ${outerRadius * 2} ${outerRadius * 2}`;
 
@@ -27,9 +28,9 @@ const KeyboardCircular: React.FC = () => {
     <div>
       <CircularTopBar showVisualizationMode={selectedNoteIndices.length > 1} />
       <svg
-        width={svgWidthHeight}
-        height={svgWidthHeight}
-        viewBox={getViewBox(outerRadius)}
+        width={outerDiameter}
+        height={outerDiameter}
+        viewBox={getViewBox(roundedOuterRadius)}
         className="svg-container"
       >
         {Array.from({ length: TWELVE }).map((_, index) => (

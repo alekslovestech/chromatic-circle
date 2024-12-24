@@ -73,11 +73,6 @@ body {
   position: relative;
 }
 
-#svg-container {
-  justify-self: start;
-  align-self: center;
-}
-
 .settings-container {
   grid-area: settings;
   display: flex;
