@@ -27,6 +27,9 @@ body {
   display: grid;
   width: 100vw;
   height: 100vh;
+  max-width: 100%;
+  max-height: 100vh;
+  box-sizing: border-box;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 120px 3fr 4fr 2fr;
   /*default: portrait mode */
