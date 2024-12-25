@@ -5,35 +5,31 @@ import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
 import PieSliceKey from "./PieSliceKey";
+import CircularBase, { INNER_RADIUS, OUTER_RADIUS } from "./CircularBase";
 
 import "../../styles/KeyboardCircular.css";
 
 const KeyboardCircular: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
-  const outerRadius = 100; // Fixed outer radius for 200x200 viewBox
-  const innerRadius = 0.5 * outerRadius; // Fixed inner radius at half of outer
 
   useEffect(() => {
-    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, innerRadius);
-  }, [selectedNoteIndices, circularVisMode, innerRadius]);
+    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, INNER_RADIUS);
+  }, [selectedNoteIndices, circularVisMode, INNER_RADIUS]);
 
   return (
-    <svg
-      viewBox="-100 -100 200 200" // Fixed coordinate system
-      className="svg-container"
-    >
+    <CircularBase>
       {Array.from({ length: TWELVE }).map((_, index) => (
         <PieSliceKey
           key={index}
           actualIndex={index as ActualIndex}
           onClick={() => handleKeyClick(index as ActualIndex)}
-          outerRadius={outerRadius}
-          innerRadius={innerRadius}
+          outerRadius={OUTER_RADIUS}
+          innerRadius={INNER_RADIUS}
           showText={true}
         />
       ))}
-    </svg>
+    </CircularBase>
   );
 };
 
