@@ -12,18 +12,17 @@ const AccidentalToggle: React.FC = () => {
   };
 
   return (
-    <div className="accidental-toggle-container">
-      <button
-        className="btn btn-dark"
-        onClick={toggleAccidental}
-        style={{
-          backgroundColor: getComputedColor(`--key-black`),
-          color: getComputedColor(`--serenity-note-text-on-black`),
-        }}
-      >
-        {getAccidentalSign(selectedAccidental, NotationType.ScreenDisplay)}
-      </button>
-    </div>
+    <button
+      className="btn btn-dark"
+      onClick={toggleAccidental}
+      style={{
+        backgroundColor: getComputedColor(`--key-black`),
+        color: getComputedColor(`--serenity-note-text-on-black`),
+        width: "40px", // Fixed width to 40px
+      }}
+    >
+      {getAccidentalSign(selectedAccidental, NotationType.ScreenDisplay)}
+    </button>
   );
 };
 

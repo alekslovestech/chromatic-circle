@@ -76,10 +76,6 @@ body {
   padding: 1rem;
 }
 
-#keyboardpieslice-topbar {
-  grid-area: topbar;
-}
-
 .chord-display-container {
   grid-area: sidebar;
   align-self: end;

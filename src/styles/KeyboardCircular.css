@@ -11,8 +11,14 @@
 }
 
 /* Top Bar */
-#keyboardpieslice-topbar {
+#keyboardcircular-topbar {
+  grid-area: topbar;
   padding: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto; /* Keep the first element flexible and the second fixed */
+  gap: 0; /* Remove the gap to allow full alignment */
+  align-items: center;
+  justify-content: space-between; /* Align items to the leftmost and rightmost edges */
 }
 
 /* Pie Slice Keys */
