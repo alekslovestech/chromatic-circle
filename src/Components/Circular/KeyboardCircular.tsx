@@ -4,15 +4,16 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
-import { useCircularLayout } from "./useCircularLayout";
 import PieSliceKey from "./PieSliceKey";
+import { OUTER_RADIUS } from "../../utils/CommonMath";
 
 import "../../styles/KeyboardCircular.css";
 
 const KeyboardCircular: React.FC = () => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
-  const { outerRadius, innerRadius } = useCircularLayout();
+  const outerRadius = OUTER_RADIUS;
+  const innerRadius = 0.5 * outerRadius;
 
   const roundedOuterRadius = Math.round(outerRadius * 100) / 100; // round to 2 decimal places, for viewBox debugging in browser
   const outerDiameter = 2 * roundedOuterRadius;

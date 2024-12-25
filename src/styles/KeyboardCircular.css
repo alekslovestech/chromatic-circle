@@ -1,13 +1,16 @@
 /* Container Layout */
 .svg-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-  margin-left: 0;
-  padding: 5px;
-  justify-self: start;
+  grid-area: circular-keyboard;
+  justify-self: center;
   align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  max-width: min(100%, calc(100vh - 80px));
+  padding: 5px;
 }
 
 /* Top Bar */
@@ -15,10 +18,14 @@
   grid-area: topbar;
   padding: 0.5rem;
   display: grid;
-  grid-template-columns: 1fr auto; /* Keep the first element flexible and the second fixed */
-  gap: 0; /* Remove the gap to allow full alignment */
+  grid-template-columns: 1fr auto;
+  gap: 0;
   align-items: center;
-  justify-content: space-between; /* Align items to the leftmost and rightmost edges */
+  justify-content: space-between;
+  max-height: 40px;
+  min-height: 40px;
+  height: 40px !important;
+  box-sizing: border-box;
 }
 
 /* Pie Slice Keys */
