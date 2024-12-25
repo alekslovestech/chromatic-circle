@@ -31,8 +31,9 @@ const EasyScoreFromNotes = (
   return [chordNote];
 };
 
-const NotesRenderer: React.FC = () => {
+const StaffRenderer: React.FC = () => {
   const staffDivRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { selectedNoteIndices, selectedAccidental } = useNotes();
   useEffect(() => {
     if (!staffDivRef.current) return;
@@ -48,9 +49,8 @@ const NotesRenderer: React.FC = () => {
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width half the enclosing container's width.
-    const originalContainerWidth =
-      document.querySelector(".notes-renderer-container")?.clientWidth || 0;
-    const staveWidth = originalContainerWidth * 0.75;
+    const originalContainerWidth = containerRef.current?.clientWidth || 0;
+    const staveWidth = originalContainerWidth * 0.6;
     console.log(`clientWidth, staveWidth =`, curStaffDiv.clientWidth, staveWidth);
     const stave = new VF.Stave(0, 0, staveWidth);
     stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
@@ -77,7 +77,11 @@ const NotesRenderer: React.FC = () => {
     };
   }, [selectedNoteIndices, selectedAccidental]);
 
-  return <div ref={staffDivRef} style={{ height: "100%" }}></div>;
+  return (
+    <div className="staff-container" ref={containerRef}>
+      <div ref={staffDivRef} style={{ height: "100%" }}></div>
+    </div>
+  );
 };
 
-export default NotesRenderer;
+export default StaffRenderer;

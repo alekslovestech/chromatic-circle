@@ -2,15 +2,16 @@ import { useNotes } from "../NotesContext";
 import { CircularVisMode } from "./CircularVisualizationsSVG";
 
 const CircularVisModeSelect: React.FC = () => {
-  const { circularVisMode, setCircularVisMode } = useNotes();
+  const { circularVisMode, selectedNoteIndices, setCircularVisMode } = useNotes();
 
   const handleDrawingModeChange = (mode: CircularVisMode) => {
     console.log("handleDrawingModeChange", mode);
     setCircularVisMode(mode);
   };
 
+  const invisibleClass = selectedNoteIndices.length < 2 ? "invisible" : "";
   return (
-    <div className="dropdown">
+    <div className={`dropdown ${invisibleClass}`}>
       <select
         className="form-select"
         style={{ fontSize: "calc(0.7rem)" }} // Responsive font size

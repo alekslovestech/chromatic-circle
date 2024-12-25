@@ -4,9 +4,6 @@ import { TWELVE } from "../types/NoteConstants";
 export const TWO_PI = 2 * Math.PI;
 export const INIT_ANGLE = -Math.PI / 2; //vertical up
 
-export const INNER_RADIUS = 60;
-export const OUTER_RADIUS = 120;
-export const MIDDLE_RADIUS = (INNER_RADIUS + OUTER_RADIUS) / 2;
 const FULL_KEY_ANGLE = TWO_PI / TWELVE;
 const HALF_KEY_ANGLE = FULL_KEY_ANGLE / 2;
 
