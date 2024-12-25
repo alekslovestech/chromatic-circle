@@ -74,9 +74,11 @@ body {
     "topbar topbar"
     "circular-keyboard sidebar";
   grid-template-columns: 1fr 100px;
-  grid-template-rows: min-content 1fr;  /* Let topbar determine its height */
+  grid-template-rows: min-content 1fr;
   position: relative;
   padding: 1rem;
+  overflow: hidden;
+  max-height: 100%;
 }
 
 .chord-display-container {
