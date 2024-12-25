@@ -10,7 +10,7 @@
   height: 100%;
   aspect-ratio: 1;
   max-width: min(100%, calc(100vh - 80px));
-  padding: 5px;
+  padding: 15px;
 }
 
 /* Top Bar */
