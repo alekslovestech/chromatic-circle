@@ -1,5 +1,6 @@
 import { IndexUtils } from "../utils/IndexUtils";
 import { ixOffsetArray, OffsetIndex } from "./IndexTypes";
+import { NoteGroupingId } from "./NoteGroupingTypes";
 
 export enum NoteGroupingType {
   None = "None",
@@ -12,6 +13,7 @@ export class NoteGrouping {
   public readonly inversions: OffsetIndex[][];
 
   constructor(
+    public readonly id: NoteGroupingId,
     public readonly lettersId: string,
     public readonly symbolsId: string,
     public readonly displayName: string,
@@ -36,12 +38,14 @@ export class NoteGrouping {
   }
 
   static createInterval(
+    id: NoteGroupingId,
     orderId: number,
     shortName: string,
     displayName: string,
     semitones: number,
   ): NoteGrouping {
     return new NoteGrouping(
+      id,
       shortName,
       shortName,
       displayName,
@@ -51,12 +55,13 @@ export class NoteGrouping {
   }
 
   static createChord(
+    id: NoteGroupingId,
     orderId: number,
     lettersId: string,
     symbolsId: string,
     displayName: string,
     offsets: number[],
   ): NoteGrouping {
-    return new NoteGrouping(lettersId, symbolsId, displayName, orderId, ixOffsetArray(offsets));
+    return new NoteGrouping(id, lettersId, symbolsId, displayName, orderId, ixOffsetArray(offsets));
   }
 }
