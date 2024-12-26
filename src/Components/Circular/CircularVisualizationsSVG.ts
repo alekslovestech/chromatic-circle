@@ -55,6 +55,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
     path.setAttribute("d", `M0,0 L${innerPoint.x},${innerPoint.y}`);
     path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke"));
     path.setAttribute("stroke-width", STROKE_WIDTH_LINES.toString());
+    path.setAttribute("stroke-linecap", "round"); // Add rounded corners
     path.classList.add("selected-note-line");
 
     svgElement.appendChild(path);
@@ -104,8 +105,8 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
     path.setAttribute("d", `M${startPoint.x},${startPoint.y} L${endPoint.x},${endPoint.y}`);
 
     path.setAttribute("stroke", getComputedColor("--serenity-polygon-stroke")); // Use grey color at all times
-
     path.setAttribute("stroke-width", STROKE_WIDTH_LINES.toString());
+    path.setAttribute("stroke-linecap", "round"); // Add rounded corners
     path.classList.add("selected-note-line");
 
     svgElement.appendChild(path);
