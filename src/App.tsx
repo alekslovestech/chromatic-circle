@@ -9,32 +9,15 @@ import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardCircular from "./Components/Circular/KeyboardCircular";
 import { CircularTopBar } from "./Components/Circular/CircularTopBar";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import KeyboardLogo from "./Components/Circular/KeyboardLogo";
 
 const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 
-function App() {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+const App: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
 
   console.log(`isLogo: ${isLogo}`);
-  const handleResize = () => {
-    const newWidth = window.innerWidth;
-    const newHeight = window.innerHeight;
-    const newOrientation = newWidth > newHeight ? "landscape" : "portrait";
-    console.log(
-      `resizing with width: ${newWidth} and height: ${newHeight}, orientation: ${newOrientation}`,
-    );
-    setViewportWidth(newWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <div className="ChromaticCircle">
@@ -66,6 +49,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
