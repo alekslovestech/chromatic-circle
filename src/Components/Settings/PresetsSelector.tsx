@@ -1,6 +1,5 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
-import { getId } from "../../types/NoteGroupingLibrary";
 import { InputMode } from "../../types/InputMode";
 import { InversionIndex, ixInversion } from "../../types/IndexTypes";
 import { ChordDisplayMode } from "../../types/ChordDisplayMode";
@@ -8,6 +7,7 @@ import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
 import "../../styles/PresetsSelector.css";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
+import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -81,9 +81,9 @@ const PresetsSelector: React.FC = () => {
       key={noteGroupingPreset}
       onClick={() => handlePresetChange(noteGroupingPreset)}
       className={`btn btn-outline-secondary btn-preset`}
-      title={getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
+      title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
     >
-      {getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
+      {NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
     </button>
   );
 

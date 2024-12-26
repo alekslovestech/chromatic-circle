@@ -6,8 +6,7 @@ import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGrouping";
-import { getId } from "./NoteGroupingLibrary";
-
+import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 export class ChordMatch {
   constructor(
     public rootNote: ActualIndex,
@@ -17,7 +16,7 @@ export class ChordMatch {
 
   getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: AccidentalType) => {
     const rootNoteName = getNoteTextFromIndex(this.rootNote, accidental, false);
-    const idWithoutRoot = getId(this.definition.id, displayMode);
+    const idWithoutRoot = NoteGroupingLibrary.getId(this.definition.id, displayMode);
     const chordNameRoot = `${rootNoteName}${idWithoutRoot || ""}`;
     return chordNameRoot;
   };
@@ -40,7 +39,7 @@ export class ChordMatch {
       case NoteGroupingType.Note:
         return `${chordNameRoot}`;
       case NoteGroupingType.Interval:
-        return getId(this.definition.id, displayMode);
+        return NoteGroupingLibrary.getId(this.definition.id, displayMode);
       default:
         if (bassNoteIndex !== this.rootNote) {
           const bassNoteName = getNoteTextFromIndex(bassNoteIndex, selectedAccidental);

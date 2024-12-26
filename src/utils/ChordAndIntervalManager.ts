@@ -10,10 +10,14 @@ import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 
 export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition =>
-    new ChordDefinition(id, NoteGroupingLibrary[id].offsets, this.hasInversions(id));
+    new ChordDefinition(
+      id,
+      NoteGroupingLibrary.getNoteGrouping(id).offsets,
+      this.hasInversions(id),
+    );
 
   static hasInversions = (id: NoteGroupingId): boolean => {
-    const definition = NoteGroupingLibrary[id];
+    const definition = NoteGroupingLibrary.getNoteGrouping(id);
     return definition?.offsets.length > 1;
   };
 
@@ -45,7 +49,7 @@ export class ChordAndIntervalManager {
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
-    for (const id in NoteGroupingLibrary) {
+    for (const id of NoteGroupingLibrary.getIds()) {
       const definition = this.getDefinitionFromId(id as NoteGroupingId);
 
       // Check for root position (0th index) first
@@ -57,7 +61,7 @@ export class ChordAndIntervalManager {
     }
 
     // Then check other inversions
-    for (const id in NoteGroupingLibrary) {
+    for (const id of NoteGroupingLibrary.getIds()) {
       const definition = this.getDefinitionFromId(id as NoteGroupingId);
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
         const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
