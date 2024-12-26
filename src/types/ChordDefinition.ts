@@ -1,4 +1,5 @@
-import { NoteGroupings, NoteGroupingType } from "./NoteGrouping";
+import { NoteGroupingType } from "./NoteGrouping";
+import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 
 import { IndexUtils } from "../utils/IndexUtils";
 import { OffsetIndex } from "./IndexTypes";
@@ -11,7 +12,7 @@ export class ChordDefinition {
   inversions: OffsetIndex[][];
 
   get offsets(): OffsetIndex[] {
-    return NoteGroupings[this.id].offsets;
+    return NoteGroupingLibrary[this.id].offsets;
   }
 
   get numNotes(): number {

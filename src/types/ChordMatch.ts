@@ -5,7 +5,8 @@ import { ChordDefinition } from "./ChordDefinition";
 import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
-import { getId, NoteGroupingType } from "./NoteGrouping";
+import { NoteGroupingType } from "./NoteGrouping";
+import { getId } from "./NoteGroupingLibrary";
 
 export class ChordMatch {
   constructor(

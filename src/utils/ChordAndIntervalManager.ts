@@ -1,4 +1,3 @@
-import { NoteGroupings } from "../types/NoteGrouping";
 import { ActualIndex, ixInversion, InversionIndex, OffsetIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
@@ -7,13 +6,14 @@ import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
 import { ChordDefinition } from "../types/ChordDefinition";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { AccidentalType } from "../types/AccidentalType";
+import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 
 export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition =>
-    new ChordDefinition(id, NoteGroupings[id].offsets, this.hasInversions(id));
+    new ChordDefinition(id, NoteGroupingLibrary[id].offsets, this.hasInversions(id));
 
   static hasInversions = (id: NoteGroupingId): boolean => {
-    const definition = NoteGroupings[id];
+    const definition = NoteGroupingLibrary[id];
     return definition?.offsets.length > 1;
   };
 
@@ -32,7 +32,7 @@ export class ChordAndIntervalManager {
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return Object.entries(NoteGroupings)
+    return Object.entries(NoteGroupingLibrary)
       .filter(([_, info]) => (isInterval ? info.offsets.length === 2 : info.offsets.length > 2))
       .sort((a, b) => a[1].orderId - b[1].orderId)
       .map(([id]) => id as NoteGroupingId);
@@ -45,7 +45,7 @@ export class ChordAndIntervalManager {
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
-    for (const id in NoteGroupings) {
+    for (const id in NoteGroupingLibrary) {
       const definition = this.getDefinitionFromId(id as NoteGroupingId);
 
       // Check for root position (0th index) first
@@ -57,7 +57,7 @@ export class ChordAndIntervalManager {
     }
 
     // Then check other inversions
-    for (const id in NoteGroupings) {
+    for (const id in NoteGroupingLibrary) {
       const definition = this.getDefinitionFromId(id as NoteGroupingId);
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
         const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
