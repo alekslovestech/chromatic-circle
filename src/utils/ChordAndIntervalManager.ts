@@ -50,7 +50,8 @@ export class ChordAndIntervalManager {
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
     for (const id of NoteGroupingLibrary.getIds()) {
-      const definition = this.getDefinitionFromId(id as NoteGroupingId);
+      const noteGroupingId = id as NoteGroupingId; // Ensure id is treated as NoteGroupingId
+      const definition = this.getDefinitionFromId(noteGroupingId);
 
       // Check for root position (0th index) first
       const rootIndices = IndexUtils.normalizeIndices(definition.inversions[0]);

@@ -4,7 +4,7 @@ import { NoteGrouping } from "./NoteGrouping";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "./NoteGroupingTypes";
 class NoteGroupingLibrarySingleton {
   public getIds(): NoteGroupingId[] {
-    return Object.keys(NoteGroupingLibrarySingleton.library) as NoteGroupingId[];
+    return NoteGroupingLibrarySingleton.library.map((grouping) => grouping.id) as NoteGroupingId[];
   }
   public getGroupingById(id: NoteGroupingId): NoteGrouping {
     const found = NoteGroupingLibrarySingleton.library.find((grouping) => grouping.id === id);
