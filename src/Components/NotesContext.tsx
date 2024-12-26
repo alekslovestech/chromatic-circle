@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { AccidentalType } from "../types/AccidentalType";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
-import { NoteGroupingId } from "../types/NoteGrouping";
+import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { CircularVisMode } from "./Circular/CircularVisualizationsSVG";
 

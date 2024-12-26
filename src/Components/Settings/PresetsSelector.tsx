@@ -1,13 +1,13 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
-import { getId, NoteGroupingId } from "../../types/NoteGrouping";
 import { InputMode } from "../../types/InputMode";
 import { InversionIndex, ixInversion } from "../../types/IndexTypes";
 import { ChordDisplayMode } from "../../types/ChordDisplayMode";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
 import "../../styles/PresetsSelector.css";
-import { ChordDefinition } from "../../types/ChordDefinition";
+import { NoteGroupingId } from "../../types/NoteGroupingTypes";
+import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -76,14 +76,14 @@ const PresetsSelector: React.FC = () => {
     return null;
   };
 
-  const renderOnePresetButton = (preset: ChordDefinition) => (
+  const renderOnePresetButton = (noteGroupingPreset: NoteGroupingId) => (
     <button
-      key={preset.id}
-      onClick={() => handlePresetChange(preset.id)}
+      key={noteGroupingPreset}
+      onClick={() => handlePresetChange(noteGroupingPreset)}
       className={`btn btn-outline-secondary btn-preset`}
-      title={getId(preset.id, ChordDisplayMode.DisplayName)}
+      title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
     >
-      {getId(preset.id, ChordDisplayMode.Letters_Long)}
+      {NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
     </button>
   );
 
@@ -101,9 +101,9 @@ const PresetsSelector: React.FC = () => {
           className="preset-buttons-grid"
           style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
         >
-          {presets.map((preset) => (
-            <div className="preset-button-wrapper" key={preset.id}>
-              {renderOnePresetButton(preset)}
+          {presets.map((noteGroupingPreset) => (
+            <div className="preset-button-wrapper" key={noteGroupingPreset}>
+              {renderOnePresetButton(noteGroupingPreset)}
             </div>
           ))}
         </div>

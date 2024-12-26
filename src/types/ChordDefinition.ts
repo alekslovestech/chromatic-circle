@@ -1,14 +1,19 @@
-import { NoteGroupingId } from "./NoteGrouping";
 import { NoteGroupingType } from "./NoteGrouping";
+import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 
 import { IndexUtils } from "../utils/IndexUtils";
 import { OffsetIndex } from "./IndexTypes";
+import { NoteGroupingId } from "./NoteGroupingTypes";
 
 //note grouping definition, including all inversions
 //contains offsets relative to the root note
 export class ChordDefinition {
   id: NoteGroupingId;
   inversions: OffsetIndex[][];
+
+  get offsets(): OffsetIndex[] {
+    return NoteGroupingLibrary.getGroupingById(this.id).offsets;
+  }
 
   get numNotes(): number {
     return this.inversions[0].length;
