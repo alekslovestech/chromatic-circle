@@ -1,5 +1,5 @@
 import { ActualIndex, InversionIndex } from "../types/IndexTypes";
-import { NoteGroupingId } from "../types/NoteGrouping";
+import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { InputMode } from "../types/InputMode";
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";

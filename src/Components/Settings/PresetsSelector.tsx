@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
-import { getId, NoteGroupingId } from "../../types/NoteGrouping";
+import { getId } from "../../types/NoteGrouping";
 import { InputMode } from "../../types/InputMode";
 import { InversionIndex, ixInversion } from "../../types/IndexTypes";
 import { ChordDisplayMode } from "../../types/ChordDisplayMode";
@@ -8,6 +8,7 @@ import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
 import "../../styles/PresetsSelector.css";
 import { ChordDefinition } from "../../types/ChordDefinition";
+import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 
 const PresetsSelector: React.FC = () => {
   const {
