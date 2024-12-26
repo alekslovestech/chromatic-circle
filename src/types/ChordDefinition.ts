@@ -12,7 +12,7 @@ export class ChordDefinition {
   inversions: OffsetIndex[][];
 
   get offsets(): OffsetIndex[] {
-    return NoteGroupingLibrary.getNoteGrouping(this.id).offsets;
+    return NoteGroupingLibrary.getGroupingById(this.id).offsets;
   }
 
   get numNotes(): number {

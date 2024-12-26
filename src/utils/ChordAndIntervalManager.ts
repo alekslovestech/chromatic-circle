@@ -12,12 +12,12 @@ export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition =>
     new ChordDefinition(
       id,
-      NoteGroupingLibrary.getNoteGrouping(id).offsets,
+      NoteGroupingLibrary.getGroupingById(id).offsets,
       this.hasInversions(id),
     );
 
   static hasInversions = (id: NoteGroupingId): boolean => {
-    const definition = NoteGroupingLibrary.getNoteGrouping(id);
+    const definition = NoteGroupingLibrary.getGroupingById(id);
     return definition?.offsets.length > 1;
   };
 
