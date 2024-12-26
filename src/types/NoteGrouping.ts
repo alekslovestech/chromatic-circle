@@ -117,10 +117,10 @@ export const NoteGroupings: { [key in NoteGroupingId]: NoteGroupingInfo } = {
     "Minor Major 7th Chord",
     [0, 3, 7, 11],
   ),
-  [ChordType.Minor7b5]: NoteGroupingInfo.createChord(
+  [ChordType.HalfDiminished]: NoteGroupingInfo.createChord(
     24,
-    "maj7b5",
-    "Δ7b5",
+    "m7b5",
+    "ø",
     "Major 7th Flat 5 Chord",
     [0, 4, 6, 11],
   ),
