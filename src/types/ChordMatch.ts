@@ -12,10 +12,14 @@ export class ChordMatch {
   definition: ChordDefinition;
   inversionIndex: InversionIndex; //0 is the first inversion (add 1 for display index)
 
-  constructor(rootNote: ActualIndex, definition: ChordDefinition, inversionIndex: number = 0) {
+  constructor(
+    rootNote: ActualIndex,
+    definition: ChordDefinition,
+    inversionIndex: InversionIndex = ixInversion(0),
+  ) {
     this.rootNote = rootNote;
     this.definition = definition;
-    this.inversionIndex = ixInversion(inversionIndex);
+    this.inversionIndex = inversionIndex;
   }
 
   getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: AccidentalType) => {

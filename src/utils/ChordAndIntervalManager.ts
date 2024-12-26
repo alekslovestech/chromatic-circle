@@ -1,98 +1,69 @@
-import { AccidentalType } from "../types/AccidentalType";
 import { NoteGroupings } from "../types/NoteGrouping";
-import { ChordDefinition } from "../types/ChordDefinition";
-import {
-  ActualIndex,
-  ixInversion,
-  ixOffsetArray,
-  InversionIndex,
-  OffsetIndex,
-} from "../types/IndexTypes";
+import { ActualIndex, ixInversion, InversionIndex, OffsetIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
+import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
+import { ChordDefinition } from "../types/ChordDefinition";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
+import { AccidentalType } from "../types/AccidentalType";
 
 export class ChordAndIntervalManager {
-  private static readonly OFFSETS: ChordDefinition[] = [
-    new ChordDefinition(SpecialType.None, ixOffsetArray([])),
-    new ChordDefinition(SpecialType.Note, ixOffsetArray([0])),
-
-    new ChordDefinition(IntervalType.Minor2, ixOffsetArray([0, 1])),
-    new ChordDefinition(IntervalType.Major2, ixOffsetArray([0, 2])),
-    new ChordDefinition(IntervalType.Minor3, ixOffsetArray([0, 3])),
-    new ChordDefinition(IntervalType.Major3, ixOffsetArray([0, 4])),
-    new ChordDefinition(IntervalType.Fourth, ixOffsetArray([0, 5])),
-    new ChordDefinition(IntervalType.Tritone, ixOffsetArray([0, 6])),
-    new ChordDefinition(IntervalType.Fifth, ixOffsetArray([0, 7])),
-    new ChordDefinition(IntervalType.Minor6, ixOffsetArray([0, 8])),
-    new ChordDefinition(IntervalType.Major6, ixOffsetArray([0, 9])),
-    new ChordDefinition(IntervalType.Minor7, ixOffsetArray([0, 10])),
-    new ChordDefinition(IntervalType.Major7, ixOffsetArray([0, 11])),
-    new ChordDefinition(IntervalType.Octave, ixOffsetArray([0, 12])),
-
-    // Triads
-    new ChordDefinition(ChordType.Major, ixOffsetArray([0, 4, 7]), true),
-    new ChordDefinition(ChordType.Minor, ixOffsetArray([0, 3, 7]), true),
-    new ChordDefinition(ChordType.Diminished, ixOffsetArray([0, 3, 6]), true),
-    new ChordDefinition(ChordType.Augmented, ixOffsetArray([0, 4, 8]), true),
-
-    // Seventh chords
-    new ChordDefinition(ChordType.Major7, ixOffsetArray([0, 4, 7, 11]), true),
-    new ChordDefinition(ChordType.Minor7, ixOffsetArray([0, 3, 7, 10]), false),
-    new ChordDefinition(ChordType.Dominant7, ixOffsetArray([0, 4, 7, 10]), true),
-    new ChordDefinition(ChordType.MinorMajor7, ixOffsetArray([0, 3, 7, 11]), true),
-    new ChordDefinition(ChordType.Minor7b5, ixOffsetArray([0, 3, 6, 10])),
-    new ChordDefinition(ChordType.Diminished7, ixOffsetArray([0, 3, 6, 9])),
-
-    // Other chord types
-    new ChordDefinition(ChordType.Sus4, ixOffsetArray([0, 5, 7]), true),
-    new ChordDefinition(ChordType.Sus2, ixOffsetArray([0, 2, 7]), true),
-    new ChordDefinition(ChordType.Add9, ixOffsetArray([0, 4, 7, 14])),
-    new ChordDefinition(ChordType.Six, ixOffsetArray([0, 4, 7, 9])),
-    new ChordDefinition(ChordType.Minor6, ixOffsetArray([0, 3, 7, 9])),
-    new ChordDefinition(ChordType.Seven13, ixOffsetArray([0, 4, 7, 10, 13])),
-  ];
-
-  static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition | undefined =>
-    this.OFFSETS.find((def) => def.id === id);
+  static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition =>
+    new ChordDefinition(id, NoteGroupings[id].offsets, this.hasInversions(id));
 
   static hasInversions = (id: NoteGroupingId): boolean => {
-    const definition = this.getDefinitionFromId(id);
-    return definition ? definition.inversions.length > 1 : false;
+    const definition = NoteGroupings[id];
+    return definition?.offsets.length > 1;
   };
 
   static getOffsetsFromIdAndInversion(
     id: NoteGroupingId,
     inversionIndex: InversionIndex = ixInversion(0),
   ): OffsetIndex[] {
-    const chordDefinition = this.getDefinitionFromId(id);
-    if (chordDefinition) return chordDefinition.inversions[inversionIndex];
+    const definition = this.getDefinitionFromId(id);
+    if (!definition) {
+      console.warn(`No chord definition found for type: ${id}`);
+      throw new Error(`Invalid chord type: ${id}`);
+    }
 
-    console.warn(`No chord definition found for type: ${id}`);
-    throw new Error(`Invalid chord type: ${id}`);
+    if (inversionIndex === 0) return definition.offsets;
+    return definition.inversions[inversionIndex];
   }
 
   static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    const filteredResult = this.OFFSETS.filter((chordDef) =>
-      isInterval ? chordDef.numNotes === 2 : chordDef.numNotes > 2,
-    );
-    return filteredResult.sort((a, b) => NoteGroupings[a.id].orderId - NoteGroupings[b.id].orderId);
+    return Object.entries(NoteGroupings)
+      .filter(([_, info]) => (isInterval ? info.offsets.length === 2 : info.offsets.length > 2))
+      .sort((a, b) => a[1].orderId - b[1].orderId)
+      .map(([id]) => id as NoteGroupingId);
   };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
-    if (indices.length === 0)
-      return new ChordMatch(0 as ActualIndex, new ChordDefinition(SpecialType.None, []));
+    if (indices.length === 0) {
+      return new ChordMatch(0 as ActualIndex, this.getDefinitionFromId(SpecialType.None));
+    }
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
-    for (const def of this.OFFSETS) {
-      for (let i = 0 as InversionIndex; i < def.inversions.length; i++) {
-        const inversionIndices = IndexUtils.normalizeIndices(def.inversions[i]);
+    for (const id in NoteGroupings) {
+      const definition = this.getDefinitionFromId(id as NoteGroupingId);
+
+      // Check for root position (0th index) first
+      const rootIndices = IndexUtils.normalizeIndices(definition.inversions[0]);
+      if (IndexUtils.areIndicesEqual(rootIndices, normalizedIndices)) {
+        const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, ixInversion(0)) % TWELVE;
+        return new ChordMatch(rootNoteIndex as ActualIndex, definition, ixInversion(0));
+      }
+    }
+
+    // Then check other inversions
+    for (const id in NoteGroupings) {
+      const definition = this.getDefinitionFromId(id as NoteGroupingId);
+      for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
+        const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
         if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) continue;
         const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
-        return new ChordMatch(rootNoteIndex as ActualIndex, def, i);
+        return new ChordMatch(rootNoteIndex as ActualIndex, definition, ixInversion(i));
       }
     }
     return undefined;

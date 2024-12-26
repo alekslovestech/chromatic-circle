@@ -77,14 +77,14 @@ const PresetsSelector: React.FC = () => {
     return null;
   };
 
-  const renderOnePresetButton = (preset: ChordDefinition) => (
+  const renderOnePresetButton = (noteGroupingPreset: NoteGroupingId) => (
     <button
-      key={preset.id}
-      onClick={() => handlePresetChange(preset.id)}
+      key={noteGroupingPreset}
+      onClick={() => handlePresetChange(noteGroupingPreset)}
       className={`btn btn-outline-secondary btn-preset`}
-      title={getId(preset.id, ChordDisplayMode.DisplayName)}
+      title={getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
     >
-      {getId(preset.id, ChordDisplayMode.Letters_Long)}
+      {getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
     </button>
   );
 
@@ -102,9 +102,9 @@ const PresetsSelector: React.FC = () => {
           className="preset-buttons-grid"
           style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
         >
-          {presets.map((preset) => (
-            <div className="preset-button-wrapper" key={preset.id}>
-              {renderOnePresetButton(preset)}
+          {presets.map((noteGroupingPreset) => (
+            <div className="preset-button-wrapper" key={noteGroupingPreset}>
+              {renderOnePresetButton(noteGroupingPreset)}
             </div>
           ))}
         </div>
