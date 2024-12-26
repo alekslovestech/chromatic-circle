@@ -8,19 +8,11 @@ import { TWELVE } from "./NoteConstants";
 import { getId, NoteGroupingType } from "./NoteGrouping";
 
 export class ChordMatch {
-  rootNote: ActualIndex;
-  definition: ChordDefinition;
-  inversionIndex: InversionIndex; //0 is the first inversion (add 1 for display index)
-
   constructor(
-    rootNote: ActualIndex,
-    definition: ChordDefinition,
-    inversionIndex: InversionIndex = ixInversion(0),
-  ) {
-    this.rootNote = rootNote;
-    this.definition = definition;
-    this.inversionIndex = inversionIndex;
-  }
+    public rootNote: ActualIndex,
+    public definition: ChordDefinition,
+    public inversionIndex: InversionIndex = ixInversion(0),
+  ) {}
 
   getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: AccidentalType) => {
     const rootNoteName = getNoteTextFromIndex(this.rootNote, accidental, false);

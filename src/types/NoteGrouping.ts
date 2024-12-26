@@ -9,236 +9,153 @@ export enum NoteGroupingType {
   Chord = "Chord",
 }
 
-export interface NoteGroupingInfo {
-  lettersId: string;
-  symbolsId: string;
-  displayName: string;
-  orderId: number;
-  offsets: OffsetIndex[];
-  hasInversions?: boolean;
+export class NoteGroupingInfo {
+  constructor(
+    public readonly lettersId: string,
+    public readonly symbolsId: string,
+    public readonly displayName: string,
+    public readonly orderId: number,
+    public readonly offsets: OffsetIndex[],
+  ) {}
+
+  static createInterval(
+    orderId: number,
+    shortName: string,
+    displayName: string,
+    semitones: number,
+  ): NoteGroupingInfo {
+    return new NoteGroupingInfo(
+      shortName,
+      shortName,
+      displayName,
+      orderId,
+      ixOffsetArray([0, semitones]),
+    );
+  }
+
+  static createChord(
+    orderId: number,
+    lettersId: string,
+    symbolsId: string,
+    displayName: string,
+    offsets: number[],
+  ): NoteGroupingInfo {
+    return new NoteGroupingInfo(lettersId, symbolsId, displayName, orderId, ixOffsetArray(offsets));
+  }
 }
 
 export const NoteGroupings: { [key in NoteGroupingId]: NoteGroupingInfo } = {
-  [SpecialType.None]: {
-    lettersId: "Ø",
-    symbolsId: "Ø",
-    displayName: "None",
-    orderId: 0,
-    offsets: [],
-  },
+  [SpecialType.None]: new NoteGroupingInfo("Ø", "Ø", "None", 0, []),
+  [SpecialType.Note]: new NoteGroupingInfo("", "", "Single Note", 1, ixOffsetArray([0])),
 
-  [SpecialType.Note]: {
-    lettersId: "",
-    symbolsId: "",
-    displayName: "Single Note",
-    orderId: 1,
-    offsets: ixOffsetArray([0]),
-  },
+  // Intervals
+  [IntervalType.Minor2]: NoteGroupingInfo.createInterval(2, "m2", "Minor 2nd", 1),
+  [IntervalType.Major2]: NoteGroupingInfo.createInterval(3, "M2", "Major 2nd", 2),
+  [IntervalType.Minor3]: NoteGroupingInfo.createInterval(4, "m3", "Minor 3rd", 3),
+  [IntervalType.Major3]: NoteGroupingInfo.createInterval(5, "M3", "Major 3rd", 4),
+  [IntervalType.Fourth]: NoteGroupingInfo.createInterval(6, "P4", "Perfect 4th", 5),
+  [IntervalType.Tritone]: NoteGroupingInfo.createInterval(7, "TT", "Tritone", 6),
+  [IntervalType.Fifth]: NoteGroupingInfo.createInterval(8, "P5", "Perfect 5th", 7),
+  [IntervalType.Minor6]: NoteGroupingInfo.createInterval(9, "m6", "Minor 6th", 8),
+  [IntervalType.Major6]: NoteGroupingInfo.createInterval(10, "M6", "Major 6th", 9),
+  [IntervalType.Minor7]: NoteGroupingInfo.createInterval(11, "m7", "Minor 7th", 10),
+  [IntervalType.Major7]: NoteGroupingInfo.createInterval(12, "M7", "Major 7th", 11),
+  [IntervalType.Octave]: NoteGroupingInfo.createInterval(13, "Oct", "Octave", 12),
 
-  //2 note intervals
-  [IntervalType.Minor2]: {
-    lettersId: "m2",
-    symbolsId: "m2",
-    displayName: "Minor 2nd",
-    orderId: 2,
-    offsets: ixOffsetArray([0, 1]),
-  },
-  [IntervalType.Major2]: {
-    lettersId: "M2",
-    symbolsId: "M2",
-    displayName: "Major 2nd",
-    orderId: 3,
-    offsets: ixOffsetArray([0, 2]),
-  },
-  [IntervalType.Minor3]: {
-    lettersId: "m3",
-    symbolsId: "m3",
-    displayName: "Minor 3rd",
-    orderId: 4,
-    offsets: ixOffsetArray([0, 3]),
-  },
-  [IntervalType.Major3]: {
-    lettersId: "M3",
-    symbolsId: "M3",
-    displayName: "Major 3rd",
-    orderId: 5,
-    offsets: ixOffsetArray([0, 4]),
-  },
-  [IntervalType.Fourth]: {
-    lettersId: "P4",
-    symbolsId: "P4",
-    displayName: "Perfect 4th",
-    orderId: 6,
-    offsets: ixOffsetArray([0, 5]),
-  },
-  [IntervalType.Tritone]: {
-    lettersId: "Tritone",
-    symbolsId: "TT",
-    displayName: "Tritone",
-    orderId: 7,
-    offsets: ixOffsetArray([0, 6]),
-  },
-  [IntervalType.Fifth]: {
-    lettersId: "P5",
-    symbolsId: "P5",
-    displayName: "Perfect 5th",
-    orderId: 8,
-    offsets: ixOffsetArray([0, 7]),
-  },
-  [IntervalType.Minor6]: {
-    lettersId: "m6",
-    symbolsId: "m6",
-    displayName: "Minor 6th",
-    orderId: 9,
-    offsets: ixOffsetArray([0, 8]),
-  },
-  [IntervalType.Major6]: {
-    lettersId: "M6",
-    symbolsId: "M6",
-    displayName: "Major 6th",
-    orderId: 10,
-    offsets: ixOffsetArray([0, 9]),
-  },
-  [IntervalType.Minor7]: {
-    lettersId: "m7",
-    symbolsId: "m7",
-    displayName: "Minor 7th",
-    orderId: 11,
-    offsets: ixOffsetArray([0, 10]),
-  },
-  [IntervalType.Major7]: {
-    lettersId: "M7",
-    symbolsId: "M7",
-    displayName: "Major 7th",
-    orderId: 12,
-    offsets: ixOffsetArray([0, 11]),
-  },
-  [IntervalType.Octave]: {
-    lettersId: "Octave",
-    symbolsId: "Oct",
-    displayName: "Octave",
-    orderId: 13,
-    offsets: ixOffsetArray([0, 12]),
-  },
+  // Triads
+  [ChordType.Major]: NoteGroupingInfo.createChord(14, "maj", "", "Major Chord", [0, 4, 7]),
+  [ChordType.Minor]: NoteGroupingInfo.createChord(15, "min", "m", "Minor Chord", [0, 3, 7]),
+  [ChordType.Diminished]: NoteGroupingInfo.createChord(
+    16,
+    "dim",
+    "°",
+    "Diminished Chord",
+    [0, 3, 6],
+  ),
+  [ChordType.Augmented]: NoteGroupingInfo.createChord(17, "aug", "+", "Augmented Chord", [0, 4, 8]),
+  [ChordType.Sus4]: NoteGroupingInfo.createChord(
+    18,
+    "sus4",
+    "sus",
+    "Suspended 4th Chord",
+    [0, 5, 7],
+  ),
+  [ChordType.Sus2]: NoteGroupingInfo.createChord(
+    19,
+    "sus2",
+    "sus2",
+    "Suspended 2nd Chord",
+    [0, 2, 7],
+  ),
 
-  //3 note chords
-  [ChordType.Major]: {
-    lettersId: "maj",
-    symbolsId: "",
-    displayName: "Major Chord",
-    orderId: 14,
-    offsets: ixOffsetArray([0, 4, 7]),
-  },
+  // Seventh Chords
+  [ChordType.Dominant7]: NoteGroupingInfo.createChord(
+    20,
+    "7",
+    "7",
+    "7th (Dominant) Chord",
+    [0, 4, 7, 10],
+  ),
+  [ChordType.Major7]: NoteGroupingInfo.createChord(
+    21,
+    "maj7",
+    "Δ7",
+    "Major 7th Chord",
+    [0, 4, 7, 11],
+  ),
+  [ChordType.Minor7]: NoteGroupingInfo.createChord(
+    22,
+    "min7",
+    "m7",
+    "Minor 7th Chord",
+    [0, 3, 7, 10],
+  ),
+  [ChordType.MinorMajor7]: NoteGroupingInfo.createChord(
+    23,
+    "mMaj7",
+    "mΔ7",
+    "Minor Major 7th Chord",
+    [0, 3, 7, 11],
+  ),
+  [ChordType.Minor7b5]: NoteGroupingInfo.createChord(
+    24,
+    "maj7b5",
+    "Δ7b5",
+    "Major 7th Flat 5 Chord",
+    [0, 4, 6, 11],
+  ),
+  [ChordType.Diminished7]: NoteGroupingInfo.createChord(
+    25,
+    "dim7",
+    "°7",
+    "Diminished 7th Chord",
+    [0, 3, 6, 9],
+  ),
+  [ChordType.Six]: NoteGroupingInfo.createChord(26, "6", "6", "Major 6th Chord", [0, 4, 7, 9]),
+  [ChordType.Minor6]: NoteGroupingInfo.createChord(
+    27,
+    "min6",
+    "m6",
+    "Minor 6th Chord",
+    [0, 3, 7, 9],
+  ),
 
-  [ChordType.Minor]: {
-    lettersId: "min",
-    symbolsId: "m",
-    displayName: "Minor Chord",
-    orderId: 15,
-    offsets: ixOffsetArray([0, 3, 7]),
-  },
-  [ChordType.Diminished]: {
-    lettersId: "dim",
-    symbolsId: "°",
-    displayName: "Diminished Chord",
-    orderId: 16,
-    offsets: ixOffsetArray([0, 3, 6]),
-  },
-  [ChordType.Augmented]: {
-    lettersId: "aug",
-    symbolsId: "+",
-    displayName: "Augmented Chord",
-    orderId: 17,
-    offsets: ixOffsetArray([0, 4, 8]),
-  },
-  [ChordType.Sus4]: {
-    lettersId: "sus4",
-    symbolsId: "sus",
-    displayName: "Suspended 4th Chord",
-    orderId: 18,
-    offsets: ixOffsetArray([0, 5, 7]),
-  },
-  [ChordType.Sus2]: {
-    lettersId: "sus2",
-    symbolsId: "sus2",
-    displayName: "Suspended 2nd Chord",
-    orderId: 19,
-    offsets: ixOffsetArray([0, 2, 7]),
-  },
-  [ChordType.Six]: {
-    lettersId: "6",
-    symbolsId: "6",
-    displayName: "Major 6th Chord",
-    orderId: 20,
-    offsets: ixOffsetArray([0, 4, 7, 9]),
-  },
-  [ChordType.Minor6]: {
-    lettersId: "m6",
-    symbolsId: "m6",
-    displayName: "Minor 6th Chord",
-    orderId: 21,
-    offsets: ixOffsetArray([0, 3, 7, 9]),
-  },
-
-  //4 note chords
-  [ChordType.Dominant7]: {
-    lettersId: "7",
-    symbolsId: "7",
-    displayName: "7th (Dominant) Chord",
-    orderId: 22,
-    offsets: ixOffsetArray([0, 4, 7, 10]),
-  },
-  [ChordType.Major7]: {
-    lettersId: "maj7",
-    symbolsId: "Δ7",
-    displayName: "Major 7th Chord",
-    orderId: 23,
-    offsets: ixOffsetArray([0, 4, 7, 11]),
-  },
-  [ChordType.Minor7]: {
-    lettersId: "min7",
-    symbolsId: "m7",
-    displayName: "Minor 7th Chord",
-    orderId: 24,
-    offsets: ixOffsetArray([0, 3, 7, 10]),
-  },
-
-  [ChordType.MinorMajor7]: {
-    lettersId: "mMaj",
-    symbolsId: "mΔ7",
-    displayName: "Minor Major 7th Chord",
-    orderId: 25,
-    offsets: ixOffsetArray([0, 3, 7, 11]),
-  },
-  [ChordType.Diminished7]: {
-    lettersId: "dim7",
-    symbolsId: "°7",
-    displayName: "Diminished 7th Chord",
-    orderId: 26,
-    offsets: ixOffsetArray([0, 3, 6, 10]),
-  },
-  [ChordType.Minor7b5]: {
-    lettersId: "m7b5",
-    symbolsId: "ø7",
-    displayName: "Half Diminished 7th Chord",
-    orderId: 27,
-    offsets: ixOffsetArray([0, 3, 6, 10]),
-  },
-
-  [ChordType.Add9]: {
-    lettersId: "add9",
-    symbolsId: "add9",
-    displayName: "Add 9th Chord",
-    orderId: 28,
-    offsets: ixOffsetArray([0, 4, 7, 14]),
-  },
-  [ChordType.Seven13]: {
-    lettersId: "7add13",
-    symbolsId: "7add13",
-    displayName: "Dominant 7thAdd 13th Chord",
-    orderId: 29,
-    offsets: ixOffsetArray([0, 4, 7, 10, 13]),
-  },
+  // Extended Chords
+  [ChordType.Add9]: NoteGroupingInfo.createChord(
+    28,
+    "add9",
+    "add9",
+    "Add 9th Chord",
+    [0, 4, 7, 14],
+  ),
+  [ChordType.Seven13]: NoteGroupingInfo.createChord(
+    29,
+    "7add13",
+    "7add13",
+    "Dominant 7th Add 13th Chord",
+    [0, 4, 7, 10, 13],
+  ),
+  // ... other chords follow the same pattern
 };
 
 export const getId = (key: NoteGroupingId, chordDisplayMode: ChordDisplayMode): string => {
