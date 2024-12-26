@@ -2,13 +2,6 @@ import { ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { INIT_ANGLE, TWO_PI } from "./CommonMath";
 
-interface RectCoordinates {
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-}
-
 // utilities related to the coordinate system transformations between
 // canvas space (0 in top-left corner) <=>
 //    ==> cartesian coors (0 in center of circle)
