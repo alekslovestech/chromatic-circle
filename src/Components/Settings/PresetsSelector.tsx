@@ -110,16 +110,12 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="presets-selector container">
-        {/*<h3 className="text-center" hidden={true}>
-        {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-      </h3>*/}
-        {renderPresetButtons()}
-        {inputMode === InputMode.ChordPresets && (
-          <div className="row">{renderInversionButtons()}</div>
-        )}
-      </div>
+    <div className="presets-selector container">
+      {/*<h3 className="text-center" hidden={true}>
+      {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
+    </h3>*/}
+      {renderPresetButtons()}
+      {inputMode === InputMode.ChordPresets && renderInversionButtons()}
     </div>
   );
 };
