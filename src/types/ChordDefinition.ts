@@ -1,4 +1,4 @@
-import { NoteGroupingType } from "./NoteGrouping";
+import { NoteGroupingType } from "./NoteGroupingTypes";
 import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 
 import { IndexUtils } from "../utils/IndexUtils";

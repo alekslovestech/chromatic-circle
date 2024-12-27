@@ -1,3 +1,10 @@
+export enum NoteGroupingType {
+  None = "None",
+  Note = "Note",
+  Interval = "Interval",
+  Chord = "Chord",
+}
+
 export enum SpecialType {
   None = "None",
   Note = "Note",

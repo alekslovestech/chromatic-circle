@@ -2,13 +2,6 @@ import { IndexUtils } from "../utils/IndexUtils";
 import { ixOffsetArray, OffsetIndex } from "./IndexTypes";
 import { NoteGroupingId } from "./NoteGroupingTypes";
 
-export enum NoteGroupingType {
-  None = "None",
-  Note = "Note",
-  Interval = "Interval",
-  Chord = "Chord",
-}
-
 export class NoteGrouping {
   public readonly inversions: OffsetIndex[][];
 
