@@ -2,8 +2,9 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
+import { ModeSelector } from "../../Components/Settings/ModeSelector";
 
-describe.skip("ChordPresetsSelector", () => {
+describe("ChordPresetsSelector", () => {
   const renderComponent = () => {
     return render(
       <NotesProvider>
@@ -12,7 +13,7 @@ describe.skip("ChordPresetsSelector", () => {
     );
   };
 
-  test("selecting a new chord resets inversion to 0", () => {
+  test.skip("selecting a new chord resets inversion to 0", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
@@ -28,7 +29,7 @@ describe.skip("ChordPresetsSelector", () => {
     expect(screen.getByText("0")).toHaveStyle("background-color: #4CAF50");
   });
 
-  test("inversion buttons are only shown for chords with inversions", () => {
+  test.skip("inversion buttons are only shown for chords with inversions", () => {
     renderComponent();
 
     // Select a chord with inversions
@@ -40,7 +41,7 @@ describe.skip("ChordPresetsSelector", () => {
     expect(screen.queryByText("Inversion:")).not.toBeInTheDocument();
   });
 
-  test("selecting an inversion updates the chord", () => {
+  test.skip("selecting an inversion updates the chord", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
