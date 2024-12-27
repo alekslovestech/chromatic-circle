@@ -5,11 +5,16 @@
 .presets-selector {
     flex: 1;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .preset-buttons-container {
     width: 100%;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .preset-buttons-grid {
@@ -36,14 +41,17 @@
 }
 
 .inversion-controls {
-    margin-top: 1rem;
+    margin-top: 0rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .inversion-buttons {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
 }
 
 .btn-inversion {
@@ -66,11 +74,4 @@
 
 .row > div > button {
     flex: 1;
-}
-
-/* Remove old grid classes */
-.preset-grid,
-.preset-grid.chord,
-.preset-grid.interval {
-    display: none;
 }
