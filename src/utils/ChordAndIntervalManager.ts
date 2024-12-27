@@ -3,18 +3,15 @@ import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
 import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
-import { ChordDefinition } from "../types/ChordDefinition";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { AccidentalType } from "../types/AccidentalType";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
+import { NoteGrouping } from "../types/NoteGrouping";
 
 export class ChordAndIntervalManager {
-  static getDefinitionFromId = (id: NoteGroupingId): ChordDefinition =>
-    new ChordDefinition(
-      id,
-      NoteGroupingLibrary.getGroupingById(id).offsets,
-      this.hasInversions(id),
-    );
+  static getDefinitionFromId = (id: NoteGroupingId): NoteGrouping =>
+    // new NoteGrouping(id, NoteGroupingLibrary.getGroupingById(id).offsets, this.hasInversions(id) );
+    NoteGroupingLibrary.getGroupingById(id);
 
   static hasInversions = (id: NoteGroupingId): boolean => {
     const definition = NoteGroupingLibrary.getGroupingById(id);
@@ -34,13 +31,6 @@ export class ChordAndIntervalManager {
     if (inversionIndex === 0) return definition.offsets;
     return definition.inversions[inversionIndex];
   }
-
-  static IntervalOrChordDefinitions = (isInterval: boolean) => {
-    return Object.entries(NoteGroupingLibrary)
-      .filter(([_, info]) => (isInterval ? info.offsets.length === 2 : info.offsets.length > 2))
-      .sort((a, b) => a[1].orderId - b[1].orderId)
-      .map(([id]) => id as NoteGroupingId);
-  };
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
     if (indices.length === 0) {

@@ -13,6 +13,14 @@ class NoteGroupingLibrarySingleton {
     }
     return found;
   }
+
+  public IntervalOrChordDefinitions(isInterval: boolean): NoteGroupingId[] {
+    return NoteGroupingLibrarySingleton.library
+      .filter((grouping) => (isInterval ? grouping.numNotes === 2 : grouping.numNotes > 2))
+      .sort((a, b) => a.orderId - b.orderId)
+      .map((grouping) => grouping.id);
+  }
+
   private static instance: NoteGroupingLibrarySingleton;
 
   private constructor() {}

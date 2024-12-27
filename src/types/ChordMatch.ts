@@ -1,16 +1,16 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
-import { ChordDefinition } from "./ChordDefinition";
 import { ChordDisplayMode } from "./ChordDisplayMode";
 import { ActualIndex, ixInversion, InversionIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGroupingTypes";
 import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
+import { NoteGrouping } from "./NoteGrouping";
 export class ChordMatch {
   constructor(
     public rootNote: ActualIndex,
-    public definition: ChordDefinition,
+    public definition: NoteGrouping,
     public inversionIndex: InversionIndex = ixInversion(0),
   ) {}
 
