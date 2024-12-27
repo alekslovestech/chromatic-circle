@@ -92,10 +92,10 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.HalfDiminished,
       24,
-      "m7b5",
-      "ø",
-      "Major 7th Flat 5 Chord",
-      [0, 4, 6, 11],
+      "m7♭5",
+      "ø7",
+      "Half Diminished Chord",
+      [0, 3, 6, 10],
     ),
     NoteGrouping.createChord(
       ChordType.Diminished7,
