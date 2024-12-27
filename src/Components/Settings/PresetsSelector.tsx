@@ -89,9 +89,7 @@ const PresetsSelector: React.FC = () => {
   );
 
   const renderPresetButtons = () => {
-    const presets = NoteGroupingLibrary.IntervalOrChordDefinitions(
-      inputMode === InputMode.IntervalPresets,
-    );
+    const presets = NoteGroupingLibrary.IntervalOrChordIds(inputMode === InputMode.IntervalPresets);
 
     // Calculate number of columns based on mode
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;

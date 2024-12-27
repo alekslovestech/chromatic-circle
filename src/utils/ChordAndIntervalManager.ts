@@ -39,7 +39,7 @@ export class ChordAndIntervalManager {
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
-    for (const id of NoteGroupingLibrary.getIds()) {
+    for (const id of NoteGroupingLibrary.getAllIds()) {
       const noteGroupingId = id as NoteGroupingId; // Ensure id is treated as NoteGroupingId
       const definition = this.getDefinitionFromId(noteGroupingId);
 
@@ -52,7 +52,7 @@ export class ChordAndIntervalManager {
     }
 
     // Then check other inversions
-    for (const id of NoteGroupingLibrary.getIds()) {
+    for (const id of NoteGroupingLibrary.getAllIds()) {
       const definition = this.getDefinitionFromId(id as NoteGroupingId);
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
         const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
