@@ -64,7 +64,7 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="col-12 inversion-controls d-flex flex-column align-items-center">
+        <div className="inversion-controls">
           <div className="text-center">Inversion</div>
           <div className="d-flex justify-content-center gap-2">
             {Array.from({ length: inversionCount }, (_, i) =>
