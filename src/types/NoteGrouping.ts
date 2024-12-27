@@ -66,6 +66,14 @@ export class NoteGrouping {
     displayName: string,
     offsets: number[],
   ): NoteGrouping {
-    return new NoteGrouping(id, lettersId, symbolsId, displayName, orderId, ixOffsetArray(offsets));
+    return new NoteGrouping(
+      id,
+      lettersId,
+      symbolsId,
+      displayName,
+      orderId,
+      ixOffsetArray(offsets),
+      true,
+    );
   }
 }
