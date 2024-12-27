@@ -59,8 +59,9 @@ const PresetsSelector: React.FC = () => {
   );
 
   const renderInversionButtons = () => {
-    const presetDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
-    if (presetDefinition && presetDefinition.hasInversions()) {
+    //const presetDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
+    const presetDefinition = NoteGroupingLibrary.getGroupingById(selectedChordType);
+    if (presetDefinition && presetDefinition.hasInversions) {
       const inversionCount = presetDefinition.inversions.length;
       return (
         <div className="col-12 inversion-controls d-flex flex-column align-items-center">
@@ -88,9 +89,7 @@ const PresetsSelector: React.FC = () => {
   );
 
   const renderPresetButtons = () => {
-    const presets = ChordAndIntervalManager.IntervalOrChordDefinitions(
-      inputMode === InputMode.IntervalPresets,
-    );
+    const presets = NoteGroupingLibrary.IntervalOrChordIds(inputMode === InputMode.IntervalPresets);
 
     // Calculate number of columns based on mode
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;

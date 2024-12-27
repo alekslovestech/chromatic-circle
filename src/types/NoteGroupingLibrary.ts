@@ -3,9 +3,6 @@ import { ixOffsetArray } from "./IndexTypes";
 import { NoteGrouping } from "./NoteGrouping";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "./NoteGroupingTypes";
 class NoteGroupingLibrarySingleton {
-  public getIds(): NoteGroupingId[] {
-    return NoteGroupingLibrarySingleton.library.map((grouping) => grouping.id) as NoteGroupingId[];
-  }
   public getGroupingById(id: NoteGroupingId): NoteGrouping {
     const found = NoteGroupingLibrarySingleton.library.find((grouping) => grouping.id === id);
     if (!found) {
@@ -13,6 +10,36 @@ class NoteGroupingLibrarySingleton {
     }
     return found;
   }
+
+  public getId(key: NoteGroupingId, chordDisplayMode: ChordDisplayMode): string {
+    const grouping = this.getGroupingById(key);
+    switch (chordDisplayMode) {
+      case ChordDisplayMode.Letters_Long:
+        return grouping?.lettersId || "";
+      case ChordDisplayMode.Symbols:
+        return grouping?.symbolsId || "";
+      case ChordDisplayMode.Letters_Short:
+        const lettersId = grouping?.lettersId || "";
+        const displayId = lettersId === "min" ? "m" : lettersId === "maj" ? "" : lettersId;
+        return displayId;
+      case ChordDisplayMode.DisplayName:
+        return grouping?.displayName || "";
+      default:
+        return "";
+    }
+  }
+
+  public getAllIds(): NoteGroupingId[] {
+    return NoteGroupingLibrarySingleton.library.map((grouping) => grouping.id) as NoteGroupingId[];
+  }
+
+  public IntervalOrChordIds(isInterval: boolean): NoteGroupingId[] {
+    return NoteGroupingLibrarySingleton.library
+      .filter((grouping) => (isInterval ? grouping.numNotes === 2 : grouping.numNotes > 2))
+      .sort((a, b) => a.orderId - b.orderId)
+      .map((grouping) => grouping.id);
+  }
+
   private static instance: NoteGroupingLibrarySingleton;
 
   private constructor() {}
@@ -99,24 +126,6 @@ class NoteGroupingLibrarySingleton {
       this.instance = new NoteGroupingLibrarySingleton();
     }
     return this.instance;
-  }
-
-  public getId(key: NoteGroupingId, chordDisplayMode: ChordDisplayMode): string {
-    const grouping = this.getGroupingById(key);
-    switch (chordDisplayMode) {
-      case ChordDisplayMode.Letters_Long:
-        return grouping?.lettersId || "";
-      case ChordDisplayMode.Symbols:
-        return grouping?.symbolsId || "";
-      case ChordDisplayMode.Letters_Short:
-        const lettersId = grouping?.lettersId || "";
-        const displayId = lettersId === "min" ? "m" : lettersId === "maj" ? "" : lettersId;
-        return displayId;
-      case ChordDisplayMode.DisplayName:
-        return grouping?.displayName || "";
-      default:
-        return "";
-    }
   }
 }
 
