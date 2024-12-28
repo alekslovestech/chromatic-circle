@@ -94,17 +94,15 @@ const PresetsSelector: React.FC = () => {
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;
 
     return (
-      <div className="preset-buttons-container">
-        <div
-          className="preset-buttons-grid"
-          style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
-        >
-          {presets.map((noteGroupingPreset) => (
-            <div className="preset-button-wrapper" key={noteGroupingPreset}>
-              {renderOnePresetButton(noteGroupingPreset)}
-            </div>
-          ))}
-        </div>
+      <div
+        className="preset-buttons-grid"
+        style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
+      >
+        {presets.map((noteGroupingPreset) => (
+          <div className="preset-button-wrapper" key={noteGroupingPreset}>
+            {renderOnePresetButton(noteGroupingPreset)}
+          </div>
+        ))}
       </div>
     );
   };
