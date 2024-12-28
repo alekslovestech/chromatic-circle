@@ -5,9 +5,9 @@ import { InversionIndex, ixInversion } from "../../types/IndexTypes";
 import { ChordDisplayMode } from "../../types/ChordDisplayMode";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
-import "../../styles/PresetsSelector.css";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
+import "../../styles/PresetsSelector.css";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -110,10 +110,7 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div className="presets-selector container">
-      {/*<h3 className="text-center" hidden={true}>
-      {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-    </h3>*/}
+    <div className="presets-selector">
       {renderPresetButtons()}
       {inputMode === InputMode.ChordPresets && renderInversionButtons()}
     </div>
