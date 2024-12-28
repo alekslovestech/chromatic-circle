@@ -64,7 +64,7 @@ const PresetsSelector: React.FC = () => {
     if (presetDefinition && presetDefinition.hasInversions) {
       const inversionCount = presetDefinition.inversions.length;
       return (
-        <div className="col-12 inversion-controls d-flex flex-column align-items-center">
+        <div className="inversion-controls">
           <div className="text-center">Inversion</div>
           <div className="d-flex justify-content-center gap-2">
             {Array.from({ length: inversionCount }, (_, i) =>
@@ -91,7 +91,6 @@ const PresetsSelector: React.FC = () => {
   const renderPresetButtons = () => {
     const presets = NoteGroupingLibrary.IntervalOrChordIds(inputMode === InputMode.IntervalPresets);
 
-    // Calculate number of columns based on mode
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;
 
     return (
@@ -111,16 +110,12 @@ const PresetsSelector: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="presets-selector container">
-        {/*<h3 className="text-center" hidden={true}>
-        {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-      </h3>*/}
-        {renderPresetButtons()}
-        {inputMode === InputMode.ChordPresets && (
-          <div className="row">{renderInversionButtons()}</div>
-        )}
-      </div>
+    <div className="presets-selector container">
+      {/*<h3 className="text-center" hidden={true}>
+      {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
+    </h3>*/}
+      {renderPresetButtons()}
+      {inputMode === InputMode.ChordPresets && renderInversionButtons()}
     </div>
   );
 };
