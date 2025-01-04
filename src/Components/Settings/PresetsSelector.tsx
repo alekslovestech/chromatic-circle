@@ -59,7 +59,6 @@ const PresetsSelector: React.FC = () => {
   );
 
   const renderInversionButtons = () => {
-    //const presetDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
     const presetDefinition = NoteGroupingLibrary.getGroupingById(selectedChordType);
     if (presetDefinition && presetDefinition.hasInversions) {
       const inversionCount = presetDefinition.inversions.length;
