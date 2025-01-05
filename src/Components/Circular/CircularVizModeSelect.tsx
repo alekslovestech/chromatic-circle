@@ -13,6 +13,7 @@ const CircularVisModeSelect: React.FC = () => {
   return (
     <div className={`dropdown ${invisibleClass}`}>
       <select
+        id="circular-viz-mode" // Added ID for accessibility
         className="form-select"
         style={{ fontSize: "calc(0.7rem)" }} // Responsive font size
         value={circularVisMode}
