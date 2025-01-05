@@ -76,7 +76,7 @@ body {
   grid-template-columns: 1fr 100px;
   grid-template-rows: min-content 1fr;
   position: relative;
-  padding: 1rem;
+  padding: 0.5rem;
   overflow: hidden;
   max-height: 100%;
 }
