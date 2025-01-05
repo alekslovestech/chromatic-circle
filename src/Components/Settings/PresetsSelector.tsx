@@ -5,9 +5,9 @@ import { InversionIndex, ixInversion } from "../../types/IndexTypes";
 import { ChordDisplayMode } from "../../types/ChordDisplayMode";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
-import "../../styles/PresetsSelector.css";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
+import "../../styles/PresetsSelector.css";
 
 const PresetsSelector: React.FC = () => {
   const {
@@ -59,7 +59,6 @@ const PresetsSelector: React.FC = () => {
   );
 
   const renderInversionButtons = () => {
-    //const presetDefinition = ChordAndIntervalManager.getDefinitionFromId(selectedChordType);
     const presetDefinition = NoteGroupingLibrary.getGroupingById(selectedChordType);
     if (presetDefinition && presetDefinition.hasInversions) {
       const inversionCount = presetDefinition.inversions.length;
@@ -94,26 +93,21 @@ const PresetsSelector: React.FC = () => {
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;
 
     return (
-      <div className="preset-buttons-container">
-        <div
-          className="preset-buttons-grid"
-          style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
-        >
-          {presets.map((noteGroupingPreset) => (
-            <div className="preset-button-wrapper" key={noteGroupingPreset}>
-              {renderOnePresetButton(noteGroupingPreset)}
-            </div>
-          ))}
-        </div>
+      <div
+        className="preset-buttons-grid"
+        style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
+      >
+        {presets.map((noteGroupingPreset) => (
+          <div className="preset-button-wrapper" key={noteGroupingPreset}>
+            {renderOnePresetButton(noteGroupingPreset)}
+          </div>
+        ))}
       </div>
     );
   };
 
   return (
-    <div className="presets-selector container">
-      {/*<h3 className="text-center" hidden={true}>
-      {inputMode === InputMode.IntervalPresets ? "Interval Presets" : "Chord Presets"}
-    </h3>*/}
+    <div className="presets-selector">
       {renderPresetButtons()}
       {inputMode === InputMode.ChordPresets && renderInversionButtons()}
     </div>

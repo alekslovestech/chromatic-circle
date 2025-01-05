@@ -76,7 +76,7 @@ body {
   grid-template-columns: 1fr 100px;
   grid-template-rows: min-content 1fr;
   position: relative;
-  padding: 1rem;
+  padding: 0.5rem;
   overflow: hidden;
   max-height: 100%;
 }
@@ -96,9 +96,12 @@ body {
   grid-area: settings;
   display: flex;
   gap: 1rem;
-  overflow: auto;
+  overflow: hidden;
   padding: 1rem;
   padding-right: 2rem;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
 .chord-display-container > * {
