@@ -10,8 +10,6 @@ body {
 
 :root {
   --keyboardlinear-max-width: 500px;
-  --keyboardcircular-max-width: 300px;
-  --keyboardcircular-max-height: 200px;
   --buttons-container-max-width: 300px;
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
@@ -31,7 +29,7 @@ body {
   max-height: 100vh;
   box-sizing: border-box;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 120px 3fr 4fr 2fr;
+  grid-template-rows: 120px 3fr 3fr 2fr;
   /*default: portrait mode */
   grid-template-areas:
     "staff staff"
