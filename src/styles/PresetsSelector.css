@@ -1,26 +1,18 @@
 .presets-selector {
-    /* Display and Box Model */
     display: flex;
     min-height: 0;
     max-width: 100%;
 
-    /* Flex Container */
     flex: 1;
     flex-direction: column;
 
-    /* Other */
     overflow-y: auto;
 }
 
 .preset-buttons-container {
-    /* Display and Box Model */
     width: 100%;
-
-    /* Flex Item */
     flex: 1;
     min-height: 0;
-
-    /* Other */
     overflow: hidden;
 }
 
@@ -48,10 +40,7 @@
 }
 
 .inversion-controls {
-    /* Display and Box Model */
     margin-top: 0.5rem;
-
-    /* Flex Item */
     flex-shrink: 0;
 }
 
