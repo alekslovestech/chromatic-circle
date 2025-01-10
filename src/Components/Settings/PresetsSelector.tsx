@@ -97,11 +97,7 @@ const PresetsSelector: React.FC = () => {
         className="preset-buttons-grid"
         style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
       >
-        {presets.map((noteGroupingPreset) => (
-          <div className="preset-button-wrapper" key={noteGroupingPreset}>
-            {renderOnePresetButton(noteGroupingPreset)}
-          </div>
-        ))}
+        {presets.map((noteGroupingPreset) => renderOnePresetButton(noteGroupingPreset))}
       </div>
     );
   };
