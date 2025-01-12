@@ -6,13 +6,14 @@ import ModeSelector from "../../Components/Settings/ModeSelector";
 import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWELVE } from "../../types/NoteConstants";
-import { ChromaticIndex, ixChromatic } from "../../types/IndexTypes";
+import { ixChromatic } from "../../types/IndexTypes";
 
 describe("KeyboardCircular", () => {
+  const keyboardCircular = <KeyboardCircular />;
   const renderComponent = () => {
     return render(
       <NotesProvider>
-        <KeyboardCircular />
+        {keyboardCircular}
         <ModeSelector />
         <PresetsSelector />
         <StaffRenderer />
@@ -40,28 +41,23 @@ describe("KeyboardCircular", () => {
     });
   };
 
-  test.skip("test initial setup (G selected)", () => {
+  it("renders 12 pie slices", () => {
     expect(circularKeys.length).toBe(12);
-    const gNote = document.getElementById("circularKey07");
-    expect(gNote).toBeInTheDocument();
-    expect(gNote).toHaveClass("pie-slice-key white selected");
-    expect(gNote).toHaveTextContent("G");
-    const aNote = document.getElementById("circularKey09");
-    expect(aNote).toBeInTheDocument();
-    expect(aNote).toHaveClass("pie-slice-key white");
-    expect(aNote).toHaveTextContent("A");
-    expect(aNote).not.toHaveClass("selected");
   });
 
-  test("test initial setup (G selected - full)", () => {
-    expect(circularKeys.length).toBe(12);
+  test("test initial setup (G selected)", () => {
     verifySelectedKeys([7]);
+  });
+
+  it("handles click on the 'C' slice", () => {
+    const cNote = document.getElementById("circularKey00");
+    fireEvent.click(cNote!);
+    verifySelectedKeys([0]);
+  });
+
+  it("handles click on the 'A' slice", () => {
     const aNote = document.getElementById("circularKey09");
-    if (aNote) {
-      fireEvent.click(aNote);
-      verifySelectedKeys([9]);
-    } else {
-      throw new Error("aNote not found");
-    }
+    fireEvent.click(aNote!);
+    verifySelectedKeys([9]);
   });
 });
