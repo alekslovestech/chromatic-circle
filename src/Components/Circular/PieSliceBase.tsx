@@ -7,6 +7,7 @@ import { getNoteTextFromIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
 
 export interface PieSliceBaseProps {
+  id?: string;
   actualIndex: ActualIndex;
   outerRadius: number;
   innerRadius: number;
@@ -38,6 +39,7 @@ const getArcPath = (
 };
 
 const PieSliceBase: React.FC<PieSliceBaseProps> = ({
+  id,
   actualIndex,
   outerRadius,
   innerRadius,
@@ -56,7 +58,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   if (isSelected) classNames.push("selected");
 
   return (
-    <g className={classNames.join(" ")} onClick={onClick}>
+    <g className={classNames.join(" ")} onClick={onClick} id={id}>
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">

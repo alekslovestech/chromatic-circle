@@ -3,6 +3,7 @@ import { useNotes } from "../NotesContext";
 import PieSliceBase, { PieSliceBaseProps } from "./PieSliceBase";
 
 const PieSliceKey: React.FC<PieSliceBaseProps> = ({
+  id,
   actualIndex,
   outerRadius,
   innerRadius,
@@ -13,6 +14,7 @@ const PieSliceKey: React.FC<PieSliceBaseProps> = ({
   const isSelected = selectedNoteIndices.includes(actualIndex);
   return (
     <PieSliceBase
+      id={id}
       actualIndex={actualIndex}
       outerRadius={outerRadius}
       innerRadius={innerRadius}
