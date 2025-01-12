@@ -22,10 +22,10 @@ const getArcPath = (
   innerRadius: number,
 ): string => {
   // Convert angles to cartesian coordinates
-  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle);
-  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle);
-  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle);
-  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle);
+  const outerStart = PolarMath.getCartesianFromPolar(outerRadius, startAngle, true);
+  const outerEnd = PolarMath.getCartesianFromPolar(outerRadius, endAngle, true);
+  const innerStart = PolarMath.getCartesianFromPolar(innerRadius, startAngle, true);
+  const innerEnd = PolarMath.getCartesianFromPolar(innerRadius, endAngle, true);
 
   // Create SVG path: move to outer start, arc to outer end, line to inner end, arc to inner start, close path
   return [
