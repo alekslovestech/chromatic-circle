@@ -5,6 +5,7 @@ import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../type
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { CircularVisMode } from "./Circular/CircularVisualizationsSVG";
+import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
 
 interface NotesContextType {
   inputMode: InputMode;
@@ -44,17 +45,33 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
+
+    const rootNoteIndex = selectedNoteIndices[0] || null; // Get the index of the 0th selected note, or null if none are selected
+    let newChordType: NoteGroupingId;
+    let updatedIndices: ActualIndex[];
     // Reset to default preset based on mode
     switch (newMode) {
       case InputMode.IntervalPresets:
-        setSelectedChordType("Interval_Maj3" as NoteGroupingId);
+        newChordType = "Interval_Maj3" as NoteGroupingId;
+        setSelectedChordType(newChordType);
         break;
       case InputMode.ChordPresets:
-        setSelectedChordType("Chord_Maj" as NoteGroupingId);
+        newChordType = "Chord_Maj" as NoteGroupingId;
+        setSelectedChordType(newChordType);
         break;
       default:
+        newChordType = "Note" as NoteGroupingId;
         setSelectedChordType("Note" as NoteGroupingId);
     }
+
+    updatedIndices = calculateUpdatedIndices(
+      rootNoteIndex!,
+      newMode,
+      selectedNoteIndices,
+      newChordType, // Use the updated chord type here
+      selectedInversionIndex,
+    );
+    setSelectedNoteIndices(updatedIndices);
     // Reset inversion
     setSelectedInversionIndex(ixInversion(0));
   };
