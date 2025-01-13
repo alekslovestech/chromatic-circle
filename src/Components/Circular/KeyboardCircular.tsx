@@ -21,6 +21,7 @@ const KeyboardCircular: React.FC = () => {
     <CircularBase>
       {Array.from({ length: TWELVE }).map((_, index) => (
         <PieSliceKey
+          key={index}
           actualIndex={index as ActualIndex}
           onClick={() => handleKeyClick(index as ActualIndex)}
           outerRadius={OUTER_RADIUS}

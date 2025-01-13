@@ -56,11 +56,11 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   const classNames = ["pie-slice-key", blackWhiteString];
   if (isSelected) classNames.push("selected");
 
-  const key = actualIndex % TWELVE;
-  const id = `circularKey${String(key).padStart(2, "0")}`;
+  const chromaticIndex = actualIndex % TWELVE;
+  const id = `circularKey${String(chromaticIndex).padStart(2, "0")}`;
 
   return (
-    <g id={id} key={key} className={classNames.join(" ")} onClick={onClick}>
+    <g id={id} className={classNames.join(" ")} onClick={onClick}>
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
