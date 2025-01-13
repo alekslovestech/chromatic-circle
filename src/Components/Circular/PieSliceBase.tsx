@@ -60,7 +60,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   const id = `circularKey${String(key).padStart(2, "0")}`;
 
   return (
-    <g className={classNames.join(" ")} onClick={onClick} id={id} key={key}>
+    <g id={id} key={key} className={classNames.join(" ")} onClick={onClick}>
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
