@@ -50,6 +50,7 @@ const PresetsSelector: React.FC = () => {
 
   const renderOneInversionButton = (inversionIndex: InversionIndex) => (
     <button
+      id={`inversionButton${inversionIndex}`}
       key={inversionIndex}
       onClick={() => handleInversionChange(inversionIndex)}
       className={`btn btn-outline-secondary btn-inversion`}
