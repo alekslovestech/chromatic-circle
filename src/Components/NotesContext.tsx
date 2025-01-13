@@ -64,16 +64,18 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setSelectedChordType("Note" as NoteGroupingId);
     }
 
+    const zeroInversion = ixInversion(0);
+
     updatedIndices = calculateUpdatedIndices(
       rootNoteIndex!,
       newMode,
       selectedNoteIndices,
       newChordType, // Use the updated chord type here
-      selectedInversionIndex,
+      zeroInversion,
     );
     setSelectedNoteIndices(updatedIndices);
     // Reset inversion
-    setSelectedInversionIndex(ixInversion(0));
+    setSelectedInversionIndex(zeroInversion);
   };
 
   const value = {
