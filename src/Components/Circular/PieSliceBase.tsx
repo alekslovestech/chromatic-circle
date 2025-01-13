@@ -5,9 +5,9 @@ import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { getNoteTextFromIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
+import { TWELVE } from "../../types/NoteConstants";
 
 export interface PieSliceBaseProps {
-  id?: string;
   actualIndex: ActualIndex;
   outerRadius: number;
   innerRadius: number;
@@ -39,7 +39,6 @@ const getArcPath = (
 };
 
 const PieSliceBase: React.FC<PieSliceBaseProps> = ({
-  id,
   actualIndex,
   outerRadius,
   innerRadius,
@@ -57,8 +56,11 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   const classNames = ["pie-slice-key", blackWhiteString];
   if (isSelected) classNames.push("selected");
 
+  const key = actualIndex % TWELVE;
+  const id = `circularKey${String(key).padStart(2, "0")}`;
+
   return (
-    <g className={classNames.join(" ")} onClick={onClick} id={id}>
+    <g className={classNames.join(" ")} onClick={onClick} id={id} key={key}>
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
