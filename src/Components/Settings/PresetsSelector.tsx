@@ -79,6 +79,7 @@ const PresetsSelector: React.FC = () => {
   const renderOnePresetButton = (noteGroupingPreset: NoteGroupingId) => (
     <button
       key={noteGroupingPreset}
+      id={noteGroupingPreset}
       onClick={() => handlePresetChange(noteGroupingPreset)}
       className={`btn btn-outline-secondary btn-preset`}
       title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
