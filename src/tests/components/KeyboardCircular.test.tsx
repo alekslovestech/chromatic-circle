@@ -41,7 +41,7 @@ describe("KeyboardCircular", () => {
     });
   };
 
-  it("renders 12 pie slices", () => {
+  test("renders 12 pie slices", () => {
     expect(circularKeys.length).toBe(12);
   });
 
@@ -49,15 +49,51 @@ describe("KeyboardCircular", () => {
     verifySelectedKeys([7]);
   });
 
-  it("handles click on the 'C' slice", () => {
+  test("handles click on the 'C' slice", () => {
     const cNote = document.getElementById("circularKey00");
     fireEvent.click(cNote!);
     verifySelectedKeys([0]);
   });
 
-  it("handles click on the 'A' slice", () => {
+  test("handles click on the 'A' slice", () => {
     const aNote = document.getElementById("circularKey09");
     fireEvent.click(aNote!);
     verifySelectedKeys([9]);
+  });
+
+  test("switching mode to Interval Presets renders 2 notes", () => {
+    const intervalPresetsButton = screen.getByText(/Interval Presets/i);
+    fireEvent.click(intervalPresetsButton);
+    expect(intervalPresetsButton).toHaveClass("active");
+
+    // Verify that there are 2 selected notes in interval mode
+    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
+    expect(selectedNotes.length).toBe(2);
+    verifySelectedKeys([7, 11]);
+  });
+
+  test("switching mode to Chord Presets renders 3 notes", () => {
+    const intervalPresetsButton = screen.getByText(/Chord Presets/i);
+    fireEvent.click(intervalPresetsButton);
+    expect(intervalPresetsButton).toHaveClass("active");
+
+    // Verify that there are 3 selected notes in chord mode
+    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
+    expect(selectedNotes.length).toBe(3);
+    //verifySelectedKeys([7, 11]);
+  });
+
+  test("switching to Chord Presets with C selected renders 3 notes", () => {
+    const cNote = document.getElementById("circularKey00");
+    fireEvent.click(cNote!);
+    verifySelectedKeys([0]);
+    const chordPresetsButton = screen.getByText(/Chord Presets/i);
+    fireEvent.click(chordPresetsButton);
+    expect(chordPresetsButton).toHaveClass("active");
+
+    // Verify that there are 2 selected notes in interval mode
+    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
+    expect(selectedNotes.length).toBe(3);
+    verifySelectedKeys([0, 4, 7]);
   });
 });
