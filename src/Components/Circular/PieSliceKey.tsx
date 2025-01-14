@@ -1,13 +1,7 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
 import PieSliceBase, { PieSliceBaseProps } from "./PieSliceBase";
-import { TWELVE } from "../../types/NoteConstants";
-import {
-  ActualIndex,
-  chromaticToActual,
-  isSelectedEitherOctave,
-  ixOctaveOffset,
-} from "../../types/IndexTypes";
+import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 
 const PieSliceKey: React.FC<PieSliceBaseProps> = ({
   chromaticIndex,

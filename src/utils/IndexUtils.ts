@@ -72,9 +72,6 @@ export class IndexUtils {
     indices1.length === indices2.length &&
     indices1.every((note, index) => note === indices2[index]);
 
-  static isBlackKey = (actualIndex: ActualIndex): boolean =>
-    [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
-
   //if the new index is already selected, remove it, otherwise add it
   static ToggleNewIndex = (
     selectedNoteIndices: ActualIndex[],

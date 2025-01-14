@@ -1,12 +1,6 @@
-import {
-  ActualIndex,
-  ChromaticIndex,
-  chromaticToActual,
-  isSelectedEitherOctave,
-  OctaveOffset,
-} from "../types/IndexTypes";
+import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
-import { IndexUtils } from "./IndexUtils";
+import { isBlackKey, isSelectedEitherOctave } from "./KeyboardUtils";
 
 export function getComputedColor(cssVariable: string): string {
   const color = getComputedStyle(document.documentElement).getPropertyValue(cssVariable).trim();
@@ -14,7 +8,7 @@ export function getComputedColor(cssVariable: string): string {
 }
 
 export const getBlackWhiteString = (index: ActualIndex): string =>
-  IndexUtils.isBlackKey(index) ? "black" : "white";
+  isBlackKey(index) ? "black" : "white";
 
 export function getKeyColor(
   index: ActualIndex | ChromaticIndex,

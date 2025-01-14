@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  ActualIndex,
-  ChromaticIndex,
-  chromaticToActual,
-  ixOctaveOffset,
-} from "../../types/IndexTypes";
+import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
 import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";

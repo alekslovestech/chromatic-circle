@@ -9,6 +9,7 @@ import {
   ixOffsetArray,
 } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
+import { isBlackKey } from "../utils/KeyboardUtils";
 
 describe("IndexUtils", () => {
   describe("normalizeIndices", () => {
@@ -87,21 +88,21 @@ describe("IndexUtils", () => {
 
   describe("isBlackKey", () => {
     it("should return true for black keys", () => {
-      expect(IndexUtils.isBlackKey(ixActual(1))).toBe(true);
-      expect(IndexUtils.isBlackKey(ixActual(3))).toBe(true);
-      expect(IndexUtils.isBlackKey(ixActual(6))).toBe(true);
-      expect(IndexUtils.isBlackKey(ixActual(8))).toBe(true);
-      expect(IndexUtils.isBlackKey(ixActual(10))).toBe(true);
+      expect(isBlackKey(ixActual(1))).toBe(true);
+      expect(isBlackKey(ixActual(3))).toBe(true);
+      expect(isBlackKey(ixActual(6))).toBe(true);
+      expect(isBlackKey(ixActual(8))).toBe(true);
+      expect(isBlackKey(ixActual(10))).toBe(true);
     });
 
     it("should return false for white keys", () => {
-      expect(IndexUtils.isBlackKey(ixActual(0))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(2))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(4))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(5))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(7))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(9))).toBe(false);
-      expect(IndexUtils.isBlackKey(ixActual(11))).toBe(false);
+      expect(isBlackKey(ixActual(0))).toBe(false);
+      expect(isBlackKey(ixActual(2))).toBe(false);
+      expect(isBlackKey(ixActual(4))).toBe(false);
+      expect(isBlackKey(ixActual(5))).toBe(false);
+      expect(isBlackKey(ixActual(7))).toBe(false);
+      expect(isBlackKey(ixActual(9))).toBe(false);
+      expect(isBlackKey(ixActual(11))).toBe(false);
     });
   });
 });
