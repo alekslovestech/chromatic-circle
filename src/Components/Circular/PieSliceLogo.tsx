@@ -1,10 +1,14 @@
 import React from "react";
 import PieSliceBase, { PieSliceBaseProps } from "./PieSliceBase";
 
-const PieSliceLogo: React.FC<PieSliceBaseProps> = ({ actualIndex, outerRadius, innerRadius }) => {
+const PieSliceLogo: React.FC<PieSliceBaseProps> = ({
+  chromaticIndex,
+  outerRadius,
+  innerRadius,
+}) => {
   return (
     <PieSliceBase
-      actualIndex={actualIndex}
+      chromaticIndex={chromaticIndex}
       outerRadius={outerRadius}
       innerRadius={innerRadius}
       isSelected={false}

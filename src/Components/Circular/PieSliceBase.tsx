@@ -1,5 +1,10 @@
 import React from "react";
-import { ActualIndex } from "../../types/IndexTypes";
+import {
+  ActualIndex,
+  ChromaticIndex,
+  chromaticToActual,
+  ixOctaveOffset,
+} from "../../types/IndexTypes";
 import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
@@ -8,7 +13,7 @@ import { useNotes } from "../NotesContext";
 import { TWELVE } from "../../types/NoteConstants";
 
 export interface PieSliceBaseProps {
-  actualIndex: ActualIndex;
+  chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
   isSelected?: boolean;
@@ -39,13 +44,14 @@ const getArcPath = (
 };
 
 const PieSliceBase: React.FC<PieSliceBaseProps> = ({
-  actualIndex,
+  chromaticIndex,
   outerRadius,
   innerRadius,
   isSelected,
   onClick,
   showText,
 }) => {
+  const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
   const { selectedAccidental } = useNotes();
   const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
@@ -56,7 +62,6 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   const classNames = ["pie-slice-key", blackWhiteString];
   if (isSelected) classNames.push("selected");
 
-  const chromaticIndex = actualIndex % TWELVE;
   const id = `circularKey${String(chromaticIndex).padStart(2, "0")}`;
 
   return (
