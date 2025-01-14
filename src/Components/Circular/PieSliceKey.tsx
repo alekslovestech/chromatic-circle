@@ -1,19 +1,20 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
 import PieSliceBase, { PieSliceBaseProps } from "./PieSliceBase";
+import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 
 const PieSliceKey: React.FC<PieSliceBaseProps> = ({
-  actualIndex,
+  chromaticIndex,
   outerRadius,
   innerRadius,
   onClick,
 }) => {
   const { selectedNoteIndices } = useNotes();
 
-  const isSelected = selectedNoteIndices.includes(actualIndex);
+  const isSelected = isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
   return (
     <PieSliceBase
-      actualIndex={actualIndex}
+      chromaticIndex={chromaticIndex}
       outerRadius={outerRadius}
       innerRadius={innerRadius}
       onClick={onClick}

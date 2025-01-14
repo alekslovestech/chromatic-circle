@@ -38,8 +38,9 @@ export const ModeSelector: React.FC = () => {
     <div className="mode-selector text-center">
       <div className="mode-selector-title">Input Mode</div>
       <div className="mode-buttons">
-        {AVAILABLE_MODES.map(({ mode, description }) => (
+        {AVAILABLE_MODES.map(({ mode, description }, index) => (
           <button
+            id={`modeButton${index}`}
             key={mode}
             onClick={() => handleModeChange(mode)}
             className={`btn btn-outline-secondary ${inputMode === mode ? "active" : ""}`}

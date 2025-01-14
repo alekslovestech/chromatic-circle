@@ -1,8 +1,27 @@
-import { ActualIndex, InversionIndex } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ChromaticIndex,
+  ixOctaveOffset,
+  chromaticToActual,
+  InversionIndex,
+} from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { InputMode } from "../types/InputMode";
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
+import { TWELVE } from "../types/NoteConstants";
+
+export const isBlackKey = (actualIndex: ActualIndex): boolean =>
+  [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
+
+export const isSelectedEitherOctave = (
+  chromaticIndex: ChromaticIndex,
+  selectedNoteIndices: ActualIndex[],
+): boolean => {
+  const actualIndex0 = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
+  const actualIndex1 = chromaticToActual(chromaticIndex, ixOctaveOffset(1));
+  return selectedNoteIndices.includes(actualIndex0) || selectedNoteIndices.includes(actualIndex1);
+};
 
 export function isRootNote(
   index: ActualIndex,

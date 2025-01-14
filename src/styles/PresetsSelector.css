@@ -2,17 +2,9 @@
     display: flex;
     min-height: 0;
     max-width: 100%;
-
     flex: 1;
     flex-direction: column;
-
-    overflow-y: auto;
-}
-
-.preset-buttons-container {
     width: 100%;
-    flex: 1;
-    min-height: 0;
     overflow: hidden;
 }
 
@@ -20,9 +12,6 @@
     display: grid;
     gap: 0.25rem;
     width: 100%;
-}
-
-.preset-button-wrapper {
     min-width: 0;  /* Allow shrinking */
 }
 
@@ -55,20 +44,4 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    margin: 0;
-}
-
-.row > div {
-    display: flex;
-    padding: 0.125rem;
-}
-
-.row > div > button {
-    flex: 1;
 }

@@ -39,23 +39,21 @@ describe("KeyboardLinear", () => {
     pianoKeys = document.querySelectorAll(".piano-key");
   });
 
-  /*
   test("Test modes", () => {
-    const singleNotesButton = screen.getByText(/Single Notes/i);
+    const singleNotesButton = screen.getByText(/Single Note/i);
     expect(singleNotesButton).toBeInTheDocument();
     expect(singleNotesButton).toHaveClass("active");
-    expect(singleNotesButton).toHaveTextContent("Single Notes");
+    expect(singleNotesButton).toHaveTextContent("Single Note");
 
-    const freeFormButton = screen.getByText(/Free-form Input/i);
+    const freeFormButton = screen.getByText(/Freeform/i);
     expect(freeFormButton).toBeInTheDocument();
     expect(freeFormButton).not.toHaveClass("active");
 
     fireEvent.click(freeFormButton);
     expect(freeFormButton).toHaveClass("active");
     expect(singleNotesButton).not.toHaveClass("active");
-    expect(freeFormButton).toHaveTextContent("Free-form Input");
+    expect(freeFormButton).toHaveTextContent("Freeform");
   });
-  */
 
   test("test initial setup (G selected)", () => {
     expect(pianoKeys.length).toBe(24);

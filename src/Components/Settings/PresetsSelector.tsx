@@ -50,6 +50,7 @@ const PresetsSelector: React.FC = () => {
 
   const renderOneInversionButton = (inversionIndex: InversionIndex) => (
     <button
+      id={`inversionButton${inversionIndex}`}
       key={inversionIndex}
       onClick={() => handleInversionChange(inversionIndex)}
       className={`btn btn-outline-secondary btn-inversion`}
@@ -79,6 +80,7 @@ const PresetsSelector: React.FC = () => {
   const renderOnePresetButton = (noteGroupingPreset: NoteGroupingId) => (
     <button
       key={noteGroupingPreset}
+      id={noteGroupingPreset}
       onClick={() => handlePresetChange(noteGroupingPreset)}
       className={`btn btn-outline-secondary btn-preset`}
       title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
@@ -97,11 +99,7 @@ const PresetsSelector: React.FC = () => {
         className="preset-buttons-grid"
         style={{ gridTemplateColumns: `repeat(${numColumns}, 1fr)` }}
       >
-        {presets.map((noteGroupingPreset) => (
-          <div className="preset-button-wrapper" key={noteGroupingPreset}>
-            {renderOnePresetButton(noteGroupingPreset)}
-          </div>
-        ))}
+        {presets.map((noteGroupingPreset) => renderOnePresetButton(noteGroupingPreset))}
       </div>
     );
   };
