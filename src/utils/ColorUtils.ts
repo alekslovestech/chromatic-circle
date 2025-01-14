@@ -1,4 +1,10 @@
-import { ActualIndex, ChromaticIndex, chromaticToActual, OctaveOffset } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ChromaticIndex,
+  chromaticToActual,
+  isSelectedEitherOctave,
+  OctaveOffset,
+} from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 
@@ -29,13 +35,9 @@ export function getComputedKeyColorOverlayed(
   index: ChromaticIndex,
   selectedNoteIndices: ActualIndex[],
 ): string {
-  const isSelectedFirstOctave = selectedNoteIndices.includes(
-    chromaticToActual(index, 0 as OctaveOffset),
-  );
+  const isSelected = isSelectedEitherOctave(index, selectedNoteIndices);
   const isSelectedSecondOctave = selectedNoteIndices.includes((index + TWELVE) as ActualIndex);
-  return getComputedColor(
-    getKeyColor(index, isSelectedFirstOctave || isSelectedSecondOctave, isSelectedSecondOctave),
-  );
+  return getComputedColor(getKeyColor(index, isSelected, isSelectedSecondOctave));
 }
 
 export function getComputedTextColor(index: ActualIndex): string {

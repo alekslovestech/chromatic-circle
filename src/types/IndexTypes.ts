@@ -61,3 +61,12 @@ export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
     octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
   };
 }
+
+export function isSelectedEitherOctave(
+  chromaticIndex: ChromaticIndex,
+  selectedNoteIndices: ActualIndex[],
+): boolean {
+  const actualIndex0 = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
+  const actualIndex1 = chromaticToActual(chromaticIndex, ixOctaveOffset(1));
+  return selectedNoteIndices.includes(actualIndex0) || selectedNoteIndices.includes(actualIndex1);
+}

@@ -79,8 +79,9 @@ describe("KeyboardCircular", () => {
 
     // Verify that there are 3 selected notes in chord mode
     const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
+
     expect(selectedNotes.length).toBe(3);
-    //verifySelectedKeys([7, 11]);
+    verifySelectedKeys([7, 11, 2]);
   });
 
   test("switching to Chord Presets with C selected renders 3 notes", () => {
