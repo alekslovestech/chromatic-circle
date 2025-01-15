@@ -11,7 +11,7 @@ import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
 import { TWELVE } from "../types/NoteConstants";
 
-export const isBlackKey = (actualIndex: ActualIndex): boolean =>
+export const isBlackKey = (actualIndex: ActualIndex | ChromaticIndex): boolean =>
   [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
 
 export const isSelectedEitherOctave = (
@@ -23,27 +23,27 @@ export const isSelectedEitherOctave = (
   return selectedNoteIndices.includes(actualIndex0) || selectedNoteIndices.includes(actualIndex1);
 };
 
-export function isRootNote(
+export const isRootNote = (
   index: ActualIndex,
   selectedNoteIndices: ActualIndex[],
   selectedInversionIndex: InversionIndex,
   inputMode: InputMode,
   selectedChordType: NoteGroupingId,
-): boolean {
+): boolean => {
   if (inputMode === InputMode.Toggle || !ChordAndIntervalManager.hasInversions(selectedChordType)) {
     return false;
   }
   const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
   return index === rootNote;
-}
+};
 
-export function calculateUpdatedIndices(
+export const calculateUpdatedIndices = (
   newIndex: ActualIndex,
   inputMode: InputMode,
   selectedNoteIndices: ActualIndex[],
   selectedChordType: NoteGroupingId,
   selectedInversionIndex: InversionIndex,
-): ActualIndex[] {
+): ActualIndex[] => {
   if (inputMode === InputMode.Toggle)
     return IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex as ActualIndex);
   return ChordAndIntervalManager.calculateChordNotesFromIndex(
@@ -51,4 +51,4 @@ export function calculateUpdatedIndices(
     selectedChordType,
     selectedInversionIndex,
   );
-}
+};
