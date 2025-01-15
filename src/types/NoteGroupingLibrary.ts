@@ -24,6 +24,8 @@ class NoteGroupingLibrarySingleton {
         return displayId;
       case ChordDisplayMode.DisplayName:
         return grouping?.displayName || "";
+      case ChordDisplayMode.ElementId:
+        return `${grouping?.id}`;
       default:
         return "";
     }

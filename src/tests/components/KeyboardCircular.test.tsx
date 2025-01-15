@@ -1,4 +1,3 @@
-import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 import { NotesProvider } from "../../Components/NotesContext";
@@ -64,7 +63,7 @@ describe("KeyboardCircular", () => {
   test("switching mode to Interval Presets renders 2 notes", () => {
     const intervalPresetsButton = screen.getByText(/Interval Presets/i);
     fireEvent.click(intervalPresetsButton);
-    expect(intervalPresetsButton).toHaveClass("active");
+    expect(intervalPresetsButton).toHaveClass("selected");
 
     // Verify that there are 2 selected notes in interval mode
     const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
@@ -75,7 +74,7 @@ describe("KeyboardCircular", () => {
   test("switching mode to Chord Presets renders 3 notes", () => {
     const intervalPresetsButton = screen.getByText(/Chord Presets/i);
     fireEvent.click(intervalPresetsButton);
-    expect(intervalPresetsButton).toHaveClass("active");
+    expect(intervalPresetsButton).toHaveClass("selected");
 
     // Verify that there are 3 selected notes in chord mode
     const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
@@ -90,7 +89,7 @@ describe("KeyboardCircular", () => {
     verifySelectedKeys([0]);
     const chordPresetsButton = screen.getByText(/Chord Presets/i);
     fireEvent.click(chordPresetsButton);
-    expect(chordPresetsButton).toHaveClass("active");
+    expect(chordPresetsButton).toHaveClass("selected");
 
     // Verify that there are 2 selected notes in interval mode
     const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
@@ -99,17 +98,17 @@ describe("KeyboardCircular", () => {
   });
 
   test("switching Single Note mode from a non-zero inversion", () => {
-    const chordPresetsButton = document.getElementById("modeButton3");
+    const chordPresetsButton = document.getElementById("mode-chords");
     fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton).toHaveClass("active");
+    expect(chordPresetsButton).toHaveClass("selected");
 
     // Click on a non-zero inversion, for example, the 'E' slice
-    const inversion1Button = document.getElementById("inversionButton1");
+    const inversion1Button = document.getElementById("inversion-1");
     fireEvent.click(inversion1Button!);
 
     // Switch back to Single Note mode after clicking on a non-zero inversion
-    const singleNoteButton = document.getElementById("modeButton1");
+    const singleNoteButton = document.getElementById("mode-singlenote");
     fireEvent.click(singleNoteButton!);
-    expect(singleNoteButton).toHaveClass("active");
+    expect(singleNoteButton).toHaveClass("selected");
   });
 });

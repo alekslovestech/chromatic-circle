@@ -3,4 +3,5 @@ export enum ChordDisplayMode {
   Symbols = "Abbreviated",
   Letters_Short = "DisplayId",
   DisplayName = "DisplayName",
+  ElementId = "ElementId",
 }

@@ -7,7 +7,7 @@ export function getComputedColor(cssVariable: string): string {
   return color || "#000000";
 }
 
-export const getBlackWhiteString = (index: ActualIndex): string =>
+export const getBlackWhiteString = (index: ActualIndex | ChromaticIndex): string =>
   isBlackKey(index) ? "black" : "white";
 
 export function getKeyColor(
@@ -15,7 +15,7 @@ export function getKeyColor(
   isSelected: boolean,
   isSecondOctave: boolean,
 ): string {
-  const blackWhiteString = getBlackWhiteString(index as ActualIndex);
+  const blackWhiteString = getBlackWhiteString(index);
   const octave = isSecondOctave ? "1" : "0";
   const selection = isSelected ? `-selected${octave}` : "";
   return `--key-${blackWhiteString}${selection}`;
