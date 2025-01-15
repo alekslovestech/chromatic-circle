@@ -1,4 +1,3 @@
-import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
@@ -37,22 +36,6 @@ describe("KeyboardLinear", () => {
       expect(pianoKeys[index]).not.toHaveClass("selected");
     });
   };
-
-  test("Test modes", () => {
-    const singleNotesButton = document.getElementById("modeSingleNote");
-    expect(singleNotesButton).toBeInTheDocument();
-    expect(singleNotesButton).toHaveClass("active");
-    expect(singleNotesButton).toHaveTextContent("Single Note");
-
-    const freeFormButton = document.getElementById("modeFreeform");
-    expect(freeFormButton).toBeInTheDocument();
-    expect(freeFormButton).not.toHaveClass("active");
-
-    fireEvent.click(freeFormButton!);
-    expect(freeFormButton).toHaveClass("active");
-    expect(singleNotesButton).not.toHaveClass("active");
-    expect(freeFormButton).toHaveTextContent("Freeform");
-  });
 
   test("test initial setup (G selected)", () => {
     expect(pianoKeys.length).toBe(24);

@@ -1,4 +1,3 @@
-import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 import { NotesProvider } from "../../Components/NotesContext";

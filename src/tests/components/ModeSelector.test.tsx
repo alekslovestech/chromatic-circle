@@ -1,5 +1,4 @@
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
@@ -14,46 +13,64 @@ describe("ModeSelector", () => {
     );
   };
 
-  test("Default mode is Single Note", () => {
-    renderComponent();
-    expect(screen.getByText("Single Note")).toBeInTheDocument();
-  });
-
-  describe("when IntervalPresets mode is selected", () => {
+  describe("Default Behavior", () => {
     beforeEach(() => {
       renderComponent();
-      fireEvent.click(screen.getByText("Interval Presets"));
     });
 
-    test("shows 'TT' button", () => {
-      expect(screen.getByText("TT")).toBeInTheDocument();
-    });
-
-    test("does not show 'sus2' button", () => {
-      expect(screen.queryByText("sus2")).not.toBeInTheDocument();
-    });
-
-    test("does not show 'Inversions'", () => {
-      expect(screen.queryByText("Inversions")).not.toBeInTheDocument();
+    test("initializes with Single Note mode active", () => {
+      const singleNotesButton = document.getElementById("modeSingleNote");
+      expect(singleNotesButton).toBeInTheDocument();
+      expect(singleNotesButton).toHaveClass("active");
+      expect(singleNotesButton).toHaveTextContent("Single Note");
     });
   });
 
-  describe("when ChordPresets mode is selected", () => {
+  describe("Mode Switching", () => {
     beforeEach(() => {
       renderComponent();
-      fireEvent.click(screen.getByText("Chord Presets"));
     });
 
-    test("shows 'sus2' button", () => {
-      expect(screen.getByText("sus2")).toBeInTheDocument();
+    test("switches from Single Note to Freeform mode correctly", () => {
+      const singleNotesButton = document.getElementById("modeSingleNote");
+      const freeFormButton = document.getElementById("modeFreeform");
+
+      expect(singleNotesButton).toHaveClass("active");
+      expect(freeFormButton).not.toHaveClass("active");
+
+      fireEvent.click(freeFormButton!);
+
+      expect(freeFormButton).toHaveClass("active");
+      expect(singleNotesButton).not.toHaveClass("active");
+      expect(freeFormButton).toHaveTextContent("Freeform");
+    });
+  });
+
+  describe("Mode-specific Preset Buttons", () => {
+    describe("Interval Mode", () => {
+      beforeEach(() => {
+        renderComponent();
+        fireEvent.click(document.getElementById("modeIntervals")!);
+      });
+
+      test("displays correct preset buttons", () => {
+        expect(document.getElementById("Interval_Tritone")).toBeInTheDocument();
+        expect(document.getElementById("Chord_Sus2")).not.toBeInTheDocument();
+        expect(document.getElementById("inversionButton0")).not.toBeInTheDocument();
+      });
     });
 
-    test("does not show 'TT' button", () => {
-      expect(screen.queryByText("TT")).not.toBeInTheDocument();
-    });
+    describe("Chord Mode", () => {
+      beforeEach(() => {
+        renderComponent();
+        fireEvent.click(document.getElementById("modeChords")!);
+      });
 
-    test("shows 'Inversion'", () => {
-      expect(screen.getByText("Inversion")).toBeInTheDocument();
+      test("displays correct preset buttons", () => {
+        expect(document.getElementById("Chord_Sus2")).toBeInTheDocument();
+        expect(document.getElementById("Interval_Tritone")).not.toBeInTheDocument();
+        expect(document.getElementById("inversionButton0")).toBeInTheDocument();
+      });
     });
   });
 });
