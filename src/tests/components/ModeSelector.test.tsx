@@ -21,7 +21,7 @@ describe("ModeSelector", () => {
     test("initializes with Single Note mode active", () => {
       const singleNotesButton = document.getElementById("modeSingleNote");
       expect(singleNotesButton).toBeInTheDocument();
-      expect(singleNotesButton).toHaveClass("active");
+      expect(singleNotesButton).toHaveClass("selected");
       expect(singleNotesButton).toHaveTextContent("Single Note");
     });
   });
@@ -35,13 +35,13 @@ describe("ModeSelector", () => {
       const singleNotesButton = document.getElementById("modeSingleNote");
       const freeFormButton = document.getElementById("modeFreeform");
 
-      expect(singleNotesButton).toHaveClass("active");
-      expect(freeFormButton).not.toHaveClass("active");
+      expect(singleNotesButton).toHaveClass("selected");
+      expect(freeFormButton).not.toHaveClass("selected");
 
       fireEvent.click(freeFormButton!);
 
-      expect(freeFormButton).toHaveClass("active");
-      expect(singleNotesButton).not.toHaveClass("active");
+      expect(freeFormButton).toHaveClass("selected");
+      expect(singleNotesButton).not.toHaveClass("selected");
       expect(freeFormButton).toHaveTextContent("Freeform");
     });
   });
@@ -53,10 +53,11 @@ describe("ModeSelector", () => {
         fireEvent.click(document.getElementById("modeIntervals")!);
       });
 
-      test("displays correct preset buttons", () => {
-        expect(document.getElementById("Interval_Tritone")).toBeInTheDocument();
-        expect(document.getElementById("Chord_Sus2")).not.toBeInTheDocument();
-        expect(document.getElementById("inversionButton0")).not.toBeInTheDocument();
+      test("selects M3 interval as default", () => {
+        const intervalM3Button = document.getElementById("Interval_Maj3");
+        expect(intervalM3Button).toBeInTheDocument();
+        fireEvent.click(intervalM3Button!);
+        expect(intervalM3Button).toHaveClass("selected");
       });
     });
 
@@ -70,6 +71,11 @@ describe("ModeSelector", () => {
         expect(document.getElementById("Chord_Sus2")).toBeInTheDocument();
         expect(document.getElementById("Interval_Tritone")).not.toBeInTheDocument();
         expect(document.getElementById("inversionButton0")).toBeInTheDocument();
+      });
+
+      test("selects Maj chord as default", () => {
+        const chordMajorButton = document.getElementById("Chord_Maj");
+        expect(chordMajorButton).toHaveClass("selected");
       });
     });
   });
