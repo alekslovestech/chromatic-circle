@@ -4,24 +4,29 @@ import { InputMode } from "../../types/InputMode";
 import "../../styles/ModeSelector.css";
 
 interface ModeSelectorButton {
+  id: string;
   mode: InputMode;
   description: string;
 }
 
 const AVAILABLE_MODES: ModeSelectorButton[] = [
   {
+    id: "modeFreeform",
     mode: InputMode.Toggle,
     description: "Click notes to toggle them on/off",
   },
   {
+    id: "modeSingleNote",
     mode: InputMode.SingleNote,
     description: "Click a note to select it",
   },
   {
+    id: "modeIntervals",
     mode: InputMode.IntervalPresets,
     description: "Select from predefined intervals",
   },
   {
+    id: "modeChords",
     mode: InputMode.ChordPresets,
     description: "Select from predefined chord patterns",
   },
@@ -38,9 +43,9 @@ export const ModeSelector: React.FC = () => {
     <div className="mode-selector text-center">
       <div className="mode-selector-title">Input Mode</div>
       <div className="mode-buttons">
-        {AVAILABLE_MODES.map(({ mode, description }, index) => (
+        {AVAILABLE_MODES.map(({ id, mode, description }) => (
           <button
-            id={`modeButton${index}`}
+            id={id}
             key={mode}
             onClick={() => handleModeChange(mode)}
             className={`btn btn-outline-secondary ${inputMode === mode ? "active" : ""}`}
