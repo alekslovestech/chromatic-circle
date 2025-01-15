@@ -98,16 +98,16 @@ describe("KeyboardCircular", () => {
   });
 
   test("switching Single Note mode from a non-zero inversion", () => {
-    const chordPresetsButton = document.getElementById("modeChords");
+    const chordPresetsButton = document.getElementById("mode-chords");
     fireEvent.click(chordPresetsButton!);
     expect(chordPresetsButton).toHaveClass("selected");
 
     // Click on a non-zero inversion, for example, the 'E' slice
-    const inversion1Button = document.getElementById("inversionButton1");
+    const inversion1Button = document.getElementById("inversion-1");
     fireEvent.click(inversion1Button!);
 
     // Switch back to Single Note mode after clicking on a non-zero inversion
-    const singleNoteButton = document.getElementById("modeSingleNote");
+    const singleNoteButton = document.getElementById("mode-singlenote");
     fireEvent.click(singleNoteButton!);
     expect(singleNoteButton).toHaveClass("selected");
   });

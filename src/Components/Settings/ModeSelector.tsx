@@ -11,22 +11,22 @@ interface ModeSelectorButton {
 
 const AVAILABLE_MODES: ModeSelectorButton[] = [
   {
-    id: "modeFreeform",
+    id: "mode-freeform",
     mode: InputMode.Toggle,
     description: "Click notes to toggle them on/off",
   },
   {
-    id: "modeSingleNote",
+    id: "mode-singlenote",
     mode: InputMode.SingleNote,
     description: "Click a note to select it",
   },
   {
-    id: "modeIntervals",
+    id: "mode-intervals",
     mode: InputMode.IntervalPresets,
     description: "Select from predefined intervals",
   },
   {
-    id: "modeChords",
+    id: "mode-chords",
     mode: InputMode.ChordPresets,
     description: "Select from predefined chord patterns",
   },
