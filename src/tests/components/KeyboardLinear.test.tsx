@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
@@ -19,8 +19,14 @@ describe("KeyboardLinear", () => {
     );
   };
 
+  let pianoKeys: NodeListOf<Element>;
+
+  beforeEach(() => {
+    renderComponent();
+    pianoKeys = document.querySelectorAll("[id^='linearKey']");
+  });
+
   const verifySelectedKeys = (selectedIndices: number[]) => {
-    const pianoKeys = document.querySelectorAll(".piano-key");
     selectedIndices.forEach((index) => {
       expect(pianoKeys[index]).toHaveClass("selected");
     });
@@ -32,24 +38,17 @@ describe("KeyboardLinear", () => {
     });
   };
 
-  let pianoKeys: NodeListOf<Element>;
-
-  beforeEach(() => {
-    renderComponent();
-    pianoKeys = document.querySelectorAll(".piano-key");
-  });
-
   test("Test modes", () => {
-    const singleNotesButton = screen.getByText(/Single Note/i);
+    const singleNotesButton = document.getElementById("modeSingleNote");
     expect(singleNotesButton).toBeInTheDocument();
     expect(singleNotesButton).toHaveClass("active");
     expect(singleNotesButton).toHaveTextContent("Single Note");
 
-    const freeFormButton = screen.getByText(/Freeform/i);
+    const freeFormButton = document.getElementById("modeFreeform");
     expect(freeFormButton).toBeInTheDocument();
     expect(freeFormButton).not.toHaveClass("active");
 
-    fireEvent.click(freeFormButton);
+    fireEvent.click(freeFormButton!);
     expect(freeFormButton).toHaveClass("active");
     expect(singleNotesButton).not.toHaveClass("active");
     expect(freeFormButton).toHaveTextContent("Freeform");
