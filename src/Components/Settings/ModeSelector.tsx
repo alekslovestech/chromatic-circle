@@ -48,7 +48,8 @@ export const ModeSelector: React.FC = () => {
             id={id}
             key={mode}
             onClick={() => handleModeChange(mode)}
-            className={`btn btn-outline-secondary ${inputMode === mode ? "selected" : ""}`}
+            /* old style = btn btn-outline-secondary */
+            className={`preset-button ${inputMode === mode ? "selected" : ""}`}
             title={description}
           >
             {mode.toString()}

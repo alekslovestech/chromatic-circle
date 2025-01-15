@@ -15,18 +15,6 @@
     min-width: 0;  /* Allow shrinking */
 }
 
-.btn-preset {
-    width: 100%;
-    min-height: 2rem;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 .inversion-controls {
     margin-top: 0.5rem;
@@ -40,8 +28,67 @@
     margin-top: 0.25rem;
 }
 
+/*color schemes (common to both)*/
+.preset-button,
+.inversion-button {
+    background: var(--serenity-softgrey);    
+    border: 1px solid var(--serenity-border-color);
+    cursor: pointer;
+}
+
+.preset-button:hover,
+.inversion-button:hover {
+    background: #eee;
+}
+
+.preset-button.selected,
+.inversion-button.selected {
+    background: var(--serenity-darkgrey);
+    color: white;
+}
+
+/*formatting for the preset buttons*/
+.preset-button {
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+} 
+
+/*formatting for the inversion buttons*/
+.inversion-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;  /* Makes it circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* older styles for reference (not used anymore)
 .btn-inversion {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
 }
+
+.btn-preset {
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+*/ 

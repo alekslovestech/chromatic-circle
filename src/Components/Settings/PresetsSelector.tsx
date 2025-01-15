@@ -53,7 +53,7 @@ const PresetsSelector: React.FC = () => {
       id={`inversion-${inversionIndex}`}
       key={inversionIndex}
       onClick={() => handleInversionChange(inversionIndex)}
-      className={`btn btn-outline-secondary btn-inversion`}
+      className={`inversion-button ${inversionIndex === selectedInversionIndex ? "selected" : ""}`}
     >
       {inversionIndex}
     </button>
@@ -87,9 +87,7 @@ const PresetsSelector: React.FC = () => {
       key={noteGroupingPreset}
       id={getPresetId(noteGroupingPreset)}
       onClick={() => handlePresetChange(noteGroupingPreset)}
-      className={`btn btn-outline-secondary btn-preset ${
-        noteGroupingPreset === selectedChordType ? "selected" : ""
-      }`}
+      className={`preset-button ${noteGroupingPreset === selectedChordType ? "selected" : ""}`}
       title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
     >
       {NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
