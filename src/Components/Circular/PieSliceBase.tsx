@@ -6,6 +6,7 @@ import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { getNoteTextFromIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
 import { TWELVE } from "../../types/NoteConstants";
+import { IndexUtils } from "../../utils/IndexUtils";
 
 export interface PieSliceBaseProps {
   chromaticIndex: ChromaticIndex;
@@ -57,7 +58,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   const classNames = ["pie-slice-key", blackWhiteString];
   if (isSelected) classNames.push("selected");
 
-  const id = `circularKey${String(chromaticIndex).padStart(2, "0")}`;
+  const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
 
   return (
     <g id={id} className={classNames.join(" ")} onClick={onClick}>

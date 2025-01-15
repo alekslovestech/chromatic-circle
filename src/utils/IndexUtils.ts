@@ -8,6 +8,8 @@ import {
 import { TWELVE, TWENTY4 } from "../types/NoteConstants";
 
 export class IndexUtils {
+  static StringWithPaddedIndex = (prefix: string, index: number) =>
+    `${prefix}${String(index).padStart(2, "0")}`;
   //everything relative to root note
   static normalizeIndices = (indices: number[]): number[] => {
     const rootNote = indices[0];

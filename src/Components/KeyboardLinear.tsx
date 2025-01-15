@@ -6,6 +6,7 @@ import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
+import { IndexUtils } from "../utils/IndexUtils";
 
 const KeyboardLinear: React.FC = () => {
   const { selectedNoteIndices, selectedAccidental } = useNotes();
@@ -22,8 +23,10 @@ const KeyboardLinear: React.FC = () => {
     if (isSelected) classNames.push("selected");
     if (isRootNote) classNames.push("root-note");
 
+    const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
     keys.push(
       <div
+        id={id}
         key={actualIndex}
         className={classNames.join(" ")}
         onClick={() => handleKeyClick(actualIndex)}
