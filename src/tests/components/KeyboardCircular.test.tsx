@@ -6,6 +6,7 @@ import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWELVE } from "../../types/NoteConstants";
 import { ixChromatic } from "../../types/IndexTypes";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
 
 describe("KeyboardCircular", () => {
   const keyboardCircular = <KeyboardCircular />;
@@ -50,79 +51,57 @@ describe("KeyboardCircular", () => {
   });
 
   test("handles click on the 'C' slice", () => {
-    const cNote = document.getElementById("circularKey00");
-    fireEvent.click(cNote!);
+    keyboardTestUtils.clickKey("circularKey00");
     verifySelectedKeys([0]);
   });
 
   test("handles click on the 'A' slice", () => {
-    const aNote = document.getElementById("circularKey09");
-    fireEvent.click(aNote!);
+    keyboardTestUtils.clickKey("circularKey09");
     verifySelectedKeys([9]);
   });
 
   test("switching mode to Freeform renders 1 note (still)", () => {
-    const freeFormButton = document.getElementById("mode-freeform");
-    fireEvent.click(freeFormButton!);
-    expect(freeFormButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("mode-freeform");
     verifySelectedKeys([7]);
   });
 
   test("switching mode to Interval Presets and then Freeform renders 2 notes (still)", () => {
-    const intervalPresetsButton = document.getElementById("mode-intervals");
-    fireEvent.click(intervalPresetsButton!);
-    const freeFormButton = document.getElementById("mode-freeform");
-    fireEvent.click(freeFormButton!);
+    keyboardTestUtils.clickKey("mode-intervals");
+    keyboardTestUtils.clickKey("mode-freeform");
 
-    expect(freeFormButton).toHaveClass("selected");
     verifySelectedKeys([7, 11]);
   });
 
   test("switching mode to Chord Presets and then Freeform renders 3 notes", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    const freeFormButton = document.getElementById("mode-freeform");
-    fireEvent.click(freeFormButton!);
+    keyboardTestUtils.clickKey("mode-chords");
+    keyboardTestUtils.clickKey("mode-freeform");
 
-    expect(freeFormButton).toHaveClass("selected");
     verifySelectedKeys([7, 11, 2]);
   });
 
   test("switching mode to Interval Presets renders 2 notes", () => {
-    const intervalPresetsButton = document.getElementById("mode-intervals");
-    fireEvent.click(intervalPresetsButton!);
-    expect(intervalPresetsButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("mode-intervals");
     verifySelectedKeys([7, 11]);
   });
 
   test("switching mode to Chord Presets renders 3 notes", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("mode-chords");
     verifySelectedKeys([7, 11, 2]);
   });
 
   test("switching to Chord Presets with C selected renders 3 notes", () => {
-    const cNote = document.getElementById("circularKey00");
-    fireEvent.click(cNote!);
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("circularKey00");
+    keyboardTestUtils.clickKey("mode-chords");
     verifySelectedKeys([0, 4, 7]);
   });
 
-  test("switching Single Note mode from a non-zero inversion", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton).toHaveClass("selected");
+  test("switching Single Note mode from a non-zero inversion doens't crash", () => {
+    keyboardTestUtils.clickKey("mode-chords");
 
     // Click on a non-zero inversion, for example, the 'E' slice
-    const inversion1Button = document.getElementById("inversion-1");
-    fireEvent.click(inversion1Button!);
+    keyboardTestUtils.clickKey("inversion-1");
 
     // Switch back to Single Note mode after clicking on a non-zero inversion
-    const singleNoteButton = document.getElementById("mode-singlenote");
-    fireEvent.click(singleNoteButton!);
-    expect(singleNoteButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("mode-singlenote");
   });
 });

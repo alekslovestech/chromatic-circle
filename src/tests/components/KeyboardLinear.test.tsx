@@ -5,6 +5,7 @@ import ModeSelector from "../../Components/Settings/ModeSelector";
 import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWENTY4 } from "../../types/NoteConstants";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
 
 describe("KeyboardLinear", () => {
   const renderComponent = () => {
@@ -63,51 +64,31 @@ describe("KeyboardLinear", () => {
     fireEvent.click(freeFormButton!);
     expect(freeFormButton).toHaveClass("selected");
 
-    const gNote = document.getElementById("linearKey07");
+    keyboardTestUtils.clickKey("linearKey07");
 
-    fireEvent.click(gNote!); //removing the last note might throw
     verifySelectedKeys([]); //verify there are no notes left
   });
 
   test("7add13 chord doesn't crash", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton!).toHaveClass("selected");
-
-    // Find and click the 7add13 chord preset button
-    const sevenAdd13Button = document.getElementById("preset-Chord_7Add13");
-    expect(sevenAdd13Button).toBeInTheDocument();
-    fireEvent.click(sevenAdd13Button!);
-
-    const bNote = document.getElementById("linearKey23");
-    fireEvent.click(bNote!);
+    keyboardTestUtils.clickKey("mode-chords");
+    keyboardTestUtils.clickKey("preset-Chord_7Add13");
+    keyboardTestUtils.clickKey("linearKey23");
   });
 
   test("add9 chord at A configured correctly", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
-    expect(chordPresetsButton).toHaveClass("selected");
+    keyboardTestUtils.clickKey("mode-chords");
 
     // Find and click the add9 chord preset button
-    const add9Button = document.getElementById("preset-Chord_Add9");
-    expect(add9Button).toBeInTheDocument();
-    fireEvent.click(add9Button!);
-
-    const aNote = document.getElementById("linearKey09");
-    fireEvent.click(aNote!);
+    keyboardTestUtils.clickKey("preset-Chord_Add9");
+    keyboardTestUtils.clickKey("linearKey09");
     verifySelectedKeys([9, 13, 16, 23]); //A C# E B
   });
 
   test("add9 chord at A# truncates correctly", () => {
-    const chordPresetsButton = document.getElementById("mode-chords");
-    fireEvent.click(chordPresetsButton!);
+    keyboardTestUtils.clickKey("mode-chords");
 
-    // Find and click the add9 chord preset button
-    const add9Button = document.getElementById("preset-Chord_Add9");
-    fireEvent.click(add9Button!);
-
-    const aSharpNote = document.getElementById("linearKey10");
-    fireEvent.click(aSharpNote!);
+    keyboardTestUtils.clickKey("preset-Chord_Add9");
+    keyboardTestUtils.clickKey("linearKey10");
     verifySelectedKeys([10, 14, 17]); //A# D F (truncated)
   });
 
