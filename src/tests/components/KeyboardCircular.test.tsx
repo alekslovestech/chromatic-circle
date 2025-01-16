@@ -1,11 +1,10 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
 import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWELVE } from "../../types/NoteConstants";
-import { ixChromatic } from "../../types/IndexTypes";
 import { keyboardTestUtils } from "./KeyboardTestUtils";
 
 describe("KeyboardCircular", () => {
@@ -31,15 +30,15 @@ describe("KeyboardCircular", () => {
   const verifySelectedKeys = (selectedIndices: number[]) => {
     const selectedKeys = document.querySelectorAll("[id^='circularKey'].selected");
     expect(selectedKeys).toHaveLength(selectedIndices.length);
-    selectedIndices.forEach((index) => {
-      expect(circularKeys[index]).toHaveClass("selected");
-    });
-    const unselectedIndices = Array.from({ length: TWELVE }, (_, i) => i).filter(
-      (index) => !selectedIndices.includes(ixChromatic(index)),
+    selectedIndices.forEach((index) =>
+      keyboardTestUtils.expectElementToBeSelected(circularKeys[index]),
     );
-    unselectedIndices.forEach((index) => {
-      expect(circularKeys[index]).not.toHaveClass("selected");
-    });
+    const unselectedIndices = Array.from({ length: TWELVE }, (_, i) => i).filter(
+      (index) => !selectedIndices.includes(index),
+    );
+    unselectedIndices.forEach((index) =>
+      keyboardTestUtils.expectElementToBeUnselected(circularKeys[index]),
+    );
   };
 
   test("renders 12 pie slices", () => {
@@ -97,11 +96,7 @@ describe("KeyboardCircular", () => {
 
   test("switching Single Note mode from a non-zero inversion doens't crash", () => {
     keyboardTestUtils.clickKey("mode-chords");
-
-    // Click on a non-zero inversion, for example, the 'E' slice
     keyboardTestUtils.clickKey("inversion-1");
-
-    // Switch back to Single Note mode after clicking on a non-zero inversion
     keyboardTestUtils.clickKey("mode-singlenote");
   });
 });

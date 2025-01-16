@@ -27,13 +27,15 @@ describe("KeyboardLinear", () => {
   });
 
   const verifySelectedKeys = (selectedIndices: number[]) => {
-    selectedIndices.forEach((index) => expect(pianoKeys[index]).toHaveClass("selected"));
+    selectedIndices.forEach((index) =>
+      keyboardTestUtils.expectElementToBeSelected(pianoKeys[index]),
+    );
     const unselectedIndices = Array.from({ length: TWENTY4 }, (_, i) => i).filter(
       (index) => !selectedIndices.includes(index),
     );
-    unselectedIndices.forEach((index) => {
-      expect(pianoKeys[index]).not.toHaveClass("selected");
-    });
+    unselectedIndices.forEach((index) =>
+      keyboardTestUtils.expectElementToBeUnselected(pianoKeys[index]),
+    );
   };
 
   test("initial setup (G selected)", () => {
@@ -59,7 +61,7 @@ describe("KeyboardLinear", () => {
     verifySelectedKeys([7]);
   });
 
-  test("removing last note doesn't crash", () => {
+  test("removing last note leaves no notes selected", () => {
     const freeFormButton = document.getElementById("mode-freeform");
     fireEvent.click(freeFormButton!);
     expect(freeFormButton).toHaveClass("selected");
