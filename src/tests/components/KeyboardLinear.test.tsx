@@ -27,10 +27,11 @@ describe("KeyboardLinear", () => {
 
   const verifySelectedKeys = (selectedIndices: number[]) => {
     selectedIndices.forEach((index) => expect(pianoKeys[index]).toHaveClass("selected"));
-    Array.from({ length: TWENTY4 }, (_, i) => i).forEach((index) => {
-      if (!selectedIndices.includes(index)) {
-        expect(pianoKeys[index]).not.toHaveClass("selected");
-      }
+    const unselectedIndices = Array.from({ length: TWENTY4 }, (_, i) => i).filter(
+      (index) => !selectedIndices.includes(index),
+    );
+    unselectedIndices.forEach((index) => {
+      expect(pianoKeys[index]).not.toHaveClass("selected");
     });
   };
 
