@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
@@ -27,8 +27,11 @@ describe("KeyboardCircular", () => {
     circularKeys = document.querySelectorAll("[id^='circularKey']");
   });
 
+  const getSelectedCircularKeys = () => document.querySelectorAll("[id^='circularKey'].selected");
+
   const verifySelectedKeys = (selectedIndices: number[]) => {
-    circularKeys = document.querySelectorAll("[id^='circularKey']");
+    const selectedKeys = getSelectedCircularKeys();
+    expect(selectedKeys).toHaveLength(selectedIndices.length);
     selectedIndices.forEach((index) => {
       expect(circularKeys[index]).toHaveClass("selected");
     });
@@ -60,40 +63,53 @@ describe("KeyboardCircular", () => {
     verifySelectedKeys([9]);
   });
 
-  test("switching mode to Interval Presets renders 2 notes", () => {
-    const intervalPresetsButton = screen.getByText(/Interval Presets/i);
-    fireEvent.click(intervalPresetsButton);
-    expect(intervalPresetsButton).toHaveClass("selected");
+  test("switching mode to Freeform renders 1 note (still)", () => {
+    const freeFormButton = document.getElementById("mode-freeform");
+    fireEvent.click(freeFormButton!);
+    expect(freeFormButton).toHaveClass("selected");
+    verifySelectedKeys([7]);
+  });
 
-    // Verify that there are 2 selected notes in interval mode
-    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
-    expect(selectedNotes.length).toBe(2);
+  test("switching mode to Interval Presets and then Freeform renders 2 notes (still)", () => {
+    const intervalPresetsButton = document.getElementById("mode-intervals");
+    fireEvent.click(intervalPresetsButton!);
+    const freeFormButton = document.getElementById("mode-freeform");
+    fireEvent.click(freeFormButton!);
+
+    expect(freeFormButton).toHaveClass("selected");
+    verifySelectedKeys([7, 11]);
+  });
+
+  test("switching mode to Chord Presets and then Freeform renders 3 notes", () => {
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
+    const freeFormButton = document.getElementById("mode-freeform");
+    fireEvent.click(freeFormButton!);
+
+    expect(freeFormButton).toHaveClass("selected");
+    verifySelectedKeys([7, 11, 2]);
+  });
+
+  test("switching mode to Interval Presets renders 2 notes", () => {
+    const intervalPresetsButton = document.getElementById("mode-intervals");
+    fireEvent.click(intervalPresetsButton!);
+    expect(intervalPresetsButton).toHaveClass("selected");
     verifySelectedKeys([7, 11]);
   });
 
   test("switching mode to Chord Presets renders 3 notes", () => {
-    const intervalPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(intervalPresetsButton);
-    expect(intervalPresetsButton).toHaveClass("selected");
-
-    // Verify that there are 3 selected notes in chord mode
-    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
-
-    expect(selectedNotes.length).toBe(3);
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
+    expect(chordPresetsButton).toHaveClass("selected");
     verifySelectedKeys([7, 11, 2]);
   });
 
   test("switching to Chord Presets with C selected renders 3 notes", () => {
     const cNote = document.getElementById("circularKey00");
     fireEvent.click(cNote!);
-    verifySelectedKeys([0]);
-    const chordPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(chordPresetsButton);
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
     expect(chordPresetsButton).toHaveClass("selected");
-
-    // Verify that there are 2 selected notes in interval mode
-    const selectedNotes = document.querySelectorAll("[id^='circularKey'].selected");
-    expect(selectedNotes.length).toBe(3);
     verifySelectedKeys([0, 4, 7]);
   });
 
