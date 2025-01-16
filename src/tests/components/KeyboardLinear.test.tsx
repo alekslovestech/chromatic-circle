@@ -26,90 +26,91 @@ describe("KeyboardLinear", () => {
   });
 
   const verifySelectedKeys = (selectedIndices: number[]) => {
-    selectedIndices.forEach((index) => {
-      expect(pianoKeys[index]).toHaveClass("selected");
-    });
-    const unselectedIndices = Array.from({ length: TWENTY4 }, (_, i) => i).filter(
-      (index) => !selectedIndices.includes(index),
-    );
-    unselectedIndices.forEach((index) => {
-      expect(pianoKeys[index]).not.toHaveClass("selected");
+    selectedIndices.forEach((index) => expect(pianoKeys[index]).toHaveClass("selected"));
+    Array.from({ length: TWENTY4 }, (_, i) => i).forEach((index) => {
+      if (!selectedIndices.includes(index)) {
+        expect(pianoKeys[index]).not.toHaveClass("selected");
+      }
     });
   };
 
-  test("test initial setup (G selected)", () => {
+  test("initial setup (G selected)", () => {
     expect(pianoKeys.length).toBe(24);
 
-    const pianoKeysWhite = document.querySelectorAll(".piano-key.white");
-    expect(pianoKeysWhite.length).toBe(14);
+    const whiteKeys = document.querySelectorAll(".piano-key.white");
+    const blackKeys = document.querySelectorAll(".piano-key.black");
+    expect(whiteKeys.length).toBe(14);
+    expect(blackKeys.length).toBe(10);
 
-    const pianoKeysBlack = document.querySelectorAll(".piano-key.black");
-    expect(pianoKeysBlack.length).toBe(10);
+    const fSharpNote = document.getElementById("linearKey06");
+    const gNote = document.getElementById("linearKey07");
 
-    const fSharpNote = pianoKeys[6];
-    const gNote = pianoKeys[7];
     expect(fSharpNote).toBeInTheDocument();
     expect(fSharpNote).toHaveClass("piano-key black");
     expect(fSharpNote).toHaveTextContent("F♯");
+
     expect(gNote).toBeInTheDocument();
     expect(gNote).toHaveClass("piano-key white");
     expect(gNote).toHaveTextContent("G");
-    fireEvent.click(gNote);
+
+    fireEvent.click(gNote!);
     verifySelectedKeys([7]);
   });
-  /*
+
   test("removing last note doesn't crash", () => {
-    const freeFormButton = screen.getByText(/Free-form Input/i);
-    fireEvent.click(freeFormButton);
-    expect(freeFormButton).toHaveClass("active");
+    const freeFormButton = document.getElementById("mode-freeform");
+    fireEvent.click(freeFormButton!);
+    expect(freeFormButton).toHaveClass("selected");
 
-    const gNote = pianoKeys[7];
+    const gNote = document.getElementById("linearKey07");
 
-    fireEvent.click(gNote); //removing the last note might throw
+    fireEvent.click(gNote!); //removing the last note might throw
     verifySelectedKeys([]); //verify there are no notes left
   });
 
   test("7add13 chord doesn't crash", () => {
-    const chordPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(chordPresetsButton);
-    expect(chordPresetsButton).toHaveClass("active");
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
+    expect(chordPresetsButton!).toHaveClass("selected");
 
     // Find and click the 7add13 chord preset button
-    const sevenAdd13Button = screen.getByText(/7add13/i);
+    const sevenAdd13Button = document.getElementById("preset-Chord_7Add13");
     expect(sevenAdd13Button).toBeInTheDocument();
-    fireEvent.click(sevenAdd13Button);
+    fireEvent.click(sevenAdd13Button!);
 
-    const bNote = pianoKeys[23];
-    fireEvent.click(bNote);
+    const bNote = document.getElementById("linearKey23");
+    fireEvent.click(bNote!);
   });
 
   test("add9 chord at A configured correctly", () => {
-    const chordPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(chordPresetsButton);
-    expect(chordPresetsButton).toHaveClass("active");
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
+    expect(chordPresetsButton).toHaveClass("selected");
 
     // Find and click the add9 chord preset button
-    const add9Button = screen.getByText(/add9/i);
+    const add9Button = document.getElementById("preset-Chord_Add9");
     expect(add9Button).toBeInTheDocument();
-    fireEvent.click(add9Button);
+    fireEvent.click(add9Button!);
 
-    const aNote = pianoKeys[9];
-    fireEvent.click(aNote);
+    const aNote = document.getElementById("linearKey09");
+    fireEvent.click(aNote!);
     verifySelectedKeys([9, 13, 16, 23]); //A C# E B
   });
 
   test("add9 chord at A# truncates correctly", () => {
-    const chordPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(chordPresetsButton);
+    const chordPresetsButton = document.getElementById("mode-chords");
+    fireEvent.click(chordPresetsButton!);
 
     // Find and click the add9 chord preset button
-    const add9Button = screen.getByText(/add9/i);
-    fireEvent.click(add9Button);
+    const add9Button = document.getElementById("preset-Chord_Add9");
+    fireEvent.click(add9Button!);
 
-    const aSharpNote = pianoKeys[10];
-    fireEvent.click(aSharpNote);
+    const aSharpNote = document.getElementById("linearKey10");
+    fireEvent.click(aSharpNote!);
     verifySelectedKeys([10, 14, 17]); //A# D F (truncated)
   });
+
+  /*
 
   //NB: these tests are not very good, because they are testing
   //the behavior of the chord presets,
