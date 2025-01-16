@@ -27,10 +27,8 @@ describe("KeyboardCircular", () => {
     circularKeys = document.querySelectorAll("[id^='circularKey']");
   });
 
-  const getSelectedCircularKeys = () => document.querySelectorAll("[id^='circularKey'].selected");
-
   const verifySelectedKeys = (selectedIndices: number[]) => {
-    const selectedKeys = getSelectedCircularKeys();
+    const selectedKeys = document.querySelectorAll("[id^='circularKey'].selected");
     expect(selectedKeys).toHaveLength(selectedIndices.length);
     selectedIndices.forEach((index) => {
       expect(circularKeys[index]).toHaveClass("selected");
