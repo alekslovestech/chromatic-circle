@@ -92,8 +92,6 @@ describe("KeyboardLinear", () => {
     verifySelectedKeys([10, 14, 17]); //A# D F (truncated)
   });
 
-  /*
-
   //NB: these tests are not very good, because they are testing
   //the behavior of the chord presets,
   //and not the keyboard functionality.
@@ -101,34 +99,24 @@ describe("KeyboardLinear", () => {
   //and test the behavior of the keyboard functionality.
   //also: the behavior is currently not crystalized, so add test conservatively until it's clearer
   test("When inversion 1 is selected, clicking around on the keyboard should only produce inversion 1", () => {
-    verifySelectedKeys([7]);
-    //select chord presets
-    const chordPresetsButton = screen.getByText(/Chord Presets/i);
-    fireEvent.click(chordPresetsButton);
-    expect(chordPresetsButton).toHaveClass("active");
-
-    // Select major chord
-    const majorChordButton = screen.getByText("maj");
-    expect(majorChordButton).toHaveClass("selected-preset");
-
-    const lowC = pianoKeys[0];
-    fireEvent.click(lowC);
+    keyboardTestUtils.clickKey("mode-chords");
+    keyboardTestUtils.clickKey("preset-Chord_Maj");
+    keyboardTestUtils.clickKey("linearKey00");
     verifySelectedKeys([0, 4, 7]);
 
     // Select inversion 1
-    const inversion1Button = screen.getByText("1");
-    fireEvent.click(inversion1Button);
-    expect(inversion1Button).toHaveClass("selected-inversion");
+    keyboardTestUtils.clickKey("inversion-1");
 
     verifySelectedKeys([4, 7, 12]);
     // Verify that the 12th key (C in the second octave) is a root note
-    const secondOctaveC = pianoKeys[12];
+    const secondOctaveC = document.getElementById("linearKey12");
     expect(secondOctaveC).toHaveClass("root-note");
 
+    const secondOctaveD = document.getElementById("linearKey14");
     // Click on different keys and expect inversion 1 to be maintained
-    fireEvent.click(pianoKeys[14]); // Clicking on D in the 2nd octave
+    fireEvent.click(secondOctaveD!); // Clicking on D in the 2nd octave
     verifySelectedKeys([6, 9, 14]);
-    const secondOctaveD = pianoKeys[14];
+
     expect(secondOctaveD).toHaveClass("root-note");
-  }); */
+  });
 });
