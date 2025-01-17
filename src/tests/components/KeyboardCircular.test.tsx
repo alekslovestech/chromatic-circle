@@ -2,20 +2,17 @@ import { render } from "@testing-library/react";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
-import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWELVE } from "../../types/NoteConstants";
 import { keyboardTestUtils } from "./KeyboardTestUtils";
 
 describe("KeyboardCircular", () => {
-  const keyboardCircular = <KeyboardCircular />;
   const renderComponent = () => {
     return render(
       <NotesProvider>
-        {keyboardCircular}
+        <KeyboardCircular />
         <ModeSelector />
         <PresetsSelector />
-        <StaffRenderer />
       </NotesProvider>,
     );
   };

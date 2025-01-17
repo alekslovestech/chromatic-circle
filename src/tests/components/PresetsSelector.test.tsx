@@ -1,59 +1,47 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
 
 describe("ChordPresetsSelector", () => {
   const renderComponent = () => {
     return render(
       <NotesProvider>
+        <ModeSelector />
         <PresetsSelector />
       </NotesProvider>,
     );
   };
 
-  test.skip("selecting a new chord resets inversion to 0", () => {
+  test("selecting a new chord resets inversion to 0", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
-    fireEvent.click(screen.getByText("maj"));
+    keyboardTestUtils.clickKey("mode-chords");
+    keyboardTestUtils.clickKey("preset-Chord_Maj");
 
     // Select an inversion other than 0
-    fireEvent.click(screen.getByText("1"));
+    keyboardTestUtils.clickKey("inversion-1");
 
     // Select a different chord
-    fireEvent.click(screen.getByText("Minor"));
+    keyboardTestUtils.clickKey("preset-Chord_Min");
 
-    // Check that the inversion is reset to 0
-    expect(screen.getByText("0")).toHaveStyle("background-color: #4CAF50");
+    keyboardTestUtils.expectElementByIdToBeSelected("inversion-0");
   });
 
-  test.skip("inversion buttons are only shown for chords with inversions", () => {
-    renderComponent();
-
-    // Select a chord with inversions
-    fireEvent.click(screen.getByText("maj"));
-    expect(screen.getByText("Inversion:")).toBeInTheDocument();
-
-    // Select a chord without inversions (e.g., single note)
-    fireEvent.click(screen.getByText("Single Note"));
-    expect(screen.queryByText("Inversion:")).not.toBeInTheDocument();
-  });
-
-  test.skip("selecting an inversion updates the chord", () => {
+  test("selecting an inversion updates the chord", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
-    fireEvent.click(screen.getByText("Major"));
+    keyboardTestUtils.clickKey("mode-chords");
+    keyboardTestUtils.clickKey("preset-Chord_Maj");
 
     // Select the first inversion
-    fireEvent.click(screen.getByText("1"));
+    keyboardTestUtils.clickKey("inversion-1");
 
     // Check that the inversion is updated
-    expect(screen.getByText("1")).toHaveStyle("background-color: #4CAF50");
-
-    // You might also want to check if the actual notes have been updated
-    // This would require mocking the ChordAndIntervalManager or checking the context
+    keyboardTestUtils.expectElementByIdToBeSelected("inversion-1");
   });
 });

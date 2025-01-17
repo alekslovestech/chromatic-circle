@@ -2,7 +2,6 @@ import { render, fireEvent } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
-import StaffRenderer from "../../Components/StaffRenderer";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { TWENTY4 } from "../../types/NoteConstants";
 import { keyboardTestUtils } from "./KeyboardTestUtils";
@@ -14,7 +13,6 @@ describe("KeyboardLinear", () => {
         <KeyboardLinear />
         <ModeSelector />
         <PresetsSelector />
-        <StaffRenderer />
       </NotesProvider>,
     );
   };
