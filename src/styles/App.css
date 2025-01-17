@@ -30,7 +30,7 @@ body {
 
   /* Grid Container */
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 120px 3fr 3fr 2fr;
+  grid-template-rows: 110px 3fr 3fr 2fr;
   /*default: portrait mode */
   grid-template-areas:
     "staff staff"
