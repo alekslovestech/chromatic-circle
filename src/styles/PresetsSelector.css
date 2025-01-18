@@ -21,7 +21,7 @@
     flex-shrink: 0;
 }
 
-.inversion-buttons {
+.inversion-button-container {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
@@ -76,24 +76,3 @@
     justify-content: center;
     align-items: center;
 }
-
-/* older styles for reference (not used anymore)
-.btn-inversion {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-}
-
-.btn-preset {
-    width: 100%;
-    min-height: 2rem;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-*/ 

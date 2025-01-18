@@ -66,7 +66,7 @@ const PresetsSelector: React.FC = () => {
       return (
         <div className="inversion-controls">
           <div className="text-center">Inversion</div>
-          <div className="inversion-buttons">
+          <div className="inversion-button-container">
             {Array.from({ length: inversionCount }, (_, i) =>
               renderOneInversionButton(ixInversion(i)),
             )}
