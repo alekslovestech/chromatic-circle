@@ -5,7 +5,6 @@
     flex: 1;
     flex-direction: column;
     width: 100%;
-    /*overflow: hidden;*/
 }
 
 .preset-buttons-grid {
@@ -41,7 +40,7 @@
 
 .preset-button:hover,
 .inversion-button:hover {
-    background: #d6d6d6; /*#eee;*/
+    background: #d6d6d6; 
 }
 
 .preset-button.selected,
