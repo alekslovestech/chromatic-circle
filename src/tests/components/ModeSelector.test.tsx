@@ -2,6 +2,7 @@ import { render, fireEvent } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
 
 describe("ModeSelector", () => {
   const renderComponent = () => {
@@ -32,17 +33,13 @@ describe("ModeSelector", () => {
     });
 
     test("switches from Single Note to Freeform mode correctly", () => {
-      const singleNotesButton = document.getElementById("mode-singlenote");
-      const freeFormButton = document.getElementById("mode-freeform");
+      keyboardTestUtils.expectElementByIdToBeSelected("mode-singlenote");
+      keyboardTestUtils.expectElementByIdToBeUnselected("mode-freeform");
 
-      expect(singleNotesButton).toHaveClass("selected");
-      expect(freeFormButton).not.toHaveClass("selected");
+      keyboardTestUtils.clickKey("mode-freeform");
 
-      fireEvent.click(freeFormButton!);
-
-      expect(freeFormButton).toHaveClass("selected");
-      expect(singleNotesButton).not.toHaveClass("selected");
-      expect(freeFormButton).toHaveTextContent("Freeform");
+      keyboardTestUtils.expectElementByIdToBeSelected("mode-freeform");
+      keyboardTestUtils.expectElementByIdToBeUnselected("mode-singlenote");
     });
   });
 
@@ -54,10 +51,7 @@ describe("ModeSelector", () => {
       });
 
       test("selects M3 interval as default", () => {
-        const intervalM3Button = document.getElementById("preset-Interval_Maj3");
-        expect(intervalM3Button).toBeInTheDocument();
-        fireEvent.click(intervalM3Button!);
-        expect(intervalM3Button).toHaveClass("selected");
+        keyboardTestUtils.expectElementByIdToBeSelected("preset-Interval_Maj3");
       });
     });
 
@@ -68,14 +62,13 @@ describe("ModeSelector", () => {
       });
 
       test("displays correct preset buttons", () => {
-        expect(document.getElementById("preset-Chord_Sus2")).toBeInTheDocument();
-        expect(document.getElementById("preset-Interval_Tritone")).not.toBeInTheDocument();
-        expect(document.getElementById("inversion-0")).toBeInTheDocument();
+        keyboardTestUtils.expectElementByIdToBeInTheDocument("preset-Chord_Sus2");
+        keyboardTestUtils.expectElementByIdNotToBeInTheDocument("preset-Interval_Tritone");
+        keyboardTestUtils.expectElementByIdToBeInTheDocument("inversion-0");
       });
 
       test("selects Maj chord as default", () => {
-        const chordMajorButton = document.getElementById("preset-Chord_Maj");
-        expect(chordMajorButton).toHaveClass("selected");
+        keyboardTestUtils.expectElementByIdToBeSelected("preset-Chord_Maj");
       });
     });
   });
