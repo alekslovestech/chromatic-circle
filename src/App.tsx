@@ -3,14 +3,13 @@ import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
 import StaffRenderer from "./Components/StaffRenderer";
 import ChordDisplay from "./Components/ChordNameDisplay";
-import PresetsSelector from "./Components/Settings/PresetsSelector";
-import ModeSelector from "./Components/Settings/ModeSelector";
 import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardCircular from "./Components/Circular/KeyboardCircular";
 import { CircularTopBar } from "./Components/Circular/CircularTopBar";
 
 import React from "react";
 import KeyboardLogo from "./Components/Circular/KeyboardLogo";
+import SettingsContainer from "./Components/Settings/SettingsContainer";
 
 const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 
@@ -38,10 +37,7 @@ const App: React.FC = () => {
                 </>
               )}
             </div>
-            <div className="settings-container" style={borderStyle}>
-              <ModeSelector />
-              <PresetsSelector />
-            </div>
+            <SettingsContainer />
             <StaffRenderer />
           </div>
           <AudioPlayer />

@@ -42,7 +42,7 @@ export const ModeSelector: React.FC = () => {
   return (
     <div className="mode-selector text-center">
       <div className="mode-selector-title">Input Mode</div>
-      <div className="mode-buttons">
+      <div className="mode-button-container">
         {AVAILABLE_MODES.map(({ id, mode, description }) => (
           <button
             id={id}

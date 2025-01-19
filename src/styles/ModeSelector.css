@@ -36,12 +36,9 @@
   flex-shrink: 0;    /* Prevent title from shrinking */
 }
 
-.mode-selector-container > * {
-  width: 100%;
-} 
 
 
-.mode-buttons {
+.mode-button-container {
   width: 100%;
   display: flex;          
   flex-direction: column; 

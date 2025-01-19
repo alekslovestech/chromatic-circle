@@ -30,7 +30,7 @@ body {
 
   /* Grid Container */
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 120px 3fr 3fr 2fr;
+  grid-template-rows: 100px 3fr 3fr 2fr;
   /*default: portrait mode */
   grid-template-areas:
     "staff staff"
@@ -44,7 +44,7 @@ body {
 @media (orientation: landscape) {
   .grid-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: min-content 1fr 1fr;
+    grid-template-rows: 100px 1fr 1fr;
     grid-template-areas:
       "circular circular staff staff"
       "circular circular settings settings"
