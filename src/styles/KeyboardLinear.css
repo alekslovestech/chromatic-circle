@@ -47,6 +47,7 @@
   background-color: var(--serenity-key-white-selected0);
 }
 
+ 
 .piano-key.black {
   width: calc(100% / var(--bKeysPer2Octaves));
   height: 60%;
@@ -57,9 +58,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 5px;
+  padding-left: 2px;
   background-color: var(--serenity-key-black);
   color: var(--serenity-note-text-on-black);
+  font-size: 0.6em; 
+  /*font-weight: normal;*/
 }
 
 .piano-key.black.selected {
