@@ -45,7 +45,7 @@ const StaffRenderer: React.FC = () => {
     const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
 
     // Configure the rendering context.
-    renderer.resize(800, 120);
+    //renderer.resize(800, 120);
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width half the enclosing container's width.
@@ -53,7 +53,7 @@ const StaffRenderer: React.FC = () => {
     const staveWidth = originalContainerWidth * 0.6;
     const stave = new VF.Stave(0, 0, staveWidth);
     stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
-    stave.setStyle({ strokeStyle: "#000000" });
+    stave.setStyle({ strokeStyle: "black" });
 
     stave.setContext(context).draw();
 
@@ -70,10 +70,6 @@ const StaffRenderer: React.FC = () => {
 
     // Render voice
     voice.draw(context, stave);
-
-    return () => {
-      // Cleanup if needed
-    };
   }, [selectedNoteIndices, selectedAccidental]);
 
   return (
