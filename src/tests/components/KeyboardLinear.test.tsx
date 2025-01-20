@@ -3,9 +3,10 @@ import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
-import { TWENTY4 } from "../../types/NoteConstants";
 import { keyboardTestUtils } from "./KeyboardTestUtils";
+import { keyVerificationUtils } from "./KeyboardVerificationUtils";
 
+//scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {
   const renderComponent = () => {
     return render(
@@ -17,26 +18,12 @@ describe("KeyboardLinear", () => {
     );
   };
 
-  let pianoKeys: NodeListOf<Element>;
-
   beforeEach(() => {
     renderComponent();
-    pianoKeys = document.querySelectorAll("[id^='linearKey']");
   });
 
-  const verifySelectedKeys = (selectedIndices: number[]) => {
-    selectedIndices.forEach((index) =>
-      keyboardTestUtils.expectElementToBeSelected(pianoKeys[index]),
-    );
-    const unselectedIndices = Array.from({ length: TWENTY4 }, (_, i) => i).filter(
-      (index) => !selectedIndices.includes(index),
-    );
-    unselectedIndices.forEach((index) =>
-      keyboardTestUtils.expectElementToBeUnselected(pianoKeys[index]),
-    );
-  };
-
   test("initial setup (G selected)", () => {
+    const pianoKeys = document.querySelectorAll("[id^='linearKey']");
     expect(pianoKeys.length).toBe(24);
 
     const whiteKeys = document.querySelectorAll(".piano-key.white");
@@ -56,7 +43,7 @@ describe("KeyboardLinear", () => {
     expect(gNote).toHaveTextContent("G");
 
     fireEvent.click(gNote!);
-    verifySelectedKeys([7]);
+    keyVerificationUtils.verifySelectedLinearKeys([7]);
   });
 
   test("removing last note leaves no notes selected", () => {
@@ -66,7 +53,7 @@ describe("KeyboardLinear", () => {
 
     keyboardTestUtils.clickKey("linearKey07");
 
-    verifySelectedKeys([]); //verify there are no notes left
+    keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
   });
 
   test("7add13 chord doesn't crash", () => {
@@ -81,7 +68,7 @@ describe("KeyboardLinear", () => {
     // Find and click the add9 chord preset button
     keyboardTestUtils.clickKey("preset-Chord_Add9");
     keyboardTestUtils.clickKey("linearKey09");
-    verifySelectedKeys([9, 13, 16, 23]); //A C# E B
+    keyVerificationUtils.verifySelectedLinearKeys([9, 13, 16, 23]); //A C# E B
   });
 
   test("add9 chord at A# truncates correctly", () => {
@@ -89,7 +76,7 @@ describe("KeyboardLinear", () => {
 
     keyboardTestUtils.clickKey("preset-Chord_Add9");
     keyboardTestUtils.clickKey("linearKey10");
-    verifySelectedKeys([10, 14, 17]); //A# D F (truncated)
+    keyVerificationUtils.verifySelectedLinearKeys([10, 14, 17]); //A# D F (truncated)
   });
 
   //NB: these tests are not very good, because they are testing
@@ -102,12 +89,12 @@ describe("KeyboardLinear", () => {
     keyboardTestUtils.clickKey("mode-chords");
     keyboardTestUtils.clickKey("preset-Chord_Maj");
     keyboardTestUtils.clickKey("linearKey00");
-    verifySelectedKeys([0, 4, 7]);
+    keyVerificationUtils.verifySelectedLinearKeys([0, 4, 7]);
 
     // Select inversion 1
     keyboardTestUtils.clickKey("inversion-1");
 
-    verifySelectedKeys([4, 7, 12]);
+    keyVerificationUtils.verifySelectedLinearKeys([4, 7, 12]);
     // Verify that the 12th key (C in the second octave) is a root note
     const secondOctaveC = document.getElementById("linearKey12");
     expect(secondOctaveC).toHaveClass("root-note");
@@ -115,7 +102,7 @@ describe("KeyboardLinear", () => {
     const secondOctaveD = document.getElementById("linearKey14");
     // Click on different keys and expect inversion 1 to be maintained
     fireEvent.click(secondOctaveD!); // Clicking on D in the 2nd octave
-    verifySelectedKeys([6, 9, 14]);
+    keyVerificationUtils.verifySelectedLinearKeys([6, 9, 14]);
 
     expect(secondOctaveD).toHaveClass("root-note");
   });
