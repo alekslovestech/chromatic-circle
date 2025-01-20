@@ -1,7 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
-import { keyboardTestUtils } from "./KeyboardTestUtils";
 import KeyboardLinear from "../../Components/KeyboardLinear";
-import { keyVerificationUtils } from "./KeyboardVerificationUtils";
+import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
+import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
@@ -36,48 +36,48 @@ describe("KeyboardGeneral", () => {
     fireEvent.click(freeFormButton!);
     expect(freeFormButton).toHaveClass("selected");
 
-    keyboardTestUtils.clickKey("linearKey07");
+    ReactTestUtils.clickKey("linearKey07");
 
     keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
     keyVerificationUtils.verifySelectedCircularKeys([]); //verify there are no notes left
   });
 
   test("switching mode to Freeform renders 1 note (still)", () => {
-    keyboardTestUtils.clickKey("mode-freeform");
+    ReactTestUtils.clickKey("mode-freeform");
     keyVerificationUtils.verifySelectedLinearKeys([7]);
     keyVerificationUtils.verifySelectedCircularKeys([7]);
   });
 
   test("switching mode to Interval Presets and then Freeform renders 2 notes (still)", () => {
-    keyboardTestUtils.clickKey("mode-intervals");
-    keyboardTestUtils.clickKey("mode-freeform");
+    ReactTestUtils.clickKey("mode-intervals");
+    ReactTestUtils.clickKey("mode-freeform");
 
     keyVerificationUtils.verifySelectedLinearKeys([7, 11]);
     keyVerificationUtils.verifySelectedCircularKeys([7, 11]);
   });
 
   test("switching Single Note mode from a non-zero inversion doens't crash", () => {
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("inversion-1");
-    keyboardTestUtils.clickKey("mode-singlenote");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("inversion-1");
+    ReactTestUtils.clickKey("mode-singlenote");
   });
 
   test("switching mode to Chord Presets and then Freeform renders 3 notes", () => {
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("mode-freeform");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("mode-freeform");
 
     keyVerificationUtils.verifySelectedLinearKeys([7, 11, 14]);
     keyVerificationUtils.verifySelectedCircularKeys([7, 11, 2]);
   });
 
   test("switching mode to Interval Presets renders 2 notes", () => {
-    keyboardTestUtils.clickKey("mode-intervals");
+    ReactTestUtils.clickKey("mode-intervals");
     keyVerificationUtils.verifySelectedLinearKeys([7, 11]);
     keyVerificationUtils.verifySelectedCircularKeys([7, 11]);
   });
 
   test("switching mode to Chord Presets renders 3 notes", () => {
-    keyboardTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("mode-chords");
     keyVerificationUtils.verifySelectedLinearKeys([7, 11, 14]);
     keyVerificationUtils.verifySelectedCircularKeys([7, 11, 2]);
   });

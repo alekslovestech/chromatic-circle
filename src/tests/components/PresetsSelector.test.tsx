@@ -2,8 +2,8 @@ import React from "react";
 import { render } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
-import { keyboardTestUtils } from "./KeyboardTestUtils";
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 describe("ChordPresetsSelector", () => {
   const renderComponent = () => {
@@ -19,29 +19,29 @@ describe("ChordPresetsSelector", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("preset-Chord_Maj");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("preset-Chord_Maj");
 
     // Select an inversion other than 0
-    keyboardTestUtils.clickKey("inversion-1");
+    ReactTestUtils.clickKey("inversion-1");
 
     // Select a different chord
-    keyboardTestUtils.clickKey("preset-Chord_Min");
+    ReactTestUtils.clickKey("preset-Chord_Min");
 
-    keyboardTestUtils.expectElementByIdToBeSelected("inversion-0");
+    ReactTestUtils.expectElementByIdToBeSelected("inversion-0");
   });
 
   test("selecting an inversion updates the chord", () => {
     renderComponent();
 
     // Select a chord with inversions (e.g., major triad)
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("preset-Chord_Maj");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("preset-Chord_Maj");
 
     // Select the first inversion
-    keyboardTestUtils.clickKey("inversion-1");
+    ReactTestUtils.clickKey("inversion-1");
 
     // Check that the inversion is updated
-    keyboardTestUtils.expectElementByIdToBeSelected("inversion-1");
+    ReactTestUtils.expectElementByIdToBeSelected("inversion-1");
   });
 });
