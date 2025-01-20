@@ -3,7 +3,8 @@ import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
-import { keyboardTestUtils, keyVerificationUtils } from "./KeyboardTestUtils";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
+import { keyVerificationUtils } from "./KeyboardVerificationUtils";
 
 //scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {

@@ -1,6 +1,8 @@
-import { fireEvent, render, RenderResult } from "@testing-library/react";
-import { keyboardTestUtils, keyVerificationUtils } from "./KeyboardTestUtils";
+import { fireEvent, render } from "@testing-library/react";
+import { keyboardTestUtils } from "./KeyboardTestUtils";
 import KeyboardLinear from "../../Components/KeyboardLinear";
+import { keyVerificationUtils } from "./KeyboardVerificationUtils";
+
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
