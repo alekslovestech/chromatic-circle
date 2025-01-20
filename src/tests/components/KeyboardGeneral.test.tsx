@@ -1,12 +1,12 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import KeyboardLinear from "../../Components/KeyboardLinear";
-import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
-import { ReactTestUtils } from "./utils/ReactTestUtils";
-
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
+
+import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
+import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 //scenarios where setup is the same for both linear and circular keyboards
 describe("KeyboardGeneral", () => {
