@@ -3,8 +3,8 @@ import KeyboardLinear from "../../Components/KeyboardLinear";
 import { NotesProvider } from "../../Components/NotesContext";
 import ModeSelector from "../../Components/Settings/ModeSelector";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
-import { keyboardTestUtils } from "./KeyboardTestUtils";
-import { keyVerificationUtils } from "./KeyboardVerificationUtils";
+import { ReactTestUtils } from "./utils/ReactTestUtils";
+import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
 
 //scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {
@@ -51,48 +51,42 @@ describe("KeyboardLinear", () => {
     fireEvent.click(freeFormButton!);
     expect(freeFormButton).toHaveClass("selected");
 
-    keyboardTestUtils.clickKey("linearKey07");
+    ReactTestUtils.clickKey("linearKey07");
 
     keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
   });
 
   test("7add13 chord doesn't crash", () => {
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("preset-Chord_7Add13");
-    keyboardTestUtils.clickKey("linearKey23");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("preset-Chord_7Add13");
+    ReactTestUtils.clickKey("linearKey23");
   });
 
   test("add9 chord at A configured correctly", () => {
-    keyboardTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("mode-chords");
 
     // Find and click the add9 chord preset button
-    keyboardTestUtils.clickKey("preset-Chord_Add9");
-    keyboardTestUtils.clickKey("linearKey09");
+    ReactTestUtils.clickKey("preset-Chord_Add9");
+    ReactTestUtils.clickKey("linearKey09");
     keyVerificationUtils.verifySelectedLinearKeys([9, 13, 16, 23]); //A C# E B
   });
 
   test("add9 chord at A# truncates correctly", () => {
-    keyboardTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("mode-chords");
 
-    keyboardTestUtils.clickKey("preset-Chord_Add9");
-    keyboardTestUtils.clickKey("linearKey10");
+    ReactTestUtils.clickKey("preset-Chord_Add9");
+    ReactTestUtils.clickKey("linearKey10");
     keyVerificationUtils.verifySelectedLinearKeys([10, 14, 17]); //A# D F (truncated)
   });
 
-  //NB: these tests are not very good, because they are testing
-  //the behavior of the chord presets,
-  //and not the keyboard functionality.
-  //TODO: refactor so that the keyboard and chord presets are separate components
-  //and test the behavior of the keyboard functionality.
-  //also: the behavior is currently not crystalized, so add test conservatively until it's clearer
   test("When inversion 1 is selected, clicking around on the keyboard should only produce inversion 1", () => {
-    keyboardTestUtils.clickKey("mode-chords");
-    keyboardTestUtils.clickKey("preset-Chord_Maj");
-    keyboardTestUtils.clickKey("linearKey00");
+    ReactTestUtils.clickKey("mode-chords");
+    ReactTestUtils.clickKey("preset-Chord_Maj");
+    ReactTestUtils.clickKey("linearKey00");
     keyVerificationUtils.verifySelectedLinearKeys([0, 4, 7]);
 
     // Select inversion 1
-    keyboardTestUtils.clickKey("inversion-1");
+    ReactTestUtils.clickKey("inversion-1");
 
     keyVerificationUtils.verifySelectedLinearKeys([4, 7, 12]);
     // Verify that the 12th key (C in the second octave) is a root note

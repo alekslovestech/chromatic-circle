@@ -2,7 +2,7 @@ import { render, fireEvent } from "@testing-library/react";
 import PresetsSelector from "../../Components/Settings/PresetsSelector";
 import { NotesProvider } from "../../Components/NotesContext";
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
-import { keyboardTestUtils } from "./KeyboardTestUtils";
+import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 describe("ModeSelector", () => {
   const renderComponent = () => {
@@ -33,13 +33,13 @@ describe("ModeSelector", () => {
     });
 
     test("switches from Single Note to Freeform mode correctly", () => {
-      keyboardTestUtils.expectElementByIdToBeSelected("mode-singlenote");
-      keyboardTestUtils.expectElementByIdToBeUnselected("mode-freeform");
+      ReactTestUtils.expectElementByIdToBeSelected("mode-singlenote");
+      ReactTestUtils.expectElementByIdToBeUnselected("mode-freeform");
 
-      keyboardTestUtils.clickKey("mode-freeform");
+      ReactTestUtils.clickKey("mode-freeform");
 
-      keyboardTestUtils.expectElementByIdToBeSelected("mode-freeform");
-      keyboardTestUtils.expectElementByIdToBeUnselected("mode-singlenote");
+      ReactTestUtils.expectElementByIdToBeSelected("mode-freeform");
+      ReactTestUtils.expectElementByIdToBeUnselected("mode-singlenote");
     });
   });
 
@@ -51,7 +51,7 @@ describe("ModeSelector", () => {
       });
 
       test("selects M3 interval as default", () => {
-        keyboardTestUtils.expectElementByIdToBeSelected("preset-Interval_Maj3");
+        ReactTestUtils.expectElementByIdToBeSelected("preset-Interval_Maj3");
       });
     });
 
@@ -62,13 +62,13 @@ describe("ModeSelector", () => {
       });
 
       test("displays correct preset buttons", () => {
-        keyboardTestUtils.expectElementByIdToBeInTheDocument("preset-Chord_Sus2");
-        keyboardTestUtils.expectElementByIdNotToBeInTheDocument("preset-Interval_Tritone");
-        keyboardTestUtils.expectElementByIdToBeInTheDocument("inversion-0");
+        ReactTestUtils.expectElementByIdToBeInTheDocument("preset-Chord_Sus2");
+        ReactTestUtils.expectElementByIdNotToBeInTheDocument("preset-Interval_Tritone");
+        ReactTestUtils.expectElementByIdToBeInTheDocument("inversion-0");
       });
 
       test("selects Maj chord as default", () => {
-        keyboardTestUtils.expectElementByIdToBeSelected("preset-Chord_Maj");
+        ReactTestUtils.expectElementByIdToBeSelected("preset-Chord_Maj");
       });
     });
   });

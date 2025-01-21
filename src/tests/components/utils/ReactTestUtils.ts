@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/react";
 
-export const keyboardTestUtils = {
+export const ReactTestUtils = {
   clickKey: (keyId: string) => {
     const key = document.getElementById(keyId);
     fireEvent.click(key!);
