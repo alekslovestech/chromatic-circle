@@ -30,14 +30,6 @@ describe("KeyboardGeneral", () => {
     keyVerificationUtils.verifySelectedLinearKeys([7]);
   });
 
-  test("Removing last key in freeform mode", () => {
-    ReactTestUtils.clickKey("mode-freeform");
-    ReactTestUtils.clickKey("linearKey07");
-
-    keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
-    keyVerificationUtils.verifySelectedCircularKeys([]); //verify there are no notes left
-  });
-
   test("switching mode to Freeform renders 1 note (still)", () => {
     ReactTestUtils.clickKey("mode-freeform");
     keyVerificationUtils.verifySelectedLinearKeys([7]);
@@ -76,5 +68,13 @@ describe("KeyboardGeneral", () => {
     ReactTestUtils.clickKey("mode-chords");
     ReactTestUtils.clickKey("inversion-1");
     ReactTestUtils.clickKey("mode-singlenote");
+  });
+
+  test("Removing last key in freeform mode", () => {
+    ReactTestUtils.clickKey("mode-freeform");
+    ReactTestUtils.clickKey("linearKey07");
+
+    keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
+    keyVerificationUtils.verifySelectedCircularKeys([]); //verify there are no notes left
   });
 });
