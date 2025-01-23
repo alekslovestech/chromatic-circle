@@ -4,6 +4,8 @@ export enum ChordQuality {
   Minor = "minor",
   Diminished = "diminished",
   Augmented = "augmented",
+  Seventh = "7",
+  Major_Seventh = "maj7",
 }
 
 export class RomanNumeral {
