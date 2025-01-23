@@ -1,29 +1,34 @@
-// Represents a musical key (e.g., C major, A minor)
+import { ChromaticIndex, ixChromatic, ixChromaticArray } from "./IndexTypes"; // Represents a musical key (e.g., C major, A minor)
 export class MusicalKey {
-  tonic: string; // Root note (e.g., "C", "A")
+  tonic: ChromaticIndex; // Root note (e.g., "C", "A")
   mode: "major" | "minor"; // Major or minor scale
-  notes: string[]; // Notes in the key (e.g., ["C", "D", "E", "F", "G", "A", "B"])
+  //notes: ChromaticIndex[]; // Notes in the key (e.g., ["C", "D", "E", "F", "G", "A", "B"])
 
-  constructor(tonic: string, mode: "major" | "minor") {
+  constructor(tonic: ChromaticIndex, mode: "major" | "minor") {
     this.tonic = tonic;
     this.mode = mode;
-    this.notes = this.generateScale();
+    //this.notes = this.generateScale();
+  }
+
+  generateIndexArray(): ChromaticIndex[] {
+    const majorPattern: ChromaticIndex[] = ixChromaticArray([0, 2, 4, 5, 7, 9, 11]); // Offsets for major scale
+    const minorPattern: ChromaticIndex[] = ixChromaticArray([0, 2, 3, 5, 7, 8, 10]); // Offsets for minor scale
+    const tonicIndex = this.tonic; // Get the tonic index
+    const offsetScale = this.mode === "major" ? majorPattern : minorPattern;
+    return offsetScale.map((index) => ixChromatic((index + tonicIndex) % 12)); // Offset the scale by tonic in a wraparound fashion
   }
 
   // Generate the scale based on the key's tonic and mode
-  private generateScale(): string[] {
-    const majorPattern = [2, 2, 1, 2, 2, 2, 1];
-    const minorPattern = [2, 1, 2, 2, 1, 2, 2];
-    const allNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-
-    const pattern = this.mode === "major" ? majorPattern : minorPattern;
+  /*private generateScale(): string[] {
+    const indexArray = this.generateIndexArray();
+    const allNotes = ixChromaticArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
     let startIndex = allNotes.indexOf(this.tonic);
     let scale = [this.tonic];
 
-    for (let step of pattern) {
-      startIndex = (startIndex + step) % allNotes.length;
+    for (let index of indexArray) {
+      startIndex = (startIndex + index) % allNotes.length;
       scale.push(allNotes[startIndex]);
     }
     return scale;
-  }
+  } */
 }

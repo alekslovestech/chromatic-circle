@@ -1,3 +1,6 @@
+import { ChromaticIndex } from "./IndexTypes";
+import { MusicalKey } from "./MusicalKey";
+
 // Represents a Roman numeral in a progression
 export enum ChordQuality {
   Major = "major",
@@ -17,5 +20,11 @@ export class RomanNumeral {
     this.numeral = numeral;
     this.degree = degree;
     this.quality = quality;
+  }
+
+  resolve(key: MusicalKey): ChromaticIndex {
+    const scale = key.generateIndexArray();
+    const index = (this.degree - 1) % scale.length;
+    return scale[index];
   }
 }
