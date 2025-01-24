@@ -65,3 +65,58 @@ export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
     octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
   };
 }
+
+export type RomanNumeralString =
+  | "I"
+  | "II"
+  | "III"
+  | "IV"
+  | "V"
+  | "VI"
+  | "VII"
+  | "i"
+  | "ii"
+  | "iii"
+  | "iv"
+  | "v"
+  | "vi"
+  | "vii";
+
+export function ixRomanString(numeral: string): RomanNumeralString {
+  if (getOrdinal(numeral) <= 0) {
+    throw new Error("Invalid Roman Numeral");
+  }
+  return numeral as RomanNumeralString;
+}
+
+export function getOrdinal(numeral: string): number {
+  switch (numeral) {
+    case "I":
+    case "i":
+      return 1;
+    case "II":
+    case "ii":
+      return 2;
+    case "III":
+    case "iii":
+      return 3;
+    case "IV":
+    case "iv":
+      return 4;
+    case "V":
+    case "v":
+      return 5;
+    case "VI":
+    case "vi":
+      return 6;
+    case "VII":
+    case "vii":
+      return 7;
+    default:
+      return -1;
+  }
+}
+
+export function isLowercaseRomanNumeral(numeral: RomanNumeralString): boolean {
+  return numeral.toLowerCase() === numeral;
+}

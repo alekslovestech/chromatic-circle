@@ -1,4 +1,13 @@
-import { ChromaticIndex } from "./IndexTypes";
+import { getNoteTextFromIndex } from "../utils/NoteUtils";
+import { AccidentalType } from "./AccidentalType";
+import {
+  ChromaticIndex,
+  chromaticToActual,
+  getOrdinal,
+  isLowercaseRomanNumeral,
+  ixOctaveOffset,
+  RomanNumeralString,
+} from "./IndexTypes";
 import { MusicalKey } from "./MusicalKey";
 
 // Represents a Roman numeral in a progression
@@ -11,20 +20,50 @@ export enum ChordQuality {
   Major_Seventh = "maj7",
 }
 
-export class RomanNumeral {
-  numeral: string; // Roman numeral (e.g., "I", "ii", "V")
-  quality: ChordQuality; // Chord quality
-  degree: number; // Scale degree (1-based index)
+export type OrdinalChordQuality = {
+  ordinal: number;
+  quality: ChordQuality;
+};
 
-  constructor(numeral: string, degree: number, quality: ChordQuality) {
-    this.numeral = numeral;
-    this.degree = degree;
+export class ChromaticChordQuality {
+  chromaticIndex: ChromaticIndex;
+  quality: ChordQuality;
+  constructor(chromaticIndex: ChromaticIndex, quality: ChordQuality) {
+    this.chromaticIndex = chromaticIndex;
     this.quality = quality;
+  }
+
+  getString(): string {
+    const noteName = getNoteTextFromIndex(
+      chromaticToActual(this.chromaticIndex, ixOctaveOffset(0)),
+      AccidentalType.Sharp,
+    );
+    return `${noteName} (${this.quality})`;
+  }
+}
+
+export class RomanNumeral {
+  numeral: RomanNumeralString;
+
+  constructor(numeral: RomanNumeralString) {
+    this.numeral = numeral;
   }
 
   resolve(key: MusicalKey): ChromaticIndex {
     const scale = key.generateIndexArray();
-    const index = (this.degree - 1) % scale.length;
+    const index = (getOrdinal(this.numeral) - 1) % scale.length;
     return scale[index];
+  }
+
+  getOrdinalChordQuality(): OrdinalChordQuality {
+    return {
+      ordinal: getOrdinal(this.numeral),
+      quality: isLowercaseRomanNumeral(this.numeral) ? ChordQuality.Minor : ChordQuality.Major,
+    };
+  }
+
+  getResolvedChordQuality(key: MusicalKey): ChromaticChordQuality {
+    const chromaticIndex = this.resolve(key);
+    return new ChromaticChordQuality(chromaticIndex, this.getOrdinalChordQuality().quality);
   }
 }

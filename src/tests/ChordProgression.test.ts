@@ -1,51 +1,67 @@
 import { ChordProgression } from "../types/ChordProgression";
-import { ixChromatic } from "../types/IndexTypes";
+import { ixRomanString } from "../types/IndexTypes";
 import { MusicalKey } from "../types/MusicalKey";
-import { ChordQuality, RomanNumeral } from "../types/RomanNumeral";
+import { ChordQuality, ChromaticChordQuality, RomanNumeral } from "../types/RomanNumeral";
+import { noteTextToIndex } from "../utils/NoteUtils";
 
-test("Resolve roman numeral I in C major", () => {
-  const cMajor = new MusicalKey(ixChromatic(0), "major");
-  const I = new RomanNumeral("I", 1, ChordQuality.Major);
-  const resolvedIndex = I.resolve(cMajor);
-  expect(resolvedIndex).toEqual(0);
+function verifyResolvedChordQuality(
+  resolvedChordQuality: ChromaticChordQuality,
+  noteName: string,
+  quality: ChordQuality,
+) {
+  const noteIndex = noteTextToIndex(noteName);
+  expect(resolvedChordQuality).toEqual({ chromaticIndex: noteIndex, quality: quality });
+}
+
+describe("Resolved roman numeral tests", () => {
+  test("Resolve roman numeral I in C major", () => {
+    const cMajor = new MusicalKey("C", "major");
+    const I = new RomanNumeral("I");
+    const resolvedIndex = I.resolve(cMajor);
+    expect(resolvedIndex).toEqual(0);
+
+    const resolvedChordQuality = I.getResolvedChordQuality(cMajor);
+    verifyResolvedChordQuality(resolvedChordQuality, "C", ChordQuality.Major);
+  });
+
+  test("Resolve roman numeral V in C major", () => {
+    const cMajor = new MusicalKey("C", "major");
+    const V = new RomanNumeral("V");
+
+    const resolvedChordQuality = V.getResolvedChordQuality(cMajor);
+    verifyResolvedChordQuality(resolvedChordQuality, "G", ChordQuality.Major);
+  });
+
+  test("Resolve roman numeral in E major", () => {
+    const eMajor = new MusicalKey("E", "major");
+    const I = new RomanNumeral("I");
+    const resolvedChordQuality = I.getResolvedChordQuality(eMajor);
+    verifyResolvedChordQuality(resolvedChordQuality, "E", ChordQuality.Major);
+  });
+
+  test("Resolve roman numeral V in E major", () => {
+    const eMajor = new MusicalKey("E", "major");
+    const V = new RomanNumeral("V");
+    const resolvedChordQuality = V.getResolvedChordQuality(eMajor);
+    verifyResolvedChordQuality(resolvedChordQuality, "B", ChordQuality.Major);
+  });
 });
 
-test("Resolve roman numeral V in C major", () => {
-  const cMajor = new MusicalKey(ixChromatic(0), "major");
-  const V = new RomanNumeral("V", 5, ChordQuality.Major);
-  const resolvedIndex = V.resolve(cMajor);
-  expect(resolvedIndex).toEqual(7);
-});
-
-test("Resolve roman numeral in E major", () => {
-  const eMajor = new MusicalKey(ixChromatic(5), "major");
-  const I = new RomanNumeral("I", 1, ChordQuality.Major);
-  const resolvedIndex = I.resolve(eMajor);
-  expect(resolvedIndex).toEqual(5);
-});
-
-test("Resolve roman numeral V in E major", () => {
-  const eMajor = new MusicalKey(ixChromatic(4), "major");
-  const V = new RomanNumeral("V", 5, ChordQuality.Major);
-  const resolvedIndex = V.resolve(eMajor);
-  expect(resolvedIndex).toEqual(11);
-});
-
-test.skip("Chord progression derives correct chords for C major key", () => {
+test("Chord progression derives correct chords for C major key", () => {
   // Define a key
-  const cMajor = new MusicalKey(ixChromatic(0), "major");
+  const cMajor = new MusicalKey("C", "major");
 
   // Define Roman numerals
-  const I = new RomanNumeral("I", 1, ChordQuality.Major);
-  const vi = new RomanNumeral("vi", 6, ChordQuality.Minor);
-  const IV = new RomanNumeral("IV", 4, ChordQuality.Major);
-  const V = new RomanNumeral("V", 5, ChordQuality.Major);
+  const I = new RomanNumeral("I");
+  const vi = new RomanNumeral("vi");
+  const IV = new RomanNumeral("IV");
+  const V = new RomanNumeral("V");
 
   // Create a progression
   const progression = new ChordProgression(cMajor, [I, vi, IV, V], "50s progression");
 
   // Derive concrete chords
-  const derivedChords = progression.deriveChords();
+  const derivedChords = progression.resolvedChords();
 
   // Check the output
   expect(derivedChords).toEqual(["C (major)", "A (minor)", "F (major)", "G (major)"]);
@@ -53,19 +69,19 @@ test.skip("Chord progression derives correct chords for C major key", () => {
 
 test.skip("Something Chord progression derives correct chords for C major key", () => {
   // Define a key
-  const cMajor = new MusicalKey(ixChromatic(0), "major");
+  const cMajor = new MusicalKey("C", "major");
 
   // Define Roman numerals
-  const I = new RomanNumeral("I", 1, ChordQuality.Major);
-  const IMaj7 = new RomanNumeral("IMaj7", 1, ChordQuality.Major_Seventh);
-  const I7 = new RomanNumeral("I7", 1, ChordQuality.Seventh);
-  const IV = new RomanNumeral("IV", 4, ChordQuality.Major);
+  const I = new RomanNumeral(ixRomanString("I"));
+  const IMaj7 = new RomanNumeral(ixRomanString("IMaj7"));
+  const I7 = new RomanNumeral(ixRomanString("I7"));
+  const IV = new RomanNumeral(ixRomanString("IV"));
 
   // Create a progression
   const progression = new ChordProgression(cMajor, [I, IMaj7, I7, IV], "Something");
 
   // Derive concrete chords
-  const derivedChords = progression.deriveChords();
+  const derivedChords = progression.resolvedChords();
 
   // Check the output
   expect(derivedChords).toEqual(["C (major)", "C (maj7)", "C (7)", "F (major)"]);

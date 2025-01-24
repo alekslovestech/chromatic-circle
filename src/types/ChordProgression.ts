@@ -14,10 +14,11 @@ export class ChordProgression {
   }
 
   // Derive concrete chords from the Roman numerals
-  deriveChords(): string[] {
-    return this.progression.map((romanNumeral) => {
-      const note = this.musicalKey.notes[(romanNumeral.degree - 1) % this.musicalKey.notes.length];
-      return `${note} (${romanNumeral.quality})`;
+  resolvedChords(): string[] {
+    const resolvedChords = this.progression.map((roman) => {
+      const resolvedChordQuality = roman.getResolvedChordQuality(this.musicalKey);
+      return resolvedChordQuality.getString();
     });
+    return resolvedChords;
   }
 }

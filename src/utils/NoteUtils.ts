@@ -2,7 +2,7 @@ import { NotationType } from "../types/NotationType";
 import { AccidentalType } from "../types/AccidentalType";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
-import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
+import { ActualIndex, actualToChromatic, ChromaticIndex, ixChromatic } from "../types/IndexTypes";
 
 export function getAccidentalSign(accidental: AccidentalType, displayMode: NotationType): string {
   const accidentalSigns = {
@@ -53,4 +53,28 @@ export const getNoteTextFromIndex = (
   );
   const octaveString = showOctave ? noteWithAccidental.octave : "";
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
+};
+
+export const noteTextToIndex = (note: string): ChromaticIndex => {
+  const noteMap: { [key: string]: number } = {
+    C: 0,
+    "C#": 1,
+    Db: 1,
+    D: 2,
+    "D#": 3,
+    Eb: 3,
+    E: 4,
+    F: 5,
+    "F#": 6,
+    Gb: 6,
+    G: 7,
+    "G#": 8,
+    Ab: 8,
+    A: 9,
+    "A#": 10,
+    Bb: 10,
+    B: 11,
+  };
+
+  return ixChromatic(noteMap[note] ?? -1);
 };
