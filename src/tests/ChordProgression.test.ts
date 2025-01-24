@@ -2,6 +2,7 @@ import { ChordProgression } from "../types/ChordProgression";
 import { ixRomanString } from "../types/IndexTypes";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
 import { ChordQuality, RomanNumeral } from "../types/RomanNumeral";
+import { RomanResolver } from "../types/RomanResolver";
 import { noteTextToIndex } from "../utils/NoteUtils";
 
 function verifyResolvedChord(
@@ -11,7 +12,7 @@ function verifyResolvedChord(
   quality: ChordQuality,
 ) {
   const noteIndex = noteTextToIndex(noteName);
-  const resolvedChordQuality = romanNumeral.getResolvedChordQuality(musicalKey);
+  const resolvedChordQuality = RomanResolver.resolveAsChord(romanNumeral, musicalKey);
   expect(resolvedChordQuality).toEqual({ chromaticIndex: noteIndex, quality: quality });
 }
 

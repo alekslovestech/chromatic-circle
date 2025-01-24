@@ -8,7 +8,6 @@ import {
   ixOctaveOffset,
   RomanNumeralString,
 } from "./IndexTypes";
-import { MusicalKey } from "./MusicalKey";
 
 // Represents a Roman numeral in a progression
 export enum ChordQuality {
@@ -49,21 +48,10 @@ export class RomanNumeral {
     this.numeral = numeral;
   }
 
-  resolve(key: MusicalKey): ChromaticIndex {
-    const scale = key.generateIndexArray();
-    const index = (getOrdinal(this.numeral) - 1) % scale.length;
-    return scale[index];
-  }
-
   getOrdinalChordQuality(): OrdinalChordQuality {
     return {
       ordinal: getOrdinal(this.numeral),
       quality: isLowercaseRomanNumeral(this.numeral) ? ChordQuality.Minor : ChordQuality.Major,
     };
-  }
-
-  getResolvedChordQuality(key: MusicalKey): ChromaticChordQuality {
-    const chromaticIndex = this.resolve(key);
-    return new ChromaticChordQuality(chromaticIndex, this.getOrdinalChordQuality().quality);
   }
 }

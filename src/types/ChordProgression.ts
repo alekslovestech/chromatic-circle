@@ -1,5 +1,6 @@
 import { MusicalKey } from "./MusicalKey";
 import { RomanNumeral } from "./RomanNumeral";
+import { RomanResolver } from "./RomanResolver";
 
 // Represents a chord progression
 export class ChordProgression {
@@ -16,7 +17,7 @@ export class ChordProgression {
   // Derive concrete chords from the Roman numerals
   resolvedChords(): string[] {
     const resolvedChords = this.progression.map((roman) => {
-      const resolvedChordQuality = roman.getResolvedChordQuality(this.musicalKey);
+      const resolvedChordQuality = RomanResolver.resolveAsChord(roman, this.musicalKey);
       return resolvedChordQuality.getString();
     });
     return resolvedChords;
