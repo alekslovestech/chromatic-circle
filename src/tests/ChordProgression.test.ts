@@ -95,4 +95,16 @@ describe("Chord progression derives correct chords for C major key", () => {
       new AbsoluteChord("G", ChordType.Major),
     ]);
   });
+
+  it("I → ♭VI → IV → I", () => {
+    const blackHoleSunProgression = new ChordProgression(["I", "♭VI", "IV", "I"], "Black Hole Sun");
+
+    const derivedChords = blackHoleSunProgression.resolvedChords(gMajor);
+    expect(derivedChords).toEqual([
+      new AbsoluteChord("G", ChordType.Major),
+      new AbsoluteChord("Eb", ChordType.Major),
+      new AbsoluteChord("C", ChordType.Major),
+      new AbsoluteChord("G", ChordType.Major),
+    ]);
+  });
 });

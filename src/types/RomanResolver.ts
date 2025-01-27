@@ -3,6 +3,9 @@ import { ChordType } from "./NoteGroupingTypes";
 import { AbsoluteChord, RomanChord } from "./RomanNumeral";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { isRoman } from "./RomanTypes";
+import { AccidentalType } from "./AccidentalType";
+import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";
+import { TWELVE } from "./NoteConstants";
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
     let chordType: ChordType;
@@ -38,34 +41,52 @@ export class RomanResolver {
     return chordType;
   }
 
-  static resolveAsChord(roman: string, musicKey: MusicalKey): AbsoluteChord {
-    const romanChord = RomanResolver.getRomanChord(roman);
+  static resolveAsChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
+    const romanChord = RomanResolver.getRomanChord(romanString);
     const scale = musicKey.generateIndexArray();
-    const chromaticIndex = scale[romanChord.ordinal - 1];
+    let chromaticIndex = scale[romanChord.ordinal - 1];
+    const accidentalOffset: OffsetIndex =
+      romanChord.accidental === AccidentalType.Flat
+        ? ixOffset(-1)
+        : romanChord.accidental === AccidentalType.Sharp
+        ? ixOffset(1)
+        : ixOffset(0);
+    chromaticIndex = ixChromatic((chromaticIndex + accidentalOffset) % TWELVE);
 
     return new AbsoluteChord(chromaticIndex, romanChord.chordType);
   }
 
-  static getRomanChord(roman: string): RomanChord {
+  static getRomanChord(romanString: string): RomanChord {
+    let prefix: AccidentalType = AccidentalType.None;
     let ordinal = 0;
     let suffix = "";
 
+    if (romanString.startsWith("#") || romanString.startsWith("♯")) {
+      prefix = AccidentalType.Sharp;
+      romanString = romanString.slice(1); // Remove the prefix from the roman numeral
+    } else if (romanString.startsWith("b") || romanString.startsWith("♭")) {
+      prefix = AccidentalType.Flat;
+      romanString = romanString.slice(1); // Remove the prefix from the roman numeral
+    } else {
+      prefix = AccidentalType.None; // No accidental prefix
+    }
+
     // Split the numeral and suffix
     let lastValidIndex = 0;
-    for (let i = 1; i <= roman.length; i++) {
-      const currentSlice = roman.slice(0, i);
+    for (let i = 1; i <= romanString.length; i++) {
+      const currentSlice = romanString.slice(0, i);
       if (!isRoman(currentSlice)) break; // Stop at the first non-Roman character
       lastValidIndex = i; // Update to the next index after the valid Roman numeral
     }
-    ordinal = RomanNumeralUtils.getOrdinal(roman.slice(0, lastValidIndex));
-    suffix = roman.slice(lastValidIndex);
+    ordinal = RomanNumeralUtils.getOrdinal(romanString.slice(0, lastValidIndex));
+    suffix = romanString.slice(lastValidIndex);
 
     let chordType: ChordType;
-    const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(roman);
+    const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(romanString);
     chordType = RomanResolver.determineChordType(isLowercase, suffix);
     if (chordType === ChordType.Unknown) {
-      throw new Error(`Invalid roman notation ${roman}`);
+      throw new Error(`Invalid roman notation ${romanString}`);
     }
-    return new RomanChord(ordinal, chordType);
+    return new RomanChord(ordinal, chordType, prefix);
   }
 }

@@ -1,3 +1,4 @@
+import { AccidentalType } from "../types/AccidentalType";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { RomanChord } from "../types/RomanNumeral";
 import { RomanResolver } from "../types/RomanResolver";
@@ -75,5 +76,17 @@ describe("RomanNumeral chord tests", () => {
     expect(() =>
       verifyOrdinalChordQuality("VIIø7", new RomanChord(7, ChordType.HalfDiminished)),
     ).toThrow();
+  });
+
+  test("#iii", () => {
+    verifyOrdinalChordQuality("♯iii", new RomanChord(3, ChordType.Minor, AccidentalType.Sharp));
+  });
+
+  test("♭iii", () => {
+    verifyOrdinalChordQuality("♭iii", new RomanChord(3, ChordType.Minor, AccidentalType.Flat));
+  });
+
+  test("♭VI", () => {
+    verifyOrdinalChordQuality("♭VI", new RomanChord(6, ChordType.Major, AccidentalType.Flat));
   });
 });

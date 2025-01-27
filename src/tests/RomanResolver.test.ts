@@ -10,8 +10,8 @@ function verifyResolvedChord(
   chordType: ChordType,
 ) {
   const noteIndex = noteTextToIndex(noteName);
-  const resolvedChordQuality = RomanResolver.resolveAsChord(romanNumeral, musicalKey);
-  expect(resolvedChordQuality).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
+  const absoluteChord = RomanResolver.resolveAsChord(romanNumeral, musicalKey);
+  expect(absoluteChord).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
 }
 
 describe("Resolved roman numeral tests", () => {
@@ -38,5 +38,10 @@ describe("Resolved roman numeral tests", () => {
   test("Resolve roman numeral V in E major", () => {
     const eMajor = new MusicalKey("E", KeyType.Major);
     verifyResolvedChord(eMajor, "V", "B", ChordType.Major);
+  });
+
+  test("Resolve roman numeral ♭VI in G major", () => {
+    const gMajor = new MusicalKey("G", KeyType.Major);
+    verifyResolvedChord(gMajor, "♭VI", "Eb", ChordType.Major);
   });
 });

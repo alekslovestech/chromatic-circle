@@ -1,19 +1,29 @@
-import { getNoteTextFromIndex, noteTextToIndex } from "../utils/NoteUtils";
+import { getAccidentalSign, getNoteTextFromIndex, noteTextToIndex } from "../utils/NoteUtils";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType } from "./AccidentalType";
 import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "./IndexTypes";
+import { NotationType } from "./NotationType";
 import { ChordType } from "./NoteGroupingTypes";
 
 export class RomanChord {
   ordinal: number;
   chordType: ChordType;
-  constructor(ordinal: number, chordType: ChordType) {
+  accidental: AccidentalType;
+  constructor(
+    ordinal: number,
+    chordType: ChordType,
+    accidental: AccidentalType = AccidentalType.None,
+  ) {
     this.ordinal = ordinal;
     this.chordType = chordType;
+    this.accidental = accidental;
   }
 
   getString(): string {
-    return `${RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true)} (${this.chordType})`;
+    const accidentalString = getAccidentalSign(this.accidental, NotationType.ScreenDisplay);
+    return `${accidentalString}${RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true)} (${
+      this.chordType
+    })`;
   }
 }
 
