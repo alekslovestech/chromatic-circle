@@ -2,11 +2,26 @@ import { MusicalKey } from "./MusicalKey";
 import { ChordType } from "./NoteGroupingTypes";
 import { AbsoluteChord, RomanChord } from "./RomanNumeral";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
-import { isRoman } from "./RomanTypes";
-import { AccidentalType } from "./AccidentalType";
+import { AccidentalType, getAccidentalType } from "./AccidentalType";
 import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
+
+const romanRegex: RegExp =
+  /^(#|♯|b|♭)?(I|II|III|IV|V|VI|VII|i|ii|iii|iv|v|vi|vii)(\+|7|maj7|o|o7|dim|dim7|aug|ø7)?$/;
+
 export class RomanResolver {
+  static splitRomanString(romanString: string): {
+    prefix: string;
+    pureRoman: string;
+    suffix: string;
+  } {
+    const match = romanString.match(romanRegex);
+    if (match) {
+      return { prefix: match[1] || "", pureRoman: match[2], suffix: match[3] || "" };
+    }
+    return { prefix: "", pureRoman: romanString, suffix: "" };
+  }
+
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
     let chordType: ChordType;
     switch (suffix) {
@@ -57,36 +72,15 @@ export class RomanResolver {
   }
 
   static getRomanChord(romanString: string): RomanChord {
-    let prefix: AccidentalType = AccidentalType.None;
-    let ordinal = 0;
-    let suffix = "";
+    const { prefix, pureRoman, suffix } = RomanResolver.splitRomanString(romanString);
+    const accidental: AccidentalType = getAccidentalType(prefix);
 
-    if (romanString.startsWith("#") || romanString.startsWith("♯")) {
-      prefix = AccidentalType.Sharp;
-      romanString = romanString.slice(1); // Remove the prefix from the roman numeral
-    } else if (romanString.startsWith("b") || romanString.startsWith("♭")) {
-      prefix = AccidentalType.Flat;
-      romanString = romanString.slice(1); // Remove the prefix from the roman numeral
-    } else {
-      prefix = AccidentalType.None; // No accidental prefix
-    }
-
-    // Split the numeral and suffix
-    let lastValidIndex = 0;
-    for (let i = 1; i <= romanString.length; i++) {
-      const currentSlice = romanString.slice(0, i);
-      if (!isRoman(currentSlice)) break; // Stop at the first non-Roman character
-      lastValidIndex = i; // Update to the next index after the valid Roman numeral
-    }
-    ordinal = RomanNumeralUtils.getOrdinal(romanString.slice(0, lastValidIndex));
-    suffix = romanString.slice(lastValidIndex);
-
-    let chordType: ChordType;
+    const ordinal = RomanNumeralUtils.getOrdinal(pureRoman);
     const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(romanString);
-    chordType = RomanResolver.determineChordType(isLowercase, suffix);
+    const chordType = RomanResolver.determineChordType(isLowercase, suffix);
     if (chordType === ChordType.Unknown) {
       throw new Error(`Invalid roman notation ${romanString}`);
     }
-    return new RomanChord(ordinal, chordType, prefix);
+    return new RomanChord(ordinal, chordType, accidental);
   }
 }
