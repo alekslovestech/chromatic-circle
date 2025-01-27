@@ -5,12 +5,16 @@ import { AbsoluteChord } from "../types/RomanNumeral";
 
 describe("Chord progression derives correct chords for C major key", () => {
   const cMajor = new MusicalKey("C", KeyType.Major);
+  const dMajor = new MusicalKey("D", KeyType.Major);
   const fMajor = new MusicalKey("F", KeyType.Major);
+  const gMajor = new MusicalKey("G", KeyType.Major);
   const aMajor = new MusicalKey("A", KeyType.Major);
 
   const fiftiesProgression = new ChordProgression(["I", "vi", "IV", "V"], "50s progression");
   const somethingProgression = new ChordProgression(["I", "Imaj7", "I7", "IV"], "Something");
   const bluesProgression = new ChordProgression(["I", "IV", "V", "IV"], "Blues");
+  const creepProgression = new ChordProgression(["I", "III", "IV", "iv"], "Creep");
+  const axisOfAwesomeProgression = new ChordProgression(["I", "V", "vi", "IV"], "Axis of Awesome");
 
   it("50s progression for C major", () => {
     const derivedChords = fiftiesProgression.resolvedChords(cMajor);
@@ -59,6 +63,36 @@ describe("Chord progression derives correct chords for C major key", () => {
       new AbsoluteChord("D", ChordType.Major),
       new AbsoluteChord("E", ChordType.Major),
       new AbsoluteChord("D", ChordType.Major),
+    ]);
+  });
+
+  it("Creep progression for G major", () => {
+    const derivedChords = creepProgression.resolvedChords(gMajor);
+    expect(derivedChords).toEqual([
+      new AbsoluteChord("G", ChordType.Major),
+      new AbsoluteChord("B", ChordType.Major),
+      new AbsoluteChord("C", ChordType.Major),
+      new AbsoluteChord("C", ChordType.Minor),
+    ]);
+  });
+
+  it("Let it be: Axis of Awesome progression for C major", () => {
+    const derivedChords = axisOfAwesomeProgression.resolvedChords(cMajor);
+    expect(derivedChords).toEqual([
+      new AbsoluteChord("C", ChordType.Major),
+      new AbsoluteChord("G", ChordType.Major),
+      new AbsoluteChord("A", ChordType.Minor),
+      new AbsoluteChord("F", ChordType.Major),
+    ]);
+  });
+
+  it("With or without you: Axis of Awesome progression for D major", () => {
+    const derivedChords = axisOfAwesomeProgression.resolvedChords(dMajor);
+    expect(derivedChords).toEqual([
+      new AbsoluteChord("D", ChordType.Major),
+      new AbsoluteChord("A", ChordType.Major),
+      new AbsoluteChord("B", ChordType.Minor),
+      new AbsoluteChord("G", ChordType.Major),
     ]);
   });
 });
