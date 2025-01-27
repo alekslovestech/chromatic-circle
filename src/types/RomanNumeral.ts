@@ -1,35 +1,29 @@
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
+import { getNoteTextFromIndex, noteTextToIndex } from "../utils/NoteUtils";
+import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType } from "./AccidentalType";
-import {
-  ChromaticIndex,
-  chromaticToActual,
-  getOrdinal,
-  isLowercaseRomanNumeral,
-  ixOctaveOffset,
-  RomanNumeralString,
-} from "./IndexTypes";
+import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "./IndexTypes";
+import { ChordType } from "./NoteGroupingTypes";
 
-// Represents a Roman numeral in a progression
-export enum ChordQuality {
-  Major = "major",
-  Minor = "minor",
-  Diminished = "diminished",
-  Augmented = "augmented",
-  Seventh = "7",
-  Major_Seventh = "maj7",
+export class RomanChord {
+  ordinal: number;
+  chordType: ChordType;
+  constructor(ordinal: number, chordType: ChordType) {
+    this.ordinal = ordinal;
+    this.chordType = chordType;
+  }
+
+  getString(): string {
+    return `${RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true)} (${this.chordType})`;
+  }
 }
 
-export type OrdinalChordQuality = {
-  ordinal: number;
-  quality: ChordQuality;
-};
-
-export class ChromaticChordQuality {
+export class AbsoluteChord {
   chromaticIndex: ChromaticIndex;
-  quality: ChordQuality;
-  constructor(chromaticIndex: ChromaticIndex, quality: ChordQuality) {
-    this.chromaticIndex = chromaticIndex;
-    this.quality = quality;
+  chordType: ChordType;
+
+  constructor(note: string | ChromaticIndex, quality: ChordType) {
+    this.chromaticIndex = typeof note === "string" ? noteTextToIndex(note) : note;
+    this.chordType = quality;
   }
 
   getString(): string {
@@ -37,21 +31,6 @@ export class ChromaticChordQuality {
       chromaticToActual(this.chromaticIndex, ixOctaveOffset(0)),
       AccidentalType.Sharp,
     );
-    return `${noteName} (${this.quality})`;
-  }
-}
-
-export class RomanNumeral {
-  numeral: RomanNumeralString;
-
-  constructor(numeral: RomanNumeralString) {
-    this.numeral = numeral;
-  }
-
-  getOrdinalChordQuality(): OrdinalChordQuality {
-    return {
-      ordinal: getOrdinal(this.numeral),
-      quality: isLowercaseRomanNumeral(this.numeral) ? ChordQuality.Minor : ChordQuality.Major,
-    };
+    return `${noteName} (${this.chordType})`;
   }
 }
