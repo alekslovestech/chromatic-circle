@@ -1,28 +1,22 @@
 import { RomanNumeralString } from "../types/RomanTypes";
 
 export namespace RomanNumeralUtils {
-  export function getOrdinal(numeral: string): number {
-    switch (numeral) {
+  export function getOrdinal(roman: string): number {
+    const normalized = roman.toUpperCase();
+    switch (normalized) {
       case "I":
-      case "i":
         return 1;
       case "II":
-      case "ii":
         return 2;
       case "III":
-      case "iii":
         return 3;
       case "IV":
-      case "iv":
         return 4;
       case "V":
-      case "v":
         return 5;
       case "VI":
-      case "vi":
         return 6;
       case "VII":
-      case "vii":
         return 7;
       default:
         return -1;

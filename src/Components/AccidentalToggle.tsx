@@ -1,7 +1,6 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { NotationType } from "../types/NotationType";
-import { getAccidentalSign, getOppositeAccidental } from "../utils/NoteUtils";
+import { getAccidentalSignForDisplay, getOppositeAccidental } from "../utils/NoteUtils";
 import { getComputedColor } from "../utils/ColorUtils";
 
 const AccidentalToggle: React.FC = () => {
@@ -21,7 +20,7 @@ const AccidentalToggle: React.FC = () => {
         width: "40px", // Fixed width to 40px
       }}
     >
-      {getAccidentalSign(selectedAccidental, NotationType.ScreenDisplay)}
+      {getAccidentalSignForDisplay(selectedAccidental)}
     </button>
   );
 };

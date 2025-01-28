@@ -56,7 +56,7 @@ export class RomanResolver {
     return chordType;
   }
 
-  static resolveAsChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
+  static resolveAsAbsoluteChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
     const scale = musicKey.generateIndexArray();
     let chromaticIndex = scale[romanChord.ordinal - 1];

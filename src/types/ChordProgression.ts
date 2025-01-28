@@ -15,7 +15,7 @@ export class ChordProgression {
   // Derive concrete chords from the Roman numerals
   resolvedChords(musicalKey: MusicalKey): AbsoluteChord[] {
     const resolvedChords = this.progression.map((roman) => {
-      const absoluteChord = RomanResolver.resolveAsChord(roman, musicalKey);
+      const absoluteChord = RomanResolver.resolveAsAbsoluteChord(roman, musicalKey);
       return absoluteChord;
     });
     return resolvedChords;

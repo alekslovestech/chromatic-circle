@@ -1,32 +1,12 @@
-import { NotationType } from "../types/NotationType";
-import { AccidentalType } from "../types/AccidentalType";
-import { NoteWithAccidental } from "../types/NoteWithAccidental";
+import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
+import { NoteWithAccidentalAndOctave } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualToChromatic, ChromaticIndex, ixChromatic } from "../types/IndexTypes";
-
-export function getAccidentalSign(accidental: AccidentalType, displayMode: NotationType): string {
-  const accidentalSigns = {
-    [NotationType.ScreenDisplay]: {
-      [AccidentalType.None]: "",
-      [AccidentalType.Natural]: "♮",
-      [AccidentalType.Sharp]: "♯",
-      [AccidentalType.Flat]: "♭",
-    },
-    [NotationType.EasyScore]: {
-      [AccidentalType.None]: "",
-      [AccidentalType.Natural]: "n",
-      [AccidentalType.Sharp]: "#",
-      [AccidentalType.Flat]: "b",
-    },
-  };
-
-  return accidentalSigns[displayMode][accidental] || "";
-}
 
 export function getNoteWithAccidentalFromIndex(
   actualIndex: ActualIndex,
   accidentalPreference: AccidentalType,
-): NoteWithAccidental {
+): NoteWithAccidentalAndOctave {
   const notesArray = getNotesArray(accidentalPreference);
   const indexAndOctave = actualToChromatic(actualIndex);
   return {
@@ -47,10 +27,7 @@ export const getNoteTextFromIndex = (
   showOctave: boolean = false,
 ): string => {
   const noteWithAccidental = getNoteWithAccidentalFromIndex(actualIndex, sharpOrFlat);
-  const accidentalSign = getAccidentalSign(
-    noteWithAccidental.accidental,
-    NotationType.ScreenDisplay,
-  );
+  const accidentalSign = getAccidentalSignForDisplay(noteWithAccidental.accidental);
   const octaveString = showOctave ? noteWithAccidental.octave : "";
   return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
 };

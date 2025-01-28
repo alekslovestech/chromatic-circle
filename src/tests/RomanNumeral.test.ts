@@ -9,7 +9,11 @@ function verifyOrdinalChordQuality(numeral: string, expected: RomanChord) {
 
 describe("SplitRomanString  tests", () => {
   test("I", () => {
-    expect(RomanResolver.splitRomanString("I")).toEqual({ prefix: "", pureRoman: "I", suffix: "" });
+    expect(RomanResolver.splitRomanString("I")).toEqual({
+      prefix: "",
+      pureRoman: "I",
+      suffix: "",
+    });
   });
 
   test("♯I", () => {

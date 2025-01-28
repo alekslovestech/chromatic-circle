@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { getNoteWithAccidentalFromIndex, getAccidentalSign } from "../utils/NoteUtils";
-import { NotationType } from "../types/NotationType";
-import { AccidentalType } from "../types/AccidentalType";
+import { getNoteWithAccidentalFromIndex } from "../utils/NoteUtils";
+import { AccidentalType, getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
@@ -22,7 +21,7 @@ const EasyScoreFromNotes = (
   });
 
   noteInfo.forEach(({ accidental }, index) => {
-    const accidentalSign = getAccidentalSign(accidental, NotationType.EasyScore);
+    const accidentalSign = getAccidentalSignForEasyScore(accidental);
     if (accidentalSign) {
       chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }

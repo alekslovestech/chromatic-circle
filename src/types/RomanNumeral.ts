@@ -1,8 +1,7 @@
-import { getAccidentalSign, getNoteTextFromIndex, noteTextToIndex } from "../utils/NoteUtils";
+import { getNoteTextFromIndex, noteTextToIndex } from "../utils/NoteUtils";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
-import { AccidentalType } from "./AccidentalType";
+import { AccidentalType, getAccidentalSignForDisplay } from "./AccidentalType";
 import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "./IndexTypes";
-import { NotationType } from "./NotationType";
 import { ChordType } from "./NoteGroupingTypes";
 
 export class RomanChord {
@@ -20,10 +19,9 @@ export class RomanChord {
   }
 
   getString(): string {
-    const accidentalString = getAccidentalSign(this.accidental, NotationType.ScreenDisplay);
-    return `${accidentalString}${RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true)} (${
-      this.chordType
-    })`;
+    const accidentalString = getAccidentalSignForDisplay(this.accidental);
+    const romanNumeralString = RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true);
+    return `${accidentalString}${romanNumeralString} (${this.chordType})`;
   }
 }
 
