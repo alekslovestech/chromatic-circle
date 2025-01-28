@@ -1,6 +1,6 @@
 import { AccidentalType } from "../types/AccidentalType";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { RomanChord } from "../types/RomanNumeral";
+import { RomanChord } from "../types/RomanChord";
 import { RomanResolver } from "../types/RomanResolver";
 
 function verifyOrdinalChordQuality(numeral: string, expected: RomanChord) {

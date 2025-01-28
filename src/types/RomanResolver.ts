@@ -1,6 +1,6 @@
 import { MusicalKey } from "./MusicalKey";
 import { ChordType } from "./NoteGroupingTypes";
-import { AbsoluteChord, RomanChord } from "./RomanNumeral";
+import { AbsoluteChord, RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
 import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";

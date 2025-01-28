@@ -1,5 +1,5 @@
 import { MusicalKey } from "./MusicalKey";
-import { AbsoluteChord } from "./RomanNumeral";
+import { AbsoluteChord } from "./RomanChord";
 import { RomanResolver } from "./RomanResolver";
 
 // Represents a chord progression
