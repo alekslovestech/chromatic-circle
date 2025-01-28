@@ -40,10 +40,10 @@ AC --> ChordType
 RC -.-> CT
 RC -.-> AT
 RC --->|MK| AC
-RC ---> |getString| RNM
 RNS ---> |getOrdinal| RO
 RO ---> |getOrdinalAsRomanString| RNS
 
+RC ---> |getString| RNM
 RNM ---> |getRomanChord| RC
 
 CI ---> NA
