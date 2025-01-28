@@ -1,7 +1,8 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
-import { getAccidentalSignForDisplay, getOppositeAccidental } from "../utils/NoteUtils";
 import { getComputedColor } from "../utils/ColorUtils";
+import { getAccidentalSignForDisplay } from "../types/AccidentalType";
+import { getOppositeAccidental } from "../types/AccidentalType";
 
 const AccidentalToggle: React.FC = () => {
   const { selectedAccidental, setSelectedAccidental } = useNotes();

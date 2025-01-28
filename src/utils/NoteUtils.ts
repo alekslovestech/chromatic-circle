@@ -3,22 +3,16 @@ import { NoteWithAccidentalAndOctave } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualToChromatic, ChromaticIndex, ixChromatic } from "../types/IndexTypes";
 
-export function getNoteWithAccidentalFromIndex(
+export const getNoteWithAccidentalFromIndex = (
   actualIndex: ActualIndex,
   accidentalPreference: AccidentalType,
-): NoteWithAccidentalAndOctave {
+): NoteWithAccidentalAndOctave => {
   const notesArray = getNotesArray(accidentalPreference);
   const indexAndOctave = actualToChromatic(actualIndex);
   return {
     ...notesArray[indexAndOctave.chromaticIndex],
     octave: 4 + indexAndOctave.octaveOffset,
   };
-}
-
-export const getOppositeAccidental = (prevAccidental: AccidentalType): AccidentalType => {
-  if (prevAccidental === AccidentalType.Sharp) return AccidentalType.Flat;
-  if (prevAccidental === AccidentalType.Flat) return AccidentalType.Sharp;
-  return prevAccidental; //no change
 };
 
 export const getNoteTextFromIndex = (
