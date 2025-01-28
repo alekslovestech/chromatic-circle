@@ -11,14 +11,19 @@ II["Inversion Index"]
 NG["Note Grouping"]
 OI["Offsets"]
 AT["AccidentalType"]
-RN["Roman Numeral"]
+
+RNM["Roman Numeral with modifiers"]
+RNS["Roman Numeral String (pure)"]
 RC["Roman Chord"]
+RO["Roman Ordinal"]
+
 AC["Absolute Chord"]
 MK["Musical Key"]
 CI["Chromatic Index"]
 CT["Chord Type"]
+CP["Chord Progression"]
 
-AC --> NA
+
 CM --> CD  
 CD --> NG
 CD --> OI
@@ -30,9 +35,20 @@ NI -.-> NA
 NA -.-> NT 
 NA -.-> NV 
 
+AC -.-> CI
+AC --> ChordType
 RC -.-> CT
 RC -.-> AT
 RC --->|MK| AC
+RC ---> |getString| RNM
+RNS ---> |getOrdinal| RO
+RO ---> |getOrdinalAsRomanString| RNS
+
+RNM ---> |getRomanChord| RC
 
 CI ---> NA
 NA -.-> AT
+CP --->|resolvedChords| AC
+CP ---> |array of| RNM
+
+
