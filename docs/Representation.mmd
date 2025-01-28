@@ -10,7 +10,13 @@ CIM["Chord Interval Manager"]
 II["Inversion Index"]
 NG["Note Grouping"]
 OI["Offsets"]
-AC["Accidental"]
+AT["AccidentalType"]
+RN["Roman Numeral"]
+RC["Roman Chord"]
+AC["Absolute Chord"]
+MK["Musical Key"]
+CI["Chromatic Index"]
+CT["Chord Type"]
 
 AC --> NA
 CM --> CD  
@@ -24,3 +30,9 @@ NI -.-> NA
 NA -.-> NT 
 NA -.-> NV 
 
+RC -.-> CT
+RC -.-> AT
+RC --->|MK| AC
+
+CI ---> NA
+NA -.-> AT
