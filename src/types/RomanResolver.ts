@@ -1,11 +1,12 @@
 import { MusicalKey } from "./MusicalKey";
 import { ChordType } from "./NoteGroupingTypes";
-import { AbsoluteChord, RomanChord } from "./RomanChord";
+import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
 import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
 import { splitRomanString } from "./RomanParser";
+import { AbsoluteChord } from "./AbsoluteChord";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {

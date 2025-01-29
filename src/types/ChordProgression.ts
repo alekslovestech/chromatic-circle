@@ -1,6 +1,6 @@
 import { MusicalKey } from "./MusicalKey";
-import { AbsoluteChord } from "./RomanChord";
 import { RomanResolver } from "./RomanResolver";
+import { AbsoluteChord } from "./AbsoluteChord";
 
 // Represents a chord progression
 export class ChordProgression {

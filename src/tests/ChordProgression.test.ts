@@ -1,8 +1,7 @@
 import { ChordProgression } from "../types/ChordProgression";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { AbsoluteChord } from "../types/RomanChord";
-
+import { AbsoluteChord } from "../types/AbsoluteChord";
 describe("Chord progression derives correct chords for C major key", () => {
   const cMajor = new MusicalKey("C", KeyType.Major);
   const dMajor = new MusicalKey("D", KeyType.Major);
