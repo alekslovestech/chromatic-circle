@@ -10,12 +10,12 @@ export class RomanChord {
   accidental: AccidentalType;
   bassDegree: number | undefined;
   constructor(
-    ordinal: number,
+    scaleDegree: number,
     chordType: ChordType,
     accidental: AccidentalType = AccidentalType.None,
     bassDegree: number | undefined = undefined,
   ) {
-    this.scaleDegree = ordinal;
+    this.scaleDegree = scaleDegree;
     this.chordType = chordType;
     this.accidental = accidental;
     this.bassDegree = bassDegree;

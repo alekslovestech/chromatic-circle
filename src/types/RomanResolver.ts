@@ -64,10 +64,12 @@ export class RomanResolver {
     const ordinal = RomanNumeralUtils.getScaleDegree(parsedRoman.pureRoman);
     const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(parsedRoman.pureRoman);
     const chordType = RomanResolver.determineChordType(isLowercase, parsedRoman.chordSuffix);
-
+    const bassDegree = parsedRoman.bassRoman
+      ? RomanNumeralUtils.getScaleDegree(parsedRoman.bassRoman)
+      : undefined;
     if (chordType === ChordType.Unknown) {
       throw new Error(`Invalid roman notation ${romanString}`);
     }
-    return new RomanChord(ordinal, chordType, accidental);
+    return new RomanChord(ordinal, chordType, accidental, bassDegree);
   }
 }

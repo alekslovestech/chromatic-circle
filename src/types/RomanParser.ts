@@ -12,7 +12,7 @@ export class ParsedRomanString {
     public accidentalPrefix: string,
     public pureRoman: string,
     public chordSuffix: string,
-    public baseRoman: string | undefined,
+    public bassRoman: string | undefined,
   ) {}
 }
 
