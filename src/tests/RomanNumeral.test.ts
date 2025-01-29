@@ -3,75 +3,9 @@ import { ChordType } from "../types/NoteGroupingTypes";
 import { RomanChord } from "../types/RomanChord";
 import { RomanResolver } from "../types/RomanResolver";
 
-function verifyOrdinalChordQuality(numeral: string, expected: RomanChord) {
+export function verifyOrdinalChordQuality(numeral: string, expected: RomanChord) {
   expect(RomanResolver.getRomanChord(numeral)).toEqual(expected);
 }
-
-describe("SplitRomanString  tests", () => {
-  test("I", () => {
-    expect(RomanResolver.splitRomanString("I")).toEqual({
-      prefix: "",
-      pureRoman: "I",
-      suffix: "",
-    });
-  });
-
-  test("♯I", () => {
-    expect(RomanResolver.splitRomanString("♯I")).toEqual({
-      prefix: "♯",
-      pureRoman: "I",
-      suffix: "",
-    });
-  });
-
-  test("♭I", () => {
-    expect(RomanResolver.splitRomanString("♭I")).toEqual({
-      prefix: "♭",
-      pureRoman: "I",
-      suffix: "",
-    });
-  });
-
-  test("I7", () => {
-    expect(RomanResolver.splitRomanString("I7")).toEqual({
-      prefix: "",
-      pureRoman: "I",
-      suffix: "7",
-    });
-  });
-
-  test("I+", () => {
-    expect(RomanResolver.splitRomanString("I+")).toEqual({
-      prefix: "",
-      pureRoman: "I",
-      suffix: "+",
-    });
-  });
-
-  test("Imaj7", () => {
-    expect(RomanResolver.splitRomanString("Imaj7")).toEqual({
-      prefix: "",
-      pureRoman: "I",
-      suffix: "maj7",
-    });
-  });
-
-  test("♯Imaj7", () => {
-    expect(RomanResolver.splitRomanString("♯Imaj7")).toEqual({
-      prefix: "♯",
-      pureRoman: "I",
-      suffix: "maj7",
-    });
-  });
-
-  test("♭iii", () => {
-    expect(RomanResolver.splitRomanString("♭iii")).toEqual({
-      prefix: "♭",
-      pureRoman: "iii",
-      suffix: "",
-    });
-  });
-});
 
 describe("RomanNumeral chord tests", () => {
   test("I", () => {

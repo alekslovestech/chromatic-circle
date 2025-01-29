@@ -5,23 +5,9 @@ import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
 import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";
 import { TWELVE } from "./NoteConstants";
-
-const romanRegex: RegExp =
-  /^(#|♯|b|♭)?(I|II|III|IV|V|VI|VII|i|ii|iii|iv|v|vi|vii)(\+|7|maj7|o|o7|dim|dim7|aug|ø7)?$/;
+import { splitRomanString } from "./RomanParser";
 
 export class RomanResolver {
-  static splitRomanString(romanString: string): {
-    prefix: string;
-    pureRoman: string;
-    suffix: string;
-  } {
-    const match = romanString.match(romanRegex);
-    if (match) {
-      return { prefix: match[1] || "", pureRoman: match[2], suffix: match[3] || "" };
-    }
-    return { prefix: "", pureRoman: romanString, suffix: "" };
-  }
-
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
     let chordType: ChordType;
     switch (suffix) {
@@ -72,7 +58,7 @@ export class RomanResolver {
   }
 
   static getRomanChord(romanString: string): RomanChord {
-    const { prefix, pureRoman, suffix } = RomanResolver.splitRomanString(romanString);
+    const { prefix, pureRoman, suffix } = splitRomanString(romanString);
     const accidental: AccidentalType = getAccidentalType(prefix);
 
     const ordinal = RomanNumeralUtils.getOrdinal(pureRoman);
