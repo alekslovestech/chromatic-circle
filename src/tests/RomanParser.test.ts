@@ -36,4 +36,16 @@ describe("SplitRomanString  tests", () => {
   test("I/V (slash chord)", () => {
     expect(splitRomanString("I/V")).toEqual(new ParsedRomanString("", "I", "", "V"));
   });
+
+  test("I/v (Major/minor)", () => {
+    expect(splitRomanString("I/v")).toEqual(new ParsedRomanString("", "I", "", "v"));
+  });
+
+  test("i/V (Minor/major)", () => {
+    expect(splitRomanString("i/V")).toEqual(new ParsedRomanString("", "i", "", "V"));
+  });
+
+  test("I/V/VII", () => {
+    expect(() => splitRomanString("I/V/VII")).toThrow();
+  });
 });

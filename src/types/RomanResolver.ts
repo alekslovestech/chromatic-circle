@@ -58,12 +58,13 @@ export class RomanResolver {
   }
 
   static getRomanChord(romanString: string): RomanChord {
-    const { prefix, pureRoman, suffix } = splitRomanString(romanString);
-    const accidental: AccidentalType = getAccidentalType(prefix);
+    const parsedRoman = splitRomanString(romanString);
+    const accidental: AccidentalType = getAccidentalType(parsedRoman.accidentalPrefix);
 
-    const ordinal = RomanNumeralUtils.getOrdinal(pureRoman);
-    const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(romanString);
-    const chordType = RomanResolver.determineChordType(isLowercase, suffix);
+    const ordinal = RomanNumeralUtils.getOrdinal(parsedRoman.pureRoman);
+    const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(parsedRoman.pureRoman);
+    const chordType = RomanResolver.determineChordType(isLowercase, parsedRoman.suffix);
+
     if (chordType === ChordType.Unknown) {
       throw new Error(`Invalid roman notation ${romanString}`);
     }
