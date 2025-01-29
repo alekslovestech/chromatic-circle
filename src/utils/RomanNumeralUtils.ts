@@ -1,7 +1,7 @@
 import { RomanNumeralString } from "../types/RomanTypes";
 
 export namespace RomanNumeralUtils {
-  export function getOrdinal(roman: string): number {
+  export function getScaleDegree(roman: string): number {
     const normalized = roman.toUpperCase();
     switch (normalized) {
       case "I":
@@ -27,17 +27,17 @@ export namespace RomanNumeralUtils {
     return numeral.toLowerCase() === numeral;
   }
 
-  export function getOrdinalAsRomanString(
-    ordinal: number,
+  export function getScaleDegreeAsRomanString(
+    scaleDegree: number,
     isLowercase: boolean = false,
   ): RomanNumeralString {
     const bigNumerals: RomanNumeralString[] = ["I", "II", "III", "IV", "V", "VI", "VII"];
     const smallNumerals: RomanNumeralString[] = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
 
-    if (ordinal < 1 || ordinal > 7) {
-      throw new Error("Invalid ordinal number for Roman numeral");
+    if (scaleDegree < 1 || scaleDegree > 7) {
+      throw new Error("Invalid scale degree for Roman numeral");
     }
 
-    return isLowercase ? smallNumerals[ordinal - 1] : bigNumerals[ordinal - 1];
+    return isLowercase ? smallNumerals[scaleDegree - 1] : bigNumerals[scaleDegree - 1];
   }
 }

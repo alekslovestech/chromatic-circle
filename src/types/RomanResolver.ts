@@ -45,7 +45,7 @@ export class RomanResolver {
   static resolveAsAbsoluteChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
     const scale = musicKey.generateIndexArray();
-    let chromaticIndex = scale[romanChord.ordinal - 1];
+    let chromaticIndex = scale[romanChord.scaleDegree - 1];
     const accidentalOffset: OffsetIndex =
       romanChord.accidental === AccidentalType.Flat
         ? ixOffset(-1)
@@ -61,9 +61,9 @@ export class RomanResolver {
     const parsedRoman = splitRomanString(romanString);
     const accidental: AccidentalType = getAccidentalType(parsedRoman.accidentalPrefix);
 
-    const ordinal = RomanNumeralUtils.getOrdinal(parsedRoman.pureRoman);
+    const ordinal = RomanNumeralUtils.getScaleDegree(parsedRoman.pureRoman);
     const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(parsedRoman.pureRoman);
-    const chordType = RomanResolver.determineChordType(isLowercase, parsedRoman.suffix);
+    const chordType = RomanResolver.determineChordType(isLowercase, parsedRoman.chordSuffix);
 
     if (chordType === ChordType.Unknown) {
       throw new Error(`Invalid roman notation ${romanString}`);

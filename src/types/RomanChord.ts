@@ -5,22 +5,28 @@ import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "./IndexTypes"
 import { ChordType } from "./NoteGroupingTypes";
 
 export class RomanChord {
-  ordinal: number;
+  scaleDegree: number;
   chordType: ChordType;
   accidental: AccidentalType;
+  bassDegree: number | undefined;
   constructor(
     ordinal: number,
     chordType: ChordType,
     accidental: AccidentalType = AccidentalType.None,
+    bassDegree: number | undefined = undefined,
   ) {
-    this.ordinal = ordinal;
+    this.scaleDegree = ordinal;
     this.chordType = chordType;
     this.accidental = accidental;
+    this.bassDegree = bassDegree;
   }
 
   getString(): string {
     const accidentalString = getAccidentalSignForDisplay(this.accidental);
-    const romanNumeralString = RomanNumeralUtils.getOrdinalAsRomanString(this.ordinal, true);
+    const romanNumeralString = RomanNumeralUtils.getScaleDegreeAsRomanString(
+      this.scaleDegree,
+      true,
+    );
     return `${accidentalString}${romanNumeralString} (${this.chordType})`;
   }
 }

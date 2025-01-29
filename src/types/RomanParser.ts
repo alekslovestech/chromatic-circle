@@ -11,7 +11,7 @@ export class ParsedRomanString {
   constructor(
     public accidentalPrefix: string,
     public pureRoman: string,
-    public suffix: string,
+    public chordSuffix: string,
     public baseRoman: string | undefined,
   ) {}
 }
