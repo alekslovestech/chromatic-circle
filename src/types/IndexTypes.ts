@@ -37,6 +37,10 @@ export function ixOffsetArray(numbers: number[]): OffsetIndex[] {
   return numbers.map(ixOffset);
 }
 
+export function ixChromaticArray(numbers: number[]): ChromaticIndex[] {
+  return numbers.map(ixChromatic);
+}
+
 export function ixChromatic(n: number): ChromaticIndex {
   if (n < 0 || n > TWELVE || !Number.isInteger(n)) throw new Error("Invalid ChromaticIndex");
   return n as ChromaticIndex;

@@ -26,6 +26,7 @@ export enum IntervalType {
 }
 
 export enum ChordType {
+  Unknown = "Chord_Unknown",
   // Triads
   Major = "Chord_Maj",
   Minor = "Chord_Min",

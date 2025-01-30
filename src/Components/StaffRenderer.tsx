@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { getNoteWithAccidentalFromIndex, getAccidentalSign } from "../utils/NoteUtils";
-import { NotationType } from "../types/NotationType";
-import { AccidentalType } from "../types/AccidentalType";
+import { getNoteWithAccidentalFromIndex } from "../utils/NoteUtils";
+import { AccidentalType, getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
@@ -22,7 +21,7 @@ const EasyScoreFromNotes = (
   });
 
   noteInfo.forEach(({ accidental }, index) => {
-    const accidentalSign = getAccidentalSign(accidental, NotationType.EasyScore);
+    const accidentalSign = getAccidentalSignForEasyScore(accidental);
     if (accidentalSign) {
       chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }
@@ -43,9 +42,11 @@ const StaffRenderer: React.FC = () => {
 
     const VF = Vex.Flow;
     const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
+    const staffHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue("--staff-height"),
+    );
+    renderer.resize(containerRef.current?.clientWidth || 800, staffHeight);
 
-    // Configure the rendering context.
-    //renderer.resize(800, 120);
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width half the enclosing container's width.
@@ -74,7 +75,7 @@ const StaffRenderer: React.FC = () => {
 
   return (
     <div className="staff-container" ref={containerRef}>
-      <div ref={staffDivRef} style={{ height: "100%" }}></div>
+      <div ref={staffDivRef}></div>
     </div>
   );
 };
