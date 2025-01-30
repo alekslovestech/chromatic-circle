@@ -42,6 +42,10 @@ const StaffRenderer: React.FC = () => {
 
     const VF = Vex.Flow;
     const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
+    const staffHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue("--staff-height"),
+    );
+    renderer.resize(containerRef.current?.clientWidth || 800, staffHeight);
 
     // Configure the rendering context.
     //renderer.resize(800, 120);
@@ -73,7 +77,7 @@ const StaffRenderer: React.FC = () => {
 
   return (
     <div className="staff-container" ref={containerRef}>
-      <div ref={staffDivRef} style={{ height: "100%" }}></div>
+      <div ref={staffDivRef}></div>
     </div>
   );
 };

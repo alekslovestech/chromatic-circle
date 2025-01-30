@@ -14,6 +14,7 @@ body {
   --buttons-container-min-width: 150px;
   --buttons-max-width: 200px;
   --debug-border-color:  rgb(188, 188, 188);
+  --staff-height: 100px;
 }
 
 .App {
@@ -30,7 +31,7 @@ body {
 
   /* Grid Container */
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 100px minmax(230px, 3fr) 3fr 2fr;
+  grid-template-rows: var(--staff-height) minmax(230px, 3fr) 3fr 2fr;
   /*default: portrait mode */
   grid-template-areas:
     "staff staff"
@@ -44,7 +45,7 @@ body {
 @media (orientation: landscape) {
   .grid-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 100px 1fr 1fr;
+    grid-template-rows: var(--staff-height) 1fr 1fr;
     grid-template-areas:
       "circular circular staff staff"
       "circular circular settings settings"
@@ -105,15 +106,12 @@ body {
 
 .staff-container {
   grid-area: staff;
-  height: 120px !important;
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px;
 }
 
 .btn, .btn-outline-secondary {
