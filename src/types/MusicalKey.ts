@@ -25,7 +25,7 @@ export class MusicalKey {
   }
 
   getDefaultAccidental(): AccidentalType {
-    const sharpMajorKeys = [7, 2, 9, 4, 11, 6, 1]; // G, D, A, E, B, F#, C#
+    const sharpMajorKeys = [0, 7, 2, 9, 4, 11, 6, 1]; // C, G, D, A, E, B, F#, C#
     const sharpMinorKeys = [4, 11, 6, 1, 8, 3, 10]; // E, B, F#, C#, G#, D#, A#
 
     const defaultAccidentalKeys = this.mode === KeyType.Major ? sharpMajorKeys : sharpMinorKeys;
