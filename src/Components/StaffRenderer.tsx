@@ -47,8 +47,6 @@ const StaffRenderer: React.FC = () => {
     );
     renderer.resize(containerRef.current?.clientWidth || 800, staffHeight);
 
-    // Configure the rendering context.
-    //renderer.resize(800, 120);
     const context = renderer.getContext();
 
     // Create a stave at position 10, 40 of width half the enclosing container's width.
