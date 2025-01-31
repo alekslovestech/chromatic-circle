@@ -32,3 +32,13 @@ export class MusicalKey {
     return defaultAccidentalKeys.includes(this.tonic) ? AccidentalType.Sharp : AccidentalType.Flat;
   }
 }
+
+export class MusicalKeyUtil {
+  public static getMajorsList(): string[] {
+    return ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+  }
+
+  public static getMinorsList(): string[] {
+    return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "Bb", "B"];
+  }
+}

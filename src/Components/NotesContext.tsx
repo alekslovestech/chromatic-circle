@@ -6,6 +6,7 @@ import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { CircularVisMode } from "./Circular/CircularVisualizationsSVG";
 import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
+import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 interface NotesContextType {
   inputMode: InputMode;
@@ -15,6 +16,7 @@ interface NotesContextType {
   selectedInversionIndex: InversionIndex;
   chordDisplayMode: ChordDisplayMode;
   circularVisMode: CircularVisMode;
+  selectedMusicalKey: MusicalKey;
   setInputMode: (mode: InputMode) => void;
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   setSelectedChordType: (type: NoteGroupingId) => void;
@@ -22,6 +24,7 @@ interface NotesContextType {
   setSelectedInversionIndex: (index: InversionIndex) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
   setCircularVisMode: (mode: CircularVisMode) => void;
+  setSelectedMusicalKey: (key: MusicalKey) => void;
 }
 
 const NotesContext = createContext<NotesContextType>({} as NotesContextType);
@@ -42,6 +45,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     ChordDisplayMode.Letters_Short,
   );
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
+  const [selectedMusicalKey, setSelectedMusicalKey] = useState(new MusicalKey("C", KeyType.Major));
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
@@ -95,6 +99,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     selectedInversionIndex,
     chordDisplayMode,
     circularVisMode,
+    selectedMusicalKey,
     setInputMode: handleInputModeChange,
     setSelectedNoteIndices,
     setSelectedChordType,
@@ -102,6 +107,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setSelectedInversionIndex,
     setChordDisplayMode,
     setCircularVisMode,
+    setSelectedMusicalKey,
   };
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>;
