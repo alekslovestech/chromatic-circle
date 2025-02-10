@@ -14,29 +14,26 @@ function verifyResolvedChord(
   expect(absoluteChord).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
 }
 
+const cMajor = new MusicalKey("C", KeyType.Major);
+const eMajor = new MusicalKey("E", KeyType.Major);
 describe("Resolved roman numeral tests", () => {
   test("Resolve roman numeral I in C major", () => {
-    const cMajor = new MusicalKey("C", KeyType.Major);
     verifyResolvedChord(cMajor, "I", "C", ChordType.Major);
   });
 
   test("Resolve roman numeral Imaj7 in C major", () => {
-    const cMajor = new MusicalKey("C", KeyType.Major);
     verifyResolvedChord(cMajor, "Imaj7", "C", ChordType.Major7);
   });
 
   test("Resolve roman numeral V in C major", () => {
-    const cMajor = new MusicalKey("C", KeyType.Major);
     verifyResolvedChord(cMajor, "V", "G", ChordType.Major);
   });
 
   test("Resolve roman numeral in E major", () => {
-    const eMajor = new MusicalKey("E", KeyType.Major);
     verifyResolvedChord(eMajor, "I", "E", ChordType.Major);
   });
 
   test("Resolve roman numeral V in E major", () => {
-    const eMajor = new MusicalKey("E", KeyType.Major);
     verifyResolvedChord(eMajor, "V", "B", ChordType.Major);
   });
 

@@ -2,6 +2,22 @@ import { AccidentalType, getAccidentalSignForDisplay } from "../types/Accidental
 import { NoteWithAccidentalAndOctave } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualToChromatic, ChromaticIndex, ixChromatic } from "../types/IndexTypes";
+import { MusicalKey } from "../types/MusicalKey";
+
+export const getNoteWithAccidentalAndOctaveFromIndexAndKey = (
+  actualIndex: ActualIndex,
+  selectedMusicalKey: MusicalKey,
+): NoteWithAccidentalAndOctave => {
+  const chromaticIndexAndOctave = actualToChromatic(actualIndex);
+  const noteWithAccidental = selectedMusicalKey.getNoteWithAccidentalFromIndexAndKey(
+    chromaticIndexAndOctave.chromaticIndex,
+  );
+
+  return {
+    ...noteWithAccidental,
+    octave: 4 + chromaticIndexAndOctave.octaveOffset,
+  };
+};
 
 export const getNoteWithAccidentalFromIndex = (
   actualIndex: ActualIndex,
