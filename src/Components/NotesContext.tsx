@@ -29,6 +29,7 @@ interface NotesContextType {
 
 const NotesContext = createContext<NotesContextType>({} as NotesContextType);
 
+const defaultMusicalKey = new MusicalKey("C", KeyType.Major);
 export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
@@ -45,7 +46,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     ChordDisplayMode.Letters_Short,
   );
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
-  const [selectedMusicalKey, setSelectedMusicalKey] = useState(new MusicalKey("C", KeyType.Major));
+  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(defaultMusicalKey);
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);

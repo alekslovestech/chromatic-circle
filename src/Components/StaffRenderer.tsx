@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { getNoteWithAccidentalFromIndex } from "../utils/NoteUtils";
-import { AccidentalType, getAccidentalSignForEasyScore } from "../types/AccidentalType";
+import { getNoteWithAccidentalAndOctaveFromIndexAndKey } from "../utils/NoteUtils";
+import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
 import { ActualIndex } from "../types/IndexTypes";
+import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 const EasyScoreFromNotes = (
   myNotes: ActualIndex[],
-  selectedAccidental: AccidentalType,
+  selectedMusicalKey: MusicalKey,
 ): StaveNote[] => {
   const noteInfo = myNotes.map((chromaticIndex) =>
-    getNoteWithAccidentalFromIndex(chromaticIndex, selectedAccidental),
+    getNoteWithAccidentalAndOctaveFromIndexAndKey(chromaticIndex, selectedMusicalKey),
   );
 
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
@@ -30,10 +31,17 @@ const EasyScoreFromNotes = (
   return [chordNote];
 };
 
+const getKeySignatureForVex = (musicalKey: MusicalKey) => {
+  const pureKey = musicalKey.tonicString;
+  const majorMinor = musicalKey.mode === KeyType.Major ? "" : "m";
+  return pureKey + majorMinor;
+};
+
 const StaffRenderer: React.FC = () => {
   const staffDivRef = useRef(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, selectedAccidental, selectedMusicalKey } = useNotes();
   useEffect(() => {
     if (!staffDivRef.current) return;
 
@@ -53,14 +61,14 @@ const StaffRenderer: React.FC = () => {
     const originalContainerWidth = containerRef.current?.clientWidth || 0;
     const staveWidth = originalContainerWidth * 0.6;
     const stave = new VF.Stave(0, 0, staveWidth);
-    stave.addClef("treble").addKeySignature("C"); //.addTimeSignature("4/4");
+    stave.addClef("treble").addKeySignature(getKeySignatureForVex(selectedMusicalKey)); //.addTimeSignature("4/4");
     stave.setStyle({ strokeStyle: "black" });
 
     stave.setContext(context).draw();
 
     if (selectedNoteIndices.length === 0) return;
     // Create notes
-    const notes = EasyScoreFromNotes(selectedNoteIndices, selectedAccidental);
+    const notes = EasyScoreFromNotes(selectedNoteIndices, selectedMusicalKey);
 
     // Create a voice in 4/4
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
@@ -71,7 +79,7 @@ const StaffRenderer: React.FC = () => {
 
     // Render voice
     voice.draw(context, stave);
-  }, [selectedNoteIndices, selectedAccidental]);
+  }, [selectedNoteIndices, selectedAccidental, selectedMusicalKey]);
 
   return (
     <div className="staff-container" ref={containerRef}>
