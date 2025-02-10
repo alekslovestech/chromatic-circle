@@ -2,10 +2,10 @@ import { getNoteTextFromIndex } from "../utils/NoteUtils";
 
 import { ixOctaveOffset } from "./IndexTypes";
 
-import { noteTextToIndex } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
-import { ChromaticIndex, chromaticToActual } from "./IndexTypes";
+import { chromaticToActual } from "./IndexTypes";
 import { ChordType } from "./NoteGroupingTypes";
+import { ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
 
 export class AbsoluteChord {
   chromaticIndex: ChromaticIndex;

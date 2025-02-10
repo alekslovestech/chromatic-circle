@@ -1,10 +1,10 @@
+import { ChromaticIndex, ixChromatic } from "./ChromaticIndex";
 import { TWELVE, TWENTY4 } from "./NoteConstants";
 
 type Branded<K, T> = K & { __brand: T };
 
 export type ActualIndex = Branded<number, "ActualIndex">;
 export type OffsetIndex = Branded<number, "OffsetIndex">;
-export type ChromaticIndex = Branded<number, "ChromaticIndex">;
 export type OctaveOffset = Branded<number, "OctaveOffset">;
 
 export type InversionIndex = Branded<number, "InversionIndex">;
@@ -35,15 +35,6 @@ export function ixOffset(n: number): OffsetIndex {
 
 export function ixOffsetArray(numbers: number[]): OffsetIndex[] {
   return numbers.map(ixOffset);
-}
-
-export function ixChromaticArray(numbers: number[]): ChromaticIndex[] {
-  return numbers.map(ixChromatic);
-}
-
-export function ixChromatic(n: number): ChromaticIndex {
-  if (n < 0 || n > TWELVE || !Number.isInteger(n)) throw new Error("Invalid ChromaticIndex");
-  return n as ChromaticIndex;
 }
 
 export function ixOctaveOffset(n: number): OctaveOffset {

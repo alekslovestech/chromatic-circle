@@ -56,3 +56,39 @@ describe("getNoteTextFromIndex", () => {
     verifyMusicalKeyAccidental("F", KeyType.Minor, AccidentalType.Flat);
   });
 });
+
+describe("getRelativeKey", () => {
+  it("C major => A minor", () => {
+    const cMajor = new MusicalKey("C", KeyType.Major);
+    const aMinor = cMajor.getRelativeKey();
+    expect(aMinor.tonicString).toBe("A");
+    expect(aMinor.mode).toBe(KeyType.Minor);
+  });
+
+  it("A minor => C major", () => {
+    const aMinor = new MusicalKey("A", KeyType.Minor);
+    const cMajor = aMinor.getRelativeKey();
+    expect(cMajor.tonicString).toBe("C");
+    expect(cMajor.mode).toBe(KeyType.Major);
+  });
+
+  it("G major => E minor", () => {
+    const gMajor = new MusicalKey("G", KeyType.Major);
+    const eMinor = gMajor.getRelativeKey();
+    expect(eMinor.tonicString).toBe("E");
+    expect(eMinor.mode).toBe(KeyType.Minor);
+  });
+
+  it("E minor => G major", () => {
+    const eMinor = new MusicalKey("E", KeyType.Minor);
+    const gMajor = eMinor.getRelativeKey();
+    expect(gMajor.tonicString).toBe("G");
+  });
+
+  it("F major => D minor", () => {
+    const fMajor = new MusicalKey("F", KeyType.Major);
+    const dMinor = fMajor.getRelativeKey();
+    expect(dMinor.tonicString).toBe("D");
+    expect(dMinor.mode).toBe(KeyType.Minor);
+  });
+});

@@ -1,6 +1,7 @@
-import { ActualIndex, ChromaticIndex } from "../types/IndexTypes";
+import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { isBlackKey, isSelectedEitherOctave } from "./KeyboardUtils";
+import { ChromaticIndex } from "../types/ChromaticIndex";
 
 export function getComputedColor(cssVariable: string): string {
   const color = getComputedStyle(document.documentElement).getPropertyValue(cssVariable).trim();

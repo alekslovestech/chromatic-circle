@@ -1,9 +1,9 @@
+import { ixChromatic } from "../types/ChromaticIndex";
 import {
   actualToChromatic,
   chromaticToActual,
   ixActual,
   ixActualArray,
-  ixChromatic,
   ixInversion,
   ixOctaveOffset,
   ixOffsetArray,

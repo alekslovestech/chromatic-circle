@@ -1,7 +1,7 @@
 import { KeyType, MusicalKey } from "../types/MusicalKey";
-import { noteTextToIndex } from "../utils/NoteUtils";
 import { RomanResolver } from "../types/RomanResolver";
 import { ChordType } from "../types/NoteGroupingTypes";
+import { noteTextToIndex } from "../types/ChromaticIndex";
 
 function verifyResolvedChord(
   musicalKey: MusicalKey,

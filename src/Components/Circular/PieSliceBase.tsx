@@ -1,12 +1,12 @@
 import React from "react";
-import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
+import { chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
 import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { getNoteTextFromIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
-import { TWELVE } from "../../types/NoteConstants";
 import { IndexUtils } from "../../utils/IndexUtils";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 export interface PieSliceBaseProps {
   chromaticIndex: ChromaticIndex;

@@ -1,6 +1,6 @@
+import { ChromaticIndex } from "../types/ChromaticIndex";
 import {
   ActualIndex,
-  ChromaticIndex,
   ixOctaveOffset,
   chromaticToActual,
   InversionIndex,

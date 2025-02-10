@@ -3,10 +3,10 @@ import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
-import { ixChromatic, ixOffset, OffsetIndex } from "./IndexTypes";
-import { TWELVE } from "./NoteConstants";
+import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
+import { addChromatic } from "./ChromaticIndex";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -53,7 +53,7 @@ export class RomanResolver {
         : romanChord.accidental === AccidentalType.Sharp
         ? ixOffset(1)
         : ixOffset(0);
-    chromaticIndex = ixChromatic((chromaticIndex + accidentalOffset) % TWELVE);
+    chromaticIndex = addChromatic(chromaticIndex, accidentalOffset);
 
     return new AbsoluteChord(chromaticIndex, romanChord.chordType);
   }

@@ -1,7 +1,7 @@
 import { KeyType, MusicalKey } from "../types/MusicalKey";
-import { noteTextToIndex } from "../utils/NoteUtils";
 import { NoteWithAccidental } from "../types/NoteWithAccidental";
 import { AccidentalType } from "../types/AccidentalType";
+import { noteTextToIndex } from "../types/ChromaticIndex";
 
 function verifyResolvedNote(
   musicalKey: MusicalKey,

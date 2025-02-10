@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { TWELVE } from "../../types/NoteConstants";
-import { ActualIndex, ChromaticIndex } from "../../types/IndexTypes";
+import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
 import PieSliceKey from "./PieSliceKey";
 import CircularBase, { INNER_RADIUS, OUTER_RADIUS } from "./CircularBase";
-
+import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
 
 const KeyboardCircular: React.FC = () => {
@@ -22,7 +22,7 @@ const KeyboardCircular: React.FC = () => {
       {Array.from({ length: TWELVE }).map((_, index) => (
         <PieSliceKey
           key={index}
-          chromaticIndex={index as ChromaticIndex}
+          chromaticIndex={ixChromatic(index)}
           onClick={() => handleKeyClick(index as ActualIndex)}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}

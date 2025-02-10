@@ -3,38 +3,28 @@ import { useNotes } from "./NotesContext";
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 
 const MusicalKeySelector: React.FC = () => {
-  const { setSelectedAccidental, setSelectedMusicalKey } = useNotes();
-
-  const [isMajor, setIsMajor] = React.useState(true);
-  const [localKey, setLocalKey] = React.useState<string>("C");
-  const keys = MusicalKeyUtil.getKeyList(isMajor ? KeyType.Major : KeyType.Minor);
-
-  React.useEffect(() => {
-    const newKey = new MusicalKey(localKey, getMajorMinorString(isMajor));
-    console.log("newKey", newKey);
-    setSelectedMusicalKey(newKey);
-    setSelectedAccidental(newKey.getDefaultAccidental());
-  }, [isMajor, localKey, setSelectedMusicalKey, setSelectedAccidental]);
-
-  const getMajorMinorString = (isMajor: boolean) => {
-    return isMajor ? KeyType.Major : KeyType.Minor;
-  };
+  const { selectedMusicalKey, setSelectedAccidental, setSelectedMusicalKey } = useNotes();
+  const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.mode);
 
   const handleKeyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const key = event.target.value;
-    setLocalKey(key);
+    const newKey = new MusicalKey(event.target.value, selectedMusicalKey.mode);
+    setSelectedMusicalKey(newKey);
+    setSelectedAccidental(newKey.getDefaultAccidental());
   };
 
   const handleMajorToggle = () => {
-    setIsMajor((prevIsMajor) => !prevIsMajor);
+    const newKey = selectedMusicalKey.getRelativeKey();
+
+    setSelectedMusicalKey(newKey);
+    setSelectedAccidental(newKey.getDefaultAccidental());
   };
 
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <button onClick={handleMajorToggle} style={{ marginRight: "10px" }}>
-        {isMajor ? ":)" : ":("}
+        {selectedMusicalKey.mode === KeyType.Major ? ":)" : ":("}
       </button>
-      <select onChange={handleKeyChange}>
+      <select onChange={handleKeyChange} value={selectedMusicalKey.tonicString}>
         {keys.map((key) => (
           <option key={key} value={key}>
             {key}

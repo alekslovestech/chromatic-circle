@@ -1,4 +1,4 @@
-import { ChromaticIndex } from "../types/IndexTypes";
+import { ChromaticIndex } from "../types/ChromaticIndex";
 import { TWELVE } from "../types/NoteConstants";
 import { INIT_ANGLE, TWO_PI } from "./CommonMath";
 
