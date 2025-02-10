@@ -7,9 +7,7 @@ const MusicalKeySelector: React.FC = () => {
 
   const [isMajor, setIsMajor] = React.useState(true);
   const [localKey, setLocalKey] = React.useState<string>("C");
-  const majorKeys = MusicalKeyUtil.getMajorsList();
-  const minorKeys = MusicalKeyUtil.getMinorsList();
-  const keys = isMajor ? majorKeys : minorKeys;
+  const keys = MusicalKeyUtil.getKeyList(isMajor ? KeyType.Major : KeyType.Minor);
 
   React.useEffect(() => {
     const newKey = new MusicalKey(localKey, getMajorMinorString(isMajor));

@@ -48,10 +48,7 @@ export class MusicalKey {
   }
 
   private getKeySignature(): string[] {
-    const keyMap =
-      this.mode === KeyType.Major
-        ? MusicalKeyUtil.majorKeySignatures
-        : MusicalKeyUtil.minorKeySignatures;
+    const keyMap = MusicalKeyUtil.getKeySignatures(this.mode);
     return keyMap[this.tonicString] || [];
   }
 
@@ -74,19 +71,20 @@ export class MusicalKey {
 }
 
 export class MusicalKeyUtil {
-  public static getMajorsList(): string[] {
-    return Object.keys(this.majorKeySignatures).sort();
+  public static getKeyList(mode: KeyType): string[] {
+    return Object.keys(this.getKeySignatures(mode)).sort();
   }
 
-  public static getMinorsList(): string[] {
-    return Object.keys(this.minorKeySignatures).sort();
+  public static getKeySignatures(mode: KeyType): Record<string, string[]> {
+    return mode === KeyType.Major ? this.majorKeySignatures : this.minorKeySignatures;
   }
 
-  public static majorKeySignatures: Record<string, string[]> = {
+  private static majorKeySignatures: Record<string, string[]> = {
     C: [],
     G: ["F#"],
     D: ["F#", "C#"],
     A: ["F#", "C#", "G#"],
+
     E: ["F#", "C#", "G#", "D#"],
     B: ["F#", "C#", "G#", "D#", "A#"],
     "F#": ["F#", "C#", "G#", "D#", "A#", "E#"],
@@ -100,7 +98,7 @@ export class MusicalKeyUtil {
   };
 
   // Define minor key signatures with their accidentals
-  public static minorKeySignatures: Record<string, string[]> = {
+  private static minorKeySignatures: Record<string, string[]> = {
     A: [],
     E: ["F#"],
     B: ["F#", "C#"],
