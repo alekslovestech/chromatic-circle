@@ -1,18 +1,24 @@
 import React, { useEffect, useRef } from "react";
-import { getNoteWithAccidentalAndOctaveFromIndexAndKey } from "../utils/NoteUtils";
 import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 const EasyScoreFromNotes = (
   myNotes: ActualIndex[],
   selectedMusicalKey: MusicalKey,
 ): StaveNote[] => {
-  const noteInfo = myNotes.map((chromaticIndex) =>
-    getNoteWithAccidentalAndOctaveFromIndexAndKey(chromaticIndex, selectedMusicalKey),
-  );
+  const noteInfo = myNotes.map((actualIndex) => {
+    const { chromaticIndex, octaveOffset } = actualToChromatic(actualIndex);
+    const noteWithAccidental =
+      selectedMusicalKey.getNoteWithAccidentalFromIndexAndKey(chromaticIndex);
+
+    return {
+      ...noteWithAccidental,
+      octave: 4 + octaveOffset,
+    };
+  });
 
   const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
 
@@ -41,7 +47,7 @@ const StaffRenderer: React.FC = () => {
   const staffDivRef = useRef(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const { selectedNoteIndices, selectedAccidental, selectedMusicalKey } = useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useNotes();
   useEffect(() => {
     if (!staffDivRef.current) return;
 
@@ -79,7 +85,7 @@ const StaffRenderer: React.FC = () => {
 
     // Render voice
     voice.draw(context, stave);
-  }, [selectedNoteIndices, selectedAccidental, selectedMusicalKey]);
+  }, [selectedNoteIndices, selectedMusicalKey]);
 
   return (
     <div className="staff-container" ref={containerRef}>

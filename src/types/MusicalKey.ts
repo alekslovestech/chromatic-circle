@@ -30,9 +30,7 @@ export class MusicalKey {
         : addChromatic(originalTonicIndex, 3);
     const newKeyList = MusicalKeyUtil.getKeyList(newMode);
     const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === newTonicIndex);
-    const newKey = new MusicalKey(newTonicString!, newMode);
-
-    return newKey;
+    return new MusicalKey(newTonicString!, newMode);
   }
 
   generateIndexArray(): ChromaticIndex[] {
@@ -43,7 +41,7 @@ export class MusicalKey {
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex)); // Offset the scale by tonic in a wraparound fashion
   }
 
-  getNoteWithAccidentalFromIndexAndKey = (chromaticIndex: ChromaticIndex): NoteWithAccidental => {
+  getNoteWithAccidentalFromIndex = (chromaticIndex: ChromaticIndex): NoteWithAccidental => {
     const defaultAccidental = this.getDefaultAccidental();
     const notesArray = getNotesArray(defaultAccidental); //this should really be a set of notes for THAT key
     const notesArrayWithKeySignature = notesArray.map((note) => ({
@@ -93,6 +91,8 @@ export class MusicalKeyUtil {
   public static getKeySignatures(mode: KeyType): Record<string, string[]> {
     return mode === KeyType.Major ? this.majorKeySignatures : this.minorKeySignatures;
   }
+
+  public static defaultMusicalKey = new MusicalKey("C", KeyType.Major);
 
   private static majorKeySignatures: Record<string, string[]> = {
     C: [],

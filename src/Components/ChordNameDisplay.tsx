@@ -11,7 +11,7 @@ const ChordNameDisplay: React.FC = () => {
   const {
     selectedNoteIndices,
     inputMode,
-    selectedAccidental,
+    selectedMusicalKey,
     chordDisplayMode,
     setChordDisplayMode,
   } = useNotes();
@@ -19,7 +19,9 @@ const ChordNameDisplay: React.FC = () => {
   const topDownNotes = selectedNoteIndices
     .slice()
     .reverse()
-    .map((index: ActualIndex) => getNoteTextFromIndex(index, selectedAccidental, true));
+    .map((index: ActualIndex) =>
+      getNoteTextFromIndex(index, selectedMusicalKey.getDefaultAccidental(), true),
+    );
 
   const getOppositeDisplayMode = (prevDisplayMode: ChordDisplayMode): ChordDisplayMode => {
     if (prevDisplayMode === ChordDisplayMode.Letters_Short) return ChordDisplayMode.Symbols;
@@ -34,7 +36,7 @@ const ChordNameDisplay: React.FC = () => {
   const renderNoteGrouping = (inputMode: InputMode) => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
     const noteGrouping = chordMatch?.definition.getNoteGroupingType();
-    const chordName = chordMatch?.deriveChordName(chordDisplayMode, selectedAccidental);
+    const chordName = chordMatch?.deriveChordName(chordDisplayMode, selectedMusicalKey);
     const qualifier = inputMode === InputMode.Toggle ? "Detected" : "Selected";
 
     return (

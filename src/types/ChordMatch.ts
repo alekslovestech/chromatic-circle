@@ -7,6 +7,7 @@ import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGroupingTypes";
 import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 import { NoteGrouping } from "./NoteGrouping";
+import { MusicalKey } from "./MusicalKey";
 export class ChordMatch {
   constructor(
     public rootNote: ActualIndex,
@@ -21,10 +22,8 @@ export class ChordMatch {
     return chordNameRoot;
   };
 
-  deriveChordName(
-    displayMode: ChordDisplayMode,
-    selectedAccidental = AccidentalType.Sharp,
-  ): string {
+  deriveChordName(displayMode: ChordDisplayMode, selectedMusicalKey: MusicalKey): string {
+    const selectedAccidental = selectedMusicalKey.getDefaultAccidental();
     const offsets = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
       this.definition.id,
       this.inversionIndex,

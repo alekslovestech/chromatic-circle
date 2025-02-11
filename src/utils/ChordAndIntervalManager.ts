@@ -4,9 +4,9 @@ import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
 import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { AccidentalType } from "../types/AccidentalType";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGrouping } from "../types/NoteGrouping";
+import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 
 export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): NoteGrouping =>
@@ -67,10 +67,11 @@ export class ChordAndIntervalManager {
   static getChordNameFromIndices(
     indices: ActualIndex[],
     displayMode = ChordDisplayMode.Letters_Short,
-    accidental = AccidentalType.Sharp,
+    selectedMusicalKey: MusicalKey = MusicalKeyUtil.defaultMusicalKey,
+    /* accidental = AccidentalType.Sharp,*/
   ): string {
     const chordMatch = this.getMatchFromIndices(indices);
-    if (chordMatch) return chordMatch.deriveChordName(displayMode, accidental);
+    if (chordMatch) return chordMatch.deriveChordName(displayMode, selectedMusicalKey);
 
     return "Unknown";
   }

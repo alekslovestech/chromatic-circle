@@ -9,7 +9,7 @@ import { getBlackWhiteString } from "../utils/ColorUtils";
 import { IndexUtils } from "../utils/IndexUtils";
 
 const KeyboardLinear: React.FC = () => {
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const keys = [];
@@ -31,7 +31,7 @@ const KeyboardLinear: React.FC = () => {
         className={classNames.join(" ")}
         onClick={() => handleKeyClick(actualIndex)}
       >
-        {getNoteTextFromIndex(actualIndex, selectedAccidental)}
+        {getNoteTextFromIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
       </div>,
     );
   }

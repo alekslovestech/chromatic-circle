@@ -48,7 +48,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   showText,
 }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
-  const { selectedAccidental } = useNotes();
+  const { selectedMusicalKey } = useNotes();
   const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
   const { middleAngle } = CommonMath.NoteIndexToAngles(actualIndex);
@@ -65,7 +65,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
-          {getNoteTextFromIndex(actualIndex, selectedAccidental)}
+          {getNoteTextFromIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
         </text>
       )}
     </g>
