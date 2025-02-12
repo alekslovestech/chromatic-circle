@@ -8,7 +8,8 @@ export const getNoteNameForDisplay = (
   chromaticIndex: ChromaticIndex,
   accidentalPreference: AccidentalType,
 ): string => {
-  const { noteName, accidental } = getNotesArray(accidentalPreference)[chromaticIndex];
+  const noteNames = getNotesArray(accidentalPreference);
+  const { noteName, accidental } = noteNames[chromaticIndex];
   const accidentalSign = getAccidentalSignForDisplay(accidental);
   return `${noteName}${accidentalSign}`;
 };

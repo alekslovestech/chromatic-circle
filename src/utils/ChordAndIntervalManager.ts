@@ -1,4 +1,10 @@
-import { ActualIndex, ixInversion, InversionIndex, OffsetIndex } from "../types/IndexTypes";
+import {
+  ActualIndex,
+  ixInversion,
+  InversionIndex,
+  OffsetIndex,
+  ixActual,
+} from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
@@ -32,6 +38,17 @@ export class ChordAndIntervalManager {
     return definition.inversions[inversionIndex];
   }
 
+  private static getChordMatchFromIndices(
+    indices: ActualIndex[],
+    definition: NoteGrouping,
+    inversionIndex: InversionIndex,
+  ): ChordMatch {
+    const rootNoteIndex = ixActual(
+      IndexUtils.rootNoteAtInversion(indices, inversionIndex) % TWELVE,
+    );
+    return new ChordMatch(rootNoteIndex, definition, inversionIndex);
+  }
+
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch | undefined {
     if (indices.length === 0) {
       return new ChordMatch(0 as ActualIndex, this.getDefinitionFromId(SpecialType.None));
@@ -45,10 +62,8 @@ export class ChordAndIntervalManager {
 
       // Check for root position (0th index) first
       const rootIndices = IndexUtils.normalizeIndices(definition.inversions[0]);
-      if (IndexUtils.areIndicesEqual(rootIndices, normalizedIndices)) {
-        const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, ixInversion(0)) % TWELVE;
-        return new ChordMatch(rootNoteIndex as ActualIndex, definition, ixInversion(0));
-      }
+      if (!IndexUtils.areIndicesEqual(rootIndices, normalizedIndices)) continue;
+      return this.getChordMatchFromIndices(indices, definition, ixInversion(0));
     }
 
     // Then check other inversions
@@ -57,8 +72,7 @@ export class ChordAndIntervalManager {
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
         const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
         if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) continue;
-        const rootNoteIndex = IndexUtils.rootNoteAtInversion(indices, i) % TWELVE;
-        return new ChordMatch(rootNoteIndex as ActualIndex, definition, ixInversion(i));
+        return this.getChordMatchFromIndices(indices, definition, ixInversion(i));
       }
     }
     return undefined;

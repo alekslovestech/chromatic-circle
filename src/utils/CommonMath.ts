@@ -1,4 +1,3 @@
-import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 
 export const TWO_PI = 2 * Math.PI;
@@ -14,8 +13,4 @@ export class CommonMath {
     const endAngle = startAngle + FULL_KEY_ANGLE;
     return { startAngle, middleAngle, endAngle };
   }
-
-  static noteDistance = (note1: ActualIndex, note2: ActualIndex) => {
-    return (note2 - note1 + TWELVE) % TWELVE;
-  };
 }
