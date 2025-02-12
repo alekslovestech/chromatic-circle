@@ -1,12 +1,12 @@
 import React from "react";
-import { ChromaticIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
+import { chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
 import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
-import { getNoteTextFromIndex } from "../../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
-import { TWELVE } from "../../types/NoteConstants";
 import { IndexUtils } from "../../utils/IndexUtils";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 export interface PieSliceBaseProps {
   chromaticIndex: ChromaticIndex;
@@ -48,7 +48,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   showText,
 }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
-  const { selectedAccidental } = useNotes();
+  const { selectedMusicalKey } = useNotes();
   const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
   const { middleAngle } = CommonMath.NoteIndexToAngles(actualIndex);
@@ -65,7 +65,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
-          {getNoteTextFromIndex(actualIndex, selectedAccidental)}
+          {getNoteTextFromActualIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
         </text>
       )}
     </g>

@@ -1,8 +1,8 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
-import { AccidentalType } from "../types/AccidentalType";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { ChordType } from "../types/NoteGroupingTypes";
+import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 describe("ChordAndIntervalManager", () => {
   describe("getOffsetsFromIdAndInversion", () => {
@@ -256,7 +256,7 @@ describe("ChordAndIntervalManager", () => {
         ChordAndIntervalManager.getChordNameFromIndices(
           ixActualArray([1, 5, 8]),
           ChordDisplayMode.Letters_Short,
-          AccidentalType.Flat,
+          new MusicalKey("Db", KeyType.Major),
         ),
       ).toBe("D♭");
     });

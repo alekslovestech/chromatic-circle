@@ -1,27 +1,27 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { AccidentalType } from "../types/AccidentalType";
 import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { CircularVisMode } from "./Circular/CircularVisualizationsSVG";
 import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
+import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 
 interface NotesContextType {
   inputMode: InputMode;
   selectedNoteIndices: ActualIndex[];
   selectedChordType: NoteGroupingId;
-  selectedAccidental: AccidentalType;
   selectedInversionIndex: InversionIndex;
   chordDisplayMode: ChordDisplayMode;
   circularVisMode: CircularVisMode;
+  selectedMusicalKey: MusicalKey;
   setInputMode: (mode: InputMode) => void;
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   setSelectedChordType: (type: NoteGroupingId) => void;
-  setSelectedAccidental: (sharpFlat: AccidentalType) => void;
   setSelectedInversionIndex: (index: InversionIndex) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
   setCircularVisMode: (mode: CircularVisMode) => void;
+  setSelectedMusicalKey: (key: MusicalKey) => void;
 }
 
 const NotesContext = createContext<NotesContextType>({} as NotesContextType);
@@ -32,9 +32,6 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(
     "Note" as NoteGroupingId,
   );
-  const [selectedAccidental, setSelectedAccidental] = useState<AccidentalType>(
-    AccidentalType.Sharp,
-  );
   const [selectedInversionIndex, setSelectedInversionIndex] = useState<InversionIndex>(
     ixInversion(0),
   );
@@ -42,6 +39,9 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     ChordDisplayMode.Letters_Short,
   );
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
+  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
+    MusicalKeyUtil.defaultMusicalKey,
+  );
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
@@ -91,17 +91,17 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     inputMode,
     selectedNoteIndices,
     selectedChordType,
-    selectedAccidental,
     selectedInversionIndex,
     chordDisplayMode,
     circularVisMode,
+    selectedMusicalKey,
     setInputMode: handleInputModeChange,
     setSelectedNoteIndices,
     setSelectedChordType,
-    setSelectedAccidental,
     setSelectedInversionIndex,
     setChordDisplayMode,
     setCircularVisMode,
+    setSelectedMusicalKey,
   };
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>;

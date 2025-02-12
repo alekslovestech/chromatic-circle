@@ -1,9 +1,9 @@
+import { ixChromatic } from "../types/ChromaticIndex";
 import {
-  actualToChromatic,
+  actualIndexToChromaticAndOctave,
   chromaticToActual,
   ixActual,
   ixActualArray,
-  ixChromatic,
   ixInversion,
   ixOctaveOffset,
   ixOffsetArray,
@@ -79,10 +79,22 @@ describe("IndexUtils", () => {
 
   describe("actualToChromatic", () => {
     it("should convert actual index to chromatic index and octave offset", () => {
-      expect(actualToChromatic(ixActual(0))).toEqual({ chromaticIndex: 0, octaveOffset: 0 });
-      expect(actualToChromatic(ixActual(11))).toEqual({ chromaticIndex: 11, octaveOffset: 0 });
-      expect(actualToChromatic(ixActual(12))).toEqual({ chromaticIndex: 0, octaveOffset: 1 });
-      expect(actualToChromatic(ixActual(23))).toEqual({ chromaticIndex: 11, octaveOffset: 1 });
+      expect(actualIndexToChromaticAndOctave(ixActual(0))).toEqual({
+        chromaticIndex: 0,
+        octaveOffset: 0,
+      });
+      expect(actualIndexToChromaticAndOctave(ixActual(11))).toEqual({
+        chromaticIndex: 11,
+        octaveOffset: 0,
+      });
+      expect(actualIndexToChromaticAndOctave(ixActual(12))).toEqual({
+        chromaticIndex: 0,
+        octaveOffset: 1,
+      });
+      expect(actualIndexToChromaticAndOctave(ixActual(23))).toEqual({
+        chromaticIndex: 11,
+        octaveOffset: 1,
+      });
     });
   });
 

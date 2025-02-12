@@ -3,13 +3,13 @@ import "../styles/KeyboardLinear.css";
 import { useNotes } from "./NotesContext";
 import { TWENTY4 } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../utils/NoteUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
 import { IndexUtils } from "../utils/IndexUtils";
 
 const KeyboardLinear: React.FC = () => {
-  const { selectedNoteIndices, selectedAccidental } = useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useNotes();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const keys = [];
@@ -31,7 +31,7 @@ const KeyboardLinear: React.FC = () => {
         className={classNames.join(" ")}
         onClick={() => handleKeyClick(actualIndex)}
       >
-        {getNoteTextFromIndex(actualIndex, selectedAccidental)}
+        {getNoteTextFromActualIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
       </div>,
     );
   }

@@ -1,15 +1,16 @@
+import { ChromaticIndex, ixChromatic } from "./ChromaticIndex";
 import { TWELVE, TWENTY4 } from "./NoteConstants";
+import { ChromaticIndexAndOctave } from "./NoteWithAccidental";
 
 type Branded<K, T> = K & { __brand: T };
 
 export type ActualIndex = Branded<number, "ActualIndex">;
 export type OffsetIndex = Branded<number, "OffsetIndex">;
-export type ChromaticIndex = Branded<number, "ChromaticIndex">;
 export type OctaveOffset = Branded<number, "OctaveOffset">;
 
 export type InversionIndex = Branded<number, "InversionIndex">;
 
-export interface IndexAndOffset {
+export interface ChromaticIndexAndOffset {
   chromaticIndex: ChromaticIndex;
   octaveOffset: OctaveOffset;
 }
@@ -37,15 +38,6 @@ export function ixOffsetArray(numbers: number[]): OffsetIndex[] {
   return numbers.map(ixOffset);
 }
 
-export function ixChromaticArray(numbers: number[]): ChromaticIndex[] {
-  return numbers.map(ixChromatic);
-}
-
-export function ixChromatic(n: number): ChromaticIndex {
-  if (n < 0 || n > TWELVE || !Number.isInteger(n)) throw new Error("Invalid ChromaticIndex");
-  return n as ChromaticIndex;
-}
-
 export function ixOctaveOffset(n: number): OctaveOffset {
   if (n < 0 || n > 1 || !Number.isInteger(n)) throw new Error("Invalid OctaveOffset");
   return n as OctaveOffset;
@@ -59,7 +51,7 @@ export function chromaticToActual(
   return ixActual(result);
 }
 
-export function actualToChromatic(actualIndex: ActualIndex): IndexAndOffset {
+export function actualIndexToChromaticAndOctave(actualIndex: ActualIndex): ChromaticIndexAndOctave {
   return {
     chromaticIndex: ixChromatic(actualIndex % TWELVE),
     octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
