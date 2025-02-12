@@ -1,27 +1,22 @@
 import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
-import { NoteWithAccidentalAndOctave } from "../types/NoteWithAccidental";
 import { getNotesArray } from "../types/NoteConstants";
-import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
+import { ChromaticIndex } from "../types/ChromaticIndex";
 
-export const getNoteWithAccidentalFromIndex = (
-  actualIndex: ActualIndex,
+//this function only exported because we use it in tests
+export const getNoteNameForDisplay = (
+  chromaticIndex: ChromaticIndex,
   accidentalPreference: AccidentalType,
-): NoteWithAccidentalAndOctave => {
-  const notesArray = getNotesArray(accidentalPreference);
-  const indexAndOctave = actualToChromatic(actualIndex);
-  return {
-    ...notesArray[indexAndOctave.chromaticIndex],
-    octave: 4 + indexAndOctave.octaveOffset,
-  };
+): string => {
+  const { noteName, accidental } = getNotesArray(accidentalPreference)[chromaticIndex];
+  const accidentalSign = getAccidentalSignForDisplay(accidental);
+  return `${noteName}${accidentalSign}`;
 };
 
-export const getNoteTextFromIndex = (
+export const getNoteTextFromActualIndex = (
   actualIndex: ActualIndex,
-  sharpOrFlat: AccidentalType,
-  showOctave: boolean = false,
+  accidentalPreference: AccidentalType,
 ): string => {
-  const noteWithAccidental = getNoteWithAccidentalFromIndex(actualIndex, sharpOrFlat);
-  const accidentalSign = getAccidentalSignForDisplay(noteWithAccidental.accidental);
-  const octaveString = showOctave ? noteWithAccidental.octave : "";
-  return `${noteWithAccidental.noteName}${accidentalSign}${octaveString}`;
+  const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
+  return getNoteNameForDisplay(chromaticIndex, accidentalPreference);
 };

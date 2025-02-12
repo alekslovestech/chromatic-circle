@@ -9,7 +9,7 @@ function verifyResolvedNote(
   expectedNote: NoteWithAccidental,
 ) {
   const chromaticIndex = noteTextToIndex(noteText);
-  const note = musicalKey.getNoteWithAccidentalFromIndexAndKey(chromaticIndex);
+  const note = musicalKey.getNoteWithAccidentalFromIndex(chromaticIndex);
   expect(note).toEqual(expectedNote);
 }
 

@@ -26,7 +26,7 @@ const MusicalKeySelector: React.FC = () => {
         ))}
       </select>
       <button onClick={handleMajorToggle} style={{ marginRight: "10px" }}>
-        {selectedMusicalKey.mode === KeyType.Major ? "😊" : "🙁"}
+        {selectedMusicalKey.mode === KeyType.Major ? "Major" : "Minor"}
       </button>
     </div>
   );

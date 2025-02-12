@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
 import { useNotes } from "./NotesContext";
-import { ActualIndex, actualToChromatic } from "../types/IndexTypes";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 const EasyScoreFromNotes = (
@@ -10,9 +10,8 @@ const EasyScoreFromNotes = (
   selectedMusicalKey: MusicalKey,
 ): StaveNote[] => {
   const noteInfo = myNotes.map((actualIndex) => {
-    const { chromaticIndex, octaveOffset } = actualToChromatic(actualIndex);
-    const noteWithAccidental =
-      selectedMusicalKey.getNoteWithAccidentalFromIndexAndKey(chromaticIndex);
+    const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
+    const noteWithAccidental = selectedMusicalKey.getNoteWithAccidentalFromIndex(chromaticIndex);
 
     return {
       ...noteWithAccidental,

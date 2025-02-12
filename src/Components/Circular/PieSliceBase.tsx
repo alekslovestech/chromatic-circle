@@ -3,7 +3,7 @@ import { chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
 import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
-import { getNoteTextFromIndex } from "../../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
@@ -65,7 +65,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
       <path d={path} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y} textAnchor="middle" dominantBaseline="middle">
-          {getNoteTextFromIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
+          {getNoteTextFromActualIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
         </text>
       )}
     </g>

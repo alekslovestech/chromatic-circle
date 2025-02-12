@@ -46,7 +46,7 @@ const ChordNameDisplay: React.FC = () => {
       {renderNoteGrouping(inputMode)}
       {(inputMode === InputMode.Toggle || inputMode === InputMode.ChordPresets) && (
         <button className="chord-display-mode-toggle" onClick={toggleChordDisplayMode}>
-          Long / Short
+          Notation Style
         </button>
       )}
     </div>

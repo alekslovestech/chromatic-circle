@@ -11,7 +11,7 @@ export interface NoteWithAccidentalAndOctave extends NoteWithAccidental {
   octave: number;
 }
 
-export interface IndexAndOffset {
+export interface ChromaticIndexAndOctave {
   chromaticIndex: ChromaticIndex;
   octaveOffset: OctaveOffset;
 }
