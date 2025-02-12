@@ -1,10 +1,8 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import "../styles/ChordNameDisplay.css";
-import { ActualIndex } from "../types/IndexTypes";
 import { InputMode } from "../types/InputMode";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { getNoteTextFromIndex } from "../utils/NoteUtils";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
 const ChordNameDisplay: React.FC = () => {
@@ -15,13 +13,6 @@ const ChordNameDisplay: React.FC = () => {
     chordDisplayMode,
     setChordDisplayMode,
   } = useNotes();
-
-  const topDownNotes = selectedNoteIndices
-    .slice()
-    .reverse()
-    .map((index: ActualIndex) =>
-      getNoteTextFromIndex(index, selectedMusicalKey.getDefaultAccidental(), true),
-    );
 
   const getOppositeDisplayMode = (prevDisplayMode: ChordDisplayMode): ChordDisplayMode => {
     if (prevDisplayMode === ChordDisplayMode.Letters_Short) return ChordDisplayMode.Symbols;
@@ -50,22 +41,9 @@ const ChordNameDisplay: React.FC = () => {
     );
   };
 
-  const renderChordNotes = () => (
-    <div className="chord-notes" style={{ display: "none" }}>
-      notes:{" "}
-      {topDownNotes.map((note, index) => (
-        <span key={index}>
-          {<br />}
-          {note}
-        </span>
-      ))}
-    </div>
-  );
-
   return (
     <div className="chord-display">
       {renderNoteGrouping(inputMode)}
-      {renderChordNotes()}
       {(inputMode === InputMode.Toggle || inputMode === InputMode.ChordPresets) && (
         <button className="chord-display-mode-toggle" onClick={toggleChordDisplayMode}>
           Long / Short
