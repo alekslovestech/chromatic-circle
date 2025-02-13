@@ -6,28 +6,25 @@ import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexType
 import { KeyType, MusicalKey } from "../types/MusicalKey";
 
 const EasyScoreFromNotes = (
-  myNotes: ActualIndex[],
+  actualIndices: ActualIndex[],
   selectedMusicalKey: MusicalKey,
 ): StaveNote[] => {
-  const noteInfo = myNotes.map((actualIndex) => {
+  const keys = actualIndices.map((actualIndex) => {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-    const noteWithAccidental = selectedMusicalKey.getNoteInKey(chromaticIndex);
-
+    const noteInfo = selectedMusicalKey.getNoteInKey(chromaticIndex);
     return {
-      ...noteWithAccidental,
-      octave: 4 + octaveOffset,
+      key: `${noteInfo.noteName}/${4 + octaveOffset}`,
+      accidentalSign: getAccidentalSignForEasyScore(noteInfo.accidental),
+      index: actualIndices.indexOf(actualIndex),
     };
   });
 
-  const keys = noteInfo.map(({ noteName, octave }) => `${noteName}/${octave}`);
-
   const chordNote = new StaveNote({
-    keys,
+    keys: keys.map((k) => k.key),
     duration: "w",
   });
 
-  noteInfo.forEach(({ accidental }, index) => {
-    const accidentalSign = getAccidentalSignForEasyScore(accidental);
+  keys.forEach(({ accidentalSign, index }) => {
     if (accidentalSign) {
       chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
     }
