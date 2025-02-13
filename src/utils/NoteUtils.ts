@@ -2,16 +2,24 @@ import { AccidentalType, getAccidentalSignForDisplay } from "../types/Accidental
 import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
 import { ChromaticIndex } from "../types/ChromaticIndex";
+import { NoteInfo } from "../types/NoteInfo";
+
+export const getBasicNoteInfo = (
+  chromaticIndex: ChromaticIndex,
+  accidentalPreference: AccidentalType,
+): NoteInfo => {
+  const notesArray = getNotesArray(accidentalPreference);
+  return notesArray[chromaticIndex];
+};
 
 //this function only exported because we use it in tests
-export const getNoteNameForDisplay = (
+export const formatNoteNameForDisplay = (
   chromaticIndex: ChromaticIndex,
   accidentalPreference: AccidentalType,
 ): string => {
-  const noteNames = getNotesArray(accidentalPreference);
-  const { noteName, accidental } = noteNames[chromaticIndex];
-  const accidentalSign = getAccidentalSignForDisplay(accidental);
-  return `${noteName}${accidentalSign}`;
+  const noteAtIndex = getBasicNoteInfo(chromaticIndex, accidentalPreference);
+  const accidentalSign = getAccidentalSignForDisplay(noteAtIndex.accidental);
+  return `${noteAtIndex.noteName}${accidentalSign}`;
 };
 
 export const getNoteTextFromActualIndex = (
@@ -19,5 +27,5 @@ export const getNoteTextFromActualIndex = (
   accidentalPreference: AccidentalType,
 ): string => {
   const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
-  return getNoteNameForDisplay(chromaticIndex, accidentalPreference);
+  return formatNoteNameForDisplay(chromaticIndex, accidentalPreference);
 };

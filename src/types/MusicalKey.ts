@@ -1,7 +1,7 @@
+import { getBasicNoteInfo } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { getNotesArray } from "./NoteConstants";
-import { NoteWithAccidental } from "./NoteWithAccidental";
+import { NoteInfo } from "./NoteInfo";
 
 export enum KeyType {
   Major = "Major",
@@ -41,14 +41,13 @@ export class MusicalKey {
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex)); // Offset the scale by tonic in a wraparound fashion
   }
 
-  getNoteWithAccidentalFromIndex = (chromaticIndex: ChromaticIndex): NoteWithAccidental => {
+  getNoteInKey = (chromaticIndex: ChromaticIndex): NoteInfo => {
     const defaultAccidental = this.getDefaultAccidental();
-    const notesArray = getNotesArray(defaultAccidental); //this should really be a set of notes for THAT key
-    const notesArrayWithKeySignature = notesArray.map((note) => ({
-      noteName: note.noteName,
-      accidental: this.getAccidentalForNote(note, defaultAccidental),
-    }));
-    return notesArrayWithKeySignature[chromaticIndex];
+    const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
+    return {
+      noteName: noteAtIndex.noteName,
+      accidental: this.applyKeySignature(noteAtIndex, defaultAccidental),
+    };
   };
 
   getDefaultAccidental(): AccidentalType {
@@ -63,10 +62,7 @@ export class MusicalKey {
     return keyMap[this.tonicString] || [];
   }
 
-  private getAccidentalForNote(
-    note: NoteWithAccidental,
-    defaultAccidental: AccidentalType,
-  ): AccidentalType {
+  private applyKeySignature(note: NoteInfo, defaultAccidental: AccidentalType): AccidentalType {
     const keySignatureWithoutAccidentals = this.getKeySignatureWithoutAccidentals();
     return keySignatureWithoutAccidentals.includes(note.noteName)
       ? note.accidental === defaultAccidental

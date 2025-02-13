@@ -11,7 +11,7 @@ const EasyScoreFromNotes = (
 ): StaveNote[] => {
   const noteInfo = myNotes.map((actualIndex) => {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-    const noteWithAccidental = selectedMusicalKey.getNoteWithAccidentalFromIndex(chromaticIndex);
+    const noteWithAccidental = selectedMusicalKey.getNoteInKey(chromaticIndex);
 
     return {
       ...noteWithAccidental,

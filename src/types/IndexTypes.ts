@@ -1,6 +1,5 @@
 import { ChromaticIndex, ixChromatic } from "./ChromaticIndex";
 import { TWELVE, TWENTY4 } from "./NoteConstants";
-import { ChromaticIndexAndOctave } from "./NoteWithAccidental";
 
 type Branded<K, T> = K & { __brand: T };
 
@@ -9,11 +8,6 @@ export type OffsetIndex = Branded<number, "OffsetIndex">;
 export type OctaveOffset = Branded<number, "OctaveOffset">;
 
 export type InversionIndex = Branded<number, "InversionIndex">;
-
-export interface ChromaticIndexAndOffset {
-  chromaticIndex: ChromaticIndex;
-  octaveOffset: OctaveOffset;
-}
 
 export function ixInversion(n: number): InversionIndex {
   if (n < 0 || n > 4 || !Number.isInteger(n)) throw new Error("Invalid InversionIndex");
@@ -51,7 +45,7 @@ export function chromaticToActual(
   return ixActual(result);
 }
 
-export function actualIndexToChromaticAndOctave(actualIndex: ActualIndex): ChromaticIndexAndOctave {
+export function actualIndexToChromaticAndOctave(actualIndex: ActualIndex) {
   return {
     chromaticIndex: ixChromatic(actualIndex % TWELVE),
     octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
