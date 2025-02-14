@@ -28,31 +28,45 @@ const CircularVisModeSelect: React.FC = () => {
     </div>
   );
 
-  const buttonSelect = (invisibleClass: string) => (
-    <div className={`button-group ${invisibleClass}`}>
-      <button
-        className={`viz-button ${circularVisMode === CircularVisMode.None ? "active" : ""}`}
-        onClick={() => handleDrawingModeChange(CircularVisMode.None)}
-        aria-label="No visualization"
-      >
-        <img src="/assets/Grey/cross.svg" alt="No visualization" />
-      </button>
-      <button
-        className={`viz-button ${circularVisMode === CircularVisMode.Radial ? "active" : ""}`}
-        onClick={() => handleDrawingModeChange(CircularVisMode.Radial)}
-        aria-label="Radial style visualization"
-      >
-        <img src="/assets/Grey/mercedes.svg" alt="Mercedes style" />
-      </button>
-      <button
-        className={`viz-button ${circularVisMode === CircularVisMode.Polygon ? "active" : ""}`}
-        onClick={() => handleDrawingModeChange(CircularVisMode.Polygon)}
-        aria-label="Polygon style visualization"
-      >
-        <img src="/assets/Grey/triangle.svg" alt="Polygon style" />
-      </button>
-    </div>
-  );
+  const visList = [
+    {
+      mode: CircularVisMode.None,
+      icon: "cross.svg",
+      label: "No visualization",
+      alt: "No visualization",
+    },
+    {
+      mode: CircularVisMode.Radial,
+      icon: "Radial.svg",
+      label: "Radial style visualization",
+      alt: "Radial style",
+    },
+    {
+      mode: CircularVisMode.Polygon,
+      icon: "Polygon.svg",
+      label: "Polygon style visualization",
+      alt: "Polygon style",
+    },
+  ];
+
+  const buttonSelect = (invisibleClass: string) => {
+    const getColor = (mode: CircularVisMode) => (circularVisMode === mode ? "White" : "Grey");
+    const selectedClass = (mode: CircularVisMode) => (circularVisMode === mode ? "selected" : "");
+    return (
+      <div className={`button-group ${invisibleClass}`}>
+        {visList.map(({ mode, icon, label, alt }) => (
+          <button
+            key={mode}
+            className={`viz-button ${selectedClass(mode)}`}
+            onClick={() => handleDrawingModeChange(mode)}
+            aria-label={label}
+          >
+            <img src={`/assets/${getColor(mode)}/${icon}`} alt={alt} />
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   const invisibleClass = selectedNoteIndices.length < 2 ? "invisible" : "";
   return buttonSelect(invisibleClass);
