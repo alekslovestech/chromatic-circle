@@ -95,17 +95,14 @@ export class MusicalKeyUtil {
     G: ["F#"],
     D: ["F#", "C#"],
     A: ["F#", "C#", "G#"],
-
     E: ["F#", "C#", "G#", "D#"],
     B: ["F#", "C#", "G#", "D#", "A#"],
-    "F#": ["F#", "C#", "G#", "D#", "A#", "E#"],
-
+    "F#": ["F#", "C#", "G#", "D#", "A#", "E#"], //in major key we prefer sharps
     F: ["Bb"],
     Bb: ["Bb", "Eb"],
     Eb: ["Bb", "Eb", "Ab"],
     Ab: ["Bb", "Eb", "Ab", "Db"],
     Db: ["Bb", "Eb", "Ab", "Db", "Gb"],
-    Gb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"],
   };
 
   // Define minor key signatures with their accidentals
@@ -116,13 +113,11 @@ export class MusicalKeyUtil {
     "F#": ["F#", "C#", "G#"],
     "C#": ["F#", "C#", "G#", "D#"],
     "G#": ["F#", "C#", "G#", "D#", "A#"],
-    "D#": ["F#", "C#", "G#", "D#", "A#", "E#"],
-
     D: ["Bb"],
     G: ["Bb", "Eb"],
     C: ["Bb", "Eb", "Ab"],
     F: ["Bb", "Eb", "Ab", "Db"],
     Bb: ["Bb", "Eb", "Ab", "Db", "Gb"],
-    Eb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"],
+    Eb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"], //in mionor ksye we prefer flats
   };
 }
