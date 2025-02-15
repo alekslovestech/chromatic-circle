@@ -101,11 +101,26 @@
 }
 
 .viz-button.selected {
-  border: none;
+  border: 1px;
   background: var(--serenity-key-white-selected0);
   cursor: pointer;
   padding: 0;
   margin: 0;
   fill: white;
+}
+
+#major-minor-toggle {
+  border: 1px solid var(--serenity-border-color);
+  background: none;
+  cursor: pointer;
+  padding: 3px;
+  margin: 0;
+  margin-top: 5px;
+  z-index: 10;
+  font-style: italic;
+  font-size: 0.8em;
+  border-radius: 10px;
+  background-color: var(--serenity-key-white);
+  color: var(--serenity-note-text-on-white);
 }
 

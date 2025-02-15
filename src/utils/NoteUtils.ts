@@ -22,6 +22,10 @@ export const formatNoteNameForDisplay = (
   return `${noteAtIndex.noteName}${accidentalSign}`;
 };
 
+export const formatForDisplay = (noteName: string): string => {
+  return noteName.replace("#", "♯").replace("b", "♭");
+};
+
 export const getNoteTextFromActualIndex = (
   actualIndex: ActualIndex,
   accidentalPreference: AccidentalType,
