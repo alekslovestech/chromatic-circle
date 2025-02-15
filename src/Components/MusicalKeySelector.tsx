@@ -1,6 +1,7 @@
 import React from "react";
 import { useNotes } from "./NotesContext";
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { formatForDisplay } from "../utils/NoteUtils";
 
 const MusicalKeySelector: React.FC = () => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useNotes();
@@ -11,21 +12,23 @@ const MusicalKeySelector: React.FC = () => {
     setSelectedMusicalKey(newKey);
   };
 
-  const handleMajorToggle = () => {
+  const handleMajorToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     const newKey = selectedMusicalKey.getRelativeKey();
+    console.log(newKey);
     setSelectedMusicalKey(newKey);
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
       <select onChange={handleKeyChange} value={selectedMusicalKey.tonicString}>
         {keys.map((key) => (
           <option key={key} value={key}>
-            {key}
+            {formatForDisplay(key)}
           </option>
         ))}
       </select>
-      <button onClick={handleMajorToggle} style={{ marginRight: "10px" }}>
+      <button id="major-minor-toggle" onClick={handleMajorToggle}>
         {selectedMusicalKey.mode === KeyType.Major ? "Major" : "Minor"}
       </button>
     </div>
