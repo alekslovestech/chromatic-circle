@@ -31,7 +31,7 @@ const CircularVisModeSelect: React.FC = () => {
   const visList = [
     {
       mode: CircularVisMode.None,
-      icon: "cross.svg",
+      icon: "None.svg",
       label: "No visualization",
       alt: "No visualization",
     },
