@@ -1,7 +1,7 @@
+import { getBasicNoteInfo } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { getNotesArray } from "./NoteConstants";
-import { NoteWithAccidental } from "./NoteWithAccidental";
+import { NoteInfo } from "./NoteInfo";
 
 export enum KeyType {
   Major = "Major",
@@ -41,14 +41,13 @@ export class MusicalKey {
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex)); // Offset the scale by tonic in a wraparound fashion
   }
 
-  getNoteWithAccidentalFromIndex = (chromaticIndex: ChromaticIndex): NoteWithAccidental => {
+  getNoteInKey = (chromaticIndex: ChromaticIndex): NoteInfo => {
     const defaultAccidental = this.getDefaultAccidental();
-    const notesArray = getNotesArray(defaultAccidental); //this should really be a set of notes for THAT key
-    const notesArrayWithKeySignature = notesArray.map((note) => ({
-      noteName: note.noteName,
-      accidental: this.getAccidentalForNote(note, defaultAccidental),
-    }));
-    return notesArrayWithKeySignature[chromaticIndex];
+    const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
+    return {
+      noteName: noteAtIndex.noteName,
+      accidental: this.applyKeySignature(noteAtIndex, defaultAccidental),
+    };
   };
 
   getDefaultAccidental(): AccidentalType {
@@ -63,10 +62,7 @@ export class MusicalKey {
     return keyMap[this.tonicString] || [];
   }
 
-  private getAccidentalForNote(
-    note: NoteWithAccidental,
-    defaultAccidental: AccidentalType,
-  ): AccidentalType {
+  private applyKeySignature(note: NoteInfo, defaultAccidental: AccidentalType): AccidentalType {
     const keySignatureWithoutAccidentals = this.getKeySignatureWithoutAccidentals();
     return keySignatureWithoutAccidentals.includes(note.noteName)
       ? note.accidental === defaultAccidental
@@ -99,17 +95,14 @@ export class MusicalKeyUtil {
     G: ["F#"],
     D: ["F#", "C#"],
     A: ["F#", "C#", "G#"],
-
     E: ["F#", "C#", "G#", "D#"],
     B: ["F#", "C#", "G#", "D#", "A#"],
-    "F#": ["F#", "C#", "G#", "D#", "A#", "E#"],
-
+    "F#": ["F#", "C#", "G#", "D#", "A#", "E#"], //in major key we prefer sharps
     F: ["Bb"],
     Bb: ["Bb", "Eb"],
     Eb: ["Bb", "Eb", "Ab"],
     Ab: ["Bb", "Eb", "Ab", "Db"],
     Db: ["Bb", "Eb", "Ab", "Db", "Gb"],
-    Gb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"],
   };
 
   // Define minor key signatures with their accidentals
@@ -120,13 +113,11 @@ export class MusicalKeyUtil {
     "F#": ["F#", "C#", "G#"],
     "C#": ["F#", "C#", "G#", "D#"],
     "G#": ["F#", "C#", "G#", "D#", "A#"],
-    "D#": ["F#", "C#", "G#", "D#", "A#", "E#"],
-
     D: ["Bb"],
     G: ["Bb", "Eb"],
     C: ["Bb", "Eb", "Ab"],
     F: ["Bb", "Eb", "Ab", "Db"],
     Bb: ["Bb", "Eb", "Ab", "Db", "Gb"],
-    Eb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"],
+    Eb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"], //in mionor ksye we prefer flats
   };
 }

@@ -86,3 +86,26 @@
 .pie-slice-key.black text {
   fill: var(--serenity-note-text-on-black);
 }
+
+.viz-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  fill: black;
+  /* stroke: black; */
+  stroke-width: 2px; 
+}
+
+.viz-button.selected {
+  border: none;
+  background: var(--serenity-key-white-selected0);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  fill: white;
+}
+

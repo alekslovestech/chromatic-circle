@@ -1,15 +1,11 @@
 import { KeyType, MusicalKey } from "../types/MusicalKey";
-import { NoteWithAccidental } from "../types/NoteWithAccidental";
+import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
 import { noteTextToIndex } from "../types/ChromaticIndex";
 
-function verifyResolvedNote(
-  musicalKey: MusicalKey,
-  noteText: string,
-  expectedNote: NoteWithAccidental,
-) {
+function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNote: NoteInfo) {
   const chromaticIndex = noteTextToIndex(noteText);
-  const note = musicalKey.getNoteWithAccidentalFromIndex(chromaticIndex);
+  const note = musicalKey.getNoteInKey(chromaticIndex);
   expect(note).toEqual(expectedNote);
 }
 
