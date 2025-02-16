@@ -9,6 +9,7 @@ export interface CartesianPoint {
   x: number;
   y: number;
 }
+
 export class PolarMath {
   static getCartesianFromPolar(
     radius: number,
@@ -33,10 +34,13 @@ export class PolarMath {
     return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
   }
 
-  static NoteIndexToAngles(index: number) {
+  static NoteIndexToMiddleAngle(index: number): number {
+    return INIT_ANGLE + index * FULL_KEY_ANGLE + HALF_KEY_ANGLE;
+  }
+
+  static NoteIndexToAngleRange(index: number) {
     const startAngle = INIT_ANGLE + index * FULL_KEY_ANGLE;
-    const middleAngle = startAngle + HALF_KEY_ANGLE;
     const endAngle = startAngle + FULL_KEY_ANGLE;
-    return { startAngle, middleAngle, endAngle };
+    return { startAngle, endAngle };
   }
 }

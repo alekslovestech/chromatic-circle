@@ -48,9 +48,9 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
 }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
   const { selectedMusicalKey } = useNotes();
-  const { startAngle, endAngle } = PolarMath.NoteIndexToAngles(actualIndex);
+  const { startAngle, endAngle } = PolarMath.NoteIndexToAngleRange(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
-  const { middleAngle } = PolarMath.NoteIndexToAngles(actualIndex);
+  const middleAngle = PolarMath.NoteIndexToMiddleAngle(actualIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
 
   const blackWhiteString = getBlackWhiteString(actualIndex);
