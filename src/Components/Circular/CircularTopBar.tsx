@@ -1,5 +1,5 @@
 import React from "react";
-import CircularVisModeSelect from "./CircularVizModeSelect";
+import CircularVisModeSelect from "./CircularVisModeSelect";
 import MusicalKeySelector from "../MusicalKeySelector";
 
 export const CircularTopBar: React.FC = () => {
