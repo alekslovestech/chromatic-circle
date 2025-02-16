@@ -25,6 +25,8 @@ const CircularVisModeSelect: React.FC = () => {
     },
   ];
 
+  const getColor = (mode: CircularVisMode) => (circularVisMode === mode ? "white" : "black");
+
   const visIcons = new CircularVisIcons(12, 11);
 
   return (
@@ -44,11 +46,9 @@ const CircularVisModeSelect: React.FC = () => {
             fillOpacity="0.4"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {visIcons.getCirclePoints(circularVisMode === mode ? "#ffffff" : "#000000")}
-            {mode === CircularVisMode.Radial &&
-              visIcons.getRadialPoints(circularVisMode === mode ? "#ffffff" : "#000000")}
-            {mode === CircularVisMode.Polygon &&
-              visIcons.getPolygonPoints(circularVisMode === mode ? "#ffffff" : "#000000")}
+            {visIcons.getCirclePoints(getColor(mode))}
+            {mode === CircularVisMode.Radial && visIcons.getRadialPoints(getColor(mode))}
+            {mode === CircularVisMode.Polygon && visIcons.getPolygonPoints(getColor(mode))}
           </svg>
         </button>
       ))}
