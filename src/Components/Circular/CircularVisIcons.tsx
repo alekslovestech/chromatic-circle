@@ -15,25 +15,16 @@ export class CircularVisIcons {
       x: this.circleRadius,
       y: this.circleRadius,
     };
-    this.coor0 = PolarMath.getCartesianFromPolarWithOffset(
-      this.center,
-      this.innerRadius,
-      this.angle0,
-      true,
-    );
-    this.coor1 = PolarMath.getCartesianFromPolarWithOffset(
-      this.center,
-      this.innerRadius,
-      this.angle1,
-      true,
-    );
-    this.coor2 = PolarMath.getCartesianFromPolarWithOffset(
-      this.center,
-      this.innerRadius,
-      this.angle2,
-      true,
-    );
+    const angle0 = CommonMath.NoteIndexToAngles(11).middleAngle;
+    const angle1 = CommonMath.NoteIndexToAngles(3).middleAngle;
+    const angle2 = CommonMath.NoteIndexToAngles(7).middleAngle;
+    this.coor0 = this.getCartesianFromAngle(angle0);
+    this.coor1 = this.getCartesianFromAngle(angle1);
+    this.coor2 = this.getCartesianFromAngle(angle2);
   }
+
+  private getCartesianFromAngle = (angle: number): CartesianPoint =>
+    PolarMath.getCartesianFromPolarWithOffset(this.center, this.innerRadius, angle, true);
 
   getCirclePoints = (strokeColor: string): JSX.Element => (
     <circle
@@ -63,10 +54,6 @@ export class CircularVisIcons {
       strokeWidth="2"
     />
   );
-
-  private angle0 = CommonMath.NoteIndexToAngles(11).middleAngle;
-  private angle1 = CommonMath.NoteIndexToAngles(3).middleAngle;
-  private angle2 = CommonMath.NoteIndexToAngles(7).middleAngle;
 
   private center: CartesianPoint;
   private coor0: CartesianPoint;
