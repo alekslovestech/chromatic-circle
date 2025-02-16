@@ -15,25 +15,24 @@ export class CircularVisIcons {
       x: this.circleRadius,
       y: this.circleRadius,
     };
-    this.Bcoor = PolarMath.getCartesianFromPolarWithOffset(
+    this.coor0 = PolarMath.getCartesianFromPolarWithOffset(
       this.center,
       this.innerRadius,
-      this.Bangle,
+      this.angle0,
       true,
     );
-    this.Ebcoor = PolarMath.getCartesianFromPolarWithOffset(
+    this.coor1 = PolarMath.getCartesianFromPolarWithOffset(
       this.center,
       this.innerRadius,
-      this.Ebangle,
+      this.angle1,
       true,
     );
-    this.Gcoor = PolarMath.getCartesianFromPolarWithOffset(
+    this.coor2 = PolarMath.getCartesianFromPolarWithOffset(
       this.center,
       this.innerRadius,
-      this.Gangle,
+      this.angle2,
       true,
     );
-    this.Ocoor = PolarMath.getCartesianFromPolarWithOffset(this.center, 0, 0, true);
   }
 
   getCirclePoints = (strokeColor: string): JSX.Element => (
@@ -49,7 +48,7 @@ export class CircularVisIcons {
 
   getRadialPoints = (strokeColor: string): JSX.Element => (
     <polyline
-      points={`${this.Ocoor.x},${this.Ocoor.y} ${this.Bcoor.x},${this.Bcoor.y} ${this.Ocoor.x},${this.Ocoor.y} ${this.Ebcoor.x},${this.Ebcoor.y} ${this.Ocoor.x},${this.Ocoor.y} ${this.Gcoor.x},${this.Gcoor.y} ${this.Ocoor.x},${this.Ocoor.y}`}
+      points={`${this.center.x},${this.center.y} ${this.coor0.x},${this.coor0.y} ${this.center.x},${this.center.y} ${this.coor1.x},${this.coor1.y} ${this.center.x},${this.center.y} ${this.coor2.x},${this.coor2.y} ${this.center.x},${this.center.y}`}
       fill="none"
       stroke={strokeColor}
       strokeWidth="2"
@@ -58,20 +57,19 @@ export class CircularVisIcons {
 
   getPolygonPoints = (strokeColor: string): JSX.Element => (
     <polygon
-      points={`${this.Bcoor.x},${this.Bcoor.y} ${this.Ebcoor.x},${this.Ebcoor.y} ${this.Gcoor.x},${this.Gcoor.y}`}
+      points={`${this.coor0.x},${this.coor0.y} ${this.coor1.x},${this.coor1.y} ${this.coor2.x},${this.coor2.y}`}
       fill="none"
       stroke={strokeColor}
       strokeWidth="2"
     />
   );
 
-  private readonly Bangle = CommonMath.NoteIndexToAngles(11).middleAngle;
-  private readonly Gangle = CommonMath.NoteIndexToAngles(7).middleAngle;
-  private readonly Ebangle = CommonMath.NoteIndexToAngles(3).middleAngle;
+  private readonly angle0 = CommonMath.NoteIndexToAngles(0).middleAngle;
+  private readonly angle1 = CommonMath.NoteIndexToAngles(4).middleAngle;
+  private readonly angle2 = CommonMath.NoteIndexToAngles(8).middleAngle;
 
   private readonly center: CartesianPoint;
-  private readonly Bcoor: CartesianPoint;
-  private readonly Ebcoor: CartesianPoint;
-  private readonly Gcoor: CartesianPoint;
-  private readonly Ocoor: CartesianPoint;
+  private readonly coor0: CartesianPoint;
+  private readonly coor1: CartesianPoint;
+  private readonly coor2: CartesianPoint;
 }
