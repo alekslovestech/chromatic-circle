@@ -25,7 +25,7 @@ const CircularVisModeSelect: React.FC = () => {
     },
   ];
 
-  const visIcons = new CircularVisIcons();
+  const visIcons = new CircularVisIcons(12, 11);
 
   return (
     <div className={`button-group ${selectedNoteIndices.length < 2 ? "invisible" : ""}`}>

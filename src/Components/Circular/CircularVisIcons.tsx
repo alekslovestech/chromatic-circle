@@ -2,11 +2,15 @@ import { CommonMath } from "../../utils/CommonMath";
 import { CartesianPoint, PolarMath } from "../../utils/PolarMath";
 
 export class CircularVisIcons {
-  readonly innerRadius = 11;
-  private readonly circleRadius = 12;
-  readonly circleDiameter = 2 * this.circleRadius;
+  readonly innerRadius: number;
+  private readonly circleRadius: number;
+  readonly circleDiameter: number;
 
-  constructor() {
+  constructor(circleRadius: number, innerRadius: number) {
+    this.circleRadius = circleRadius;
+    this.innerRadius = innerRadius;
+    this.circleDiameter = 2 * this.circleRadius;
+
     this.center = {
       x: this.circleRadius,
       y: this.circleRadius,
