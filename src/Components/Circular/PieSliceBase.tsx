@@ -1,6 +1,5 @@
 import React from "react";
 import { chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
-import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { getNoteTextFromActualIndex } from "../../utils/NoteUtils";
@@ -49,9 +48,9 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
 }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
   const { selectedMusicalKey } = useNotes();
-  const { startAngle, endAngle } = CommonMath.NoteIndexToAngles(actualIndex);
+  const { startAngle, endAngle } = PolarMath.NoteIndexToAngles(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
-  const { middleAngle } = CommonMath.NoteIndexToAngles(actualIndex);
+  const { middleAngle } = PolarMath.NoteIndexToAngles(actualIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
 
   const blackWhiteString = getBlackWhiteString(actualIndex);

@@ -1,6 +1,5 @@
 import { ActualIndex } from "../../types/IndexTypes";
 import { getComputedColor } from "../../utils/ColorUtils";
-import { CommonMath } from "../../utils/CommonMath";
 import { PolarMath } from "../../utils/PolarMath";
 import { TWELVE } from "../../types/NoteConstants";
 const SVG_URL = "http://www.w3.org/2000/svg";
@@ -48,7 +47,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
   svgElement.querySelectorAll(".selected-note-line").forEach((el) => el.remove());
 
   selectedNoteIndices.forEach((index) => {
-    const { middleAngle } = CommonMath.NoteIndexToAngles(index);
+    const { middleAngle } = PolarMath.NoteIndexToAngles(index);
     const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
     const path = document.createElementNS(SVG_URL, "path");
@@ -65,7 +64,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
   if (selectedNoteIndices.length === 0) return;
 
   const baseIndex = selectedNoteIndices[0];
-  const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
+  const { middleAngle } = PolarMath.NoteIndexToAngles(baseIndex);
   const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
   const circle = document.createElementNS(SVG_URL, "circle");
@@ -94,9 +93,9 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
     const currentIndex = selectedNoteIndices[i];
     const nextIndex = selectedNoteIndices[(i + 1) % numNotes];
 
-    const { middleAngle: middleAngleCur } = CommonMath.NoteIndexToAngles(currentIndex);
+    const { middleAngle: middleAngleCur } = PolarMath.NoteIndexToAngles(currentIndex);
 
-    const { middleAngle: middleAngleNext } = CommonMath.NoteIndexToAngles(nextIndex);
+    const { middleAngle: middleAngleNext } = PolarMath.NoteIndexToAngles(nextIndex);
 
     const startPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleCur, true);
     const endPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleNext, true);
@@ -115,7 +114,7 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
   // Emphasize the base note
   if (selectedNoteIndices.length > 0) {
     const baseIndex = selectedNoteIndices[0];
-    const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
+    const { middleAngle } = PolarMath.NoteIndexToAngles(baseIndex);
     const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
     const circle = document.createElementNS(SVG_URL, "circle");
