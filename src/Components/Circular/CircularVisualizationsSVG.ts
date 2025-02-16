@@ -49,7 +49,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
 
   selectedNoteIndices.forEach((index) => {
     const { middleAngle } = CommonMath.NoteIndexToAngles(index);
-    const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle);
+    const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
     const path = document.createElementNS(SVG_URL, "path");
     path.setAttribute("d", `M0,0 L${innerPoint.x},${innerPoint.y}`);
@@ -66,7 +66,7 @@ function drawSelectedNotesArrows(selectedNoteIndices: ActualIndex[], innerRadius
 
   const baseIndex = selectedNoteIndices[0];
   const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
-  const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle);
+  const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
   const circle = document.createElementNS(SVG_URL, "circle");
   circle.setAttribute("cx", innerPoint.x.toString());
@@ -98,8 +98,8 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
 
     const { middleAngle: middleAngleNext } = CommonMath.NoteIndexToAngles(nextIndex);
 
-    const startPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleCur);
-    const endPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleNext);
+    const startPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleCur, true);
+    const endPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngleNext, true);
 
     const path = document.createElementNS(SVG_URL, "path");
     path.setAttribute("d", `M${startPoint.x},${startPoint.y} L${endPoint.x},${endPoint.y}`);
@@ -116,7 +116,7 @@ function drawSelectedNotesPolygon(selectedNoteIndices: ActualIndex[], innerRadiu
   if (selectedNoteIndices.length > 0) {
     const baseIndex = selectedNoteIndices[0];
     const { middleAngle } = CommonMath.NoteIndexToAngles(baseIndex);
-    const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle);
+    const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
 
     const circle = document.createElementNS(SVG_URL, "circle");
     circle.setAttribute("cx", innerPoint.x.toString());
