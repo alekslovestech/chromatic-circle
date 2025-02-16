@@ -28,8 +28,9 @@ const CircularVisModeSelect: React.FC = () => {
   const getStroke = (mode: CircularVisMode) => (circularVisMode === mode ? "#ffffff" : "#000000");
 
   class CircularVizIcons {
-    readonly innerRadius = 10;
-    readonly circleRadius = 12;
+    readonly innerRadius = 11;
+    private readonly circleRadius = 12;
+    readonly circleDiameter = 2 * this.circleRadius;
 
     constructor() {
       this.center = {
@@ -108,9 +109,9 @@ const CircularVisModeSelect: React.FC = () => {
           aria-label={label}
         >
           <svg
-            width={2 * visIcons.circleRadius}
-            height={2 * visIcons.circleRadius}
-            viewBox={`0 0 ${2 * visIcons.circleRadius} ${2 * visIcons.circleRadius}`}
+            width={visIcons.circleDiameter}
+            height={visIcons.circleDiameter}
+            viewBox={`0 0 ${visIcons.circleDiameter} ${visIcons.circleDiameter}`}
             fillOpacity="0.4"
             xmlns="http://www.w3.org/2000/svg"
           >
