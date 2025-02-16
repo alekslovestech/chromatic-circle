@@ -3,8 +3,8 @@ import { CartesianPoint, PolarMath } from "../../utils/PolarMath";
 
 export class CircularVisIcons {
   readonly innerRadius: number;
-  private readonly circleRadius: number;
   readonly circleDiameter: number;
+  private circleRadius: number;
 
   constructor(circleRadius: number, innerRadius: number) {
     this.circleRadius = circleRadius;
@@ -64,12 +64,12 @@ export class CircularVisIcons {
     />
   );
 
-  private readonly angle0 = CommonMath.NoteIndexToAngles(0).middleAngle;
-  private readonly angle1 = CommonMath.NoteIndexToAngles(4).middleAngle;
-  private readonly angle2 = CommonMath.NoteIndexToAngles(8).middleAngle;
+  private angle0 = CommonMath.NoteIndexToAngles(11).middleAngle;
+  private angle1 = CommonMath.NoteIndexToAngles(3).middleAngle;
+  private angle2 = CommonMath.NoteIndexToAngles(7).middleAngle;
 
-  private readonly center: CartesianPoint;
-  private readonly coor0: CartesianPoint;
-  private readonly coor1: CartesianPoint;
-  private readonly coor2: CartesianPoint;
+  private center: CartesianPoint;
+  private coor0: CartesianPoint;
+  private coor1: CartesianPoint;
+  private coor2: CartesianPoint;
 }
