@@ -8,10 +8,11 @@ const PieSliceKey: React.FC<PieSliceBaseProps> = ({
   outerRadius,
   innerRadius,
   onClick,
+  isLogo = false,
 }) => {
   const { selectedNoteIndices } = useNotes();
 
-  const isSelected = isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
+  const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
   return (
     <PieSliceBase
       chromaticIndex={chromaticIndex}
@@ -20,6 +21,7 @@ const PieSliceKey: React.FC<PieSliceBaseProps> = ({
       onClick={onClick}
       isSelected={isSelected}
       showText={true}
+      isLogo={isLogo}
     />
   );
 };

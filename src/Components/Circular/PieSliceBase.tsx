@@ -14,6 +14,7 @@ export interface PieSliceBaseProps {
   isSelected?: boolean;
   onClick?: () => void;
   showText?: boolean;
+  isLogo?: boolean;
 }
 
 const getArcPath = (
@@ -45,6 +46,7 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
   isSelected,
   onClick,
   showText,
+  isLogo,
 }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
   const { selectedMusicalKey } = useNotes();
