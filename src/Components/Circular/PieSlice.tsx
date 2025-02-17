@@ -30,7 +30,7 @@ const getArcPath = (
   ].join(" ");
 };
 
-const PieSliceBase: React.FC<{
+const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
@@ -65,4 +65,4 @@ const PieSliceBase: React.FC<{
   );
 };
 
-export default PieSliceBase;
+export default PieSlice;
