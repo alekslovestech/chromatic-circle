@@ -1,4 +1,3 @@
-import { CommonMath } from "../../utils/CommonMath";
 import { CartesianPoint, PolarMath } from "../../utils/PolarMath";
 
 export class CircularVisIcons {
@@ -15,9 +14,9 @@ export class CircularVisIcons {
       x: this.circleRadius,
       y: this.circleRadius,
     };
-    const angle0 = CommonMath.NoteIndexToAngles(11).middleAngle;
-    const angle1 = CommonMath.NoteIndexToAngles(3).middleAngle;
-    const angle2 = CommonMath.NoteIndexToAngles(7).middleAngle;
+    const angle0 = PolarMath.NoteIndexToMiddleAngle(11);
+    const angle1 = PolarMath.NoteIndexToMiddleAngle(3);
+    const angle2 = PolarMath.NoteIndexToMiddleAngle(7);
     this.coor0 = this.getCartesianFromAngle(angle0);
     this.coor1 = this.getCartesianFromAngle(angle1);
     this.coor2 = this.getCartesianFromAngle(angle2);

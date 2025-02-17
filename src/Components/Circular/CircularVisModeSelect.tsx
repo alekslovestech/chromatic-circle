@@ -1,6 +1,6 @@
 import { useNotes } from "../NotesContext";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode } from "./CircularVisualizationsSVG";
+import { CircularVisMode } from "./CircularVisMode";
 
 const CircularVisModeSelect: React.FC = () => {
   const { circularVisMode, selectedNoteIndices, setCircularVisMode } = useNotes();

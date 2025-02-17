@@ -4,7 +4,7 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
-import PieSliceKey from "./PieSliceKey";
+import PieSlice from "./PieSlice";
 import CircularBase, { INNER_RADIUS, OUTER_RADIUS } from "./CircularBase";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
@@ -20,13 +20,13 @@ const KeyboardCircular: React.FC = () => {
   return (
     <CircularBase>
       {Array.from({ length: TWELVE }).map((_, index) => (
-        <PieSliceKey
+        <PieSlice
           key={index}
           chromaticIndex={ixChromatic(index)}
           onClick={() => handleKeyClick(index as ActualIndex)}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}
-          showText={true}
+          isLogo={false}
         />
       ))}
     </CircularBase>
