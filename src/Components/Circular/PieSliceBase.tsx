@@ -6,16 +6,7 @@ import { getNoteTextFromActualIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
-
-export interface PieSliceBaseProps {
-  chromaticIndex: ChromaticIndex;
-  outerRadius: number;
-  innerRadius: number;
-  isSelected?: boolean;
-  onClick?: () => void;
-  showText?: boolean;
-  isLogo?: boolean;
-}
+import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 
 const getArcPath = (
   startAngle: number,
@@ -39,17 +30,16 @@ const getArcPath = (
   ].join(" ");
 };
 
-const PieSliceBase: React.FC<PieSliceBaseProps> = ({
-  chromaticIndex,
-  outerRadius,
-  innerRadius,
-  isSelected,
-  onClick,
-  showText,
-  isLogo,
-}) => {
+const PieSliceBase: React.FC<{
+  chromaticIndex: ChromaticIndex;
+  outerRadius: number;
+  innerRadius: number;
+  onClick?: () => void;
+  showText?: boolean;
+  isLogo?: boolean;
+}> = ({ chromaticIndex, outerRadius, innerRadius, onClick, showText, isLogo }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
-  const { selectedMusicalKey } = useNotes();
+  const { selectedMusicalKey, selectedNoteIndices } = useNotes();
   const { startAngle, endAngle } = PolarMath.NoteIndexToAngleRange(actualIndex);
   const path = getArcPath(startAngle, endAngle, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(actualIndex);
@@ -57,6 +47,8 @@ const PieSliceBase: React.FC<PieSliceBaseProps> = ({
 
   const blackWhiteString = getBlackWhiteString(actualIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
+  const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
+
   if (isSelected) classNames.push("selected");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
