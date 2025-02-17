@@ -12,9 +12,9 @@ const KeyboardLogo: React.FC = () => {
         <PieSlice
           key={index}
           chromaticIndex={ixChromatic(index)}
+          onClick={() => {}}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}
-          showText={false}
           isLogo={true}
         />
       ))}

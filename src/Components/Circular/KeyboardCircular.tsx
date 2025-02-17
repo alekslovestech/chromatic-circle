@@ -26,7 +26,6 @@ const KeyboardCircular: React.FC = () => {
           onClick={() => handleKeyClick(index as ActualIndex)}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}
-          showText={true}
           isLogo={false}
         />
       ))}

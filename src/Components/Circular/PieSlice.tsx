@@ -34,10 +34,9 @@ const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
-  onClick?: () => void;
-  showText?: boolean;
-  isLogo?: boolean;
-}> = ({ chromaticIndex, outerRadius, innerRadius, onClick, showText, isLogo }) => {
+  onClick: () => void;
+  isLogo: boolean;
+}> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
   const actualIndex = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
   const { selectedMusicalKey, selectedNoteIndices } = useNotes();
   const { startAngle, endAngle } = PolarMath.NoteIndexToAngleRange(actualIndex);
@@ -52,7 +51,7 @@ const PieSlice: React.FC<{
   if (isSelected) classNames.push("selected");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
-
+  const showText = !isLogo;
   return (
     <g id={id} className={classNames.join(" ")} onClick={onClick}>
       <path d={path} />
