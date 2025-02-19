@@ -2,7 +2,7 @@ import { TWELVE } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
-import { drawCircularVisualizations } from "./CircularVisualizationsSVG";
+import { CircularVisualizations } from "./CircularVisualizationsSVG";
 import PieSlice from "./PieSlice";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
@@ -30,7 +30,7 @@ const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
           isLogo={isLogo}
         />
       ))}
-      {drawCircularVisualizations(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
+      {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
     </svg>
   );
 };
