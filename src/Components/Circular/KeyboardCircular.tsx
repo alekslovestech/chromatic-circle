@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
 import { TWELVE } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
-import { drawCircularVisualizationsSVG } from "./CircularVisualizationsSVG";
+import { drawCircularVisualizations } from "./CircularVisualizationsSVG";
 import PieSlice from "./PieSlice";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
@@ -15,10 +14,6 @@ const INNER_RADIUS = 0.5 * MAX_RADIUS;
 const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
-
-  useEffect(() => {
-    drawCircularVisualizationsSVG(selectedNoteIndices, circularVisMode, INNER_RADIUS);
-  }, [selectedNoteIndices, circularVisMode, INNER_RADIUS]);
 
   return (
     <svg
@@ -35,6 +30,7 @@ const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
           isLogo={isLogo}
         />
       ))}
+      {drawCircularVisualizations(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
     </svg>
   );
 };
