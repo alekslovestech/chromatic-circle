@@ -47,9 +47,9 @@ const CircularVisModeSelect: React.FC = () => {
             fillOpacity="0.4"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {visIcons.getCirclePoints(getColor(mode))}
-            {mode === CircularVisMode.Radial && visIcons.getRadialPoints(getColor(mode))}
-            {mode === CircularVisMode.Polygon && visIcons.getPolygonPoints(getColor(mode))}
+            {visIcons.renderCircle(getColor(mode))}
+            {mode === CircularVisMode.Radial && visIcons.renderRadialPoints(getColor(mode))}
+            {mode === CircularVisMode.Polygon && visIcons.renderPolygonPoints(getColor(mode))}
           </svg>
         </button>
       ))}

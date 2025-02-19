@@ -1,4 +1,5 @@
 import { CartesianPoint, PolarMath } from "../../utils/PolarMath";
+import { SvgElements } from "./SVGElements";
 
 export class CircularVisIcons {
   readonly innerRadius: number;
@@ -25,30 +26,27 @@ export class CircularVisIcons {
   private getCartesianFromAngle = (angle: number): CartesianPoint =>
     PolarMath.getCartesianFromPolarWithOffset(this.center, this.innerRadius, angle, true);
 
-  getCirclePoints = (strokeColor: string): JSX.Element => (
-    <circle
+  renderCircle = (strokeColor: string): JSX.Element => (
+    <SvgElements.circle
       cx={this.circleRadius}
       cy={this.circleRadius}
-      r={this.innerRadius}
+      radius={this.innerRadius}
       stroke={strokeColor}
-      fill="none"
       strokeWidth="1"
     />
   );
 
-  getRadialPoints = (strokeColor: string): JSX.Element => (
-    <polyline
-      points={`${this.center.x},${this.center.y} ${this.coor0.x},${this.coor0.y} ${this.center.x},${this.center.y} ${this.coor1.x},${this.coor1.y} ${this.center.x},${this.center.y} ${this.coor2.x},${this.coor2.y} ${this.center.x},${this.center.y}`}
-      fill="none"
+  renderRadialPoints = (strokeColor: string): JSX.Element => (
+    <SvgElements.polygon
+      points={[this.center, this.coor0, this.center, this.coor1, this.center, this.coor2]}
       stroke={strokeColor}
       strokeWidth="2"
     />
   );
 
-  getPolygonPoints = (strokeColor: string): JSX.Element => (
-    <polygon
-      points={`${this.coor0.x},${this.coor0.y} ${this.coor1.x},${this.coor1.y} ${this.coor2.x},${this.coor2.y}`}
-      fill="none"
+  renderPolygonPoints = (strokeColor: string): JSX.Element => (
+    <SvgElements.polygon
+      points={[this.coor0, this.coor1, this.coor2]}
       stroke={strokeColor}
       strokeWidth="2"
     />
