@@ -5,11 +5,6 @@ import { CircularVisMode } from "./CircularVisMode";
 const CircularVisModeSelect: React.FC = () => {
   const { circularVisMode, selectedNoteIndices, setCircularVisMode } = useNotes();
 
-  const handleDrawingModeChange = (mode: CircularVisMode) => {
-    console.log("handleDrawingModeChange", mode);
-    setCircularVisMode(mode);
-  };
-
   const visList = [
     {
       mode: CircularVisMode.None,
@@ -35,7 +30,7 @@ const CircularVisModeSelect: React.FC = () => {
         <button
           key={mode}
           className={`viz-button ${circularVisMode === mode ? "selected" : ""}`}
-          onClick={() => handleDrawingModeChange(mode)}
+          onClick={() => setCircularVisMode(mode)}
           aria-label={label}
           title={label}
           style={{ zIndex: 10 }}

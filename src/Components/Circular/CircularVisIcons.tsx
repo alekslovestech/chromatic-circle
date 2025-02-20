@@ -31,25 +31,16 @@ export class CircularVisIcons {
 
   renderRadialPoints = (strokeColor: string): JSX.Element => {
     const points = this.visualizer.getRadialVisualization(ixActualArray([11, 3, 7]));
-    return (
-      <polyline
-        points={points.map((p) => `${p.x},${p.y}`).join(" ")}
-        fill="none"
-        stroke={strokeColor}
-        strokeWidth="2"
-      />
-    );
+    return this.renderPolygon(points, strokeColor);
   };
 
   renderPolygonPoints = (strokeColor: string): JSX.Element => {
     const points = this.visualizer.getPolygonVisualization(ixActualArray([11, 3, 7]));
-    return (
-      <polygon
-        points={points.map((p) => `${p.x},${p.y}`).join(" ")}
-        fill="none"
-        stroke={strokeColor}
-        strokeWidth="2"
-      />
-    );
+    return this.renderPolygon(points, strokeColor);
+  };
+
+  private renderPolygon = (points: CartesianPoint[], strokeColor: string): JSX.Element => {
+    const pointsString = points.map((p) => `${p.x},${p.y}`).join(" ");
+    return <polygon points={pointsString} fill="none" stroke={strokeColor} strokeWidth="2" />;
   };
 }
