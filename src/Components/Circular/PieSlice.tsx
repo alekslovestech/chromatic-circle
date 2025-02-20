@@ -1,6 +1,6 @@
 import React from "react";
 import { chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
-import { PolarMath } from "../../utils/PolarMath";
+import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { getNoteTextFromActualIndex } from "../../utils/NoteUtils";
 import { useNotes } from "../NotesContext";

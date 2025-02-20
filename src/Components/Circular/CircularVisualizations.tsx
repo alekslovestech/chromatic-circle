@@ -1,9 +1,9 @@
 import React from "react";
 import { ActualIndex } from "../../types/IndexTypes";
 import { getComputedColor } from "../../utils/ColorUtils";
-import { PolarMath } from "../../utils/PolarMath";
-import { CircularVisMode } from "./CircularVisMode";
-import { NoteIndexVisualizer } from "./NoteIndexVisualizer";
+import { PolarMath } from "../../utils/Circular/PolarMath";
+import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
+import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 
 const STROKE_WIDTH = 6;
 const DOT_RADIUS = 6;
@@ -20,10 +20,7 @@ export class CircularVisualizations {
     const visualizer = new NoteIndexVisualizer(innerRadius);
 
     const baseNoteDot = this.drawBaseNoteDot(selectedNoteIndices, innerRadius);
-    const polyPoints =
-      circularVisMode === CircularVisMode.Radial
-        ? visualizer.getRadialVisualization(selectedNoteIndices)
-        : visualizer.getPolygonVisualization(selectedNoteIndices);
+    const polyPoints = visualizer.getVisualization(selectedNoteIndices, circularVisMode);
 
     return [
       <polygon

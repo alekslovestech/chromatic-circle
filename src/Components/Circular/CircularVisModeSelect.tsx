@@ -1,14 +1,9 @@
 import { useNotes } from "../NotesContext";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode } from "./CircularVisMode";
+import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
 
 const CircularVisModeSelect: React.FC = () => {
   const { circularVisMode, selectedNoteIndices, setCircularVisMode } = useNotes();
-
-  const handleDrawingModeChange = (mode: CircularVisMode) => {
-    console.log("handleDrawingModeChange", mode);
-    setCircularVisMode(mode);
-  };
 
   const visList = [
     {
@@ -35,7 +30,7 @@ const CircularVisModeSelect: React.FC = () => {
         <button
           key={mode}
           className={`viz-button ${circularVisMode === mode ? "selected" : ""}`}
-          onClick={() => handleDrawingModeChange(mode)}
+          onClick={() => setCircularVisMode(mode)}
           aria-label={label}
           title={label}
           style={{ zIndex: 10 }}
@@ -48,8 +43,7 @@ const CircularVisModeSelect: React.FC = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             {visIcons.renderCircle(getColor(mode))}
-            {mode === CircularVisMode.Radial && visIcons.renderRadialPoints(getColor(mode))}
-            {mode === CircularVisMode.Polygon && visIcons.renderPolygonPoints(getColor(mode))}
+            {mode !== CircularVisMode.None && visIcons.renderPoints(mode, getColor(mode))}
           </svg>
         </button>
       ))}
