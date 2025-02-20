@@ -3,7 +3,7 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { getComputedColor } from "../../utils/ColorUtils";
 import { PolarMath } from "../../utils/PolarMath";
 import { CircularVisMode } from "./CircularVisMode";
-import { NoteIndexVisualizer } from "./NoteIndexVisualizer";
+import { NoteIndexVisualizer } from "../../utils/NoteIndexVisualizer";
 
 const STROKE_WIDTH = 6;
 const DOT_RADIUS = 6;

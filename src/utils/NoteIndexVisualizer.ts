@@ -1,6 +1,6 @@
-import { ActualIndex } from "../../types/IndexTypes";
-import { PolarMath } from "../../utils/PolarMath";
-import { CartesianPoint } from "../../utils/PolarMath";
+import { ActualIndex } from "../types/IndexTypes";
+import { PolarMath } from "./PolarMath";
+import { CartesianPoint } from "./PolarMath";
 
 export class NoteIndexVisualizer {
   constructor(
