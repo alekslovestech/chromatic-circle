@@ -22,18 +22,6 @@ export class PolarMath {
     return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
   }
 
-  static getCartesianFromPolarWithOffset(
-    offset: CartesianPoint,
-    radius: number,
-    angle: number,
-    isRounded: boolean = false,
-  ): CartesianPoint {
-    const x = offset.x + radius * Math.cos(angle);
-    const y = offset.y + radius * Math.sin(angle);
-    if (!isRounded) return { x, y };
-    return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
-  }
-
   static NoteIndexToMiddleAngle(index: number): number {
     return INIT_ANGLE + index * FULL_KEY_ANGLE + HALF_KEY_ANGLE;
   }
