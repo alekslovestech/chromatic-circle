@@ -1,5 +1,5 @@
-import { CartesianPoint } from "../../utils/PolarMath";
-import { NoteIndexVisualizer } from "../../utils/NoteIndexVisualizer";
+import { CartesianPoint } from "../../utils/Circular/PolarMath";
+import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 import { ixActualArray } from "../../types/IndexTypes";
 
 export class CircularVisIcons {

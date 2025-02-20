@@ -1,4 +1,4 @@
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex } from "../../types/IndexTypes";
 import { PolarMath } from "./PolarMath";
 import { CartesianPoint } from "./PolarMath";
 

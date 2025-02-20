@@ -1,9 +1,9 @@
 import React from "react";
 import { ActualIndex } from "../../types/IndexTypes";
 import { getComputedColor } from "../../utils/ColorUtils";
-import { PolarMath } from "../../utils/PolarMath";
-import { CircularVisMode } from "./CircularVisMode";
-import { NoteIndexVisualizer } from "../../utils/NoteIndexVisualizer";
+import { PolarMath } from "../../utils/Circular/PolarMath";
+import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
+import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 
 const STROKE_WIDTH = 6;
 const DOT_RADIUS = 6;
