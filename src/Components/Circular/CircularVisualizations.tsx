@@ -20,10 +20,7 @@ export class CircularVisualizations {
     const visualizer = new NoteIndexVisualizer(innerRadius);
 
     const baseNoteDot = this.drawBaseNoteDot(selectedNoteIndices, innerRadius);
-    const polyPoints =
-      circularVisMode === CircularVisMode.Radial
-        ? visualizer.getRadialVisualization(selectedNoteIndices)
-        : visualizer.getPolygonVisualization(selectedNoteIndices);
+    const polyPoints = visualizer.getVisualization(selectedNoteIndices, circularVisMode);
 
     return [
       <polygon

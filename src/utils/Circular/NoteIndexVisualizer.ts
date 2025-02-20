@@ -1,4 +1,5 @@
 import { ActualIndex } from "../../types/IndexTypes";
+import { CircularVisMode } from "./CircularVisMode";
 import { PolarMath } from "./PolarMath";
 import { CartesianPoint } from "./PolarMath";
 
@@ -8,14 +9,19 @@ export class NoteIndexVisualizer {
     private readonly center: CartesianPoint = { x: 0, y: 0 },
   ) {}
 
-  getRadialVisualization = (indices: ActualIndex[]): CartesianPoint[] =>
-    indices.flatMap((index) => {
-      const point = this.getCartesianFromIndex(index);
-      return [this.center, point];
-    });
-
-  getPolygonVisualization = (indices: ActualIndex[]): CartesianPoint[] =>
-    indices.map((index) => this.getCartesianFromIndex(index));
+  getVisualization = (indices: ActualIndex[], mode: CircularVisMode): CartesianPoint[] => {
+    switch (mode) {
+      case CircularVisMode.Radial:
+        return indices.flatMap((index) => {
+          const point = this.getCartesianFromIndex(index);
+          return [this.center, point];
+        });
+      case CircularVisMode.Polygon:
+        return indices.map((index) => this.getCartesianFromIndex(index));
+      default:
+        return [];
+    }
+  };
 
   private getCartesianFromIndex(index: ActualIndex): CartesianPoint {
     const middleAngle = PolarMath.NoteIndexToMiddleAngle(index);

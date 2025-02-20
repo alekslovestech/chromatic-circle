@@ -1,6 +1,7 @@
 import { CartesianPoint } from "../../utils/Circular/PolarMath";
 import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 import { ixActualArray } from "../../types/IndexTypes";
+import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
 
 export class CircularVisIcons {
   readonly innerRadius: number;
@@ -29,17 +30,8 @@ export class CircularVisIcons {
     />
   );
 
-  renderRadialPoints = (strokeColor: string): JSX.Element => {
-    const points = this.visualizer.getRadialVisualization(ixActualArray([11, 3, 7]));
-    return this.renderPolygon(points, strokeColor);
-  };
-
-  renderPolygonPoints = (strokeColor: string): JSX.Element => {
-    const points = this.visualizer.getPolygonVisualization(ixActualArray([11, 3, 7]));
-    return this.renderPolygon(points, strokeColor);
-  };
-
-  private renderPolygon = (points: CartesianPoint[], strokeColor: string): JSX.Element => {
+  renderPoints = (mode: CircularVisMode, strokeColor: string): JSX.Element => {
+    const points = this.visualizer.getVisualization(ixActualArray([11, 3, 7]), mode);
     const pointsString = points.map((p) => `${p.x},${p.y}`).join(" ");
     return <polygon points={pointsString} fill="none" stroke={strokeColor} strokeWidth="2" />;
   };
