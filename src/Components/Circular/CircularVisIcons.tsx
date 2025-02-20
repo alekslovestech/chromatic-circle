@@ -1,59 +1,55 @@
-import { CartesianPoint, PolarMath } from "../../utils/PolarMath";
-import { SvgElements } from "./SVGElements";
+import { CartesianPoint } from "../../utils/PolarMath";
+import { NoteIndexVisualizer } from "./NoteIndexVisualizer";
+import { ixActualArray } from "../../types/IndexTypes";
 
 export class CircularVisIcons {
   readonly innerRadius: number;
   readonly circleDiameter: number;
   private circleRadius: number;
+  private center: CartesianPoint;
+  private readonly visualizer: NoteIndexVisualizer;
 
   constructor(circleRadius: number, innerRadius: number) {
     this.circleRadius = circleRadius;
     this.innerRadius = innerRadius;
     this.circleDiameter = 2 * this.circleRadius;
 
-    this.center = {
-      x: this.circleRadius,
-      y: this.circleRadius,
-    };
-    const angle0 = PolarMath.NoteIndexToMiddleAngle(11);
-    const angle1 = PolarMath.NoteIndexToMiddleAngle(3);
-    const angle2 = PolarMath.NoteIndexToMiddleAngle(7);
-    this.coor0 = this.getCartesianFromAngle(angle0);
-    this.coor1 = this.getCartesianFromAngle(angle1);
-    this.coor2 = this.getCartesianFromAngle(angle2);
+    this.center = { x: this.circleRadius, y: this.circleRadius };
+    this.visualizer = new NoteIndexVisualizer(innerRadius, this.center);
   }
 
-  private getCartesianFromAngle = (angle: number): CartesianPoint =>
-    PolarMath.getCartesianFromPolarWithOffset(this.center, this.innerRadius, angle, true);
-
   renderCircle = (strokeColor: string): JSX.Element => (
-    <SvgElements.circle
+    <circle
       cx={this.circleRadius}
       cy={this.circleRadius}
-      radius={this.innerRadius}
+      r={this.innerRadius}
       stroke={strokeColor}
+      fill="none"
       strokeWidth="1"
     />
   );
 
-  renderRadialPoints = (strokeColor: string): JSX.Element => (
-    <SvgElements.polygon
-      points={[this.center, this.coor0, this.center, this.coor1, this.center, this.coor2]}
-      stroke={strokeColor}
-      strokeWidth="2"
-    />
-  );
+  renderRadialPoints = (strokeColor: string): JSX.Element => {
+    const points = this.visualizer.getRadialVisualization(ixActualArray([11, 3, 7]));
+    return (
+      <polyline
+        points={points.map((p) => `${p.x},${p.y}`).join(" ")}
+        fill="none"
+        stroke={strokeColor}
+        strokeWidth="2"
+      />
+    );
+  };
 
-  renderPolygonPoints = (strokeColor: string): JSX.Element => (
-    <SvgElements.polygon
-      points={[this.coor0, this.coor1, this.coor2]}
-      stroke={strokeColor}
-      strokeWidth="2"
-    />
-  );
-
-  private center: CartesianPoint;
-  private coor0: CartesianPoint;
-  private coor1: CartesianPoint;
-  private coor2: CartesianPoint;
+  renderPolygonPoints = (strokeColor: string): JSX.Element => {
+    const points = this.visualizer.getPolygonVisualization(ixActualArray([11, 3, 7]));
+    return (
+      <polygon
+        points={points.map((p) => `${p.x},${p.y}`).join(" ")}
+        fill="none"
+        stroke={strokeColor}
+        strokeWidth="2"
+      />
+    );
+  };
 }

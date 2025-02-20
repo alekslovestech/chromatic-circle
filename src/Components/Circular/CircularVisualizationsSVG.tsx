@@ -3,6 +3,7 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { getComputedColor } from "../../utils/ColorUtils";
 import { PolarMath } from "../../utils/PolarMath";
 import { CircularVisMode } from "./CircularVisMode";
+import { NoteIndexVisualizer } from "./NoteIndexVisualizer";
 
 const STROKE_WIDTH = 6;
 const DOT_RADIUS = 6;
@@ -15,13 +16,27 @@ export class CircularVisualizations {
     if (selectedNoteIndices.length <= 1) return [];
 
     if (circularVisMode === CircularVisMode.None) return [];
-    const baseNoteDot = this.drawBaseNoteDot(selectedNoteIndices, innerRadius);
-    const visualizations =
-      circularVisMode === CircularVisMode.Radial
-        ? this.drawArrows(selectedNoteIndices, innerRadius)
-        : this.drawPolygon(selectedNoteIndices, innerRadius);
 
-    return [...visualizations, baseNoteDot];
+    const visualizer = new NoteIndexVisualizer(innerRadius);
+
+    const baseNoteDot = this.drawBaseNoteDot(selectedNoteIndices, innerRadius);
+    const polyPoints =
+      circularVisMode === CircularVisMode.Radial
+        ? visualizer.getRadialVisualization(selectedNoteIndices)
+        : visualizer.getPolygonVisualization(selectedNoteIndices);
+
+    return [
+      <polygon
+        key="circularVis"
+        points={polyPoints.map((p) => `${p.x},${p.y}`).join(" ")}
+        fill="none"
+        stroke={getComputedColor("--serenity-polygon-stroke")}
+        strokeWidth={STROKE_WIDTH}
+        strokeLinecap="round"
+        className="selected-notes-polygon"
+      />,
+      baseNoteDot,
+    ];
   }
 
   private static drawBaseNoteDot(
@@ -40,54 +55,8 @@ export class CircularVisualizations {
         fill={getComputedColor("--root-note-highlight")}
         stroke={getComputedColor("--serenity-polygon-stroke")}
         strokeWidth={1}
-        className="selected-note-line"
+        className="base-note-dot"
       />
     );
-  }
-
-  private static drawArrows(
-    selectedNoteIndices: ActualIndex[],
-    innerRadius: number,
-  ): JSX.Element[] {
-    return selectedNoteIndices.map((index, i) => {
-      const middleAngle = PolarMath.NoteIndexToMiddleAngle(index);
-      const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
-
-      return (
-        <path
-          key={i}
-          d={`M0,0 L${innerPoint.x},${innerPoint.y}`}
-          stroke={getComputedColor("--serenity-polygon-stroke")}
-          strokeWidth={STROKE_WIDTH}
-          strokeLinecap="round"
-          className="selected-note-line"
-        />
-      );
-    });
-  }
-
-  private static drawPolygon(
-    selectedNoteIndices: ActualIndex[],
-    innerRadius: number,
-  ): JSX.Element[] {
-    const points = selectedNoteIndices
-      .map((index) => {
-        const middleAngle = PolarMath.NoteIndexToMiddleAngle(index);
-        const point = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
-        return `${point.x},${point.y}`;
-      })
-      .join(" ");
-
-    return [
-      <polygon
-        key="polygon"
-        points={points}
-        fill="none"
-        stroke={getComputedColor("--serenity-polygon-stroke")}
-        strokeWidth={STROKE_WIDTH}
-        strokeLinecap="round"
-        className="selected-note-polygon"
-      />,
-    ];
   }
 }
