@@ -1,42 +1,60 @@
+import { ixScaleDegree, ScaleDegree } from "../types/IndexTypes";
 import { RomanNumeralString } from "../types/RomanTypes";
 
-export namespace RomanNumeralUtils {
-  export function getScaleDegree(roman: string): number {
+export class RomanNumeralUtils {
+  static fromRoman(roman: string): ScaleDegree {
     const normalized = roman.toUpperCase();
     switch (normalized) {
       case "I":
-        return 1;
+        return ixScaleDegree(1);
       case "II":
-        return 2;
+        return ixScaleDegree(2);
       case "III":
-        return 3;
+        return ixScaleDegree(3);
       case "IV":
-        return 4;
+        return ixScaleDegree(4);
       case "V":
-        return 5;
+        return ixScaleDegree(5);
       case "VI":
-        return 6;
+        return ixScaleDegree(6);
       case "VII":
-        return 7;
+        return ixScaleDegree(7);
       default:
-        return -1;
+        return ixScaleDegree(-1);
     }
   }
 
-  export function isLowercaseRomanNumeral(numeral: string): boolean {
+  static toRoman(scaleDegree: ScaleDegree): string {
+    switch (scaleDegree) {
+      case 1:
+        return "I";
+      case 2:
+        return "II";
+      case 3:
+        return "III";
+      case 4:
+        return "IV";
+      case 5:
+        return "V";
+      case 6:
+        return "VI";
+      case 7:
+        return "VII";
+      default:
+        return "Ø";
+    }
+  }
+
+  static isLowercaseRomanNumeral(numeral: string): boolean {
     return numeral.toLowerCase() === numeral;
   }
 
-  export function getScaleDegreeAsRomanString(
-    scaleDegree: number,
+  static getScaleDegreeAsRomanString(
+    scaleDegree: ScaleDegree,
     isLowercase: boolean = false,
   ): RomanNumeralString {
     const bigNumerals: RomanNumeralString[] = ["I", "II", "III", "IV", "V", "VI", "VII"];
     const smallNumerals: RomanNumeralString[] = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
-
-    if (scaleDegree < 1 || scaleDegree > 7) {
-      throw new Error("Invalid scale degree for Roman numeral");
-    }
 
     return isLowercase ? smallNumerals[scaleDegree - 1] : bigNumerals[scaleDegree - 1];
   }

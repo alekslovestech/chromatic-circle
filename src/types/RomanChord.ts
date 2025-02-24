@@ -1,14 +1,15 @@
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalSignForDisplay } from "./AccidentalType";
+import { ScaleDegree } from "./IndexTypes";
 import { ChordType } from "./NoteGroupingTypes";
 
 export class RomanChord {
-  scaleDegree: number;
+  scaleDegree: ScaleDegree;
   chordType: ChordType;
   accidental: AccidentalType;
   bassDegree: number | undefined;
   constructor(
-    scaleDegree: number,
+    scaleDegree: ScaleDegree,
     chordType: ChordType,
     accidental: AccidentalType = AccidentalType.None,
     bassDegree: number | undefined = undefined,

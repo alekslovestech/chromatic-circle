@@ -3,10 +3,10 @@ import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
-import { ixOffset, OffsetIndex } from "./IndexTypes";
+import { ixOffset, ixScaleDegree, OffsetIndex, ScaleDegree } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
-import { addChromatic } from "./ChromaticIndex";
+import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -62,15 +62,30 @@ export class RomanResolver {
     const parsedRoman = splitRomanString(romanString);
     const accidental: AccidentalType = getAccidentalType(parsedRoman.accidentalPrefix);
 
-    const ordinal = RomanNumeralUtils.getScaleDegree(parsedRoman.pureRoman);
+    const ordinal = RomanNumeralUtils.fromRoman(parsedRoman.pureRoman);
     const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(parsedRoman.pureRoman);
     const chordType = RomanResolver.determineChordType(isLowercase, parsedRoman.chordSuffix);
     const bassDegree = parsedRoman.bassRoman
-      ? RomanNumeralUtils.getScaleDegree(parsedRoman.bassRoman)
+      ? RomanNumeralUtils.fromRoman(parsedRoman.bassRoman)
       : undefined;
     if (chordType === ChordType.Unknown) {
       throw new Error(`Invalid roman notation ${romanString}`);
     }
     return new RomanChord(ordinal, chordType, accidental, bassDegree);
+  }
+
+  static getScaleDegreeFromNoteAndKey(noteName: string, key: MusicalKey): number {
+    const chromaticIndex = noteTextToIndex(noteName);
+    return RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, key);
+  }
+
+  static getScaleDegreeFromIndexAndKey(
+    chromaticIndex: ChromaticIndex,
+    key: MusicalKey,
+  ): ScaleDegree {
+    const scale = key.generateIndexArray();
+    const isDiatonic = scale.includes(chromaticIndex);
+    const scaleDegree = isDiatonic ? scale.indexOf(chromaticIndex) + 1 : -1;
+    return ixScaleDegree(scaleDegree);
   }
 }

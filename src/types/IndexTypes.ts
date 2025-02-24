@@ -9,6 +9,9 @@ export type OctaveOffset = Branded<number, "OctaveOffset">;
 
 export type InversionIndex = Branded<number, "InversionIndex">;
 
+// a number between 1 and 7, or -1 for unknown. 1:1 with roman numerals, but the latter is a string
+export type ScaleDegree = Branded<number, "ScaleDegree">;
+
 export function ixInversion(n: number): InversionIndex {
   if (n < 0 || n > 4 || !Number.isInteger(n)) throw new Error("Invalid InversionIndex");
   return n as InversionIndex;
@@ -35,6 +38,12 @@ export function ixOffsetArray(numbers: number[]): OffsetIndex[] {
 export function ixOctaveOffset(n: number): OctaveOffset {
   if (n < 0 || n > 1 || !Number.isInteger(n)) throw new Error("Invalid OctaveOffset");
   return n as OctaveOffset;
+}
+
+export function ixScaleDegree(n: number): ScaleDegree {
+  if ((n < 1 && n !== -1) || n > 7 || !Number.isInteger(n))
+    throw new Error("Invalid ScaleDegree=" + n);
+  return n as ScaleDegree;
 }
 
 export function chromaticToActual(
