@@ -89,6 +89,7 @@
 
 .viz-button {
   border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius:10%;
   background: white;
   cursor: pointer;
   padding: 0;
