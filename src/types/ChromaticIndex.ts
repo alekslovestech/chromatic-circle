@@ -4,7 +4,9 @@ type Branded<K, T> = K & { __brand: T };
 export type ChromaticIndex = Branded<number, "ChromaticIndex">;
 
 export const ixChromatic = (n: number): ChromaticIndex => {
-  if (n < 0 || n > TWELVE || !Number.isInteger(n)) throw new Error("Invalid ChromaticIndex");
+  if (n < 0 || n > TWELVE || !Number.isInteger(n)) {
+    throw new Error("Invalid ChromaticIndex " + n);
+  }
   return n as ChromaticIndex;
 };
 

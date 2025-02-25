@@ -25,6 +25,7 @@ export class NoteIndexVisualizer {
 
   private getCartesianFromIndex(index: ActualIndex): CartesianPoint {
     const middleAngle = PolarMath.NoteIndexToMiddleAngle(index);
-    return PolarMath.getCartesianFromPolarWithOffset(this.center, this.radius, middleAngle, true);
+    const cartPoint = PolarMath.getCartesianFromPolar(this.radius, middleAngle, true);
+    return { x: cartPoint.x + this.center.x, y: cartPoint.y + this.center.y };
   }
 }

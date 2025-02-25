@@ -33,6 +33,14 @@ export class MusicalKey {
     return new MusicalKey(newTonicString!, newMode);
   }
 
+  //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
+  getOppositeKey(): MusicalKey {
+    const newMode = this.mode === KeyType.Major ? KeyType.Minor : KeyType.Major;
+    const newKeyList = MusicalKeyUtil.getKeyList(newMode);
+    const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
+    return new MusicalKey(newTonicString!, newMode);
+  }
+
   generateIndexArray(): ChromaticIndex[] {
     const majorPattern: number[] = [0, 2, 4, 5, 7, 9, 11]; // Offsets for major scale
     const minorPattern: number[] = [0, 2, 3, 5, 7, 8, 10]; // Offsets for minor scale
