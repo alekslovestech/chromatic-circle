@@ -14,7 +14,7 @@ const MusicalKeySelector: React.FC = () => {
 
   const handleMajorToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    const newKey = selectedMusicalKey.getRelativeKey();
+    const newKey = selectedMusicalKey.getOppositeKey();
     console.log(newKey);
     setSelectedMusicalKey(newKey);
   };
