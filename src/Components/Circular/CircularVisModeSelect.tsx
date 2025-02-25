@@ -20,9 +20,7 @@ const CircularVisModeSelect: React.FC = () => {
     },
   ];
 
-  const getColor = (mode: CircularVisMode) => (circularVisMode === mode ? "white" : "black");
-
-  const visIcons = new CircularVisIcons(12, 11);
+  const visIcons = new CircularVisIcons(12, 10);
 
   return (
     <div className={`button-group ${selectedNoteIndices.length < 2 ? "invisible" : ""}`}>
@@ -42,8 +40,7 @@ const CircularVisModeSelect: React.FC = () => {
             fillOpacity="0.4"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {visIcons.renderCircle(getColor(mode))}
-            {mode !== CircularVisMode.None && visIcons.renderPoints(mode, getColor(mode))}
+            {visIcons.render(mode, circularVisMode)}
           </svg>
         </button>
       ))}
