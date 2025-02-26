@@ -37,7 +37,6 @@ const CircularVisModeSelect: React.FC = () => {
             width={visIcons.circleDiameter}
             height={visIcons.circleDiameter}
             viewBox={`0 0 ${visIcons.circleDiameter} ${visIcons.circleDiameter}`}
-            fillOpacity="0.4"
           >
             {visIcons.render(mode)}
           </svg>
