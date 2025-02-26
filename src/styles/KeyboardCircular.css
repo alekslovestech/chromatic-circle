@@ -112,6 +112,8 @@
   height: 40px;
   fill: black;
   stroke-width: 2px; 
+  position:relative;
+  z-index: 10;
 }
 
 .viz-button.selected {
