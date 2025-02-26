@@ -31,7 +31,6 @@ const CircularVisModeSelect: React.FC = () => {
           onClick={() => setCircularVisMode(mode)}
           aria-label={label}
           title={label}
-          style={{ zIndex: 10 }}
         >
           <svg
             width={visIcons.circleDiameter}

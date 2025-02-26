@@ -1,4 +1,4 @@
-import { ChromaticIndex, ixChromatic } from "../../types/ChromaticIndex";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { ActualIndex } from "../../types/IndexTypes";
 import { CircularVisMode } from "./CircularVisMode";
 import { PolarMath } from "./PolarMath";
