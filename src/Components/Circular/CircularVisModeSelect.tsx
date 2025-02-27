@@ -31,13 +31,11 @@ const CircularVisModeSelect: React.FC = () => {
           onClick={() => setCircularVisMode(mode)}
           aria-label={label}
           title={label}
-          style={{ zIndex: 10 }}
         >
           <svg
             width={visIcons.circleDiameter}
             height={visIcons.circleDiameter}
             viewBox={`0 0 ${visIcons.circleDiameter} ${visIcons.circleDiameter}`}
-            fillOpacity="0.4"
           >
             {visIcons.render(mode)}
           </svg>

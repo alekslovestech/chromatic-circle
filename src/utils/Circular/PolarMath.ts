@@ -1,3 +1,5 @@
+import { ChromaticIndex } from "../../types/ChromaticIndex";
+import { ActualIndex } from "../../types/IndexTypes";
 import { TWELVE } from "../../types/NoteConstants";
 
 const TWO_PI = 2 * Math.PI;
@@ -22,11 +24,11 @@ export class PolarMath {
     return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 };
   }
 
-  static NoteIndexToMiddleAngle(index: number): number {
+  static NoteIndexToMiddleAngle(index: ChromaticIndex | ActualIndex): number {
     return INIT_ANGLE + index * FULL_KEY_ANGLE + HALF_KEY_ANGLE;
   }
 
-  static NoteIndexToAngleRange(index: number) {
+  static NoteIndexToAngleRange(index: ChromaticIndex | ActualIndex) {
     const startAngle = INIT_ANGLE + index * FULL_KEY_ANGLE;
     const endAngle = startAngle + FULL_KEY_ANGLE;
     return { startAngle, endAngle };
