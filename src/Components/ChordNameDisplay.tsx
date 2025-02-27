@@ -34,13 +34,7 @@ const ChordNameDisplay: React.FC = () => {
 
   return (
     <div className="chord-display">
-      <div
-        className="chord-name-container"
-        onClick={toggleChordDisplayMode}
-        style={{ cursor: "pointer" }}
-      >
-        {renderNoteGrouping()}
-      </div>
+      <div onClick={toggleChordDisplayMode}>{renderNoteGrouping()}</div>
     </div>
   );
 };

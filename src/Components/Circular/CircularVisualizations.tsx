@@ -1,11 +1,10 @@
 import React from "react";
 import { ActualIndex } from "../../types/IndexTypes";
-import { getComputedColor } from "../../utils/ColorUtils";
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
 import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
+import "../../styles/CircularViz.css";
 
-const STROKE_WIDTH = 6;
 const DOT_RADIUS = 6;
 export class CircularVisualizations {
   static draw(
@@ -24,13 +23,9 @@ export class CircularVisualizations {
 
     return [
       <polygon
+        className="selected-notes-polygon"
         key="circularVis"
         points={polyPoints.map((p) => `${p.x},${p.y}`).join(" ")}
-        fill="none"
-        stroke={getComputedColor("--serenity-polygon-stroke")}
-        strokeWidth={STROKE_WIDTH}
-        strokeLinecap="round"
-        className="selected-notes-polygon"
       />,
       baseNoteDot,
     ];
@@ -45,14 +40,11 @@ export class CircularVisualizations {
     const innerPoint = PolarMath.getCartesianFromPolar(innerRadius, middleAngle, true);
     return (
       <circle
+        className="base-note-dot"
         key="base-note"
         cx={innerPoint.x}
         cy={innerPoint.y}
         r={DOT_RADIUS}
-        fill={getComputedColor("--root-note-highlight")}
-        stroke={getComputedColor("--serenity-polygon-stroke")}
-        strokeWidth={1}
-        className="base-note-dot"
       />
     );
   }
