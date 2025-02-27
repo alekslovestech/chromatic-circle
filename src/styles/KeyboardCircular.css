@@ -89,6 +89,8 @@
 /* Text Styles */
 .pie-slice-key text {
   font-size: 1.2em;
+  text-anchor: middle;
+  dominant-baseline: middle;
   font-weight: bold;
   pointer-events: none;
 }

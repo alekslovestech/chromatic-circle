@@ -67,13 +67,7 @@ const PieSlice: React.FC<{
       <g id={id} className={classNames.join(" ")} onClick={onClick}>
         {pathElement}
         {showText && (
-          <text
-            x={textPoint.x}
-            y={textPoint.y}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="6px"
-          >
+          <text x={textPoint.x} y={textPoint.y}>
             {formatNoteNameForDisplay(chromaticIndex, selectedMusicalKey.getDefaultAccidental())}
           </text>
         )}
