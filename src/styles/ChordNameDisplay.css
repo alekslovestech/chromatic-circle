@@ -10,33 +10,19 @@
 }
 
 .chord-name-description,
-.chord-name-value,
-.chord-notes {
+.chord-name-value {
   text-align: center;
   width: 100%;
 }
 
 .chord-name-description {
-  font-size: 16px;
+  font-size: 1em;
   margin: 0;
 }
 
 .chord-name-value {
-  font-size: 24px;
+  font-size: 2.0em;
   font-weight: bold;
   margin: 0;
 }
 
-.chord-notes {
-  font-size: 20px;
-  margin: 0;
-}
-
-.chord-display-mode-toggle {
-  font-size: 12px;
-  background-color: grey;
-  color: white;
-  border: 2px solid white;
-  border-radius: 5px;
-  padding: 0;
-}

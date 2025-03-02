@@ -20,7 +20,7 @@ const MusicalKeySelector: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+    <div className="key-selector">
       <select onChange={handleKeyChange} value={selectedMusicalKey.tonicString}>
         {keys.map((key) => (
           <option key={key} value={key}>

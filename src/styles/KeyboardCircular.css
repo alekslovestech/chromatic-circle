@@ -44,11 +44,18 @@
   padding: 3px;
   margin: 5px 0 0;
   z-index: 10;
-  font-style: italic;
+  font-style: bold;
   font-size: 0.8em;
   border-radius: 10px;
   background-color: var(--serenity-key-white);
   color: var(--serenity-note-text-on-white);
+}
+
+.key-selector{
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Pie Slice Keys */
@@ -102,6 +109,4 @@
 .pie-slice-key.black text {
   fill: var(--serenity-note-text-on-black);
 }
-
-
 
