@@ -16,12 +16,12 @@
 }
 
 .chord-name-description {
-  font-size: 1em;
+  font-size: 1rem;
   margin: 0;
 }
 
 .chord-name-value {
-  font-size: 2.0em;
+  font-size: 2rem;
   font-weight: bold;
   margin: 0;
 }

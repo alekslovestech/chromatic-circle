@@ -45,14 +45,14 @@
   margin: 5px 0 0;
   z-index: 10;
   font-style: bold;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   border-radius: 10px;
   background-color: var(--serenity-key-white);
   color: var(--serenity-note-text-on-white);
 }
 
 .key-selector{
-  font-size: 0.8em;
+  font-size: 0.8rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -95,7 +95,7 @@
 
 /* Text Styles */
 .pie-slice-key text {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   text-anchor: middle;
   dominant-baseline: middle;
   font-weight: bold;
