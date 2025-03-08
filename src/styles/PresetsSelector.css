@@ -30,23 +30,23 @@
 /*color schemes (common to both)*/
 .preset-button,
 .inversion-button {
-    background-color: #e0e0e0;
-    color: var(--serenity-dark-grey);
-    border: 1px solid var(--key-border);
+    background-color: var(--button-background-default);
+    color: var(--button-text-default);
+    border: 1px solid var(--button-border-default);
     font-weight: 500;
     font-size: 0.8rem;
 }
 
 .preset-button:hover,
 .inversion-button:hover {
-    background: #d6d6d6; 
+    background: var(--button-background-hover);
 }
 
 .preset-button.selected,
 .inversion-button.selected {
-    background-color: #598abb;
-    color: #ffffff;
-    border: 1px solid #3a8dcc;   
+    background-color: var(--button-background-selected);
+    color: var(--button-text-selected);
+    border: 1px solid var(--button-border-selected);
 }
 
 /*formatting for the preset buttons*/
