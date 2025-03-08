@@ -85,4 +85,18 @@ export class IndexUtils {
     updatedIndices = updatedIndices.sort((a, b) => a - b);
     return updatedIndices;
   };
+
+  /**
+   * Shifts all indices in the array by a given amount, wrapping around at 12
+   * @param indices Array of indices to shift
+   * @param shiftAmount Amount to shift by (positive or negative)
+   * @returns New array with shifted indices
+   */
+  static shiftIndices = (indices: ActualIndex[], shiftAmount: number): ActualIndex[] => {
+    const newIndices = indices.map((index) => (index + shiftAmount) as ActualIndex);
+    // Step 3: Check if all notes are now within range
+    if (newIndices.every((note) => this.isNoteInRange(note))) return ixActualArray(newIndices);
+    // Step 4: If not, wrap around
+    return this.fitChordToAbsoluteRange(newIndices);
+  };
 }

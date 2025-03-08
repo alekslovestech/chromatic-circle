@@ -3,7 +3,7 @@ import { useNotes } from "./NotesContext";
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { formatForDisplay } from "../utils/NoteUtils";
 
-const MusicalKeySelector: React.FC = () => {
+export const MusicalKeySelector: React.FC = () => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useNotes();
   const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.mode);
 
@@ -34,5 +34,3 @@ const MusicalKeySelector: React.FC = () => {
     </div>
   );
 };
-
-export default MusicalKeySelector;
