@@ -2,8 +2,8 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { formatForDisplay } from "../utils/NoteUtils";
-
-const MusicalKeySelector: React.FC = () => {
+import "../styles/Settings.css";
+export const MusicalKeySelector: React.FC = () => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useNotes();
   const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.mode);
 
@@ -20,7 +20,7 @@ const MusicalKeySelector: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+    <div className="key-selector">
       <select onChange={handleKeyChange} value={selectedMusicalKey.tonicString}>
         {keys.map((key) => (
           <option key={key} value={key}>
@@ -34,5 +34,3 @@ const MusicalKeySelector: React.FC = () => {
     </div>
   );
 };
-
-export default MusicalKeySelector;

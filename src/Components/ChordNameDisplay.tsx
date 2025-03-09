@@ -22,25 +22,19 @@ const ChordNameDisplay: React.FC = () => {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
     const noteGrouping = chordMatch?.definition.getNoteGroupingType();
     const chordName = chordMatch?.deriveChordName(chordDisplayMode, selectedMusicalKey);
-
+    const noteGroupingString = noteGrouping?.toString() || "";
     return (
       <div className="chord-name-description">
-        <span>{noteGrouping?.toString()}:</span>
+        <span>{noteGroupingString ? `${noteGroupingString}:` : ""}</span>
         <br />
-        <span className="chord-name-value">{chordName || "Unknown"}</span>
+        <span className="chord-name-value">{chordName || "?"}</span>
       </div>
     );
   };
 
   return (
     <div className="chord-display">
-      <div
-        className="chord-name-container"
-        onClick={toggleChordDisplayMode}
-        style={{ cursor: "pointer" }}
-      >
-        {renderNoteGrouping()}
-      </div>
+      <div onClick={toggleChordDisplayMode}>{renderNoteGrouping()}</div>
     </div>
   );
 };

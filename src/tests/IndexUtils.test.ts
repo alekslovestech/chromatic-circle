@@ -6,7 +6,6 @@ import {
   ixActualArray,
   ixInversion,
   ixOctaveOffset,
-  ixOffsetArray,
 } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 import { isBlackKey } from "../utils/KeyboardUtils";
@@ -31,40 +30,50 @@ describe("IndexUtils", () => {
   });
 
   describe("rootNoteAtInversion", () => {
+    function verifyRootNoteAtInversion(
+      indices: number[],
+      inversionIndex: number,
+      expectedRootNote: number,
+    ) {
+      expect(
+        IndexUtils.rootNoteAtInversion(ixActualArray(indices), ixInversion(inversionIndex)),
+      ).toEqual(expectedRootNote);
+    }
+
     it("should return the root note when inversionIndex is undefined", () => {
-      expect(IndexUtils.rootNoteAtInversion(ixActualArray([0, 4, 7]), ixInversion(0))).toBe(0);
-      expect(IndexUtils.rootNoteAtInversion(ixActualArray([2, 6, 9]), ixInversion(0))).toBe(2);
+      verifyRootNoteAtInversion([0, 4, 7], 0, 0);
+      verifyRootNoteAtInversion([2, 6, 9], 0, 2);
     });
 
     it("should return the correct root note for different inversions", () => {
-      expect(IndexUtils.rootNoteAtInversion(ixActualArray([0, 4, 7]), ixInversion(0))).toBe(0);
-      expect(IndexUtils.rootNoteAtInversion(ixActualArray([0, 4, 7]), ixInversion(1))).toBe(7);
-      expect(IndexUtils.rootNoteAtInversion(ixActualArray([0, 4, 7]), ixInversion(2))).toBe(4);
+      verifyRootNoteAtInversion([0, 4, 7], 0, 0);
+      verifyRootNoteAtInversion([0, 4, 7], 1, 7);
+      verifyRootNoteAtInversion([0, 4, 7], 2, 4);
     });
   });
 
   describe("firstNoteToLast", () => {
     it("should move the first note to the end and add TWELVE", () => {
-      expect(IndexUtils.firstNoteToLast(ixOffsetArray([0, 4, 7]))).toEqual([-8, -5, 0]);
-      expect(IndexUtils.firstNoteToLast(ixOffsetArray([2, 6, 9]))).toEqual([-6, -3, 2]);
-      expect(IndexUtils.firstNoteToLast(ixOffsetArray([-1, 3, 6]))).toEqual([3, 6, 11]);
+      expect(IndexUtils.firstNoteToLast([0, 4, 7])).toEqual([-8, -5, 0]);
+      expect(IndexUtils.firstNoteToLast([2, 6, 9])).toEqual([-6, -3, 2]);
+      expect(IndexUtils.firstNoteToLast([-1, 3, 6])).toEqual([3, 6, 11]);
     });
   });
 
   describe("areIndicesEqual", () => {
     it("should return true for identical arrays", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 7])).toBe(true);
-      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 6, 9])).toBe(true);
+      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 7])).toBeTruthy();
+      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 6, 9])).toBeTruthy();
     });
 
     it("should return false for arrays with different lengths", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4])).toBe(false);
-      expect(IndexUtils.areIndicesEqual([0, 4], [0, 4, 7])).toBe(false);
+      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4])).toBeFalsy();
+      expect(IndexUtils.areIndicesEqual([0, 4], [0, 4, 7])).toBeFalsy();
     });
 
     it("should return false for arrays with different elements", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 8])).toBe(false);
-      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 5, 9])).toBe(false);
+      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 8])).toBeFalsy();
+      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 5, 9])).toBeFalsy();
     });
   });
 
@@ -100,21 +109,35 @@ describe("IndexUtils", () => {
 
   describe("isBlackKey", () => {
     it("should return true for black keys", () => {
-      expect(isBlackKey(ixActual(1))).toBe(true);
-      expect(isBlackKey(ixActual(3))).toBe(true);
-      expect(isBlackKey(ixActual(6))).toBe(true);
-      expect(isBlackKey(ixActual(8))).toBe(true);
-      expect(isBlackKey(ixActual(10))).toBe(true);
+      expect(isBlackKey(ixActual(1))).toBeTruthy();
+      expect(isBlackKey(ixActual(3))).toBeTruthy();
+      expect(isBlackKey(ixActual(6))).toBeTruthy();
+      expect(isBlackKey(ixActual(8))).toBeTruthy();
+      expect(isBlackKey(ixActual(10))).toBeTruthy();
     });
 
     it("should return false for white keys", () => {
-      expect(isBlackKey(ixActual(0))).toBe(false);
-      expect(isBlackKey(ixActual(2))).toBe(false);
-      expect(isBlackKey(ixActual(4))).toBe(false);
-      expect(isBlackKey(ixActual(5))).toBe(false);
-      expect(isBlackKey(ixActual(7))).toBe(false);
-      expect(isBlackKey(ixActual(9))).toBe(false);
-      expect(isBlackKey(ixActual(11))).toBe(false);
+      expect(isBlackKey(ixActual(0))).toBeFalsy();
+      expect(isBlackKey(ixActual(2))).toBeFalsy();
+      expect(isBlackKey(ixActual(4))).toBeFalsy();
+      expect(isBlackKey(ixActual(5))).toBeFalsy();
+      expect(isBlackKey(ixActual(7))).toBeFalsy();
+      expect(isBlackKey(ixActual(9))).toBeFalsy();
+      expect(isBlackKey(ixActual(11))).toBeFalsy();
+    });
+  });
+
+  describe("shiftIndices", () => {
+    it("should shift indices by a given amount", () => {
+      expect(IndexUtils.shiftIndices([0, 4, 7], 1)).toEqual([1, 5, 8]);
+      expect(IndexUtils.shiftIndices([0, 4, 7], -1)).toEqual([11, 15, 18]);
+    });
+    it("should handle shifting 0 down by -1", () => {
+      expect(IndexUtils.shiftIndices([0], -1)).toEqual([11]);
+    });
+
+    it("should handle shifting 23 up by 1", () => {
+      expect(IndexUtils.shiftIndices([23], 1)).toEqual([12]);
     });
   });
 });

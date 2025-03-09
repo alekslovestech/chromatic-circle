@@ -4,6 +4,7 @@ import {
   InversionIndex,
   OffsetIndex,
   ixActual,
+  ixActualArray,
 } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
@@ -97,6 +98,6 @@ export class ChordAndIntervalManager {
   ): ActualIndex[] => {
     const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-    return IndexUtils.fitChordToAbsoluteRange(newNotes);
+    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(newNotes));
   };
 }

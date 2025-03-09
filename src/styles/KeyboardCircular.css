@@ -37,19 +37,6 @@
   justify-content: space-between;
 }
 
-#major-minor-toggle {
-  border: 1px solid var(--serenity-border-color);
-  background: none;
-  cursor: pointer;
-  padding: 3px;
-  margin: 5px 0 0;
-  z-index: 10;
-  font-style: italic;
-  font-size: 0.8em;
-  border-radius: 10px;
-  background-color: var(--serenity-key-white);
-  color: var(--serenity-note-text-on-white);
-}
 
 /* Pie Slice Keys */
 .pie-slice-key {
@@ -88,7 +75,7 @@
 
 /* Text Styles */
 .pie-slice-key text {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   text-anchor: middle;
   dominant-baseline: middle;
   font-weight: bold;
@@ -102,40 +89,4 @@
 .pie-slice-key.black text {
   fill: var(--serenity-note-text-on-black);
 }
-
-.viz-button {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius:10%;
-  background: white;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  width: 40px;
-  height: 40px;
-  fill: black;
-  stroke-width: 2px; 
-  position:relative;
-  z-index: 10;
-}
-
-.viz-button.selected {
-  border: 1px;
-  background: var(--serenity-icon-selected-background);
-  fill: white;
-}
-
-.viz-button svg {
-  stroke: black;
-  stroke-width: 3px;
-  stroke-opacity: 0.4;
-  fill-opacity: 0.4;
-  fill: none;
-}
-
-.viz-button.selected svg {
-  stroke: white;
-  stroke-opacity: 1;
-  fill-opacity: 1;
-}
-
 
