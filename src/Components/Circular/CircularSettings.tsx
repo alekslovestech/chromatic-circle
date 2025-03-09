@@ -2,16 +2,20 @@ import React from "react";
 import CircularVisModeSelect from "./CircularVisModeSelect";
 import { MusicalKeySelector } from "../MusicalKeySelector";
 import { TransposeWidget } from "../TransposeWidget";
+import "../../styles/CircularSettings.css";
 
-export const CircularTopBar: React.FC = () => {
+import { ChordNameDisplay } from "../ChordNameDisplay";
+
+export const CircularSettings: React.FC = () => {
   return (
-    <div id="keyboardcircular-topbar">
-      {/* <AccidentalToggle /> */}
-      <MusicalKeySelector />
+    <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
+        <MusicalKeySelector />
+
         <TransposeWidget />
       </div>
+      <ChordNameDisplay />
     </div>
   );
 };

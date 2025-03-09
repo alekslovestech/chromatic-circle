@@ -1,7 +1,7 @@
 import { useNotes } from "./NotesContext";
 import { IndexUtils } from "../utils/IndexUtils";
 import { ixActualArray } from "../types/IndexTypes";
-import "../styles/Settings.css";
+import "../styles/CircularSettings.css";
 
 export const TransposeWidget: React.FC = () => {
   const { selectedNoteIndices, setSelectedNoteIndices } = useNotes();
@@ -14,7 +14,7 @@ export const TransposeWidget: React.FC = () => {
   return (
     <div>
       <div className="transpose-buttons-container">
-        Transpose
+        {/* Transpose */}
         <button className="transpose-button" onClick={() => handleTranspose(1)}>
           ↑♫↑
         </button>

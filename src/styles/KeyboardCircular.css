@@ -17,26 +17,6 @@
   align-items: center;
 }
 
-/* Top Bar */
-#keyboardcircular-topbar {
-  /* Display and Box Model */
-  display: grid;
-  height: 40px !important;
-  min-height: 40px;
-  max-height: 40px;
-  padding: 0.5rem;
-  box-sizing: border-box;
-
-  /* Grid Item */
-  grid-area: topbar;
-
-  /* Grid Container */
-  grid-template-columns: 1fr auto;
-  gap: 0;
-  align-items: center;
-  justify-content: space-between;
-}
-
 
 /* Pie Slice Keys */
 .pie-slice-key {
