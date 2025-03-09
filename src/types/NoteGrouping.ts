@@ -22,7 +22,7 @@ export class NoteGrouping {
     const inversions: OffsetIndex[][] = [this.offsets];
     let currentInversion = [...this.offsets];
     for (let i = 1; i < this.offsets.length; i++) {
-      let newInversion = IndexUtils.firstNoteToLast(currentInversion);
+      let newInversion = ixOffsetArray(IndexUtils.firstNoteToLast(currentInversion));
 
       inversions.push(newInversion);
       currentInversion = newInversion;

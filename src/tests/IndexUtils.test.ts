@@ -117,4 +117,18 @@ describe("IndexUtils", () => {
       expect(isBlackKey(ixActual(11))).toBe(false);
     });
   });
+
+  describe("shiftIndices", () => {
+    it("should shift indices by a given amount", () => {
+      expect(IndexUtils.shiftIndices([0, 4, 7], 1)).toEqual([1, 5, 8]);
+      expect(IndexUtils.shiftIndices([0, 4, 7], -1)).toEqual([11, 15, 18]);
+    });
+    it("should handle shifting 0 down by -1", () => {
+      expect(IndexUtils.shiftIndices([0], -1)).toEqual([11]);
+    });
+
+    it("should handle shifting 23 up by 1", () => {
+      expect(IndexUtils.shiftIndices([23], 1)).toEqual([12]);
+    });
+  });
 });
