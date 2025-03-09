@@ -16,10 +16,10 @@ export const TransposeWidget: React.FC = () => {
       <div className="transpose-buttons-container">
         Transpose
         <button className="transpose-button" onClick={() => handleTranspose(1)}>
-          +1↑
+          ↑♫↑
         </button>
         <button className="transpose-button" onClick={() => handleTranspose(-1)}>
-          -1↓
+          ↓♫↓
         </button>
       </div>
     </div>
