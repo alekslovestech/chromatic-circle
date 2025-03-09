@@ -23,7 +23,7 @@
   font-size: 0.8rem;
   white-space: nowrap;
 
-  justify-content: center; /* Center text horizontally */
+  justify-content: center; 
 
   flex-shrink: 0;
 }
@@ -33,10 +33,8 @@
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: #666;
-  flex-shrink: 0;    /* Prevent title from shrinking */
+  flex-shrink: 0;    
 }
-
-
 
 .mode-button-container {
   width: 100%;

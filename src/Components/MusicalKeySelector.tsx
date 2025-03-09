@@ -2,7 +2,7 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { formatForDisplay } from "../utils/NoteUtils";
-
+import "../styles/Settings.css";
 export const MusicalKeySelector: React.FC = () => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useNotes();
   const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.mode);

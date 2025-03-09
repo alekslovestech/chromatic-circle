@@ -1,0 +1,42 @@
+
+#major-minor-toggle {
+    border: 1px solid var(--toggle-button-border); 
+    background: none;
+    cursor: pointer;
+    padding: 3px;
+    margin: 5px 0 0;
+    z-index: 10;
+    font-style: bold;
+    font-size: 0.8rem;
+    border-radius: 10px;
+    background-color: var(--toggle-button-background);
+    color: var(--toggle-button-text);
+  }
+  
+  .key-selector {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .transpose-buttons-container {
+    height: 100%;
+    display: flex;
+    font-size: 0.6rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .transpose-button {
+    border: 1px solid var(--toggle-button-border);
+    font-size: 0.6rem;
+    width: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 10;
+  }

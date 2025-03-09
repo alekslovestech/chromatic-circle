@@ -8,8 +8,10 @@ export const CircularTopBar: React.FC = () => {
     <div id="keyboardcircular-topbar">
       {/* <AccidentalToggle /> */}
       <MusicalKeySelector />
-      <TransposeWidget />
-      <CircularVisModeSelect />
+      <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+        <CircularVisModeSelect />
+        <TransposeWidget />
+      </div>
     </div>
   );
 };
