@@ -31,12 +31,12 @@
 
   .transpose-button {
     border: 1px solid var(--toggle-button-border);
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     width: 2rem;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-self: center;
     z-index: 10;
   }
