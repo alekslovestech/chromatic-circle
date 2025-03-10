@@ -15,11 +15,9 @@ const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
 
+  const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   return (
-    <svg
-      viewBox={`-${MAX_RADIUS} -${MAX_RADIUS} ${MAX_RADIUS * 2} ${MAX_RADIUS * 2}`}
-      className="svg-container"
-    >
+    <svg viewBox={coords.join(" ")} className="svg-container">
       {Array.from({ length: TWELVE }).map((_, index) => (
         <PieSlice
           key={index}

@@ -4,7 +4,7 @@ import "../styles/ChordNameDisplay.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ChordDisplayMode } from "../types/ChordDisplayMode";
 
-const ChordNameDisplay: React.FC = () => {
+export const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey, chordDisplayMode, setChordDisplayMode } =
     useNotes();
 
@@ -38,5 +38,3 @@ const ChordNameDisplay: React.FC = () => {
     </div>
   );
 };
-
-export default ChordNameDisplay;

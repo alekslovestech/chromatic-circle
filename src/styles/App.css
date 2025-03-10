@@ -67,10 +67,8 @@ body {
   grid-area: circular;
   display: grid;
   grid-template-areas:
-    "topbar topbar"
-    "circular-keyboard sidebar";
-  grid-template-columns: 1fr 100px;
-  grid-template-rows: min-content 1fr;
+  "circular-keyboard sidebar";
+  grid-template-columns: 200px 1fr;
   position: relative;
   padding: 0.5rem;
   overflow: hidden;

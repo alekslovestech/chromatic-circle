@@ -2,14 +2,12 @@ import "./styles/App.css";
 import { NotesProvider } from "./Components/NotesContext";
 import KeyboardLinear from "./Components/KeyboardLinear";
 import StaffRenderer from "./Components/StaffRenderer";
-import ChordDisplay from "./Components/ChordNameDisplay";
 import AudioPlayer from "./Components/AudioPlayer";
 import KeyboardCircular from "./Components/Circular/KeyboardCircular";
-import { CircularTopBar } from "./Components/Circular/CircularTopBar";
+import { CircularSettings } from "./Components/Circular/CircularSettings";
 
 import React from "react";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
-
 const isLogo = process.env.REACT_APP_IS_LOGO === "true";
 
 const App: React.FC = () => {
@@ -30,9 +28,8 @@ const App: React.FC = () => {
                 <KeyboardCircular isLogo={true} />
               ) : (
                 <>
-                  <CircularTopBar />
                   <KeyboardCircular />
-                  <ChordDisplay />
+                  <CircularSettings />
                 </>
               )}
             </div>

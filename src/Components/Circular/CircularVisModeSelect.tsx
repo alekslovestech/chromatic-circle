@@ -23,7 +23,7 @@ const CircularVisModeSelect: React.FC = () => {
   const visIcons = new CircularVisIcons(12, 10);
 
   return (
-    <div className={`button-group ${selectedNoteIndices.length < 2 ? "invisible" : ""}`}>
+    <div className={`viz-button-group ${selectedNoteIndices.length < 2 ? "invisible" : ""}`}>
       {visList.map(({ mode, label }) => (
         <button
           key={mode}
