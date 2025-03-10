@@ -7,7 +7,7 @@ import PieSlice from "./PieSlice";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
 
-export const MAX_RADIUS = 100;
+const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
