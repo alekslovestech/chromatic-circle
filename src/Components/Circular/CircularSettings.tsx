@@ -11,11 +11,12 @@ export const CircularSettings: React.FC = () => {
     <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
-        <MusicalKeySelector />
-
-        <TransposeWidget />
+        <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
+          <MusicalKeySelector />
+          <TransposeWidget />
+        </div>
+        <ChordNameDisplay />
       </div>
-      <ChordNameDisplay />
     </div>
   );
 };

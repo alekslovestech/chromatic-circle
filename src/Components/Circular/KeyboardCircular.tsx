@@ -7,7 +7,7 @@ import PieSlice from "./PieSlice";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
 
-const MAX_RADIUS = 100;
+export const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
@@ -15,11 +15,9 @@ const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, circularVisMode } = useNotes();
 
+  const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   return (
-    <svg
-      viewBox={`-${MAX_RADIUS} -${MAX_RADIUS} ${MAX_RADIUS * 2} ${MAX_RADIUS * 2}`}
-      className="svg-container"
-    >
+    <svg viewBox={coords.join(" ")} className="svg-container">
       {Array.from({ length: TWELVE }).map((_, index) => (
         <PieSlice
           key={index}
