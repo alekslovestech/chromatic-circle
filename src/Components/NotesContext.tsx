@@ -13,6 +13,7 @@ interface NotesContextType {
   selectedChordType: NoteGroupingId;
   selectedInversionIndex: InversionIndex;
   chordDisplayMode: ChordDisplayMode;
+  monochromeMode: boolean;
   circularVisMode: CircularVisMode;
   selectedMusicalKey: MusicalKey;
   setInputMode: (mode: InputMode) => void;
@@ -20,6 +21,7 @@ interface NotesContextType {
   setSelectedChordType: (type: NoteGroupingId) => void;
   setSelectedInversionIndex: (index: InversionIndex) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
+  setMonochromeMode: (mode: boolean) => void;
   setCircularVisMode: (mode: CircularVisMode) => void;
   setSelectedMusicalKey: (key: MusicalKey) => void;
 }
@@ -38,6 +40,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
+  const [monochromeMode, setMonochromeMode] = useState<boolean>(false);
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
   const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
     MusicalKeyUtil.defaultMusicalKey,
@@ -93,6 +96,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     selectedChordType,
     selectedInversionIndex,
     chordDisplayMode,
+    monochromeMode,
     circularVisMode,
     selectedMusicalKey,
     setInputMode: handleInputModeChange,
@@ -100,6 +104,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setSelectedChordType,
     setSelectedInversionIndex,
     setChordDisplayMode,
+    setMonochromeMode,
     setCircularVisMode,
     setSelectedMusicalKey,
   };

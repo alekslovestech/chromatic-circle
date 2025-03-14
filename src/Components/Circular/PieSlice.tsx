@@ -41,7 +41,7 @@ const PieSlice: React.FC<{
   onClick: () => void;
   isLogo: boolean;
 }> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
-  const { selectedMusicalKey, selectedNoteIndices } = useNotes();
+  const { selectedMusicalKey, selectedNoteIndices, monochromeMode } = useNotes();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
@@ -49,7 +49,7 @@ const PieSlice: React.FC<{
     innerRadius * ROMAN_POINT_COEFFICIENT,
     middleAngle,
   );
-  const blackWhiteString = getBlackWhiteString(chromaticIndex);
+  const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
   const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
 
