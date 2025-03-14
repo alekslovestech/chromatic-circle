@@ -1,5 +1,6 @@
 import React from "react";
-import CircularVisModeSelect from "./CircularVisModeSelect";
+
+import { CircularVisModeSelect } from "./CircularVisModeSelect";
 import { MusicalKeySelector } from "../MusicalKeySelector";
 import { TransposeWidget } from "../TransposeWidget";
 import "../../styles/CircularSettings.css";

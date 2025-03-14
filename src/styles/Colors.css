@@ -59,6 +59,7 @@
   /* Visualization Colors */
   --viz-button-background-default: white;
   --viz-button-background-selected: var(--serenity-icon-selected-background);
+  --viz-button-background-disabled: lightgray;
   --viz-button-border-default: rgba(0, 0, 0, 0.3);
   --viz-button-stroke-default: rgba(0, 0, 0, 0.4);
   --viz-button-fill-default: none;

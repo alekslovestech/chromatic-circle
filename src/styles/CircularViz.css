@@ -23,6 +23,12 @@
     background: var(--viz-button-background-selected);
     fill: white;
 }
+
+.viz-button.disabled {
+    opacity: 0.5;
+    background: var(--viz-button-background-disabled);
+    cursor: not-allowed;
+}
   
 .viz-button svg {
     stroke: var(--viz-button-stroke-default);
