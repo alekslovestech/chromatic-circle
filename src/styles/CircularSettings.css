@@ -15,7 +15,18 @@
     align-items: center;
     justify-content: space-between;
 }
-  
+
+.monochrome-mode-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.monochrome-mode-label {
+    margin-top: -1px;
+    font-size: 0.6rem;
+}
+
 #major-minor-toggle {
     border: 1px solid var(--toggle-button-border); 
     background-color: var(--toggle-button-background);
