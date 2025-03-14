@@ -38,7 +38,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
-  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.Radial);
+  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
   const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
     MusicalKeyUtil.defaultMusicalKey,
   );
