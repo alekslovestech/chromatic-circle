@@ -7,6 +7,7 @@ import "../../styles/CircularSettings.css";
 
 import { ChordNameDisplay } from "../ChordNameDisplay";
 import { MonochromeModeToggle } from "./MonochromeModeToggle";
+import { ClearButton } from "./ClearButton";
 
 export const CircularSettings: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ export const CircularSettings: React.FC = () => {
           <TransposeWidget />
         </div>
         <MonochromeModeToggle />
+        <ClearButton />
         <ChordNameDisplay />
       </div>
     </div>

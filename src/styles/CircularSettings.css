@@ -27,6 +27,16 @@
     font-size: 0.6rem;
 }
 
+.clear-button {
+  font-size: 0.6rem;
+  min-width: 50px;
+  max-width: 100px;
+  border-radius: 5px;
+  border: 1px solid var(--toggle-button-border);
+  background-color: var(--toggle-button-background);
+}
+
+
 #major-minor-toggle {
     border: 1px solid var(--toggle-button-border); 
     background-color: var(--toggle-button-background);
