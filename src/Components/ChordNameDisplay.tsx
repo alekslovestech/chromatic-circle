@@ -25,8 +25,7 @@ export const ChordNameDisplay: React.FC = () => {
     const noteGroupingString = noteGrouping?.toString() || "";
     return (
       <div className="chord-name-description">
-        <span>{noteGroupingString ? `${noteGroupingString}:` : ""}</span>
-        <br />
+        <span>{noteGroupingString ? `${noteGroupingString}: ` : ""}</span>
         <span className="chord-name-value">{chordName || "?"}</span>
       </div>
     );
