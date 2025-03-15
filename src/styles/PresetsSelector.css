@@ -34,7 +34,7 @@
     color: var(--button-text-default);
     border: 1px solid var(--button-border-default);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: var(--settings-button-font-size);
 }
 
 .preset-button:hover,

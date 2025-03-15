@@ -2,27 +2,24 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: left;
+  text-align: left;
   width: 100%;
-  margin-top: 20px; /* Add top margin to create space */
+  margin-top: 5px; /* Add top margin to create space */
   gap: 0.5rem;
 }
 
-.chord-name-description,
-.chord-name-value {
-  text-align: center;
-  width: 100%;
-}
-
 .chord-name-description {
-  font-size: 1rem;
-  margin: 0;
+  font-size: var(--settings-font-size);
+  text-align: left;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .chord-name-value {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0;
+  text-align: left;
+  margin-left: 5px;
 }
 
