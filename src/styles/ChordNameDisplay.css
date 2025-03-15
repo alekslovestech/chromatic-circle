@@ -10,7 +10,7 @@
 }
 
 .chord-name-description {
-  font-size: 0.8rem;
+  font-size: var(--settings-font-size);
   text-align: left;
   margin-left: 5px;
   margin-right: 5px;

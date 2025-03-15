@@ -6,10 +6,8 @@
     padding: 0.5rem;
     box-sizing: border-box;
 
-    /* Grid Item */
     grid-area: sidebar;
 
-    /* Grid Container */
     grid-template-columns: 1fr auto;
     gap: 0;
     align-items: center;
@@ -24,18 +22,17 @@
 
 .monochrome-mode-label {
     margin-top: -1px;
-    font-size: 0.6rem;
+    font-size: var(--settings-description-font-size);
 }
 
 .clear-button {
-  font-size: 0.6rem;
+  font-size: var(--settings-description-font-size);  
   min-width: 50px;
   max-width: 100px;
   border-radius: 5px;
   border: 1px solid var(--toggle-button-border);
   background-color: var(--toggle-button-background);
 }
-
 
 #major-minor-toggle {
     border: 1px solid var(--toggle-button-border); 
@@ -47,12 +44,12 @@
     margin: 5px 0 0;
     z-index: 10;
     font-style: bold;
-    font-size: 0.8rem;
+    font-size: var(--settings-button-font-size);
     border-radius: 10px;
   }
   
-  .key-selector {
-    font-size: 0.8rem;
+  .musical-key-selector {
+    font-size: var(--settings-button-font-size);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -62,7 +59,7 @@
     height: 100%;
     width: 2.5rem;
     display: flex;
-    font-size: 0.8rem;
+    font-size: var(--settings-button-font-size);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -72,7 +69,7 @@
     border: 1px solid var(--toggle-button-border);
     background: var(--toggle-button-background);
     color: var(--toggle-button-text);
-    font-size: 0.8rem;
+    font-size: var(--settings-button-font-size);
     width: 100%;
     height: 100%;
     display: flex;

@@ -7,7 +7,6 @@
   flex-direction: column;
   flex-shrink: 0;
   align-items: stretch;
-
   overflow-y: auto;
 }
 
@@ -20,16 +19,15 @@
   margin-bottom: 0.25rem;
 
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: var(--settings-button-font-size);
   white-space: nowrap;
 
   justify-content: center; 
-
   flex-shrink: 0;
 }
 
 .mode-selector-title {
-  font-size: 1rem;
+  font-size: var(--settings-section-title-font-size);
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: #666;
