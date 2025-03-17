@@ -1,7 +1,12 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
-import { InputMode, ChordDisplayMode, CircularVisMode } from "../types/SettingModes";
+import {
+  InputMode,
+  ChordDisplayMode,
+  CircularVisMode,
+  NoteDisplayMode,
+} from "../types/SettingModes";
 import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
 import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 
@@ -13,6 +18,7 @@ interface NotesContextType {
   chordDisplayMode: ChordDisplayMode;
   monochromeMode: boolean;
   circularVisMode: CircularVisMode;
+  noteDisplayMode: NoteDisplayMode;
   selectedMusicalKey: MusicalKey;
   setInputMode: (mode: InputMode) => void;
   setSelectedNoteIndices: (indices: ActualIndex[]) => void;
@@ -21,6 +27,7 @@ interface NotesContextType {
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
   setMonochromeMode: (mode: boolean) => void;
   setCircularVisMode: (mode: CircularVisMode) => void;
+  setNoteDisplayMode: (mode: NoteDisplayMode) => void;
   setSelectedMusicalKey: (key: MusicalKey) => void;
 }
 
@@ -43,6 +50,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
     MusicalKeyUtil.defaultMusicalKey,
   );
+  const [noteDisplayMode, setNoteDisplayMode] = useState<NoteDisplayMode>(NoteDisplayMode.Letters);
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
@@ -96,6 +104,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     chordDisplayMode,
     monochromeMode,
     circularVisMode,
+    noteDisplayMode,
     selectedMusicalKey,
     setInputMode: handleInputModeChange,
     setSelectedNoteIndices,
@@ -104,6 +113,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setChordDisplayMode,
     setMonochromeMode,
     setCircularVisMode,
+    setNoteDisplayMode,
     setSelectedMusicalKey,
   };
 

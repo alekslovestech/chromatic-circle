@@ -19,3 +19,9 @@ export enum CircularVisMode {
   Radial = "Radial",
   Polygon = "Polygon",
 }
+
+export enum NoteDisplayMode {
+  Letters = "Letters",
+  Arabic = "Arabic",
+  Roman = "Roman",
+}
