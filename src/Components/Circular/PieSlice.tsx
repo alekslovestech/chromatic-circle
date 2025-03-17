@@ -36,7 +36,23 @@ const getArcPathFromIndex = (
   return <path d={arcPath} />;
 };
 
-const PieSlice: React.FC<{
+const getDisplayString = (
+  chromaticIndex: ChromaticIndex,
+  musicalKey: MusicalKey,
+  displayMode: NoteDisplayMode,
+) => {
+  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
+  switch (displayMode) {
+    case NoteDisplayMode.Letters:
+      return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
+    case NoteDisplayMode.Arabic:
+      return scaleDegree > 0 ? scaleDegree.toString() : "";
+    case NoteDisplayMode.Roman:
+      return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
+  }
+};
+
+export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
@@ -59,22 +75,6 @@ const PieSlice: React.FC<{
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = !isLogo;
-
-  const getDisplayString = (
-    chromaticIndex: ChromaticIndex,
-    musicalKey: MusicalKey,
-    displayMode: NoteDisplayMode,
-  ) => {
-    const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
-    switch (displayMode) {
-      case NoteDisplayMode.Letters:
-        return formatNoteNameForDisplay(chromaticIndex, selectedMusicalKey.getDefaultAccidental());
-      case NoteDisplayMode.Arabic:
-        return scaleDegree > 0 ? scaleDegree.toString() : "";
-      case NoteDisplayMode.Roman:
-        return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
-    }
-  };
 
   return (
     <>
@@ -104,5 +104,3 @@ const PieSlice: React.FC<{
     </>
   );
 };
-
-export default PieSlice;
