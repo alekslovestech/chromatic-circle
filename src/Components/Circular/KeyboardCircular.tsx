@@ -3,7 +3,7 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useNotes } from "../NotesContext";
 import { CircularVisualizations } from "./CircularVisualizations";
-import PieSlice from "./PieSlice";
+import { PieSlice } from "./PieSlice";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import "../../styles/KeyboardCircular.css";
 

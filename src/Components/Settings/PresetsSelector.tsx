@@ -1,8 +1,7 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
-import { InputMode } from "../../types/InputMode";
+import { InputMode, ChordDisplayMode } from "../../types/SettingModes";
 import { InversionIndex, ixInversion } from "../../types/IndexTypes";
-import { ChordDisplayMode } from "../../types/ChordDisplayMode";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";

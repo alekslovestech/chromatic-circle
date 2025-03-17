@@ -1,7 +1,7 @@
 import React from "react";
 import { ActualIndex } from "../../types/IndexTypes";
 import { PolarMath } from "../../utils/Circular/PolarMath";
-import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
+import { CircularVisMode } from "../../types/SettingModes";
 import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 import "../../styles/CircularViz.css";
 

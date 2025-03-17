@@ -1,4 +1,4 @@
-import { ChordDisplayMode } from "./ChordDisplayMode";
+import { ChordDisplayMode } from "./SettingModes";
 import { ixOffsetArray } from "./IndexTypes";
 import { NoteGrouping } from "./NoteGrouping";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "./NoteGroupingTypes";

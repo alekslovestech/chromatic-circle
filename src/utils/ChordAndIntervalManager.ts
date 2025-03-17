@@ -10,7 +10,7 @@ import { TWELVE } from "../types/NoteConstants";
 import { IndexUtils } from "./IndexUtils";
 import { ChordMatch } from "../types/ChordMatch";
 import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
-import { ChordDisplayMode } from "../types/ChordDisplayMode";
+import { ChordDisplayMode } from "../types/SettingModes";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGrouping } from "../types/NoteGrouping";
 import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";

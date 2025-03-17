@@ -8,6 +8,8 @@ import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { RomanResolver } from "../../types/RomanResolver";
 import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
+import { NoteDisplayMode } from "../../types/SettingModes";
+import { MusicalKey } from "../../types/MusicalKey";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;
@@ -34,14 +36,30 @@ const getArcPathFromIndex = (
   return <path d={arcPath} />;
 };
 
-const PieSlice: React.FC<{
+const getDisplayString = (
+  chromaticIndex: ChromaticIndex,
+  musicalKey: MusicalKey,
+  displayMode: NoteDisplayMode,
+) => {
+  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
+  switch (displayMode) {
+    case NoteDisplayMode.Letters:
+      return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
+    case NoteDisplayMode.Arabic:
+      return scaleDegree > 0 ? scaleDegree.toString() : "";
+    case NoteDisplayMode.Roman:
+      return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
+  }
+};
+
+export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
   onClick: () => void;
   isLogo: boolean;
 }> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
-  const { selectedMusicalKey, selectedNoteIndices, monochromeMode } = useNotes();
+  const { selectedMusicalKey, selectedNoteIndices, monochromeMode, noteDisplayMode } = useNotes();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
@@ -57,18 +75,14 @@ const PieSlice: React.FC<{
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = !isLogo;
-  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(
-    chromaticIndex,
-    selectedMusicalKey,
-  );
-  const scaleDegreeString = scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree) : "";
+
   return (
     <>
       <g id={id} className={classNames.join(" ")} onClick={onClick}>
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>
-            {formatNoteNameForDisplay(chromaticIndex, selectedMusicalKey.getDefaultAccidental())}
+            {getDisplayString(chromaticIndex, selectedMusicalKey, noteDisplayMode)}
           </text>
         )}
       </g>
@@ -78,16 +92,15 @@ const PieSlice: React.FC<{
           y={romanPoint.y}
           textAnchor="middle"
           dominantBaseline="middle"
-          /*fill="black"*/
           stroke="black"
           strokeWidth="1"
           fontSize="4px"
         >
-          <tspan fontSize="8px">{scaleDegreeString}</tspan>
+          <tspan fontSize="8px">
+            {getDisplayString(chromaticIndex, selectedMusicalKey, NoteDisplayMode.Roman)}
+          </tspan>
         </text>
       )}
     </>
   );
 };
-
-export default PieSlice;

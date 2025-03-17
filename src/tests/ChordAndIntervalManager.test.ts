@@ -1,8 +1,8 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
-import { ChordDisplayMode } from "../types/ChordDisplayMode";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
+import { ChordDisplayMode } from "../types/SettingModes";
 
 describe("ChordAndIntervalManager", () => {
   describe("getOffsetsFromIdAndInversion", () => {

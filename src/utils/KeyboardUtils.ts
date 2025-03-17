@@ -6,7 +6,7 @@ import {
   InversionIndex,
 } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
-import { InputMode } from "../types/InputMode";
+import { InputMode } from "../types/SettingModes";
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
 import { TWELVE } from "../types/NoteConstants";
