@@ -2,7 +2,7 @@ import React from "react";
 import ModeSelector from "./ModeSelector";
 import PresetsSelector from "./PresetsSelector";
 import { useNotes } from "../NotesContext";
-import { InputMode } from "../../types/InputMode";
+import { InputMode } from "../../types/SettingModes";
 
 const SettingsContainer: React.FC = () => {
   const { inputMode } = useNotes();

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotes } from "../NotesContext";
-import { InputMode } from "../../types/InputMode";
+import { InputMode } from "../../types/SettingModes";
 import "../../styles/ModeSelector.css";
 
 interface ModeSelectorButton {

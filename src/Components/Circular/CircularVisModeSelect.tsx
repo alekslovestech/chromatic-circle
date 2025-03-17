@@ -1,6 +1,6 @@
 import { useNotes } from "../NotesContext";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode } from "../../utils/Circular/CircularVisMode";
+import { CircularVisMode } from "../../types/SettingModes";
 
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode;

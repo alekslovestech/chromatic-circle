@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { InputMode } from "../types/InputMode";
 import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
-import { ChordDisplayMode } from "../types/ChordDisplayMode";
-import { CircularVisMode } from "../utils/Circular/CircularVisMode";
+import { InputMode, ChordDisplayMode, CircularVisMode } from "../types/SettingModes";
 import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
 import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 

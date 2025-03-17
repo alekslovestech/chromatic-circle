@@ -2,7 +2,7 @@ import React from "react";
 import { useNotes } from "./NotesContext";
 import "../styles/ChordNameDisplay.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ChordDisplayMode } from "../types/ChordDisplayMode";
+import { ChordDisplayMode } from "../types/SettingModes";
 
 export const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey, chordDisplayMode, setChordDisplayMode } =
