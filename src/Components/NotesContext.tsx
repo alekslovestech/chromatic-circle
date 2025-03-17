@@ -10,52 +10,66 @@ import {
 import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
 import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 
-interface NotesContextType {
-  inputMode: InputMode;
-  selectedNoteIndices: ActualIndex[];
-  selectedChordType: NoteGroupingId;
-  selectedInversionIndex: InversionIndex;
-  chordDisplayMode: ChordDisplayMode;
-  monochromeMode: boolean;
+export interface DisplaySettings {
   circularVisMode: CircularVisMode;
+  monochromeMode: boolean;
   noteDisplayMode: NoteDisplayMode;
-  selectedMusicalKey: MusicalKey;
-  setInputMode: (mode: InputMode) => void;
-  setSelectedNoteIndices: (indices: ActualIndex[]) => void;
-  setSelectedChordType: (type: NoteGroupingId) => void;
-  setSelectedInversionIndex: (index: InversionIndex) => void;
-  setChordDisplayMode: (mode: ChordDisplayMode) => void;
-  setMonochromeMode: (mode: boolean) => void;
+  chordDisplayMode: ChordDisplayMode;
+
   setCircularVisMode: (mode: CircularVisMode) => void;
+  setMonochromeMode: (mode: boolean) => void;
   setNoteDisplayMode: (mode: NoteDisplayMode) => void;
+  setChordDisplayMode: (mode: ChordDisplayMode) => void;
+}
+export interface MusicalSettings {
+  selectedNoteIndices: ActualIndex[];
+  selectedMusicalKey: MusicalKey;
+
+  setSelectedNoteIndices: (indices: ActualIndex[]) => void;
   setSelectedMusicalKey: (key: MusicalKey) => void;
 }
+export interface PresetSettings {
+  inputMode: InputMode;
+  selectedChordType: NoteGroupingId;
+  selectedInversionIndex: InversionIndex;
+
+  setInputMode: (mode: InputMode) => void;
+  setSelectedChordType: (type: NoteGroupingId) => void;
+  setSelectedInversionIndex: (index: InversionIndex) => void;
+}
+
+interface NotesContextType extends DisplaySettings, MusicalSettings, PresetSettings {}
 
 const NotesContext = createContext<NotesContextType>({} as NotesContextType);
 
 export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
+  // Display Settings
+  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
+  const [monochromeMode, setMonochromeMode] = useState<boolean>(false);
+  const [noteDisplayMode, setNoteDisplayMode] = useState<NoteDisplayMode>(NoteDisplayMode.Letters);
+  const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
+    ChordDisplayMode.Letters_Short,
+  );
+
+  // Musical Settings
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
+  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
+    MusicalKeyUtil.defaultMusicalKey,
+  );
+
+  // Preset Settings
+  const [inputMode, setInputMode] = useState<InputMode>(InputMode.SingleNote);
   const [selectedChordType, setSelectedChordType] = useState<NoteGroupingId>(
     "Note" as NoteGroupingId,
   );
   const [selectedInversionIndex, setSelectedInversionIndex] = useState<InversionIndex>(
     ixInversion(0),
   );
-  const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
-    ChordDisplayMode.Letters_Short,
-  );
-  const [monochromeMode, setMonochromeMode] = useState<boolean>(false);
-  const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
-  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
-    MusicalKeyUtil.defaultMusicalKey,
-  );
-  const [noteDisplayMode, setNoteDisplayMode] = useState<NoteDisplayMode>(NoteDisplayMode.Letters);
 
   const handleInputModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
 
-    const rootNoteIndex = selectedNoteIndices[0] || null; // Get the index of the 0th selected note, or null if none are selected
+    const rootNoteIndex = selectedNoteIndices[0] || null;
     let newChordType: NoteGroupingId;
 
     newChordType =
@@ -80,41 +94,32 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       );
       setSelectedNoteIndices(updatedIndices);
     }
-
-    setSelectedChordType(newChordType);
-    setSelectedInversionIndex(ixInversion(0));
-
-    if (newMode !== InputMode.Toggle) {
-      const updatedIndices = calculateUpdatedIndices(
-        rootNoteIndex!,
-        newMode,
-        selectedNoteIndices,
-        newChordType,
-        ixInversion(0),
-      );
-      setSelectedNoteIndices(updatedIndices);
-    }
   };
 
   const value = {
-    inputMode,
+    // Display Settings
+    circularVisMode,
+    monochromeMode,
+    noteDisplayMode,
+    chordDisplayMode,
+    setCircularVisMode,
+    setMonochromeMode,
+    setNoteDisplayMode,
+    setChordDisplayMode,
+
+    // Musical Settings
     selectedNoteIndices,
+    selectedMusicalKey,
+    setSelectedNoteIndices,
+    setSelectedMusicalKey,
+
+    // Preset Settings
+    inputMode,
     selectedChordType,
     selectedInversionIndex,
-    chordDisplayMode,
-    monochromeMode,
-    circularVisMode,
-    noteDisplayMode,
-    selectedMusicalKey,
     setInputMode: handleInputModeChange,
-    setSelectedNoteIndices,
     setSelectedChordType,
     setSelectedInversionIndex,
-    setChordDisplayMode,
-    setMonochromeMode,
-    setCircularVisMode,
-    setNoteDisplayMode,
-    setSelectedMusicalKey,
   };
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>;
