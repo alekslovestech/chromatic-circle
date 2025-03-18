@@ -7,9 +7,10 @@ import {
 } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { InputMode } from "../types/SettingModes";
+import { TWELVE } from "../types/NoteConstants";
+
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
-import { TWELVE } from "../types/NoteConstants";
 
 export const isBlackKey = (actualIndex: ActualIndex | ChromaticIndex): boolean =>
   [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);

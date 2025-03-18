@@ -1,15 +1,19 @@
 import React from "react";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
+
+import { NoteDisplayMode } from "../../types/SettingModes";
+import { MusicalKey } from "../../types/MusicalKey";
+import { RomanResolver } from "../../types/RomanResolver";
+
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { formatNoteNameForDisplay } from "../../utils/NoteUtils";
-import { useNotes } from "../NotesContext";
 import { IndexUtils } from "../../utils/IndexUtils";
-import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { RomanResolver } from "../../types/RomanResolver";
 import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
-import { NoteDisplayMode } from "../../types/SettingModes";
-import { MusicalKey } from "../../types/MusicalKey";
+
+import { useDisplay } from "../../contexts/DisplayContext";
+import { useMusical } from "../../contexts/MusicalContext";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;
@@ -59,7 +63,8 @@ export const PieSlice: React.FC<{
   onClick: () => void;
   isLogo: boolean;
 }> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
-  const { selectedMusicalKey, selectedNoteIndices, monochromeMode, noteDisplayMode } = useNotes();
+  const { selectedMusicalKey, selectedNoteIndices } = useMusical();
+  const { monochromeMode, noteDisplayMode } = useDisplay();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);

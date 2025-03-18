@@ -1,16 +1,13 @@
 import { useCallback } from "react";
-import { useNotes } from "./NotesContext";
+
 import { ActualIndex } from "../types/IndexTypes";
 import { calculateUpdatedIndices, isRootNote } from "../utils/KeyboardUtils";
+import { useMusical } from "../contexts/MusicalContext";
+import { usePreset } from "../contexts/PresetContext";
 
 export function useKeyboardHandlers() {
-  const {
-    selectedNoteIndices,
-    setSelectedNoteIndices,
-    selectedInversionIndex,
-    selectedChordType,
-    inputMode,
-  } = useNotes();
+  const { selectedInversionIndex, selectedChordType, inputMode } = usePreset();
+  const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
 
   const handleKeyClick = useCallback(
     (newIndex: ActualIndex) => {

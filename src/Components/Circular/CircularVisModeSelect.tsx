@@ -1,12 +1,17 @@
-import { useNotes } from "../NotesContext";
 import { CircularVisIcons } from "./CircularVisIcons";
 import { CircularVisMode } from "../../types/SettingModes";
+
+import { useDisplay } from "../../contexts/DisplayContext";
+import { useMusical } from "../../contexts/MusicalContext";
+
+import "../../styles/CircularSettings.css";
 
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode;
   label: string;
 }> = ({ mode, label }) => {
-  const { circularVisMode, selectedNoteIndices, setCircularVisMode } = useNotes();
+  const { circularVisMode, setCircularVisMode } = useDisplay();
+  const { selectedNoteIndices } = useMusical();
   const visIcons = new CircularVisIcons(12, 10);
 
   const isDisabled =

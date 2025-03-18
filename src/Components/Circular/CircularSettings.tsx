@@ -1,14 +1,16 @@
 import React from "react";
 
+// Components
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
 import { MusicalKeySelector } from "../MusicalKeySelector";
 import { TransposeWidget } from "../TransposeWidget";
-import "../../styles/CircularSettings.css";
-
 import { ChordNameDisplay } from "../ChordNameDisplay";
 import { MonochromeModeToggle } from "./MonochromeModeToggle";
 import { ClearButton } from "./ClearButton";
 import { NoteDisplayModeSelect } from "./NoteDisplayModeSelect";
+
+// Styles
+import "../../styles/CircularSettings.css";
 
 export const CircularSettings: React.FC = () => {
   return (

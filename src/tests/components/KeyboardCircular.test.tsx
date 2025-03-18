@@ -1,20 +1,23 @@
 import { render } from "@testing-library/react";
-import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
-import { NotesProvider } from "../../Components/NotesContext";
-import ModeSelector from "../../Components/Settings/ModeSelector";
-import PresetsSelector from "../../Components/Settings/PresetsSelector";
+
 import { ReactTestUtils } from "./utils/ReactTestUtils";
 import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
+
+import { RootProvider } from "../../contexts/RootContext";
+
+import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
+import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 //scenarios where we only test the circular keyboard
 describe("KeyboardCircular", () => {
   const renderComponent = () => {
     return render(
-      <NotesProvider>
+      <RootProvider>
         <KeyboardCircular />
         <ModeSelector />
         <PresetsSelector />
-      </NotesProvider>,
+      </RootProvider>,
     );
   };
 

@@ -1,7 +1,9 @@
-import { useNotes } from "../NotesContext";
+import { useDisplay } from "../../contexts/DisplayContext";
+
 import "../../styles/CircularSettings.css";
+
 export const MonochromeModeToggle: React.FC = () => {
-  const { monochromeMode, setMonochromeMode } = useNotes();
+  const { monochromeMode, setMonochromeMode } = useDisplay();
   return (
     <div className="monochrome-mode-container">
       <input

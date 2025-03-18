@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { Vex, StaveNote } from "vexflow";
-import { useNotes } from "./NotesContext";
+
+import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
 import { KeyType, MusicalKey } from "../types/MusicalKey";
+
+import { useMusical } from "../contexts/MusicalContext";
 
 const EasyScoreFromNotes = (
   actualIndices: ActualIndex[],
@@ -43,7 +45,7 @@ const StaffRenderer: React.FC = () => {
   const staffDivRef = useRef(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const { selectedNoteIndices, selectedMusicalKey } = useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   useEffect(() => {
     if (!staffDivRef.current) return;
 

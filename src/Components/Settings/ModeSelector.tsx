@@ -1,6 +1,8 @@
 import React from "react";
-import { useNotes } from "../NotesContext";
+
 import { InputMode } from "../../types/SettingModes";
+import { usePreset } from "../../contexts/PresetContext";
+
 import "../../styles/ModeSelector.css";
 
 interface ModeSelectorButton {
@@ -33,7 +35,7 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
 ];
 
 export const ModeSelector: React.FC = () => {
-  const { inputMode, setInputMode } = useNotes();
+  const { inputMode, setInputMode } = usePreset();
 
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
@@ -59,4 +61,3 @@ export const ModeSelector: React.FC = () => {
     </div>
   );
 };
-export default ModeSelector;

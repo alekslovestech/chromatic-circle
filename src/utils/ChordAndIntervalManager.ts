@@ -1,19 +1,19 @@
+import { ChordMatch } from "../types/ChordMatch";
 import {
   ActualIndex,
-  ixInversion,
   InversionIndex,
   OffsetIndex,
   ixActual,
   ixActualArray,
+  ixInversion,
 } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
-import { IndexUtils } from "./IndexUtils";
-import { ChordMatch } from "../types/ChordMatch";
-import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
-import { ChordDisplayMode } from "../types/SettingModes";
-import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
-import { NoteGrouping } from "../types/NoteGrouping";
 import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { NoteGrouping } from "../types/NoteGrouping";
+import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
+import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
+import { TWELVE } from "../types/NoteConstants";
+import { ChordDisplayMode } from "../types/SettingModes";
+import { IndexUtils } from "./IndexUtils";
 
 export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): NoteGrouping =>

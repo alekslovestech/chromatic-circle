@@ -1,12 +1,15 @@
 import React from "react";
-import { useNotes } from "./NotesContext";
-import "../styles/ChordNameDisplay.css";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ChordDisplayMode } from "../types/SettingModes";
 
+import { useMusical } from "../contexts/MusicalContext";
+import { useDisplay } from "../contexts/DisplayContext";
+
+import "../styles/ChordNameDisplay.css";
+
 export const ChordNameDisplay: React.FC = () => {
-  const { selectedNoteIndices, selectedMusicalKey, chordDisplayMode, setChordDisplayMode } =
-    useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useMusical();
+  const { chordDisplayMode, setChordDisplayMode } = useDisplay();
 
   const getOppositeDisplayMode = (prevDisplayMode: ChordDisplayMode): ChordDisplayMode => {
     if (prevDisplayMode === ChordDisplayMode.Letters_Short) return ChordDisplayMode.Symbols;

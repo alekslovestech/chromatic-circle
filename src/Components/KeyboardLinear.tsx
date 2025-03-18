@@ -1,6 +1,5 @@
 import React from "react";
-import "../styles/KeyboardLinear.css";
-import { useNotes } from "./NotesContext";
+
 import { TWENTY4 } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
 import { getNoteTextFromActualIndex } from "../utils/NoteUtils";
@@ -8,8 +7,12 @@ import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
 import { IndexUtils } from "../utils/IndexUtils";
 
+import { useMusical } from "../contexts/MusicalContext";
+
+import "../styles/KeyboardLinear.css";
+
 const KeyboardLinear: React.FC = () => {
-  const { selectedNoteIndices, selectedMusicalKey } = useNotes();
+  const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
   const keys = [];

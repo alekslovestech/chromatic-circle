@@ -1,16 +1,19 @@
-import { render, fireEvent } from "@testing-library/react";
-import PresetsSelector from "../../Components/Settings/PresetsSelector";
-import { NotesProvider } from "../../Components/NotesContext";
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { fireEvent, render } from "@testing-library/react";
+
 import { ReactTestUtils } from "./utils/ReactTestUtils";
+
+import { RootProvider } from "../../contexts/RootContext";
+
+import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 describe("ModeSelector", () => {
   const renderComponent = () => {
     return render(
-      <NotesProvider>
+      <RootProvider>
         <ModeSelector />
         <PresetsSelector />
-      </NotesProvider>,
+      </RootProvider>,
     );
   };
 
@@ -49,7 +52,6 @@ describe("ModeSelector", () => {
         renderComponent();
         fireEvent.click(document.getElementById("mode-intervals")!);
       });
-
       test("selects M3 interval as default", () => {
         ReactTestUtils.expectElementByIdToBeSelected("preset-Interval_Maj3");
       });

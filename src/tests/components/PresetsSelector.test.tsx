@@ -1,17 +1,20 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import PresetsSelector from "../../Components/Settings/PresetsSelector";
-import { NotesProvider } from "../../Components/NotesContext";
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+
 import { ReactTestUtils } from "./utils/ReactTestUtils";
+
+import { RootProvider } from "../../contexts/RootContext";
+
+import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 describe("ChordPresetsSelector", () => {
   const renderComponent = () => {
     return render(
-      <NotesProvider>
+      <RootProvider>
         <ModeSelector />
         <PresetsSelector />
-      </NotesProvider>,
+      </RootProvider>,
     );
   };
 

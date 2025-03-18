@@ -1,8 +1,8 @@
-import { useNotes } from "../NotesContext";
+import { useDisplay } from "../../contexts/DisplayContext";
 import "../../styles/CircularSettings.css";
 import { NoteDisplayMode } from "../../types/SettingModes";
 export const NoteDisplayModeSelect: React.FC = () => {
-  const { noteDisplayMode, setNoteDisplayMode } = useNotes();
+  const { noteDisplayMode, setNoteDisplayMode } = useDisplay();
   return (
     <div className="note-display-mode-container">
       <div className="radio-option">
