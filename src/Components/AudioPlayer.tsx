@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { useNotes } from "./NotesContext";
 import { TWELVE } from "../types/NoteConstants";
+
+import { useMusical } from "../contexts/MusicalContext";
 
 const soundUrl = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
@@ -13,7 +14,7 @@ const AudioPlayer: React.FC = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioBufferRef = useRef<AudioBuffer | null>(null);
   const activeSourcesRef = useRef<AudioBufferSourceNode[]>([]);
-  const { selectedNoteIndices } = useNotes();
+  const { selectedNoteIndices } = useMusical();
 
   const loadAudio = async (url: string) => {
     const response = await fetch(url);

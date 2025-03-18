@@ -1,10 +1,14 @@
 import { TWELVE } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
+import { ixChromatic } from "../../types/ChromaticIndex";
+
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
-import { useNotes } from "../NotesContext";
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PieSlice } from "./PieSlice";
-import { ixChromatic } from "../../types/ChromaticIndex";
+
+import { useDisplay } from "../../contexts/DisplayContext";
+import { useMusical } from "../../contexts/MusicalContext";
+
 import "../../styles/KeyboardCircular.css";
 
 const MAX_RADIUS = 100;
@@ -13,7 +17,8 @@ const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
 const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
   const { handleKeyClick } = useKeyboardHandlers();
-  const { selectedNoteIndices, circularVisMode } = useNotes();
+  const { selectedNoteIndices } = useMusical();
+  const { circularVisMode } = useDisplay();
 
   const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   return (

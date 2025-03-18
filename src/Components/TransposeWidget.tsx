@@ -1,10 +1,12 @@
-import { useNotes } from "./NotesContext";
-import { IndexUtils } from "../utils/IndexUtils";
 import { ixActualArray } from "../types/IndexTypes";
+import { IndexUtils } from "../utils/IndexUtils";
+
+import { useMusical } from "../contexts/MusicalContext";
+
 import "../styles/CircularSettings.css";
 
 export const TransposeWidget: React.FC = () => {
-  const { selectedNoteIndices, setSelectedNoteIndices } = useNotes();
+  const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
 
   const handleTranspose = (amount: number) => {
     const transposedIndices = ixActualArray(IndexUtils.shiftIndices(selectedNoteIndices, amount));

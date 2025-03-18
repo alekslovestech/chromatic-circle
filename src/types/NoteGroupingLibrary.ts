@@ -1,7 +1,7 @@
-import { ChordDisplayMode } from "./SettingModes";
 import { ixOffsetArray } from "./IndexTypes";
 import { NoteGrouping } from "./NoteGrouping";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "./NoteGroupingTypes";
+import { ChordDisplayMode } from "./SettingModes";
 class NoteGroupingLibrarySingleton {
   public getGroupingById(id: NoteGroupingId): NoteGrouping {
     const found = NoteGroupingLibrarySingleton.library.find((grouping) => grouping.id === id);

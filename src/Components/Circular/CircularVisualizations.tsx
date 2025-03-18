@@ -1,8 +1,9 @@
 import React from "react";
 import { ActualIndex } from "../../types/IndexTypes";
-import { PolarMath } from "../../utils/Circular/PolarMath";
 import { CircularVisMode } from "../../types/SettingModes";
+import { PolarMath } from "../../utils/Circular/PolarMath";
 import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
+
 import "../../styles/CircularViz.css";
 
 const DOT_RADIUS = 6;

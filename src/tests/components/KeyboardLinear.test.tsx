@@ -1,20 +1,23 @@
 import { render, fireEvent } from "@testing-library/react";
-import KeyboardLinear from "../../Components/KeyboardLinear";
-import { NotesProvider } from "../../Components/NotesContext";
-import ModeSelector from "../../Components/Settings/ModeSelector";
-import PresetsSelector from "../../Components/Settings/PresetsSelector";
+
 import { ReactTestUtils } from "./utils/ReactTestUtils";
 import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
+
+import { RootProvider } from "../../contexts/RootContext";
+
+import KeyboardLinear from "../../Components/KeyboardLinear";
+import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 //scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {
   const renderComponent = () => {
     return render(
-      <NotesProvider>
+      <RootProvider>
         <KeyboardLinear />
         <ModeSelector />
         <PresetsSelector />
-      </NotesProvider>,
+      </RootProvider>,
     );
   };
 

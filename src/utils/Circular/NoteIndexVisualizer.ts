@@ -1,8 +1,8 @@
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { ActualIndex } from "../../types/IndexTypes";
 import { CircularVisMode } from "../../types/SettingModes";
-import { PolarMath } from "./PolarMath";
 import { CartesianPoint } from "./PolarMath";
+import { PolarMath } from "./PolarMath";
 
 export class NoteIndexVisualizer {
   constructor(

@@ -1,23 +1,28 @@
 import React from "react";
-import { useNotes } from "../NotesContext";
+
 import { InputMode, ChordDisplayMode } from "../../types/SettingModes";
 import { InversionIndex, ixInversion } from "../../types/IndexTypes";
-import { IndexUtils } from "../../utils/IndexUtils";
-import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
+
+import { IndexUtils } from "../../utils/IndexUtils";
+import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
+
+import { usePreset } from "../../contexts/PresetContext";
+import { useMusical } from "../../contexts/MusicalContext";
+
 import "../../styles/PresetsSelector.css";
 
-const PresetsSelector: React.FC = () => {
+export const PresetsSelector: React.FC = () => {
   const {
-    selectedNoteIndices,
-    setSelectedNoteIndices,
     selectedChordType,
     setSelectedChordType,
     selectedInversionIndex,
     setSelectedInversionIndex,
     inputMode,
-  } = useNotes();
+  } = usePreset();
+
+  const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
 
   if (inputMode !== InputMode.ChordPresets && inputMode !== InputMode.IntervalPresets) return null;
 
@@ -115,5 +120,3 @@ const PresetsSelector: React.FC = () => {
     </div>
   );
 };
-
-export default PresetsSelector;
