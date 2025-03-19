@@ -22,7 +22,7 @@ export const CircularSettings: React.FC = () => {
           <TransposeWidget />
         </div>
         <MonochromeModeToggle />
-        {/*<NoteDisplayModeSelect />*/}
+        <NoteDisplayModeSelect />
         <ClearButton />
         <ChordNameDisplay />
       </div>
