@@ -6,7 +6,7 @@ export const NoteDisplayModeSelect: React.FC = () => {
   return (
     <div
       className="note-display-mode-container"
-      style={{ display: "flex", flexDirection: "row", gap: "5px" }}
+      style={{ display: "flex", flexDirection: "row", gap: "10px" }}
     >
       <div className="radio-option">
         <input
