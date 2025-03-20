@@ -6,7 +6,7 @@ import { ReactTestUtils } from "./utils/ReactTestUtils";
 import { RootProvider } from "../../contexts/RootContext";
 
 import KeyboardLinear from "../../Components/KeyboardLinear";
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 
@@ -17,7 +17,7 @@ describe("KeyboardGeneral", () => {
       <RootProvider>
         <KeyboardLinear />
         <KeyboardCircular />
-        <ModeSelector />
+        <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );

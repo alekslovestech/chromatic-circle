@@ -6,7 +6,7 @@ import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
 import { RootProvider } from "../../contexts/RootContext";
 
 import KeyboardLinear from "../../Components/KeyboardLinear";
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 //scenarios where we only test the linear keyboard
@@ -15,7 +15,7 @@ describe("KeyboardLinear", () => {
     return render(
       <RootProvider>
         <KeyboardLinear />
-        <ModeSelector />
+        <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );

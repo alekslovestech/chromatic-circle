@@ -4,7 +4,7 @@ import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
 import { CircularVisModeUtils } from "./utils/CircularVisModeUtils";
 import { CircularVisMode } from "../../types/SettingModes";
@@ -15,7 +15,7 @@ describe("ModeSelector with CircularVisModeSelect", () => {
   const renderComponent = () => {
     return render(
       <RootProvider>
-        <ModeSelector />
+        <InputModeSelector />
         <CircularVisModeSelect />
       </RootProvider>,
     );

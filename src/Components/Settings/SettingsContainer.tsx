@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ModeSelector } from "./ModeSelector";
+import { InputModeSelector } from "./InputModeSelector";
 import { PresetsSelector } from "./PresetsSelector";
 
 import { usePreset } from "../../contexts/PresetContext";
@@ -14,7 +14,7 @@ const SettingsContainer: React.FC = () => {
 
   return (
     <div className="settings-container">
-      <ModeSelector />
+      <InputModeSelector />
       {showPresets && <PresetsSelector />}
     </div>
   );
