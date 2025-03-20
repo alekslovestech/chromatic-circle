@@ -1,10 +1,12 @@
+import { useEffect } from "react";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode } from "../../types/SettingModes";
+import { CircularVisMode, InputMode } from "../../types/SettingModes";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/CircularSettings.css";
+import { usePreset } from "../../contexts/PresetContext";
 
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode;
@@ -42,6 +44,20 @@ const CircularVisModeButton: React.FC<{
 };
 
 export const CircularVisModeSelect: React.FC = () => {
+  const { inputMode } = usePreset();
+  const { setCircularVisMode } = useDisplay();
+
+  useEffect(() => {
+    // Reset visualization mode when input mode changes
+    if (inputMode === InputMode.SingleNote) {
+      setCircularVisMode(CircularVisMode.None);
+    } else if (inputMode === InputMode.IntervalPresets) {
+      setCircularVisMode(CircularVisMode.Radial);
+    } else if (inputMode === InputMode.ChordPresets) {
+      setCircularVisMode(CircularVisMode.Polygon);
+    }
+  }, [inputMode, setCircularVisMode]);
+
   const visList = [
     {
       mode: CircularVisMode.None,
