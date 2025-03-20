@@ -47,8 +47,7 @@ describe("ModeSelector with CircularVisModeSelect", () => {
 
       ReactTestUtils.clickKey("mode-freeform");
 
-      ReactTestUtils.expectElementByIdToBeSelected("mode-freeform");
-      ReactTestUtils.expectElementByIdToBeUnselected("mode-singlenote");
+      CircularVisModeUtils.verifyVisButtonsEnabled([true, true, true]);
     });
   });
 

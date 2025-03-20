@@ -3,7 +3,6 @@ import { CircularVisIcons } from "./CircularVisIcons";
 import { CircularVisMode, InputMode } from "../../types/SettingModes";
 
 import { useDisplay } from "../../contexts/DisplayContext";
-import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/CircularSettings.css";
 import { usePreset } from "../../contexts/PresetContext";
@@ -13,12 +12,14 @@ const CircularVisModeButton: React.FC<{
   label: string;
 }> = ({ mode, label }) => {
   const { circularVisMode, setCircularVisMode } = useDisplay();
-  const { selectedNoteIndices } = useMusical();
+  const { inputMode } = usePreset();
   const visIcons = new CircularVisIcons(12, 10);
 
   const isDisabled =
-    (selectedNoteIndices.length <= 1 && mode !== CircularVisMode.None) ||
-    (selectedNoteIndices.length === 2 && mode === CircularVisMode.Polygon);
+    (mode === CircularVisMode.Radial && inputMode === InputMode.SingleNote) ||
+    (mode === CircularVisMode.Polygon &&
+      inputMode !== InputMode.ChordPresets &&
+      inputMode !== InputMode.Toggle);
 
   return (
     <button
