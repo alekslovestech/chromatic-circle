@@ -22,7 +22,7 @@ const CircularVisModeButton: React.FC<{
     <button
       key={mode}
       id={mode}
-      className={`viz-button ${circularVisMode === mode ? "selected" : ""} ${
+      className={`vis-button ${circularVisMode === mode ? "selected" : ""} ${
         isDisabled ? "disabled" : ""
       }`}
       onClick={() => !isDisabled && setCircularVisMode(mode)}
@@ -58,7 +58,7 @@ export const CircularVisModeSelect: React.FC = () => {
   ];
 
   return (
-    <div className="viz-button-group">
+    <div className="vis-button-group">
       {visList.map(({ mode, label }) => (
         <CircularVisModeButton key={mode} mode={mode} label={label} />
       ))}

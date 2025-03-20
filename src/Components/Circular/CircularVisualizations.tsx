@@ -4,7 +4,7 @@ import { CircularVisMode } from "../../types/SettingModes";
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
 
-import "../../styles/CircularViz.css";
+import "../../styles/CircularVis.css";
 
 const DOT_RADIUS = 6;
 export class CircularVisualizations {

@@ -9,6 +9,8 @@ import { CircularVisModeSelect } from "../../Components/Circular/CircularVisMode
 import { CircularVisModeUtils } from "./utils/CircularVisModeUtils";
 import { CircularVisMode } from "../../types/SettingModes";
 
+import "../../styles/CircularVis.css";
+
 describe("ModeSelector with CircularVisModeSelect", () => {
   const renderComponent = () => {
     return render(
