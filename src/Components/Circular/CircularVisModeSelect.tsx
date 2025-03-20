@@ -21,6 +21,7 @@ const CircularVisModeButton: React.FC<{
   return (
     <button
       key={mode}
+      id={mode}
       className={`viz-button ${circularVisMode === mode ? "selected" : ""} ${
         isDisabled ? "disabled" : ""
       }`}

@@ -5,14 +5,16 @@ import { ReactTestUtils } from "./utils/ReactTestUtils";
 import { RootProvider } from "../../contexts/RootContext";
 
 import { ModeSelector } from "../../Components/Settings/ModeSelector";
-import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
+import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
+import { CircularVisModeUtils } from "./utils/CircularVisModeUtils";
+import { CircularVisMode } from "../../types/SettingModes";
 
-describe("ModeSelector with preset buttons", () => {
+describe("ModeSelector with CircularVisModeSelect", () => {
   const renderComponent = () => {
     return render(
       <RootProvider>
         <ModeSelector />
-        <PresetsSelector />
+        <CircularVisModeSelect />
       </RootProvider>,
     );
   };
@@ -27,6 +29,8 @@ describe("ModeSelector with preset buttons", () => {
       expect(singleNotesButton).toBeInTheDocument();
       expect(singleNotesButton).toHaveClass("selected");
       expect(singleNotesButton).toHaveTextContent("Single Note");
+      CircularVisModeUtils.verifyVisButtonsEnabled([true, false, false]);
+      CircularVisModeUtils.verifyVisButtonsSelected(CircularVisMode.None);
     });
   });
 
@@ -46,14 +50,15 @@ describe("ModeSelector with preset buttons", () => {
     });
   });
 
-  describe("Mode-specific Preset Buttons", () => {
+  describe("Switching between Input Modes", () => {
     describe("Interval Mode", () => {
       beforeEach(() => {
         renderComponent();
         fireEvent.click(document.getElementById("mode-intervals")!);
       });
-      test("selects M3 interval as default", () => {
-        ReactTestUtils.expectElementByIdToBeSelected("preset-Interval_Maj3");
+      test("in Interval Mode, only the first two buttons are enabled", () => {
+        CircularVisModeUtils.verifyVisButtonsEnabled([true, true, false]);
+        CircularVisModeUtils.verifyVisButtonsSelected(CircularVisMode.Radial);
       });
     });
 
@@ -63,14 +68,9 @@ describe("ModeSelector with preset buttons", () => {
         fireEvent.click(document.getElementById("mode-chords")!);
       });
 
-      test("displays correct preset buttons", () => {
-        ReactTestUtils.expectElementByIdToBeInTheDocument("preset-Chord_Sus2");
-        ReactTestUtils.expectElementByIdNotToBeInTheDocument("preset-Interval_Tritone");
-        ReactTestUtils.expectElementByIdToBeInTheDocument("inversion-0");
-      });
-
-      test("selects Maj chord as default", () => {
-        ReactTestUtils.expectElementByIdToBeSelected("preset-Chord_Maj");
+      test("in Chord Mode, all three buttons are enabled", () => {
+        CircularVisModeUtils.verifyVisButtonsEnabled([true, true, true]);
+        CircularVisModeUtils.verifyVisButtonsSelected(CircularVisMode.Polygon);
       });
     });
   });
