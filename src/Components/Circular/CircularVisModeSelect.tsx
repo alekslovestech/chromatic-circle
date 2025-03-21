@@ -18,8 +18,7 @@ const CircularVisModeButton: React.FC<{
   const isDisabled =
     (mode === CircularVisMode.Radial && inputMode === InputMode.SingleNote) ||
     (mode === CircularVisMode.Polygon &&
-      inputMode !== InputMode.ChordPresets &&
-      inputMode !== InputMode.Toggle);
+      (inputMode === InputMode.SingleNote || inputMode === InputMode.IntervalPresets));
 
   return (
     <button
