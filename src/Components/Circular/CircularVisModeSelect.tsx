@@ -3,9 +3,9 @@ import { CircularVisIcons } from "./CircularVisIcons";
 import { CircularVisMode, InputMode } from "../../types/SettingModes";
 
 import { useDisplay } from "../../contexts/DisplayContext";
+import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/CircularSettings.css";
-import { usePreset } from "../../contexts/PresetContext";
 
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode;
