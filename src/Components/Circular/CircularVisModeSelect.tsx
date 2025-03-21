@@ -16,9 +16,9 @@ const CircularVisModeButton: React.FC<{
   const visIcons = new CircularVisIcons(12, 10);
 
   const isDisabled =
-    (mode === CircularVisMode.Radial && inputMode === InputMode.SingleNote) ||
-    (mode === CircularVisMode.Polygon &&
-      (inputMode === InputMode.SingleNote || inputMode === InputMode.IntervalPresets));
+    (inputMode === InputMode.SingleNote &&
+      (mode === CircularVisMode.Radial || mode === CircularVisMode.Polygon)) ||
+    (inputMode === InputMode.IntervalPresets && mode === CircularVisMode.Polygon);
 
   return (
     <button
