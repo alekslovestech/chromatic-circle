@@ -4,14 +4,14 @@ import { ReactTestUtils } from "./utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 
-import { ModeSelector } from "../../Components/Settings/ModeSelector";
+import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
-describe("ModeSelector", () => {
+describe("ModeSelector with preset buttons", () => {
   const renderComponent = () => {
     return render(
       <RootProvider>
-        <ModeSelector />
+        <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );

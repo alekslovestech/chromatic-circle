@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode } from "../../types/SettingModes";
+import { CircularVisMode, InputMode } from "../../types/SettingModes";
 
 import { useDisplay } from "../../contexts/DisplayContext";
-import { useMusical } from "../../contexts/MusicalContext";
+import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/CircularSettings.css";
 
@@ -11,17 +12,19 @@ const CircularVisModeButton: React.FC<{
   label: string;
 }> = ({ mode, label }) => {
   const { circularVisMode, setCircularVisMode } = useDisplay();
-  const { selectedNoteIndices } = useMusical();
+  const { inputMode } = usePreset();
   const visIcons = new CircularVisIcons(12, 10);
 
   const isDisabled =
-    (selectedNoteIndices.length <= 1 && mode !== CircularVisMode.None) ||
-    (selectedNoteIndices.length === 2 && mode === CircularVisMode.Polygon);
+    (inputMode === InputMode.SingleNote &&
+      (mode === CircularVisMode.Radial || mode === CircularVisMode.Polygon)) ||
+    (inputMode === InputMode.IntervalPresets && mode === CircularVisMode.Polygon);
 
   return (
     <button
       key={mode}
-      className={`viz-button ${circularVisMode === mode ? "selected" : ""} ${
+      id={mode}
+      className={`vis-button ${circularVisMode === mode ? "selected" : ""} ${
         isDisabled ? "disabled" : ""
       }`}
       onClick={() => !isDisabled && setCircularVisMode(mode)}
@@ -41,6 +44,20 @@ const CircularVisModeButton: React.FC<{
 };
 
 export const CircularVisModeSelect: React.FC = () => {
+  const { inputMode } = usePreset();
+  const { setCircularVisMode } = useDisplay();
+
+  useEffect(() => {
+    // Reset visualization mode when input mode changes
+    if (inputMode === InputMode.SingleNote) {
+      setCircularVisMode(CircularVisMode.None);
+    } else if (inputMode === InputMode.IntervalPresets) {
+      setCircularVisMode(CircularVisMode.Radial);
+    } else if (inputMode === InputMode.ChordPresets) {
+      setCircularVisMode(CircularVisMode.Polygon);
+    }
+  }, [inputMode, setCircularVisMode]);
+
   const visList = [
     {
       mode: CircularVisMode.None,
@@ -57,7 +74,7 @@ export const CircularVisModeSelect: React.FC = () => {
   ];
 
   return (
-    <div className="viz-button-group">
+    <div className="vis-button-group">
       {visList.map(({ mode, label }) => (
         <CircularVisModeButton key={mode} mode={mode} label={label} />
       ))}

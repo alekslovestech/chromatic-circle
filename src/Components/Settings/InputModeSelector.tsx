@@ -3,7 +3,7 @@ import React from "react";
 import { InputMode } from "../../types/SettingModes";
 import { usePreset } from "../../contexts/PresetContext";
 
-import "../../styles/ModeSelector.css";
+import "../../styles/InputModeSelector.css";
 
 interface ModeSelectorButton {
   id: string;
@@ -34,7 +34,7 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
   },
 ];
 
-export const ModeSelector: React.FC = () => {
+export const InputModeSelector: React.FC = () => {
   const { inputMode, setInputMode } = usePreset();
 
   const handleModeChange = (newMode: InputMode) => {

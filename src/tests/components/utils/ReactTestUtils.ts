@@ -33,4 +33,12 @@ export const ReactTestUtils = {
     const element = document.getElementById(id);
     expect(element).not.toBeInTheDocument();
   },
+
+  expectElementToBeEnabled: (element: Element) => {
+    expect(element).toBeEnabled();
+  },
+
+  expectElementToBeDisabled: (element: Element) => {
+    expect(element).toBeDisabled();
+  },
 };

@@ -1,9 +1,9 @@
-.viz-button-group {
+.vis-button-group {
     display: flex;
     flex-direction: row;
 }
 
-.viz-button {
+.vis-button {
     border: 1px solid var(--viz-button-border-default);
     border-radius: 10%;
     background: var(--viz-button-background-default);
@@ -18,19 +18,19 @@
     z-index: 10;
 }
   
-.viz-button.selected {
+.vis-button.selected {
     border: 1px;
     background: var(--viz-button-background-selected);
     fill: white;
 }
 
-.viz-button.disabled {
+.vis-button.disabled {
     opacity: 0.5;
     background: var(--viz-button-background-disabled);
     cursor: not-allowed;
 }
   
-.viz-button svg {
+.vis-button svg {
     stroke: var(--viz-button-stroke-default);
     stroke-width: 3px;
     stroke-opacity: 0.4;
@@ -38,7 +38,7 @@
     fill: var(--viz-button-fill-default);
 }
   
-.viz-button.selected svg {
+.vis-button.selected svg {
     stroke: var(--viz-button-stroke-selected);
     stroke-opacity: 1;
     fill-opacity: 1;
