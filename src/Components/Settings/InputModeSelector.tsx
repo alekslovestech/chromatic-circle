@@ -50,7 +50,6 @@ export const InputModeSelector: React.FC = () => {
             id={id}
             key={mode}
             onClick={() => handleModeChange(mode)}
-            /* old style = btn btn-outline-secondary */
             className={`preset-button ${inputMode === mode ? "selected" : ""}`}
             title={description}
           >

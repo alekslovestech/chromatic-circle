@@ -1,13 +1,14 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { ReactTestUtils } from "./utils/ReactTestUtils";
+import { CircularVisMode } from "../../types/SettingModes";
 
 import { RootProvider } from "../../contexts/RootContext";
 
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
+
+import { ReactTestUtils } from "./utils/ReactTestUtils";
 import { CircularVisModeUtils } from "./utils/CircularVisModeUtils";
-import { CircularVisMode } from "../../types/SettingModes";
 
 import "../../styles/CircularVis.css";
 
