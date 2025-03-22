@@ -9,14 +9,13 @@ import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 describe("ChordPresetsSelector", () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <RootProvider>
         <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );
-  };
 
   test("selecting a new chord resets inversion to 0", () => {
     renderComponent();

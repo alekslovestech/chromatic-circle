@@ -11,15 +11,14 @@ import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 //scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <RootProvider>
         <KeyboardLinear />
         <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );
-  };
 
   beforeEach(() => {
     renderComponent();

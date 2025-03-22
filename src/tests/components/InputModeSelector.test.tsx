@@ -8,14 +8,13 @@ import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 describe("ModeSelector with preset buttons", () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <RootProvider>
         <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );
-  };
 
   describe("Default Behavior", () => {
     beforeEach(() => {

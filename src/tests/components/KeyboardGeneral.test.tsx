@@ -12,8 +12,8 @@ import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
 
 //scenarios where setup is the same for both linear and circular keyboards
 describe("KeyboardGeneral", () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <RootProvider>
         <KeyboardLinear />
         <KeyboardCircular />
@@ -21,7 +21,6 @@ describe("KeyboardGeneral", () => {
         <PresetsSelector />
       </RootProvider>,
     );
-  };
 
   beforeEach(() => {
     renderComponent();
