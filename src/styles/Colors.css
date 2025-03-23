@@ -57,16 +57,16 @@
   --toggle-button-border: var(--serenity-border-color);
 
   /* Visualization Colors */
-  --viz-button-background-default: white;
-  --viz-button-background-selected: var(--serenity-icon-selected-background);
-  --viz-button-background-disabled: lightgray;
-  --viz-button-border-default: rgba(0, 0, 0, 0.3);
-  --viz-button-stroke-default: rgba(0, 0, 0, 0.4);
-  --viz-button-fill-default: none;
-  --viz-button-stroke-selected: white;
-  --viz-polygon-stroke: var(--serenity-polygon-stroke);
-  --viz-base-note-fill: var(--root-note-highlight);
-  --viz-base-note-stroke: var(--serenity-polygon-stroke);
+  --vis-button-background-default: white;
+  --vis-button-background-selected: var(--serenity-icon-selected-background);
+  --vis-button-background-disabled: lightgray;
+  --vis-button-border-default: rgba(0, 0, 0, 0.3);
+  --vis-button-stroke-default: rgba(0, 0, 0, 0.4);
+  --vis-button-fill-default: none;
+  --vis-button-stroke-selected: white;
+  --vis-polygon-stroke: var(--serenity-polygon-stroke);
+  --vis-base-note-fill: var(--root-note-highlight);
+  --vis-base-note-stroke: var(--serenity-polygon-stroke);
 
   --settings-button-font-size: 0.8rem;
   --settings-description-font-size: 0.6rem;

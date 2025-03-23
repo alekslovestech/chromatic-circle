@@ -11,15 +11,14 @@ import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
 //scenarios where we only test the circular keyboard
 describe("KeyboardCircular", () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <RootProvider>
         <KeyboardCircular />
         <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,
     );
-  };
 
   beforeEach(() => {
     renderComponent();

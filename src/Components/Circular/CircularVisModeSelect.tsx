@@ -8,10 +8,10 @@ import { usePreset } from "../../contexts/PresetContext";
 import "../../styles/CircularSettings.css";
 
 const CircularVisModeButton: React.FC<{
-  mode: CircularVisMode;
+  mode: CircularVisMode; //vis mode this button represents
   label: string;
 }> = ({ mode, label }) => {
-  const { circularVisMode, setCircularVisMode } = useDisplay();
+  const { circularVisMode, setCircularVisMode } = useDisplay(); //vis mode currently selected
   const { inputMode } = usePreset();
   const visIcons = new CircularVisIcons(12, 10);
 

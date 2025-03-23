@@ -13,7 +13,7 @@ export const MonochromeModeToggle: React.FC = () => {
         onChange={() => setMonochromeMode(!monochromeMode)}
       />
       <label htmlFor="monochrome-mode" className="monochrome-mode-label">
-        Monochrome Mode
+        Uniform Keys Mode
       </label>
     </div>
   );
