@@ -11,7 +11,7 @@ import { useMusical } from "../contexts/MusicalContext";
 
 import "../styles/KeyboardLinear.css";
 
-const KeyboardLinear: React.FC = () => {
+export const KeyboardLinear: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
 
@@ -41,5 +41,3 @@ const KeyboardLinear: React.FC = () => {
 
   return <div className="keyboardlinear">{keys}</div>;
 };
-
-export default KeyboardLinear;

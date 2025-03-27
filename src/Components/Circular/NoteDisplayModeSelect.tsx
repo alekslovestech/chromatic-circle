@@ -1,8 +1,10 @@
 import { useDisplay } from "../../contexts/DisplayContext";
 import "../../styles/CircularSettings.css";
-import { NoteDisplayMode } from "../../types/SettingModes";
-export const NoteDisplayModeSelect: React.FC = () => {
-  const { noteDisplayMode, setNoteDisplayMode } = useDisplay();
+import { KeyTextMode } from "../../types/SettingModes";
+
+// determines the way the note names / scale degrees are displayed on the circular keyboard
+export const KeyTextModeSelect: React.FC = () => {
+  const { keyTextMode, setKeyTextMode } = useDisplay();
   return (
     <div
       className="note-display-mode-container"
@@ -11,34 +13,34 @@ export const NoteDisplayModeSelect: React.FC = () => {
       <div className="radio-option">
         <input
           type="radio"
-          id="note-display-letters"
-          name="note-display-mode"
-          checked={noteDisplayMode === NoteDisplayMode.Letters}
-          onChange={() => setNoteDisplayMode(NoteDisplayMode.Letters)}
+          id="key-text-note-names"
+          name="key-text-mode"
+          checked={keyTextMode === KeyTextMode.NoteNames}
+          onChange={() => setKeyTextMode(KeyTextMode.NoteNames)}
         />
-        <label htmlFor="note-display-letters">A</label>
+        <label htmlFor="key-text-note-names">A</label>
       </div>
 
       <div className="radio-option">
         <input
           type="radio"
-          id="note-display-arabic"
-          name="note-display-mode"
-          checked={noteDisplayMode === NoteDisplayMode.Arabic}
-          onChange={() => setNoteDisplayMode(NoteDisplayMode.Arabic)}
+          id="key-text-numbers"
+          name="key-text-mode"
+          checked={keyTextMode === KeyTextMode.Arabic}
+          onChange={() => setKeyTextMode(KeyTextMode.Arabic)}
         />
-        <label htmlFor="note-display-solfege">1</label>
+        <label htmlFor="key-text-numbers">1</label>
       </div>
 
       <div className="radio-option">
         <input
           type="radio"
-          id="note-display-roman"
-          name="note-display-mode"
-          checked={noteDisplayMode === NoteDisplayMode.Roman}
-          onChange={() => setNoteDisplayMode(NoteDisplayMode.Roman)}
+          id="key-text-roman"
+          name="key-text-mode"
+          checked={keyTextMode === KeyTextMode.Roman}
+          onChange={() => setKeyTextMode(KeyTextMode.Roman)}
         />
-        <label htmlFor="note-display-numbers">iv</label>
+        <label htmlFor="key-text-roman">iv</label>
       </div>
     </div>
   );
