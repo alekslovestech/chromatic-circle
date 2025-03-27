@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useSearchParams } from "react-router-dom";
 import { RootProvider } from "./contexts/RootContext";
 
 import AudioPlayer from "./Components/AudioPlayer";
@@ -11,11 +11,10 @@ import StaffRenderer from "./Components/StaffRenderer";
 
 import "./styles/App.css";
 
-const isLogo = process.env.REACT_APP_IS_LOGO === "true";
-
 const App: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
-
+  const [searchParams] = useSearchParams();
+  const isLogo = searchParams.get("isLogo") === "true";
   console.log(`isLogo: ${isLogo}`);
 
   return (
