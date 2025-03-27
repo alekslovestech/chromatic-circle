@@ -1,17 +1,19 @@
 import React from "react";
 
 // Components
-import { CircularVisModeSelect } from "./CircularVisModeSelect";
 import { MusicalKeySelector } from "../MusicalKeySelector";
 import { TransposeWidget } from "../TransposeWidget";
 import { ChordNameDisplay } from "../ChordNameDisplay";
+
+import { CircularVisModeSelect } from "./CircularVisModeSelect";
 import { MonochromeModeToggle } from "./MonochromeModeToggle";
 import { ClearButton } from "./ClearButton";
+import { KeyTextModeSelect } from "./NoteDisplayModeSelect";
 
 // Styles
 import "../../styles/CircularSettings.css";
 
-export const CircularSettings: React.FC = () => {
+export const CircularSettings: React.FC<{ advanced?: boolean }> = ({ advanced = false }) => {
   return (
     <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -20,8 +22,8 @@ export const CircularSettings: React.FC = () => {
           <MusicalKeySelector />
           <TransposeWidget />
         </div>
-        <MonochromeModeToggle />
-        {/*<KeyTextModeSelect />*/}
+        {<MonochromeModeToggle />}
+        {advanced && <KeyTextModeSelect />}
         <ClearButton />
         <ChordNameDisplay />
       </div>

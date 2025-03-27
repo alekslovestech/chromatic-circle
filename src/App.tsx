@@ -27,14 +27,8 @@ const App: React.FC = () => {
               <KeyboardLinear />
             </div>
             <div className="keyboardcircular-container" style={borderStyle}>
-              {isLogo ? (
-                <KeyboardCircular isLogo={true} />
-              ) : (
-                <>
-                  <KeyboardCircular />
-                  <CircularSettings />
-                </>
-              )}
+              <KeyboardCircular isLogo={isLogo} />
+              {!isLogo && <CircularSettings advanced={isAdvanced} />}
             </div>
             <SettingsContainer />
             <StaffRenderer />
