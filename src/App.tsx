@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 import { RootProvider } from "./contexts/RootContext";
 
 import AudioPlayer from "./Components/AudioPlayer";
-import KeyboardCircular from "./Components/Circular/KeyboardCircular";
+import { KeyboardCircular } from "./Components/Circular/KeyboardCircular";
 import { CircularSettings } from "./Components/Circular/CircularSettings";
-import KeyboardLinear from "./Components/KeyboardLinear";
+import { KeyboardLinear } from "./Components/KeyboardLinear";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 
@@ -14,7 +14,8 @@ import "./styles/App.css";
 const App: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
   const [searchParams] = useSearchParams();
-  const isLogo = searchParams.get("isLogo") === "true";
+  const isLogo = searchParams.get("mode") === "logo";
+  const isAdvanced = searchParams.get("mode") === "advanced";
   console.log(`isLogo: ${isLogo}`);
 
   return (

@@ -1,14 +1,14 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { CircularVisMode, ChordDisplayMode, NoteDisplayMode } from "../types/SettingModes";
+import { CircularVisMode, ChordDisplayMode, KeyTextMode } from "../types/SettingModes";
 
 export interface DisplaySettings {
   circularVisMode: CircularVisMode;
   monochromeMode: boolean;
-  noteDisplayMode: NoteDisplayMode;
+  keyTextMode: KeyTextMode;
   chordDisplayMode: ChordDisplayMode;
   setCircularVisMode: (mode: CircularVisMode) => void;
   setMonochromeMode: (mode: boolean) => void;
-  setNoteDisplayMode: (mode: NoteDisplayMode) => void;
+  setKeyTextMode: (mode: KeyTextMode) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
 }
 
@@ -17,7 +17,7 @@ const DisplayContext = createContext<DisplaySettings | null>(null);
 export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
   const [monochromeMode, setMonochromeMode] = useState<boolean>(false);
-  const [noteDisplayMode, setNoteDisplayMode] = useState<NoteDisplayMode>(NoteDisplayMode.Letters);
+  const [keyTextMode, setKeyTextMode] = useState<KeyTextMode>(KeyTextMode.NoteNames);
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
@@ -25,11 +25,11 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
   const value: DisplaySettings = {
     circularVisMode,
     monochromeMode,
-    noteDisplayMode,
+    keyTextMode,
     chordDisplayMode,
     setCircularVisMode,
     setMonochromeMode,
-    setNoteDisplayMode,
+    setKeyTextMode,
     setChordDisplayMode,
   };
 

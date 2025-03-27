@@ -1,7 +1,7 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 
-import { NoteDisplayMode } from "../../types/SettingModes";
+import { KeyTextMode } from "../../types/SettingModes";
 import { MusicalKey } from "../../types/MusicalKey";
 import { RomanResolver } from "../../types/RomanResolver";
 
@@ -43,15 +43,15 @@ const getArcPathFromIndex = (
 const getDisplayString = (
   chromaticIndex: ChromaticIndex,
   musicalKey: MusicalKey,
-  displayMode: NoteDisplayMode,
+  displayMode: KeyTextMode,
 ) => {
   const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
   switch (displayMode) {
-    case NoteDisplayMode.Letters:
+    case KeyTextMode.NoteNames:
       return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
-    case NoteDisplayMode.Arabic:
+    case KeyTextMode.Arabic:
       return scaleDegree > 0 ? scaleDegree.toString() : "";
-    case NoteDisplayMode.Roman:
+    case KeyTextMode.Roman:
       return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
   }
 };
@@ -64,7 +64,7 @@ export const PieSlice: React.FC<{
   isLogo: boolean;
 }> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { monochromeMode, noteDisplayMode } = useDisplay();
+  const { monochromeMode, keyTextMode } = useDisplay();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
@@ -87,7 +87,7 @@ export const PieSlice: React.FC<{
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>
-            {getDisplayString(chromaticIndex, selectedMusicalKey, noteDisplayMode)}
+            {getDisplayString(chromaticIndex, selectedMusicalKey, keyTextMode)}
           </text>
         )}
       </g>
@@ -102,7 +102,7 @@ export const PieSlice: React.FC<{
           fontSize="4px"
         >
           <tspan fontSize="8px">
-            {getDisplayString(chromaticIndex, selectedMusicalKey, NoteDisplayMode.Roman)}
+            {getDisplayString(chromaticIndex, selectedMusicalKey, KeyTextMode.Roman)}
           </tspan>
         </text>
       )}

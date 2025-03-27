@@ -15,7 +15,7 @@ const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
-const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
+export const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices } = useMusical();
   const { circularVisMode } = useDisplay();
@@ -37,5 +37,3 @@ const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
     </svg>
   );
 };
-
-export default KeyboardCircular;

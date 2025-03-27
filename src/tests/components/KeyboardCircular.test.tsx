@@ -5,7 +5,7 @@ import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 
-import KeyboardCircular from "../../Components/Circular/KeyboardCircular";
+import { KeyboardCircular } from "../../Components/Circular/KeyboardCircular";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 
