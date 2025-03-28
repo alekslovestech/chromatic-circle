@@ -1,15 +1,16 @@
 import React from "react";
 
-import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { GreekModeType, KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { formatForDisplay } from "../utils/NoteUtils";
 
 import { useMusical } from "../contexts/MusicalContext";
 
 import "../styles/CircularSettings.css";
 
-export const MusicalKeySelector: React.FC = () => {
+export const MusicalKeySelector: React.FC<{ advanced?: boolean }> = ({ advanced = false }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
 
+  console.log(`MusicalKeySelector: advanced =${advanced}`);
   const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.mode);
 
   const handleKeyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,9 +34,23 @@ export const MusicalKeySelector: React.FC = () => {
           </option>
         ))}
       </select>
-      <button id="major-minor-toggle" onClick={handleMajorToggle}>
-        {selectedMusicalKey.mode === KeyType.Major ? "Major" : "Minor"}
-      </button>
+      {advanced ? (
+        <select
+          onChange={(e) => {
+            // TODO: Handle Greek mode change
+          }}
+        >
+          {Object.values(GreekModeType).map((mode) => (
+            <option key={mode} value={mode}>
+              {mode}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <button id="major-minor-toggle" onClick={handleMajorToggle}>
+          {selectedMusicalKey.mode === KeyType.Major ? "Major" : "Minor"}
+        </button>
+      )}
     </div>
   );
 };

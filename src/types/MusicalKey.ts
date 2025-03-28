@@ -8,6 +8,16 @@ export enum KeyType {
   Minor = "Minor",
 }
 
+export enum GreekModeType {
+  Ionian = "Ionian",
+  Dorian = "Dorian",
+  Phrygian = "Phrygian",
+  Lydian = "Lydian",
+  Mixolydian = "Mixolydian",
+  Aeolian = "Aeolian",
+  Locrian = "Locrian",
+}
+
 export class MusicalKey {
   tonicString: string; // Root note (e.g., "C", "A")
   mode: KeyType; // Major or minor scale

@@ -14,12 +14,13 @@ import { KeyTextModeSelect } from "./NoteDisplayModeSelect";
 import "../../styles/CircularSettings.css";
 
 export const CircularSettings: React.FC<{ advanced?: boolean }> = ({ advanced = false }) => {
+  console.log(`CircularSettings: advanced =${advanced}`);
   return (
     <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-          <MusicalKeySelector />
+          <MusicalKeySelector advanced={advanced} />
           <TransposeWidget />
         </div>
         {<MonochromeModeToggle />}
