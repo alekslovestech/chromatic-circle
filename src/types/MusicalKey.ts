@@ -20,43 +20,55 @@ export enum GreekModeType {
 
 export class MusicalKey {
   tonicString: string; // Root note (e.g., "C", "A")
-  mode: KeyType; // Major or minor scale
+  classicalMode: KeyType; // Major or minor scale
+  greekMode: GreekModeType;
 
-  constructor(tonicAsString: string, mode: KeyType) {
+  constructor(tonicAsString: string, mode: KeyType | GreekModeType) {
     this.tonicString = tonicAsString;
-    this.mode = mode;
+    this.greekMode = mode as GreekModeType;
+    if (Object.values(KeyType).includes(mode as KeyType)) {
+      this.classicalMode = mode as KeyType;
+      this.greekMode = mode === KeyType.Major ? GreekModeType.Ionian : GreekModeType.Aeolian;
+    } else if (Object.values(GreekModeType).includes(mode as GreekModeType)) {
+      this.classicalMode = [
+        GreekModeType.Ionian,
+        GreekModeType.Lydian,
+        GreekModeType.Mixolydian,
+      ].includes(mode as GreekModeType)
+        ? KeyType.Major
+        : KeyType.Minor;
+      this.greekMode = mode as GreekModeType;
+    } else {
+      throw new Error("Invalid mode: " + mode);
+    }
   }
 
   get tonicIndex(): ChromaticIndex {
     return noteTextToIndex(this.tonicString);
   }
 
-  getRelativeKey(): MusicalKey {
-    const originalTonicIndex = this.tonicIndex;
-    const newMode = this.mode === KeyType.Major ? KeyType.Minor : KeyType.Major;
-    const newTonicIndex =
-      this.mode === KeyType.Major
-        ? addChromatic(originalTonicIndex, -3)
-        : addChromatic(originalTonicIndex, 3);
-    const newKeyList = MusicalKeyUtil.getKeyList(newMode);
-    const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === newTonicIndex);
-    return new MusicalKey(newTonicString!, newMode);
-  }
-
   //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
   getOppositeKey(): MusicalKey {
-    const newMode = this.mode === KeyType.Major ? KeyType.Minor : KeyType.Major;
+    const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
     const newKeyList = MusicalKeyUtil.getKeyList(newMode);
     const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
     return new MusicalKey(newTonicString!, newMode);
   }
 
   generateIndexArray(): ChromaticIndex[] {
-    const majorPattern: number[] = [0, 2, 4, 5, 7, 9, 11]; // Offsets for major scale
-    const minorPattern: number[] = [0, 2, 3, 5, 7, 8, 10]; // Offsets for minor scale
-    const tonicIndex = this.tonicIndex; // Get the tonic index
-    const offsetScale = this.mode === KeyType.Major ? majorPattern : minorPattern;
-    return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex)); // Offset the scale by tonic in a wraparound fashion
+    const modePatterns = {
+      [GreekModeType.Ionian]: [0, 2, 4, 5, 7, 9, 11], // Major scale
+      [GreekModeType.Dorian]: [0, 2, 3, 5, 7, 9, 10], // Minor with raised 6th
+      [GreekModeType.Phrygian]: [0, 1, 3, 5, 7, 8, 10], // Minor with lowered 2nd
+      [GreekModeType.Lydian]: [0, 2, 4, 6, 7, 9, 11], // Major with raised 4th
+      [GreekModeType.Mixolydian]: [0, 2, 4, 5, 7, 9, 10], // Major with lowered 7th
+      [GreekModeType.Aeolian]: [0, 2, 3, 5, 7, 8, 10], // Natural minor scale
+      [GreekModeType.Locrian]: [0, 1, 3, 5, 6, 8, 10], // Minor with lowered 2nd and 5th
+    };
+
+    const tonicIndex = this.tonicIndex;
+    const offsetScale = modePatterns[this.greekMode];
+    return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
   }
 
   getNoteInKey = (chromaticIndex: ChromaticIndex): NoteInfo => {
@@ -76,7 +88,7 @@ export class MusicalKey {
   }
 
   private getKeySignature(): string[] {
-    const keyMap = MusicalKeyUtil.getKeySignatures(this.mode);
+    const keyMap = MusicalKeyUtil.getKeySignatures(this.classicalMode);
     return keyMap[this.tonicString] || [];
   }
 
