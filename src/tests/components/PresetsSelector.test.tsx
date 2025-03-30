@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import { ReactTestUtils } from "./utils/ReactTestUtils";
+import { ReactTestUtils } from "../utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 

@@ -1,7 +1,7 @@
-import { CircularVisMode } from "../../../types/SettingModes";
+import { CircularVisMode } from "../../types/SettingModes";
 import { ReactTestUtils } from "./ReactTestUtils";
 
-import "../../../styles/CircularVis.css";
+import "../../styles/CircularVis.css";
 
 export const CircularVisModeUtils = {
   //the state of "None" / "Radial" / "Polygon" buttons respectively
