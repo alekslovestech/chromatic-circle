@@ -9,10 +9,10 @@ function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNo
   expect(note).toEqual(expectedNote);
 }
 
-const cMajor = new MusicalKey("C", KeyType.Major);
-const dMajor = new MusicalKey("D", KeyType.Major);
-const dMinor = new MusicalKey("D", KeyType.Minor);
-const eMajor = new MusicalKey("E", KeyType.Major);
+const cMajor = MusicalKey.fromClassicalMode("C", KeyType.Major);
+const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
+const dMinor = MusicalKey.fromClassicalMode("D", KeyType.Minor);
+const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
 
 describe("Resolved roman numeral tests", () => {
   test("D in C major", () => {

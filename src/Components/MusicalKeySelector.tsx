@@ -12,30 +12,30 @@ export const MusicalKeySelector: React.FC<{ advanced?: boolean }> = ({ advanced 
 
   const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.classicalMode);
 
-  const handleKeyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newKey = new MusicalKey(event.target.value, selectedMusicalKey.classicalMode);
+  //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
+  const handleKeyNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const keyName = event.target.value as string;
+    const newKey = MusicalKey.fromClassicalMode(keyName, selectedMusicalKey.classicalMode);
     setSelectedMusicalKey(newKey);
   };
 
+  //Ionian / Dorian / Phrygian / Lydian / Mixolydian / Aeolian / Locrian
   const handleGreekModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newKey = new MusicalKey(
-      selectedMusicalKey.tonicString,
-      event.target.value as GreekModeType,
-    );
-    console.log(newKey);
+    const greekMode = event.target.value as GreekModeType;
+    const newKey = MusicalKey.fromGreekMode(selectedMusicalKey.tonicString, greekMode);
     setSelectedMusicalKey(newKey);
   };
 
-  const handleMajorToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //Major / Minor
+  const handleMajorMinorToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     const newKey = selectedMusicalKey.getOppositeKey();
-    console.log(newKey);
     setSelectedMusicalKey(newKey);
   };
 
   return (
     <div className="musical-key-selector">
-      <select onChange={handleKeyChange} value={selectedMusicalKey.tonicString}>
+      <select onChange={handleKeyNameChange} value={selectedMusicalKey.tonicString}>
         {keys.map((key) => (
           <option key={key} value={key}>
             {formatForDisplay(key)}
@@ -51,7 +51,7 @@ export const MusicalKeySelector: React.FC<{ advanced?: boolean }> = ({ advanced 
           ))}
         </select>
       ) : (
-        <button id="major-minor-toggle" onClick={handleMajorToggle}>
+        <button id="major-minor-toggle" onClick={handleMajorMinorToggle}>
           {selectedMusicalKey.classicalMode === KeyType.Major ? "Major" : "Minor"}
         </button>
       )}

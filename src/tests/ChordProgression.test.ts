@@ -3,11 +3,11 @@ import { KeyType, MusicalKey } from "../types/MusicalKey";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { AbsoluteChord } from "../types/AbsoluteChord";
 describe("Chord progression derives correct chords for C major key", () => {
-  const cMajor = new MusicalKey("C", KeyType.Major);
-  const dMajor = new MusicalKey("D", KeyType.Major);
-  const fMajor = new MusicalKey("F", KeyType.Major);
-  const gMajor = new MusicalKey("G", KeyType.Major);
-  const aMajor = new MusicalKey("A", KeyType.Major);
+  const cMajor = MusicalKey.fromClassicalMode("C", KeyType.Major);
+  const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
+  const fMajor = MusicalKey.fromClassicalMode("F", KeyType.Major);
+  const gMajor = MusicalKey.fromClassicalMode("G", KeyType.Major);
+  const aMajor = MusicalKey.fromClassicalMode("A", KeyType.Major);
 
   const fiftiesProgression = new ChordProgression(["I", "vi", "IV", "V"], "50s progression");
   const somethingProgression = new ChordProgression(["I", "Imaj7", "I7", "IV"], "Something");

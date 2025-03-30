@@ -7,7 +7,7 @@ const verifyMusicalKeyAccidental = (
   keyType: KeyType,
   expectedAccidental: AccidentalType,
 ) => {
-  const musicalKey = new MusicalKey(key, keyType);
+  const musicalKey = MusicalKey.fromClassicalMode(key, keyType);
   expect(musicalKey.getDefaultAccidental()).toBe(expectedAccidental);
 };
 
