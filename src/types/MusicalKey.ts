@@ -23,23 +23,31 @@ export class MusicalKey {
   classicalMode: KeyType; // Major or minor scale
   greekMode: GreekModeType;
 
-  constructor(tonicAsString: string, mode: KeyType | GreekModeType) {
+  private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = tonicAsString;
-    this.greekMode = mode as GreekModeType;
-    if (Object.values(KeyType).includes(mode as KeyType)) {
-      this.classicalMode = mode as KeyType;
-      this.greekMode = mode === KeyType.Major ? GreekModeType.Ionian : GreekModeType.Aeolian;
-    } else if (Object.values(GreekModeType).includes(mode as GreekModeType)) {
-      this.classicalMode = [
-        GreekModeType.Ionian,
-        GreekModeType.Lydian,
-        GreekModeType.Mixolydian,
-      ].includes(mode as GreekModeType)
-        ? KeyType.Major
-        : KeyType.Minor;
-      this.greekMode = mode as GreekModeType;
-    } else {
-      throw new Error("Invalid mode: " + mode);
+    this.classicalMode = classicalMode;
+    this.greekMode = greekMode;
+  }
+
+  static fromClassicalMode(tonicAsString: string, classicalMode: KeyType): MusicalKey {
+    const greekMode =
+      classicalMode === KeyType.Major ? GreekModeType.Ionian : GreekModeType.Aeolian;
+    return new MusicalKey(tonicAsString, classicalMode, greekMode);
+  }
+
+  static fromGreekMode(tonicAsString: string, greekMode: GreekModeType): MusicalKey {
+    const classicalMode = this.getClassicalModeFromGreekMode(greekMode);
+    return new MusicalKey(tonicAsString, classicalMode, greekMode);
+  }
+
+  private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
+    switch (mode) {
+      case GreekModeType.Ionian:
+      case GreekModeType.Lydian:
+      case GreekModeType.Mixolydian:
+        return KeyType.Major;
+      default:
+        return KeyType.Minor;
     }
   }
 
@@ -52,7 +60,7 @@ export class MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
     const newKeyList = MusicalKeyUtil.getKeyList(newMode);
     const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
-    return new MusicalKey(newTonicString!, newMode);
+    return MusicalKey.fromClassicalMode(newTonicString!, newMode);
   }
 
   generateIndexArray(): ChromaticIndex[] {
@@ -118,7 +126,7 @@ export class MusicalKeyUtil {
     return mode === KeyType.Major ? this.majorKeySignatures : this.minorKeySignatures;
   }
 
-  public static defaultMusicalKey = new MusicalKey("C", KeyType.Major);
+  public static defaultMusicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
 
   private static majorKeySignatures: Record<string, string[]> = {
     C: [],
