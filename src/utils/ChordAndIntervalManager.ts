@@ -82,7 +82,7 @@ export class ChordAndIntervalManager {
   static getChordNameFromIndices(
     indices: ActualIndex[],
     displayMode = ChordDisplayMode.Letters_Short,
-    selectedMusicalKey: MusicalKey = MusicalKeyUtil.defaultMusicalKey,
+    selectedMusicalKey: MusicalKey = MusicalKeyUtil.DEFAULT_MUSICAL_KEY,
     /* accidental = AccidentalType.Sharp,*/
   ): string {
     const chordMatch = this.getMatchFromIndices(indices);

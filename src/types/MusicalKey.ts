@@ -1,7 +1,8 @@
-import { getBasicNoteInfo } from "../utils/NoteUtils";
+import { getBasicNoteInfo, getNoteTextFromActualIndex } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
 import { GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { ixActual } from "./IndexTypes";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatures";
 import { NoteInfo } from "./NoteInfo";
 
@@ -33,14 +34,8 @@ export class MusicalKey {
   }
 
   private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
-    switch (mode) {
-      case GreekModeType.Ionian:
-      case GreekModeType.Lydian:
-      case GreekModeType.Mixolydian:
-        return KeyType.Major;
-      default:
-        return KeyType.Minor;
-    }
+    const majorModes = [GreekModeType.Ionian, GreekModeType.Lydian, GreekModeType.Mixolydian];
+    return majorModes.includes(mode) ? KeyType.Major : KeyType.Minor;
   }
 
   get tonicIndex(): ChromaticIndex {
@@ -108,5 +103,25 @@ export class MusicalKeyUtil {
     return mode === KeyType.Major ? MAJOR_KEY_SIGNATURES : MINOR_KEY_SIGNATURES;
   }
 
-  public static defaultMusicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
+  private static getRelativeIonian = (note: string, mode: GreekModeType): string => {
+    const modeIndex = Object.values(GreekModeType).indexOf(mode);
+    const modePattern = MODE_PATTERNS[mode];
+    const relativeIonianIndex = modePattern.length - modeIndex;
+    const initialIndex = noteTextToIndex(note);
+    const relativeIonianChromaticIndex = addChromatic(
+      initialIndex,
+      modePattern[relativeIonianIndex],
+    );
+    return getNoteTextFromActualIndex(ixActual(relativeIonianChromaticIndex), AccidentalType.Sharp);
+  };
+
+  public static getKeySignatureFromGreekMode(note: string, mode: GreekModeType): string[] {
+    // Get the relative Ionian (major) key for a given Greek mode
+    // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
+
+    const relativeIonian = this.getRelativeIonian(note, mode);
+    return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
+  }
+
+  public static readonly DEFAULT_MUSICAL_KEY = MusicalKey.fromClassicalMode("C", KeyType.Major);
 }
