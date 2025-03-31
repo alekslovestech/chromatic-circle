@@ -10,59 +10,78 @@ function verifyNoteList(musicalKey: MusicalKey, expectedNotes: string[]) {
 }
 
 describe("Greek Mode Index Arrays", () => {
-  describe("Ionian (Major) Mode", () => {
-    const C_IONIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Ionian);
+  const C_IONIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Ionian);
+  const C_DORIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Dorian);
+  const C_PHRYGIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Phrygian);
+  const C_LYDIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Lydian);
+  const C_MIXOLYDIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Mixolydian);
+  const C_AEOLIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Aeolian);
+  const C_LOCRIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Locrian);
 
-    test("has correct scale indexes", () => {
+  const D_DORIAN_KEY = MusicalKey.fromGreekMode("D", GreekModeType.Dorian);
+  const E_PHRYGIAN_KEY = MusicalKey.fromGreekMode("E", GreekModeType.Phrygian);
+  const F_LYDIAN_KEY = MusicalKey.fromGreekMode("F", GreekModeType.Lydian);
+  const G_MIXOLYDIAN_KEY = MusicalKey.fromGreekMode("G", GreekModeType.Mixolydian);
+  const A_AEOLIAN_KEY = MusicalKey.fromGreekMode("A", GreekModeType.Aeolian);
+  const B_LOCRIAN_KEY = MusicalKey.fromGreekMode("B", GreekModeType.Locrian);
+
+  describe("Ionian (Major) Mode", () => {
+    test("C Ionian mode", () => {
       verifyNoteList(C_IONIAN_KEY, ["C", "D", "E", "F", "G", "A", "B"]);
     });
   });
 
   describe("Dorian Mode", () => {
-    const D_DORIAN_KEY = MusicalKey.fromGreekMode("D", GreekModeType.Dorian);
-
-    test("has correct scale indexes", () => {
+    test("D Dorian mode", () => {
       verifyNoteList(D_DORIAN_KEY, ["D", "E", "F", "G", "A", "B", "C"]);
+    });
+    test("C Dorian mode", () => {
+      verifyNoteList(C_DORIAN_KEY, ["C", "D", "Eb", "F", "G", "A", "Bb"]);
     });
   });
 
   describe("Phrygian Mode", () => {
-    const E_PHRYGIAN_KEY = MusicalKey.fromGreekMode("E", GreekModeType.Phrygian);
-
-    test("has correct scale indexes", () => {
+    test("E Phrygian mode", () => {
       verifyNoteList(E_PHRYGIAN_KEY, ["E", "F", "G", "A", "B", "C", "D"]);
+    });
+    test("C Phrygian mode", () => {
+      verifyNoteList(C_PHRYGIAN_KEY, ["C", "Db", "Eb", "F", "G", "Ab", "Bb"]);
     });
   });
 
   describe("Lydian Mode", () => {
-    const F_LYDIAN_KEY = MusicalKey.fromGreekMode("F", GreekModeType.Lydian);
-
-    test("has correct scale indexes", () => {
+    test("F Lydian mode", () => {
       verifyNoteList(F_LYDIAN_KEY, ["F", "G", "A", "B", "C", "D", "E"]);
+    });
+    test("C Lydian mode", () => {
+      verifyNoteList(C_LYDIAN_KEY, ["C", "D", "E", "F#", "G", "A", "B"]);
     });
   });
 
   describe("Mixolydian Mode", () => {
-    const G_MIXOLYDIAN_KEY = MusicalKey.fromGreekMode("G", GreekModeType.Mixolydian);
-
-    test("has correct scale indexes", () => {
+    test("G Mixolydian mode", () => {
       verifyNoteList(G_MIXOLYDIAN_KEY, ["G", "A", "B", "C", "D", "E", "F"]);
     });
-
-    describe("Aeolian (Natural Minor) Mode", () => {
-      const A_AEOLIAN_KEY = MusicalKey.fromGreekMode("A", GreekModeType.Aeolian);
-
-      test("has correct scale indexes", () => {
-        verifyNoteList(A_AEOLIAN_KEY, ["A", "B", "C", "D", "E", "F", "G"]);
-      });
+    test("C Mixolydian mode", () => {
+      verifyNoteList(C_MIXOLYDIAN_KEY, ["C", "D", "E", "F", "G", "A", "Bb"]);
     });
+  });
 
-    describe("Locrian Mode", () => {
-      const B_LOCRIAN_KEY = MusicalKey.fromGreekMode("B", GreekModeType.Locrian);
+  describe("Aeolian (Natural Minor) Mode", () => {
+    test("A Aeolian mode", () => {
+      verifyNoteList(A_AEOLIAN_KEY, ["A", "B", "C", "D", "E", "F", "G"]);
+    });
+    test("C Aeolian mode", () => {
+      verifyNoteList(C_AEOLIAN_KEY, ["C", "D", "Eb", "F", "G", "Ab", "Bb"]);
+    });
+  });
 
-      test("has correct scale indexes", () => {
-        verifyNoteList(B_LOCRIAN_KEY, ["B", "C", "D", "E", "F", "G", "A"]);
-      });
+  describe("Locrian Mode", () => {
+    test("B Locrian mode", () => {
+      verifyNoteList(B_LOCRIAN_KEY, ["B", "C", "D", "E", "F", "G", "A"]);
+    });
+    test("C Locrian mode", () => {
+      verifyNoteList(C_LOCRIAN_KEY, ["C", "Db", "Eb", "F", "Gb", "Ab", "Bb"]);
     });
   });
 });
