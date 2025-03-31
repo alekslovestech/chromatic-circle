@@ -14,8 +14,8 @@ function verifyResolvedChord(
   expect(absoluteChord).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
 }
 
-const cMajor = new MusicalKey("C", KeyType.Major);
-const eMajor = new MusicalKey("E", KeyType.Major);
+const cMajor = MusicalKey.fromClassicalMode("C", KeyType.Major);
+const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
 describe("Resolved roman numeral tests", () => {
   test("Resolve roman numeral I in C major", () => {
     verifyResolvedChord(cMajor, "I", "C", ChordType.Major);
@@ -38,14 +38,14 @@ describe("Resolved roman numeral tests", () => {
   });
 
   test("Resolve roman numeral ♭VI in G major", () => {
-    const gMajor = new MusicalKey("G", KeyType.Major);
+    const gMajor = MusicalKey.fromClassicalMode("G", KeyType.Major);
     verifyResolvedChord(gMajor, "♭VI", "Eb", ChordType.Major);
   });
 });
 
 describe("Scale degree from chromatic index", () => {
   test("C in C major (I)", () => {
-    const key = new MusicalKey("C", KeyType.Major); // C major
+    const key = MusicalKey.fromClassicalMode("C", KeyType.Major); // C major
     expect(RomanResolver.getScaleDegreeFromNoteAndKey("C", key)).toBe(1);
   });
 
@@ -56,17 +56,17 @@ describe("Scale degree from chromatic index", () => {
   }); */
 
   test("G in C major (V)", () => {
-    const key = new MusicalKey("C", KeyType.Major); // C major
+    const key = MusicalKey.fromClassicalMode("C", KeyType.Major); // C major
     expect(RomanResolver.getScaleDegreeFromNoteAndKey("G", key)).toBe(5);
   });
 
   test("F♯ in D major (III)", () => {
-    const key = new MusicalKey("D", KeyType.Major); // D major
+    const key = MusicalKey.fromClassicalMode("D", KeyType.Major); // D major
     expect(RomanResolver.getScaleDegreeFromNoteAndKey("F#", key)).toBe(3);
   });
 
   test("B♭ in F major (IV)", () => {
-    const key = new MusicalKey("F", KeyType.Major); // F major
+    const key = MusicalKey.fromClassicalMode("F", KeyType.Major); // F major
     expect(RomanResolver.getScaleDegreeFromNoteAndKey("Bb", key)).toBe(4);
   });
 });

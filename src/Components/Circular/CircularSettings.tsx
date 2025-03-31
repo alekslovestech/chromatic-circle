@@ -19,7 +19,7 @@ export const CircularSettings: React.FC<{ advanced?: boolean }> = ({ advanced = 
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-          <MusicalKeySelector />
+          <MusicalKeySelector advanced={advanced} />
           <TransposeWidget />
         </div>
         {<MonochromeModeToggle />}

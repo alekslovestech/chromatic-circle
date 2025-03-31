@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 
-import { ReactTestUtils } from "./utils/ReactTestUtils";
-import { keyVerificationUtils } from "./utils/KeyboardVerificationUtils";
+import { ReactTestUtils } from "../utils/ReactTestUtils";
+import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 

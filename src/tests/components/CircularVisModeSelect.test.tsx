@@ -7,10 +7,8 @@ import { RootProvider } from "../../contexts/RootContext";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
 
-import { ReactTestUtils } from "./utils/ReactTestUtils";
-import { CircularVisModeUtils } from "./utils/CircularVisModeUtils";
-
-import "../../styles/CircularVis.css";
+import { ReactTestUtils } from "../utils/ReactTestUtils";
+import { CircularVisModeUtils } from "../utils/CircularVisModeUtils";
 
 describe("InputModeSelector with CircularVisModeSelect", () => {
   const renderComponent = () =>

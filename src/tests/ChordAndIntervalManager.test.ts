@@ -256,7 +256,7 @@ describe("ChordAndIntervalManager", () => {
         ChordAndIntervalManager.getChordNameFromIndices(
           ixActualArray([1, 5, 8]),
           ChordDisplayMode.Letters_Short,
-          new MusicalKey("Db", KeyType.Major),
+          MusicalKey.fromClassicalMode("Db", KeyType.Major),
         ),
       ).toBe("D♭");
     });

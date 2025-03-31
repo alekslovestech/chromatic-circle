@@ -1,5 +1,5 @@
-import { TWELVE } from "../../../types/NoteConstants";
-import { TWENTY4 } from "../../../types/NoteConstants";
+import { TWELVE } from "../../types/NoteConstants";
+import { TWENTY4 } from "../../types/NoteConstants";
 import { ReactTestUtils } from "./ReactTestUtils";
 
 export const keyVerificationUtils = {

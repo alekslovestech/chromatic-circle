@@ -37,7 +37,7 @@ const EasyScoreFromNotes = (
 
 const getKeySignatureForVex = (musicalKey: MusicalKey) => {
   const pureKey = musicalKey.tonicString;
-  const majorMinor = musicalKey.mode === KeyType.Major ? "" : "m";
+  const majorMinor = musicalKey.classicalMode === KeyType.Major ? "" : "m";
   return pureKey + majorMinor;
 };
 

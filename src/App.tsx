@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [searchParams] = useSearchParams();
   const isLogo = searchParams.get("mode") === "logo";
   const isAdvanced = searchParams.get("mode") === "advanced";
-  console.log(`isLogo: ${isLogo}`);
+  console.log(`isLogo: ${isLogo}, isAdvanced: ${isAdvanced}`);
 
   return (
     <div className="ChromaticCircle">
