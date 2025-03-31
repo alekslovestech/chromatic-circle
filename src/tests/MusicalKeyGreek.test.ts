@@ -1,5 +1,6 @@
 import { noteTextToIndex } from "../types/ChromaticIndex";
-import { GreekModeType, MusicalKey } from "../types/MusicalKey";
+import { GreekModeType } from "../types/GreekMode";
+import { MusicalKey } from "../types/MusicalKey";
 
 // Helper function to verify scale notes
 // We don't care about enharmonic equivalents (C# vs Db) here,

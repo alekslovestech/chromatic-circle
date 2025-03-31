@@ -1,21 +1,13 @@
 import { getBasicNoteInfo } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
+import { GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatures";
 import { NoteInfo } from "./NoteInfo";
 
 export enum KeyType {
   Major = "Major",
   Minor = "Minor",
-}
-
-export enum GreekModeType {
-  Ionian = "Ionian",
-  Dorian = "Dorian",
-  Phrygian = "Phrygian",
-  Lydian = "Lydian",
-  Mixolydian = "Mixolydian",
-  Aeolian = "Aeolian",
-  Locrian = "Locrian",
 }
 
 export class MusicalKey {
@@ -64,18 +56,8 @@ export class MusicalKey {
   }
 
   generateIndexArray(): ChromaticIndex[] {
-    const modePatterns = {
-      [GreekModeType.Ionian]: [0, 2, 4, 5, 7, 9, 11], // Major scale
-      [GreekModeType.Dorian]: [0, 2, 3, 5, 7, 9, 10], // Minor with raised 6th
-      [GreekModeType.Phrygian]: [0, 1, 3, 5, 7, 8, 10], // Minor with lowered 2nd
-      [GreekModeType.Lydian]: [0, 2, 4, 6, 7, 9, 11], // Major with raised 4th
-      [GreekModeType.Mixolydian]: [0, 2, 4, 5, 7, 9, 10], // Major with lowered 7th
-      [GreekModeType.Aeolian]: [0, 2, 3, 5, 7, 8, 10], // Natural minor scale
-      [GreekModeType.Locrian]: [0, 1, 3, 5, 6, 8, 10], // Minor with lowered 2nd and 5th
-    };
-
     const tonicIndex = this.tonicIndex;
-    const offsetScale = modePatterns[this.greekMode];
+    const offsetScale = MODE_PATTERNS[this.greekMode];
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
   }
 
@@ -123,39 +105,8 @@ export class MusicalKeyUtil {
   }
 
   public static getKeySignatures(mode: KeyType): Record<string, string[]> {
-    return mode === KeyType.Major ? this.majorKeySignatures : this.minorKeySignatures;
+    return mode === KeyType.Major ? MAJOR_KEY_SIGNATURES : MINOR_KEY_SIGNATURES;
   }
 
   public static defaultMusicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
-
-  private static majorKeySignatures: Record<string, string[]> = {
-    C: [],
-    G: ["F#"],
-    D: ["F#", "C#"],
-    A: ["F#", "C#", "G#"],
-    E: ["F#", "C#", "G#", "D#"],
-    B: ["F#", "C#", "G#", "D#", "A#"],
-    "F#": ["F#", "C#", "G#", "D#", "A#", "E#"], //in major key we prefer sharps
-    F: ["Bb"],
-    Bb: ["Bb", "Eb"],
-    Eb: ["Bb", "Eb", "Ab"],
-    Ab: ["Bb", "Eb", "Ab", "Db"],
-    Db: ["Bb", "Eb", "Ab", "Db", "Gb"],
-  };
-
-  // Define minor key signatures with their accidentals
-  private static minorKeySignatures: Record<string, string[]> = {
-    A: [],
-    E: ["F#"],
-    B: ["F#", "C#"],
-    "F#": ["F#", "C#", "G#"],
-    "C#": ["F#", "C#", "G#", "D#"],
-    "G#": ["F#", "C#", "G#", "D#", "A#"],
-    D: ["Bb"],
-    G: ["Bb", "Eb"],
-    C: ["Bb", "Eb", "Ab"],
-    F: ["Bb", "Eb", "Ab", "Db"],
-    Bb: ["Bb", "Eb", "Ab", "Db", "Gb"],
-    Eb: ["Bb", "Eb", "Ab", "Db", "Gb", "Cb"], //in mionor ksye we prefer flats
-  };
 }
