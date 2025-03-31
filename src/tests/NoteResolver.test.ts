@@ -1,4 +1,4 @@
-import { KeyType, MusicalKey } from "../types/MusicalKey";
+import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
 import { noteTextToIndex } from "../types/ChromaticIndex";
@@ -15,7 +15,7 @@ function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNo
   expect(note).toEqual(expectedNote);
 }
 
-const cMajor = MusicalKey.fromClassicalMode("C", KeyType.Major);
+const cMajor = MusicalKeyUtil.DEFAULT_MUSICAL_KEY;
 const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
 const dMinor = MusicalKey.fromClassicalMode("D", KeyType.Minor);
 const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
