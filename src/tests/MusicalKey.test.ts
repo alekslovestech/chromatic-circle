@@ -11,7 +11,7 @@ const verifyMusicalKeyAccidental = (
   expect(musicalKey.getDefaultAccidental()).toBe(expectedAccidental);
 };
 
-describe("getNoteTextFromIndex", () => {
+describe("getDefaultAccidental", () => {
   //sharp major keys
   it("C major => sharp", () => {
     verifyMusicalKeyAccidental("C", KeyType.Major, AccidentalType.Sharp);
