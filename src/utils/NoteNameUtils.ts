@@ -29,28 +29,39 @@ export const getNoteTextFromActualIndex = (
   return formatNoteNameForDisplay(chromaticIndex, accidentalPreference);
 };
 
+export const getScaleDegreeDisplayString = (
+  chromaticIndex: ChromaticIndex,
+  musicalKey: MusicalKey,
+): string => {
+  if (!musicalKey.isDiatonicNote(chromaticIndex)) return "";
+
+  const greekModeDictionary = GreekModeDictionary.getInstance();
+  const thisGreekMode = greekModeDictionary.getMode(musicalKey.greekMode);
+
+  const relativeIndex = thisGreekMode.pattern.findIndex(
+    (offset) => addChromatic(musicalKey.tonicIndex, offset) === chromaticIndex,
+  );
+
+  const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfo(relativeIndex);
+  return scaleDegreeInfo.getDisplayString();
+};
+
+const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
+  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
+  return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
+};
+
 export const getDisplayString = (
   chromaticIndex: ChromaticIndex,
   musicalKey: MusicalKey,
   displayMode: KeyTextMode,
-) => {
-  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
+): string => {
   switch (displayMode) {
     case KeyTextMode.NoteNames:
       return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
     case KeyTextMode.ScaleDegree:
-      if (!musicalKey.isDiatonicNote(chromaticIndex)) return "";
-
-      const greekModeDictionary = GreekModeDictionary.getInstance();
-      const thisGreekMode = greekModeDictionary.getMode(musicalKey.greekMode);
-
-      const relativeIndex = thisGreekMode.pattern.findIndex(
-        (offset) => addChromatic(musicalKey.tonicIndex, offset) === chromaticIndex,
-      );
-
-      const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfo(relativeIndex);
-      return scaleDegreeInfo.getDisplayString();
+      return getScaleDegreeDisplayString(chromaticIndex, musicalKey);
     case KeyTextMode.Roman:
-      return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
+      return getRomanDisplayString(chromaticIndex, musicalKey);
   }
 };

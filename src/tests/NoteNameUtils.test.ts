@@ -1,9 +1,9 @@
 import { formatNoteNameForDisplay } from "../utils/NoteNameUtils";
+import { verifyScaleDegreesArray } from "./utils/DisplayTestUtils";
 import { AccidentalType } from "../types/AccidentalType";
 import { ixChromatic } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekMode";
-import { verifyScaleDegreesArray } from "./utils/DisplayTestUtils";
 
 describe("formatNoteNameForDisplay", () => {
   it("should return correct note text for C", () => {
