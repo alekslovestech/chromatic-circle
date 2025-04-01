@@ -1,24 +1,14 @@
 import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
-import { getNotesArray } from "../types/NoteConstants";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
 import { addChromatic, ChromaticIndex } from "../types/ChromaticIndex";
-import { NoteInfo } from "../types/NoteInfo";
 import { GreekModeType } from "../types/GreekMode";
 import { MusicalKey } from "../types/MusicalKey";
 import { KeyTextMode } from "../types/SettingModes";
 import { RomanResolver } from "../types/RomanResolver";
 import { GreekModeDictionary } from "../types/GreekMode";
 import { RomanNumeralUtils } from "./RomanNumeralUtils";
+import { getBasicNoteInfo } from "../types/NoteConstants";
 
-export const getBasicNoteInfo = (
-  chromaticIndex: ChromaticIndex,
-  accidentalPreference: AccidentalType,
-): NoteInfo => {
-  const notesArray = getNotesArray(accidentalPreference);
-  return notesArray[chromaticIndex];
-};
-
-//this function only exported because we use it in tests
 export const formatNoteNameForDisplay = (
   chromaticIndex: ChromaticIndex,
   accidentalPreference: AccidentalType,

@@ -1,9 +1,19 @@
 import { AccidentalType } from "./AccidentalType";
+import { ChromaticIndex } from "./ChromaticIndex";
+import { NoteInfo } from "./NoteInfo";
 
 export const TWELVE = 12; //the magic number
 export const TWENTY4 = 2 * TWELVE;
 export const getNotesArray = (preference: AccidentalType) =>
   preference === AccidentalType.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
+
+export const getBasicNoteInfo = (
+  chromaticIndex: ChromaticIndex,
+  accidentalPreference: AccidentalType,
+): NoteInfo => {
+  const notesArray = getNotesArray(accidentalPreference);
+  return notesArray[chromaticIndex];
+};
 
 const NOTES_WITH_SHARP = [
   { noteName: "C", accidental: AccidentalType.None },

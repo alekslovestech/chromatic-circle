@@ -1,4 +1,4 @@
-import { formatNoteNameForDisplay, getDisplayString } from "../utils/NoteUtils";
+import { formatNoteNameForDisplay, getDisplayString } from "../utils/NoteNameUtils";
 import { AccidentalType } from "../types/AccidentalType";
 import { ixChromatic } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";

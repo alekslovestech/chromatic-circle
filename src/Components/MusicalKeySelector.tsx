@@ -2,7 +2,7 @@ import React from "react";
 
 import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekMode";
-import { formatForDisplay } from "../utils/NoteUtils";
+import { formatForDisplay } from "../utils/NoteNameUtils";
 
 import { useMusical } from "../contexts/MusicalContext";
 

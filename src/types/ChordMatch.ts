@@ -1,5 +1,5 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { getNoteTextFromActualIndex } from "../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
 
 import { AccidentalType } from "./AccidentalType";
 import { ActualIndex, InversionIndex, ixInversion } from "./IndexTypes";
