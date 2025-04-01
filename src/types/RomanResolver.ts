@@ -45,7 +45,7 @@ export class RomanResolver {
 
   static resolveAsAbsoluteChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
-    const scale = musicKey.generateIndexArray();
+    const scale = musicKey.getAbsoluteScaleNotes();
     let chromaticIndex = scale[romanChord.scaleDegree - 1];
     const accidentalOffset: OffsetIndex =
       romanChord.accidental === AccidentalType.Flat
@@ -83,7 +83,7 @@ export class RomanResolver {
     chromaticIndex: ChromaticIndex,
     key: MusicalKey,
   ): ScaleDegree {
-    const scale = key.generateIndexArray();
+    const scale = key.getAbsoluteScaleNotes();
     const isDiatonic = scale.includes(chromaticIndex);
     const scaleDegree = isDiatonic ? scale.indexOf(chromaticIndex) + 1 : -1;
     return ixScaleDegree(scaleDegree);

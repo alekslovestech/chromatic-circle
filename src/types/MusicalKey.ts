@@ -12,9 +12,9 @@ export enum KeyType {
 }
 
 export class MusicalKey {
-  tonicString: string; // Root note (e.g., "C", "A")
-  classicalMode: KeyType; // Major or minor scale
-  greekMode: GreekModeType;
+  public readonly tonicString: string; // Root note (e.g., "C", "A")
+  public readonly classicalMode: KeyType; // Major or minor scale
+  public readonly greekMode: GreekModeType;
 
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = tonicAsString;
@@ -50,7 +50,7 @@ export class MusicalKey {
     return MusicalKey.fromClassicalMode(newTonicString!, newMode);
   }
 
-  generateIndexArray(): ChromaticIndex[] {
+  getAbsoluteScaleNotes(): ChromaticIndex[] {
     const tonicIndex = this.tonicIndex;
     const greekModeInfo = GreekModeDictionary.getInstance().getMode(this.greekMode);
     const offsetScale = greekModeInfo.pattern;
@@ -58,7 +58,7 @@ export class MusicalKey {
   }
 
   isDiatonicNote = (chromaticIndex: ChromaticIndex): boolean => {
-    const indexArray = this.generateIndexArray();
+    const indexArray = this.getAbsoluteScaleNotes();
     return indexArray.includes(chromaticIndex);
   };
 

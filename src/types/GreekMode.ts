@@ -1,3 +1,7 @@
+import { AccidentalType } from "./AccidentalType";
+import { ixScaleDegree } from "./IndexTypes";
+import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
+
 export enum GreekModeType {
   Ionian = "Ionian",
   Dorian = "Dorian",
@@ -15,6 +19,19 @@ export class GreekModeInfo {
     public readonly pattern: number[],
     public readonly modeNumber: number,
   ) {}
+
+  //private IONIAN_PATTERN = GreekModeDictionary.getInstance().getMode(GreekModeType.Ionian).pattern;
+  public getScaleDegreeInfo(index: number, ionianPattern: number[]): ScaleDegreeInfo {
+    const currentNote = this.pattern[index];
+    const ionianNote = ionianPattern[index];
+    const accidental =
+      currentNote > ionianNote
+        ? AccidentalType.Sharp
+        : currentNote < ionianNote
+        ? AccidentalType.Flat
+        : AccidentalType.None;
+    return new ScaleDegreeInfo(ixScaleDegree(index + 1), accidental);
+  }
 }
 export class GreekModeDictionary {
   private static instance: GreekModeDictionary;

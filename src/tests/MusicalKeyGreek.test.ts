@@ -6,7 +6,7 @@ import { MusicalKey } from "../types/MusicalKey";
 // We don't care about enharmonic equivalents (C# vs Db) here,
 // just that the scale degrees match the expected pattern
 function verifyNoteList(musicalKey: MusicalKey, expectedNotes: string[]) {
-  const noteList = musicalKey.generateIndexArray();
+  const noteList = musicalKey.getAbsoluteScaleNotes();
   const expectedIndices = expectedNotes.map((note) => noteTextToIndex(note));
   expect(noteList).toEqual(expectedIndices);
 }
