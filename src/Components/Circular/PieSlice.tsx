@@ -1,7 +1,7 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 
-import { KeyTextMode } from "../../types/SettingModes";
+import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
@@ -41,10 +41,9 @@ export const PieSlice: React.FC<{
   outerRadius: number;
   innerRadius: number;
   onClick: () => void;
-  isLogo: boolean;
-}> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
+}> = ({ chromaticIndex, outerRadius, innerRadius, onClick }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { monochromeMode, keyTextMode } = useDisplay();
+  const { monochromeMode, keyTextMode, globalMode } = useDisplay();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
@@ -54,13 +53,15 @@ export const PieSlice: React.FC<{
   );
   const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
-  const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
-  const isDiatonic = isLogo ? false : selectedMusicalKey.isDiatonicNote(chromaticIndex);
+  const isSelected =
+    globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
+  const isDiatonic =
+    globalMode === GlobalMode.Advanced && selectedMusicalKey.isDiatonicNote(chromaticIndex);
   if (isSelected) classNames.push("selected");
   if (isDiatonic) classNames.push("diatonic");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
-  const showText = !isLogo;
+  const showText = globalMode !== GlobalMode.Logo;
 
   return (
     <>

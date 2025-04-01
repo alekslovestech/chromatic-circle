@@ -10,29 +10,47 @@ import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 
 import "./styles/App.css";
+import { useDisplay } from "./contexts/DisplayContext";
+import { GlobalMode } from "./types/SettingModes";
 
-const App: React.FC = () => {
+// New component to handle all display-related logic
+const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
+  const { globalMode, setGlobalMode } = useDisplay();
   const [searchParams] = useSearchParams();
-  const isLogo = searchParams.get("mode") === "logo";
-  const isAdvanced = searchParams.get("mode") === "advanced";
-  console.log(`isLogo: ${isLogo}, isAdvanced: ${isAdvanced}`);
+  const mode = searchParams.get("mode");
+
+  React.useEffect(() => {
+    if (mode === "logo") {
+      setGlobalMode(GlobalMode.Logo);
+    } else if (mode === "advanced") {
+      setGlobalMode(GlobalMode.Advanced);
+    } else {
+      setGlobalMode(GlobalMode.Default);
+    }
+  }, [mode, setGlobalMode]);
 
   return (
+    <div className="grid-container" /* style={borderStyle} */>
+      <div className="keyboardlinear-container" style={borderStyle}>
+        <KeyboardLinear />
+      </div>
+      <div className="keyboardcircular-container" style={borderStyle}>
+        <KeyboardCircular />
+        {globalMode !== GlobalMode.Logo && <CircularSettings />}
+      </div>
+      <SettingsContainer />
+      <StaffRenderer />
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
     <div className="ChromaticCircle">
-      <header className="App-header" /* style={borderStyle} */>
+      <header className="App-header">
         <RootProvider>
-          <div className="grid-container" /* style={borderStyle} */>
-            <div className="keyboardlinear-container" style={borderStyle}>
-              <KeyboardLinear />
-            </div>
-            <div className="keyboardcircular-container" style={borderStyle}>
-              <KeyboardCircular isLogo={isLogo} />
-              {!isLogo && <CircularSettings advanced={isAdvanced} />}
-            </div>
-            <SettingsContainer />
-            <StaffRenderer />
-          </div>
+          <AppContent />
           <AudioPlayer />
         </RootProvider>
       </header>

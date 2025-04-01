@@ -1,15 +1,17 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
-import { CircularVisMode, ChordDisplayMode, KeyTextMode } from "../types/SettingModes";
+import { CircularVisMode, ChordDisplayMode, KeyTextMode, GlobalMode } from "../types/SettingModes";
 
 export interface DisplaySettings {
   circularVisMode: CircularVisMode;
   monochromeMode: boolean;
   keyTextMode: KeyTextMode;
   chordDisplayMode: ChordDisplayMode;
+  globalMode: GlobalMode;
   setCircularVisMode: (mode: CircularVisMode) => void;
   setMonochromeMode: (mode: boolean) => void;
   setKeyTextMode: (mode: KeyTextMode) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
+  setGlobalMode: (mode: GlobalMode) => void;
 }
 
 const DisplayContext = createContext<DisplaySettings | null>(null);
@@ -21,16 +23,19 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
+  const [globalMode, setGlobalMode] = useState<GlobalMode>(GlobalMode.Default);
 
   const value: DisplaySettings = {
     circularVisMode,
     monochromeMode,
     keyTextMode,
     chordDisplayMode,
+    globalMode,
     setCircularVisMode,
     setMonochromeMode,
     setKeyTextMode,
     setChordDisplayMode,
+    setGlobalMode,
   };
 
   return <DisplayContext.Provider value={value}>{children}</DisplayContext.Provider>;

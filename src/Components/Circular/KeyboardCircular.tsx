@@ -8,6 +8,7 @@ import { PieSlice } from "./PieSlice";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
+import { GlobalMode } from "../../types/SettingModes";
 
 import "../../styles/KeyboardCircular.css";
 
@@ -15,10 +16,12 @@ const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
-export const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
+export const KeyboardCircular = () => {
+  const { globalMode } = useDisplay();
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices } = useMusical();
   const { circularVisMode } = useDisplay();
+  const isLogo = globalMode === GlobalMode.Logo;
 
   const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   return (
@@ -30,7 +33,6 @@ export const KeyboardCircular = ({ isLogo = false }: { isLogo?: boolean }) => {
           onClick={() => (isLogo ? () => {} : handleKeyClick(index as ActualIndex))}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}
-          isLogo={isLogo}
         />
       ))}
       {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS)}

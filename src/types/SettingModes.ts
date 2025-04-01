@@ -25,3 +25,9 @@ export enum KeyTextMode {
   Arabic = "Arabic",
   Roman = "Roman",
 }
+
+export enum GlobalMode {
+  Default = "Default",
+  Logo = "Logo",
+  Advanced = "Advanced",
+}

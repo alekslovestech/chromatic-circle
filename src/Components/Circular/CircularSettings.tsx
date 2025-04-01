@@ -13,17 +13,21 @@ import { KeyTextModeSelect } from "./NoteDisplayModeSelect";
 // Styles
 import "../../styles/CircularSettings.css";
 
-export const CircularSettings: React.FC<{ advanced?: boolean }> = ({ advanced = false }) => {
+import { useDisplay } from "../../contexts/DisplayContext";
+import { GlobalMode } from "../../types/SettingModes";
+
+export const CircularSettings = () => {
+  const { globalMode } = useDisplay();
   return (
     <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-          <MusicalKeySelector advanced={advanced} />
+          <MusicalKeySelector />
           <TransposeWidget />
         </div>
         {<MonochromeModeToggle />}
-        {advanced && <KeyTextModeSelect />}
+        {globalMode === GlobalMode.Advanced && <KeyTextModeSelect />}
         <ClearButton />
         <ChordNameDisplay />
       </div>
