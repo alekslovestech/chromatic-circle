@@ -1,21 +1,26 @@
-import { formatNoteNameForDisplay } from "../utils/NoteNameUtils";
 import { verifyScaleDegreesArray } from "./utils/DisplayTestUtils";
-import { AccidentalType } from "../types/AccidentalType";
-import { ixChromatic } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekMode";
+import { AccidentalType } from "../types/AccidentalType";
+import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
+import { ixActual } from "../types/IndexTypes";
 
-describe("formatNoteNameForDisplay", () => {
+describe("getNoteTextFromActualIndex", () => {
   it("should return correct note text for C", () => {
-    expect(formatNoteNameForDisplay(ixChromatic(0), AccidentalType.Sharp)).toBe("C");
+    expect(getNoteTextFromActualIndex(ixActual(0), AccidentalType.Sharp)).toBe("C");
   });
 
   it("should return correct note text for C# with sharp preference", () => {
-    expect(formatNoteNameForDisplay(ixChromatic(1), AccidentalType.Sharp)).toBe("C♯");
+    expect(getNoteTextFromActualIndex(ixActual(1), AccidentalType.Sharp)).toBe("C♯");
   });
 
   it("should return correct note text for Db with flat preference", () => {
-    expect(formatNoteNameForDisplay(ixChromatic(1), AccidentalType.Flat)).toBe("D♭");
+    expect(getNoteTextFromActualIndex(ixActual(1), AccidentalType.Flat)).toBe("D♭");
+  });
+
+  it("should handle octave changes", () => {
+    expect(getNoteTextFromActualIndex(ixActual(12), AccidentalType.Sharp)).toBe("C");
+    expect(getNoteTextFromActualIndex(ixActual(13), AccidentalType.Sharp)).toBe("C♯");
   });
 });
 

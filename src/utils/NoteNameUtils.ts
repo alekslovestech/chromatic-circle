@@ -8,7 +8,7 @@ import { GreekModeDictionary } from "../types/GreekMode";
 import { RomanNumeralUtils } from "./RomanNumeralUtils";
 import { getBasicNoteInfo } from "../types/NoteConstants";
 
-export const formatNoteNameForDisplay = (
+const formatNoteNameForDisplay = (
   chromaticIndex: ChromaticIndex,
   accidentalPreference: AccidentalType,
 ): string => {
