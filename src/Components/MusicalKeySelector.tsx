@@ -4,11 +4,12 @@ import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekMode";
 import { formatForDisplay } from "../utils/NoteNameUtils";
 
+import { useDisplay } from "../contexts/DisplayContext";
+import { GlobalMode } from "../types/SettingModes";
+
 import { useMusical } from "../contexts/MusicalContext";
 
 import "../styles/CircularSettings.css";
-import { useDisplay } from "../contexts/DisplayContext";
-import { GlobalMode } from "../types/SettingModes";
 
 export const MusicalKeySelector = () => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();

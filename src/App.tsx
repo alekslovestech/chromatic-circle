@@ -1,6 +1,5 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { RootProvider } from "./contexts/RootContext";
 
 import AudioPlayer from "./Components/AudioPlayer";
 import { KeyboardCircular } from "./Components/Circular/KeyboardCircular";
@@ -9,11 +8,12 @@ import { KeyboardLinear } from "./Components/KeyboardLinear";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 
-import "./styles/App.css";
-import { useDisplay } from "./contexts/DisplayContext";
 import { GlobalMode } from "./types/SettingModes";
+import { useDisplay } from "./contexts/DisplayContext";
+import { RootProvider } from "./contexts/RootContext";
 
-// New component to handle all display-related logic
+import "./styles/App.css";
+
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
   const { globalMode, setGlobalMode } = useDisplay();
