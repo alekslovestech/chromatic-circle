@@ -40,19 +40,15 @@ export const getDisplayString = (
     case KeyTextMode.NoteNames:
       return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
     case KeyTextMode.Arabic:
+      if (!musicalKey.isDiatonicNote(chromaticIndex)) return "";
+
       const greekModeDictionary = GreekModeDictionary.getInstance();
       const thisGreekMode = greekModeDictionary.getMode(musicalKey.greekMode);
       const ionianPattern = greekModeDictionary.getMode(GreekModeType.Ionian).pattern;
 
-      // Convert absolute chromatic index to index relative to tonic
-      const tonicIndex = musicalKey.tonicIndex;
       const relativeIndex = thisGreekMode.pattern.findIndex(
-        (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
+        (offset) => addChromatic(musicalKey.tonicIndex, offset) === chromaticIndex,
       );
-
-      if (relativeIndex === -1) {
-        return ""; // Note not in scale
-      }
 
       const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfo(relativeIndex, ionianPattern);
       return scaleDegreeInfo.getDisplayString();
