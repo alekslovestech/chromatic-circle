@@ -1,8 +1,10 @@
-import { getBasicNoteInfo } from "../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { GreekModeDictionary, GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { ixActual } from "./IndexTypes";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatures";
+import { getBasicNoteInfo } from "./NoteConstants";
 import { NoteInfo } from "./NoteInfo";
 
 export enum KeyType {
@@ -11,9 +13,9 @@ export enum KeyType {
 }
 
 export class MusicalKey {
-  tonicString: string; // Root note (e.g., "C", "A")
-  classicalMode: KeyType; // Major or minor scale
-  greekMode: GreekModeType;
+  public readonly tonicString: string; // Root note (e.g., "C", "A")
+  public readonly classicalMode: KeyType; // Major or minor scale
+  public readonly greekMode: GreekModeType;
 
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = tonicAsString;
@@ -33,14 +35,8 @@ export class MusicalKey {
   }
 
   private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
-    switch (mode) {
-      case GreekModeType.Ionian:
-      case GreekModeType.Lydian:
-      case GreekModeType.Mixolydian:
-        return KeyType.Major;
-      default:
-        return KeyType.Minor;
-    }
+    const majorModes = [GreekModeType.Ionian, GreekModeType.Lydian, GreekModeType.Mixolydian];
+    return majorModes.includes(mode) ? KeyType.Major : KeyType.Minor;
   }
 
   get tonicIndex(): ChromaticIndex {
@@ -55,11 +51,17 @@ export class MusicalKey {
     return MusicalKey.fromClassicalMode(newTonicString!, newMode);
   }
 
-  generateIndexArray(): ChromaticIndex[] {
+  getAbsoluteScaleNotes(): ChromaticIndex[] {
     const tonicIndex = this.tonicIndex;
-    const offsetScale = MODE_PATTERNS[this.greekMode];
+    const greekModeInfo = GreekModeDictionary.getInstance().getMode(this.greekMode);
+    const offsetScale = greekModeInfo.pattern;
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
   }
+
+  isDiatonicNote = (chromaticIndex: ChromaticIndex): boolean => {
+    const indexArray = this.getAbsoluteScaleNotes();
+    return indexArray.includes(chromaticIndex);
+  };
 
   getNoteInKey = (chromaticIndex: ChromaticIndex): NoteInfo => {
     const defaultAccidental = this.getDefaultAccidental();
@@ -108,5 +110,26 @@ export class MusicalKeyUtil {
     return mode === KeyType.Major ? MAJOR_KEY_SIGNATURES : MINOR_KEY_SIGNATURES;
   }
 
-  public static defaultMusicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
+  private static getRelativeIonian = (note: string, mode: GreekModeType): string => {
+    const greekModeInfo = GreekModeDictionary.getInstance().getMode(mode);
+    const modeIndex = greekModeInfo.modeNumber;
+    const modePattern = greekModeInfo.pattern;
+    const relativeIonianIndex = modePattern.length - modeIndex;
+    const initialIndex = noteTextToIndex(note);
+    const relativeIonianChromaticIndex = addChromatic(
+      initialIndex,
+      modePattern[relativeIonianIndex],
+    );
+    return getNoteTextFromActualIndex(ixActual(relativeIonianChromaticIndex), AccidentalType.Sharp);
+  };
+
+  public static getKeySignatureFromGreekMode(note: string, mode: GreekModeType): string[] {
+    // Get the relative Ionian (major) key for a given Greek mode
+    // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
+
+    const relativeIonian = this.getRelativeIonian(note, mode);
+    return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
+  }
+
+  public static readonly DEFAULT_MUSICAL_KEY = MusicalKey.fromClassicalMode("C", KeyType.Major);
 }

@@ -1,19 +1,15 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 
-import { KeyTextMode } from "../../types/SettingModes";
-import { MusicalKey } from "../../types/MusicalKey";
-import { RomanResolver } from "../../types/RomanResolver";
+import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
-import { formatNoteNameForDisplay } from "../../utils/NoteUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
-
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
+import { getDisplayString } from "../../utils/NoteNameUtils";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;
@@ -40,31 +36,14 @@ const getArcPathFromIndex = (
   return <path d={arcPath} />;
 };
 
-const getDisplayString = (
-  chromaticIndex: ChromaticIndex,
-  musicalKey: MusicalKey,
-  displayMode: KeyTextMode,
-) => {
-  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
-  switch (displayMode) {
-    case KeyTextMode.NoteNames:
-      return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
-    case KeyTextMode.Arabic:
-      return scaleDegree > 0 ? scaleDegree.toString() : "";
-    case KeyTextMode.Roman:
-      return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
-  }
-};
-
 export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
   onClick: () => void;
-  isLogo: boolean;
-}> = ({ chromaticIndex, outerRadius, innerRadius, onClick, isLogo }) => {
+}> = ({ chromaticIndex, outerRadius, innerRadius, onClick }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { monochromeMode, keyTextMode } = useDisplay();
+  const { monochromeMode, keyTextMode, globalMode } = useDisplay();
   const pathElement = getArcPathFromIndex(chromaticIndex, outerRadius, innerRadius);
   const middleAngle = PolarMath.NoteIndexToMiddleAngle(chromaticIndex);
   const textPoint = PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
@@ -74,12 +53,15 @@ export const PieSlice: React.FC<{
   );
   const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
-  const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
-
+  const isSelected =
+    globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
+  const isDiatonic =
+    globalMode === GlobalMode.Advanced && selectedMusicalKey.isDiatonicNote(chromaticIndex);
   if (isSelected) classNames.push("selected");
+  if (isDiatonic) classNames.push("diatonic");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
-  const showText = !isLogo;
+  const showText = globalMode !== GlobalMode.Logo;
 
   return (
     <>

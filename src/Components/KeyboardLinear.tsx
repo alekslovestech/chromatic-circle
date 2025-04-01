@@ -2,7 +2,7 @@ import React from "react";
 
 import { TWENTY4 } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { getNoteTextFromActualIndex } from "../utils/NoteUtils";
+import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
 import { IndexUtils } from "../utils/IndexUtils";

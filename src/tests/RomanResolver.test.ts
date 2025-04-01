@@ -1,4 +1,4 @@
-import { KeyType, MusicalKey } from "../types/MusicalKey";
+import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
 import { RomanResolver } from "../types/RomanResolver";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { noteTextToIndex } from "../types/ChromaticIndex";
@@ -14,27 +14,28 @@ function verifyResolvedChord(
   expect(absoluteChord).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
 }
 
-const cMajor = MusicalKey.fromClassicalMode("C", KeyType.Major);
-const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
+const C_MAJOR = MusicalKeyUtil.DEFAULT_MUSICAL_KEY;
+const E_MAJOR = MusicalKey.fromClassicalMode("E", KeyType.Major);
+
 describe("Resolved roman numeral tests", () => {
   test("Resolve roman numeral I in C major", () => {
-    verifyResolvedChord(cMajor, "I", "C", ChordType.Major);
+    verifyResolvedChord(C_MAJOR, "I", "C", ChordType.Major);
   });
 
   test("Resolve roman numeral Imaj7 in C major", () => {
-    verifyResolvedChord(cMajor, "Imaj7", "C", ChordType.Major7);
+    verifyResolvedChord(C_MAJOR, "Imaj7", "C", ChordType.Major7);
   });
 
   test("Resolve roman numeral V in C major", () => {
-    verifyResolvedChord(cMajor, "V", "G", ChordType.Major);
+    verifyResolvedChord(C_MAJOR, "V", "G", ChordType.Major);
   });
 
   test("Resolve roman numeral in E major", () => {
-    verifyResolvedChord(eMajor, "I", "E", ChordType.Major);
+    verifyResolvedChord(E_MAJOR, "I", "E", ChordType.Major);
   });
 
   test("Resolve roman numeral V in E major", () => {
-    verifyResolvedChord(eMajor, "V", "B", ChordType.Major);
+    verifyResolvedChord(E_MAJOR, "V", "B", ChordType.Major);
   });
 
   test("Resolve roman numeral ♭VI in G major", () => {
@@ -45,8 +46,7 @@ describe("Resolved roman numeral tests", () => {
 
 describe("Scale degree from chromatic index", () => {
   test("C in C major (I)", () => {
-    const key = MusicalKey.fromClassicalMode("C", KeyType.Major); // C major
-    expect(RomanResolver.getScaleDegreeFromNoteAndKey("C", key)).toBe(1);
+    expect(RomanResolver.getScaleDegreeFromNoteAndKey("C", C_MAJOR)).toBe(1);
   });
 
   /*
@@ -56,8 +56,7 @@ describe("Scale degree from chromatic index", () => {
   }); */
 
   test("G in C major (V)", () => {
-    const key = MusicalKey.fromClassicalMode("C", KeyType.Major); // C major
-    expect(RomanResolver.getScaleDegreeFromNoteAndKey("G", key)).toBe(5);
+    expect(RomanResolver.getScaleDegreeFromNoteAndKey("G", C_MAJOR)).toBe(5);
   });
 
   test("F♯ in D major (III)", () => {

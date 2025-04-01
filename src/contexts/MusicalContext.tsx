@@ -14,7 +14,7 @@ const MusicalContext = createContext<MusicalSettings | null>(null);
 export const MusicalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
   const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
-    MusicalKeyUtil.defaultMusicalKey,
+    MusicalKeyUtil.DEFAULT_MUSICAL_KEY,
   );
 
   const value: MusicalSettings = {

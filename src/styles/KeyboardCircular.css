@@ -52,6 +52,11 @@
   fill: var(--serenity-key-black-selected0);
 }
 
+.pie-slice-key.diatonic path {
+  stroke: var(--serenity-key-diatonic);
+  stroke-width: 3px;
+}
+
 /* Text Styles */
 .pie-slice-key text {
   font-size: 1.2rem;
