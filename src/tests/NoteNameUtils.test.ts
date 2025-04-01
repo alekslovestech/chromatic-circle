@@ -20,12 +20,16 @@ describe("formatNoteNameForDisplay", () => {
   });
 });
 
-function verifyArabicDisplayStringArray(musicalKey: MusicalKey, expectedArray: string[]) {
+function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]) {
   expect(expectedArray.length).toBe(TWELVE);
 
   Array.from({ length: TWELVE }).forEach((_, i) => {
-    const arabicDisplayString = getDisplayString(ixChromatic(i), musicalKey, KeyTextMode.Arabic);
-    expect(arabicDisplayString).toBe(expectedArray[i]);
+    const scaleDegreeDisplayString = getDisplayString(
+      ixChromatic(i),
+      musicalKey,
+      KeyTextMode.ScaleDegree,
+    );
+    expect(scaleDegreeDisplayString).toBe(expectedArray[i]);
   });
 }
 
@@ -37,43 +41,17 @@ describe("getDisplayString with Arabic numerals", () => {
 
   describe("Ionian (Major) Scale", () => {
     it("should display correct scale degrees for C Ionian", () => {
-      verifyArabicDisplayStringArray(cMajorKey, [
-        "1",
-        "",
-        "2",
-        "",
-        "3",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-        "",
-        "7",
-      ]);
+      verifyScaleDegreesArray(cMajorKey, ["1", "", "2", "", "3", "4", "", "5", "", "6", "", "7"]);
     });
 
     it("should display correct scale degrees for D Ionian", () => {
-      verifyArabicDisplayStringArray(dMajorKey, [
-        "",
-        "7",
-        "1",
-        "",
-        "2",
-        "",
-        "3",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-      ]);
+      verifyScaleDegreesArray(dMajorKey, ["", "7", "1", "", "2", "", "3", "4", "", "5", "", "6"]);
     });
   });
 
   describe("Dorian Mode", () => {
     it("should display correct scale degrees for C Dorian", () => {
-      verifyArabicDisplayStringArray(cDorianKey, [
+      verifyScaleDegreesArray(cDorianKey, [
         "1",
         "",
         "2",
@@ -90,7 +68,7 @@ describe("getDisplayString with Arabic numerals", () => {
     });
 
     it("should display correct scale degrees for D Dorian", () => {
-      verifyArabicDisplayStringArray(dDorianKey, [
+      verifyScaleDegreesArray(dDorianKey, [
         "♭7",
         "",
         "1",

@@ -39,7 +39,7 @@ export const getDisplayString = (
   switch (displayMode) {
     case KeyTextMode.NoteNames:
       return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
-    case KeyTextMode.Arabic:
+    case KeyTextMode.ScaleDegree:
       if (!musicalKey.isDiatonicNote(chromaticIndex)) return "";
 
       const greekModeDictionary = GreekModeDictionary.getInstance();

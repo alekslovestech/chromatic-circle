@@ -22,7 +22,7 @@ export enum CircularVisMode {
 
 export enum KeyTextMode {
   NoteNames = "Note Names",
-  Arabic = "Arabic",
+  ScaleDegree = "Scale Degree",
   Roman = "Roman",
 }
 
