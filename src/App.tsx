@@ -20,15 +20,13 @@ const AppContent: React.FC = () => {
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
-  React.useEffect(() => {
-    if (mode === "logo") {
-      setGlobalMode(GlobalMode.Logo);
-    } else if (mode === "advanced") {
-      setGlobalMode(GlobalMode.Advanced);
-    } else {
-      setGlobalMode(GlobalMode.Default);
-    }
-  }, [mode, setGlobalMode]);
+  if (mode === "logo") {
+    setGlobalMode(GlobalMode.Logo);
+  } else if (mode === "advanced") {
+    setGlobalMode(GlobalMode.Advanced);
+  } else {
+    setGlobalMode(GlobalMode.Default);
+  }
 
   return (
     <div className="grid-container" /* style={borderStyle} */>
