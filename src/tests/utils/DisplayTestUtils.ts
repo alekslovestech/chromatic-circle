@@ -1,4 +1,4 @@
-import { ixChromatic } from "../../types/ChromaticIndex";
+import { ixChromatic, noteTextToIndex } from "../../types/ChromaticIndex";
 import { GreekModeDictionary, GreekModeType } from "../../types/GreekMode";
 import { MusicalKey } from "../../types/MusicalKey";
 import { TWELVE } from "../../types/NoteConstants";
@@ -25,4 +25,10 @@ export function verifyGreekModeScaleDegrees(greekMode: GreekModeType, expectedNo
       .getScaleDegreeInfo(index);
     expect(scaleDegreeInfo.getDisplayString()).toEqual(note);
   });
+}
+
+export function verifyGreekModeScaleNotes(musicalKey: MusicalKey, expectedNotes: string[]) {
+  const noteList = musicalKey.getAbsoluteScaleNotes();
+  const expectedIndices = expectedNotes.map((note) => noteTextToIndex(note));
+  expect(noteList).toEqual(expectedIndices);
 }
