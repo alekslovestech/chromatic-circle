@@ -26,8 +26,8 @@ export const KeyTextModeSelect: React.FC = () => {
           type="radio"
           id="key-text-numbers"
           name="key-text-mode"
-          checked={keyTextMode === KeyTextMode.Arabic}
-          onChange={() => setKeyTextMode(KeyTextMode.Arabic)}
+          checked={keyTextMode === KeyTextMode.ScaleDegree}
+          onChange={() => setKeyTextMode(KeyTextMode.ScaleDegree)}
         />
         <label htmlFor="key-text-numbers">1</label>
       </div>
