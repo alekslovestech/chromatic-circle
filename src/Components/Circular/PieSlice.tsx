@@ -75,8 +75,9 @@ export const PieSlice: React.FC<{
   const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
   const isSelected = isLogo ? false : isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
-
+  const isDiatonic = isLogo ? false : selectedMusicalKey.isDiatonicNote(chromaticIndex);
   if (isSelected) classNames.push("selected");
+  if (isDiatonic) classNames.push("diatonic");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = !isLogo;

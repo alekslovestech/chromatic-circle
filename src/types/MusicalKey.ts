@@ -1,7 +1,7 @@
 import { getBasicNoteInfo, getNoteTextFromActualIndex } from "../utils/NoteUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { GreekModeDictionary, GreekModeType, MODE_PATTERNS } from "./GreekMode";
 import { ixActual } from "./IndexTypes";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatures";
 import { NoteInfo } from "./NoteInfo";
@@ -52,9 +52,15 @@ export class MusicalKey {
 
   generateIndexArray(): ChromaticIndex[] {
     const tonicIndex = this.tonicIndex;
-    const offsetScale = MODE_PATTERNS[this.greekMode];
+    const greekModeInfo = GreekModeDictionary.getInstance().getMode(this.greekMode);
+    const offsetScale = greekModeInfo.pattern;
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
   }
+
+  isDiatonicNote = (chromaticIndex: ChromaticIndex): boolean => {
+    const indexArray = this.generateIndexArray();
+    return indexArray.includes(chromaticIndex);
+  };
 
   getNoteInKey = (chromaticIndex: ChromaticIndex): NoteInfo => {
     const defaultAccidental = this.getDefaultAccidental();
@@ -104,8 +110,9 @@ export class MusicalKeyUtil {
   }
 
   private static getRelativeIonian = (note: string, mode: GreekModeType): string => {
-    const modeIndex = Object.values(GreekModeType).indexOf(mode);
-    const modePattern = MODE_PATTERNS[mode];
+    const greekModeInfo = GreekModeDictionary.getInstance().getMode(mode);
+    const modeIndex = greekModeInfo.modeNumber;
+    const modePattern = greekModeInfo.pattern;
     const relativeIonianIndex = modePattern.length - modeIndex;
     const initialIndex = noteTextToIndex(note);
     const relativeIonianChromaticIndex = addChromatic(
