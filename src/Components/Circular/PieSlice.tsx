@@ -1,15 +1,15 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
-
 import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
+import { getDisplayString } from "../../utils/NoteNameUtils";
+
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
-import { getDisplayString } from "../../utils/NoteNameUtils";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;

@@ -1,10 +1,9 @@
-import { formatNoteNameForDisplay, getDisplayString } from "../utils/NoteNameUtils";
+import { formatNoteNameForDisplay } from "../utils/NoteNameUtils";
 import { AccidentalType } from "../types/AccidentalType";
 import { ixChromatic } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";
-import { KeyTextMode } from "../types/SettingModes";
 import { GreekModeType } from "../types/GreekMode";
-import { TWELVE } from "../types/NoteConstants";
+import { verifyScaleDegreesArray } from "./utils/DisplayTestUtils";
 
 describe("formatNoteNameForDisplay", () => {
   it("should return correct note text for C", () => {
@@ -19,19 +18,6 @@ describe("formatNoteNameForDisplay", () => {
     expect(formatNoteNameForDisplay(ixChromatic(1), AccidentalType.Flat)).toBe("D♭");
   });
 });
-
-function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]) {
-  expect(expectedArray.length).toBe(TWELVE);
-
-  Array.from({ length: TWELVE }).forEach((_, i) => {
-    const scaleDegreeDisplayString = getDisplayString(
-      ixChromatic(i),
-      musicalKey,
-      KeyTextMode.ScaleDegree,
-    );
-    expect(scaleDegreeDisplayString).toBe(expectedArray[i]);
-  });
-}
 
 describe("getDisplayString with Arabic numerals", () => {
   const cMajorKey = MusicalKey.fromGreekMode("C", GreekModeType.Ionian);

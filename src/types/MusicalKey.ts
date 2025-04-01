@@ -1,7 +1,7 @@
 import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { GreekModeDictionary, GreekModeType, MODE_PATTERNS } from "./GreekMode";
+import { GreekModeDictionary, GreekModeType } from "./GreekMode";
 import { ixActual } from "./IndexTypes";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatures";
 import { getBasicNoteInfo } from "./NoteConstants";
