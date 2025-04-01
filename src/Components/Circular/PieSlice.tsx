@@ -2,18 +2,14 @@ import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 import { KeyTextMode } from "../../types/SettingModes";
-import { MusicalKey } from "../../types/MusicalKey";
-import { RomanResolver } from "../../types/RomanResolver";
 
 import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
-import { formatNoteNameForDisplay } from "../../utils/NoteUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
-
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
+import { getDisplayString } from "../../utils/NoteUtils";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;
@@ -38,22 +34,6 @@ const getArcPathFromIndex = (
     "Z", // Close path
   ].join(" ");
   return <path d={arcPath} />;
-};
-
-const getDisplayString = (
-  chromaticIndex: ChromaticIndex,
-  musicalKey: MusicalKey,
-  displayMode: KeyTextMode,
-) => {
-  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
-  switch (displayMode) {
-    case KeyTextMode.NoteNames:
-      return formatNoteNameForDisplay(chromaticIndex, musicalKey.getDefaultAccidental());
-    case KeyTextMode.Arabic:
-      return scaleDegree > 0 ? scaleDegree.toString() : "";
-    case KeyTextMode.Roman:
-      return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
-  }
 };
 
 export const PieSlice: React.FC<{

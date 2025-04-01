@@ -20,7 +20,7 @@ describe("Greek Mode Index Arrays", () => {
     test("C Ionian mode - major scale pattern", () => {
       verifyFromPattern(GreekModeType.Ionian, ["1", "2", "3", "4", "5", "6", "7"]);
     });
-    test("C Dorian mode - major scale pattern", () => {
+    test("C Do rian mode - major scale pattern", () => {
       verifyFromPattern(GreekModeType.Dorian, ["1", "2", "♭3", "4", "5", "6", "♭7"]);
     });
     test("C Phrygian mode - major scale pattern", () => {
