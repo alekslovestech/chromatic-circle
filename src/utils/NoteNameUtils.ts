@@ -42,7 +42,7 @@ export const getScaleDegreeDisplayString = (
     (offset) => addChromatic(musicalKey.tonicIndex, offset) === chromaticIndex,
   );
 
-  const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfo(relativeIndex);
+  const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromPosition(relativeIndex);
   return scaleDegreeInfo.getDisplayString();
 };
 

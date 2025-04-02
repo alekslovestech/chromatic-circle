@@ -17,7 +17,7 @@ export function verifyGreekModeScaleDegrees(greekMode: GreekModeType, expectedNo
   expectedNotes.forEach((note, index) => {
     const scaleDegreeInfo = GreekModeDictionary.getInstance()
       .getMode(greekMode)
-      .getScaleDegreeInfo(index);
+      .getScaleDegreeInfoFromPosition(index);
     expect(scaleDegreeInfo.getDisplayString()).toEqual(note);
   });
 }

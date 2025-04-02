@@ -1,4 +1,6 @@
 import { AccidentalType } from "./AccidentalType";
+import { addChromatic } from "./ChromaticIndex";
+import { ChromaticIndex } from "./ChromaticIndex";
 import { ixScaleDegree } from "./IndexTypes";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 
@@ -20,17 +22,33 @@ export class GreekModeInfo {
     public readonly modeNumber: number,
   ) {}
 
-  //private IONIAN_PATTERN = GreekModeDictionary.getInstance().getMode(GreekModeType.Ionian).pattern;
-  public getScaleDegreeInfo(index: number): ScaleDegreeInfo {
-    const currentNote = this.pattern[index];
-    const ionianNote = GreekModeDictionary.IONIAN_PATTERN[index];
-    const accidental =
-      currentNote > ionianNote
-        ? AccidentalType.Sharp
-        : currentNote < ionianNote
-        ? AccidentalType.Flat
-        : AccidentalType.None;
-    return new ScaleDegreeInfo(ixScaleDegree(index + 1), accidental);
+  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
+    const currentNote = this.pattern[scaleDegreeIndex];
+    const ionianNote = GreekModeDictionary.IONIAN_PATTERN[scaleDegreeIndex];
+    const accidental = this.getAccidentalFromNotes(currentNote, ionianNote);
+    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+  }
+
+  public getScaleDegreeInfoFromChromatic(
+    chromaticIndex: ChromaticIndex,
+    tonicIndex: ChromaticIndex,
+  ): ScaleDegreeInfo | null {
+    // Find which scale degree this note is
+    const scaleDegreePosition = this.pattern.findIndex(
+      (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
+    );
+
+    return scaleDegreePosition === -1
+      ? null
+      : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
+  }
+
+  private getAccidentalFromNotes(currentNote: number, ionianNote: number): AccidentalType {
+    return currentNote > ionianNote
+      ? AccidentalType.Sharp
+      : currentNote < ionianNote
+      ? AccidentalType.Flat
+      : AccidentalType.None;
   }
 }
 export class GreekModeDictionary {
