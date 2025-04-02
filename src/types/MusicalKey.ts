@@ -85,7 +85,7 @@ export class MusicalKey {
     const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
     return {
       noteName: noteAtIndex.noteName,
-      accidental: this.applyKeySignature(noteAtIndex, defaultAccidental),
+      accidental: this.getAccidentalInKey(noteAtIndex, defaultAccidental),
     };
   }
 
@@ -101,7 +101,7 @@ export class MusicalKey {
     return keyMap[this.tonicString] || [];
   }
 
-  private applyKeySignature(note: NoteInfo, defaultAccidental: AccidentalType): AccidentalType {
+  private getAccidentalInKey(note: NoteInfo, defaultAccidental: AccidentalType): AccidentalType {
     const keySignatureWithoutAccidentals = this.getKeySignatureWithoutAccidentals();
     return keySignatureWithoutAccidentals.includes(note.noteName)
       ? note.accidental === defaultAccidental
