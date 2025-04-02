@@ -62,6 +62,7 @@ export const PieSlice: React.FC<{
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
+  console.log(`selectedMusicalKey.greekMode=${selectedMusicalKey.greekMode}`);
 
   return (
     <>
