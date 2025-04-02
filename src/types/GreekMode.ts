@@ -57,7 +57,11 @@ export class GreekModeDictionary {
   public static readonly IONIAN_PATTERN = [0, 2, 4, 5, 7, 9, 11];
   private constructor() {
     this.modes = {
-      [GreekModeType.Ionian]: new GreekModeInfo(GreekModeType.Ionian, [0, 2, 4, 5, 7, 9, 11], 1), // Major scale
+      [GreekModeType.Ionian]: new GreekModeInfo(
+        GreekModeType.Ionian,
+        GreekModeDictionary.IONIAN_PATTERN,
+        1,
+      ), // Major scale
       [GreekModeType.Dorian]: new GreekModeInfo(GreekModeType.Dorian, [0, 2, 3, 5, 7, 9, 10], 2), // Minor with raised 6th
       [GreekModeType.Phrygian]: new GreekModeInfo(
         GreekModeType.Phrygian,

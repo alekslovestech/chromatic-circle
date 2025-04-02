@@ -7,6 +7,7 @@ import { ixOffset, ixScaleDegree, OffsetIndex, ScaleDegree } from "./IndexTypes"
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
+import { GreekModeDictionary } from "./GreekMode";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -83,9 +84,11 @@ export class RomanResolver {
     chromaticIndex: ChromaticIndex,
     key: MusicalKey,
   ): ScaleDegree {
-    const scale = key.getAbsoluteScaleNotes();
-    const isDiatonic = scale.includes(chromaticIndex);
-    const scaleDegree = isDiatonic ? scale.indexOf(chromaticIndex) + 1 : -1;
-    return ixScaleDegree(scaleDegree);
+    const greekMode = GreekModeDictionary.getInstance().getMode(key.greekMode);
+    const scaleDegreeInfo = greekMode.getScaleDegreeInfoFromChromatic(
+      chromaticIndex,
+      key.tonicIndex,
+    );
+    return scaleDegreeInfo ? scaleDegreeInfo.scaleDegree : ixScaleDegree(-1);
   }
 }

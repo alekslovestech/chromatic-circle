@@ -38,12 +38,11 @@ export const getScaleDegreeDisplayString = (
   const greekModeDictionary = GreekModeDictionary.getInstance();
   const thisGreekMode = greekModeDictionary.getMode(musicalKey.greekMode);
 
-  const relativeIndex = thisGreekMode.pattern.findIndex(
-    (offset) => addChromatic(musicalKey.tonicIndex, offset) === chromaticIndex,
+  const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromChromatic(
+    chromaticIndex,
+    musicalKey.tonicIndex,
   );
-
-  const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromPosition(relativeIndex);
-  return scaleDegreeInfo.getDisplayString();
+  return scaleDegreeInfo?.getDisplayString() ?? "";
 };
 
 const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
