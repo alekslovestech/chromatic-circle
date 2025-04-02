@@ -1,9 +1,11 @@
 import { ChordProgression } from "../types/ChordProgression";
-import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { AbsoluteChord } from "../types/AbsoluteChord";
+import { KeyType } from "../types/KeyType";
+
 describe("Chord progression derives correct chords for C major key", () => {
-  const cMajor = MusicalKeyUtil.DEFAULT_MUSICAL_KEY;
+  const cMajor = DEFAULT_MUSICAL_KEY;
   const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
   const fMajor = MusicalKey.fromClassicalMode("F", KeyType.Major);
   const gMajor = MusicalKey.fromClassicalMode("G", KeyType.Major);

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { ActualIndex, ixActualArray } from "../types/IndexTypes";
-import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
 
 export interface MusicalSettings {
   selectedNoteIndices: ActualIndex[];
@@ -13,9 +13,7 @@ const MusicalContext = createContext<MusicalSettings | null>(null);
 
 export const MusicalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedNoteIndices, setSelectedNoteIndices] = useState<ActualIndex[]>(ixActualArray([7]));
-  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(
-    MusicalKeyUtil.DEFAULT_MUSICAL_KEY,
-  );
+  const [selectedMusicalKey, setSelectedMusicalKey] = useState<MusicalKey>(DEFAULT_MUSICAL_KEY);
 
   const value: MusicalSettings = {
     selectedNoteIndices,

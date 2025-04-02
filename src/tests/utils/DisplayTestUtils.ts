@@ -2,13 +2,12 @@ import { ixChromatic, noteTextToIndex } from "../../types/ChromaticIndex";
 import { GreekModeDictionary, GreekModeType } from "../../types/GreekMode";
 import { MusicalKey } from "../../types/MusicalKey";
 import { TWELVE } from "../../types/NoteConstants";
-import { getScaleDegreeDisplayString } from "../../utils/NoteNameUtils";
 
 export function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]) {
   expect(expectedArray.length).toBe(TWELVE);
 
   Array.from({ length: TWELVE }).forEach((_, i) => {
-    const scaleDegreeDisplayString = getScaleDegreeDisplayString(ixChromatic(i), musicalKey);
+    const scaleDegreeDisplayString = musicalKey.getScaleDegreeDisplayString(ixChromatic(i));
     expect(scaleDegreeDisplayString).toBe(expectedArray[i]);
   });
 }

@@ -3,7 +3,8 @@ import { Vex, StaveNote } from "vexflow";
 
 import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
-import { KeyType, MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/MusicalKey";
+import { KeyType } from "../types/KeyType";
 
 import { useMusical } from "../contexts/MusicalContext";
 

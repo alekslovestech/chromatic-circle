@@ -1,7 +1,9 @@
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { KeyType, MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/MusicalKey";
 import { ChordDisplayMode } from "../types/SettingModes";
+import { KeyType } from "../types/KeyType";
+
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 
 describe("ChordAndIntervalManager", () => {

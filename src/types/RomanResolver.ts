@@ -74,10 +74,4 @@ export class RomanResolver {
     }
     return new RomanChord(ordinal, chordType, accidental, bassDegree);
   }
-
-  static getScaleDegreeFromNoteAndKey(noteName: string, key: MusicalKey): number {
-    const chromaticIndex = noteTextToIndex(noteName);
-    const thisGreekMode = GreekModeDictionary.getModeInfo(key.greekMode);
-    return thisGreekMode.getScaleDegreeFromIndexAndKey(chromaticIndex, key);
-  }
 }
