@@ -53,8 +53,7 @@ export class MusicalKey {
 
   getAbsoluteScaleNotes(): ChromaticIndex[] {
     const tonicIndex = this.tonicIndex;
-    const greekModeInfo = GreekModeDictionary.getInstance().getMode(this.greekMode);
-    const offsetScale = greekModeInfo.pattern;
+    const offsetScale = GreekModeDictionary.getModeInfo(this.greekMode).pattern;
     return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
   }
 
@@ -111,7 +110,7 @@ export class MusicalKeyUtil {
   }
 
   private static getRelativeIonian = (note: string, mode: GreekModeType): string => {
-    const greekModeInfo = GreekModeDictionary.getInstance().getMode(mode);
+    const greekModeInfo = GreekModeDictionary.getModeInfo(mode);
     const modeIndex = greekModeInfo.modeNumber;
     const modePattern = greekModeInfo.pattern;
     const relativeIonianIndex = modePattern.length - modeIndex;

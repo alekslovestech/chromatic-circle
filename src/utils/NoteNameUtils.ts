@@ -1,9 +1,8 @@
 import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
-import { addChromatic, ChromaticIndex } from "../types/ChromaticIndex";
+import { ChromaticIndex } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";
 import { KeyTextMode } from "../types/SettingModes";
-import { RomanResolver } from "../types/RomanResolver";
 import { GreekModeDictionary } from "../types/GreekMode";
 import { RomanNumeralUtils } from "./RomanNumeralUtils";
 import { getBasicNoteInfo } from "../types/NoteConstants";
@@ -35,9 +34,7 @@ export const getScaleDegreeDisplayString = (
 ): string => {
   if (!musicalKey.isDiatonicNote(chromaticIndex)) return "";
 
-  const greekModeDictionary = GreekModeDictionary.getInstance();
-  const thisGreekMode = greekModeDictionary.getMode(musicalKey.greekMode);
-
+  const thisGreekMode = GreekModeDictionary.getModeInfo(musicalKey.greekMode);
   const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromChromatic(
     chromaticIndex,
     musicalKey.tonicIndex,
@@ -46,7 +43,8 @@ export const getScaleDegreeDisplayString = (
 };
 
 const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
-  const scaleDegree = RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
+  const thisGreekMode = GreekModeDictionary.getModeInfo(musicalKey.greekMode);
+  const scaleDegree = thisGreekMode.getScaleDegreeFromIndexAndKey(chromaticIndex, musicalKey);
   return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
 };
 

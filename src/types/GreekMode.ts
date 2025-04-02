@@ -1,7 +1,8 @@
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic } from "./ChromaticIndex";
 import { ChromaticIndex } from "./ChromaticIndex";
-import { ixScaleDegree } from "./IndexTypes";
+import { ixScaleDegree, ScaleDegree } from "./IndexTypes";
+import { MusicalKey } from "./MusicalKey";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 
 export enum GreekModeType {
@@ -15,6 +16,8 @@ export enum GreekModeType {
   Aeolian = "Aeolian",
   Locrian = "Locrian",
 }
+
+const IONIAN_PATTERN = [0, 2, 4, 5, 7, 9, 11];
 export class GreekModeInfo {
   constructor(
     public readonly type: GreekModeType,
@@ -24,7 +27,7 @@ export class GreekModeInfo {
 
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
     const currentNote = this.pattern[scaleDegreeIndex];
-    const ionianNote = GreekModeDictionary.IONIAN_PATTERN[scaleDegreeIndex];
+    const ionianNote = IONIAN_PATTERN[scaleDegreeIndex];
     const accidental = this.getAccidentalFromNotes(currentNote, ionianNote);
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
   }
@@ -43,6 +46,11 @@ export class GreekModeInfo {
       : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
   }
 
+  getScaleDegreeFromIndexAndKey(chromaticIndex: ChromaticIndex, key: MusicalKey): ScaleDegree {
+    const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex, key.tonicIndex);
+    return scaleDegreeInfo ? scaleDegreeInfo.scaleDegree : ixScaleDegree(-1);
+  }
+
   private getAccidentalFromNotes(currentNote: number, ionianNote: number): AccidentalType {
     return currentNote > ionianNote
       ? AccidentalType.Sharp
@@ -51,17 +59,14 @@ export class GreekModeInfo {
       : AccidentalType.None;
   }
 }
+
 export class GreekModeDictionary {
   private static instance: GreekModeDictionary;
   private readonly modes: Record<GreekModeType, GreekModeInfo>;
-  public static readonly IONIAN_PATTERN = [0, 2, 4, 5, 7, 9, 11];
+
   private constructor() {
     this.modes = {
-      [GreekModeType.Ionian]: new GreekModeInfo(
-        GreekModeType.Ionian,
-        GreekModeDictionary.IONIAN_PATTERN,
-        1,
-      ), // Major scale
+      [GreekModeType.Ionian]: new GreekModeInfo(GreekModeType.Ionian, IONIAN_PATTERN, 1), // Major scale
       [GreekModeType.Dorian]: new GreekModeInfo(GreekModeType.Dorian, [0, 2, 3, 5, 7, 9, 10], 2), // Minor with raised 6th
       [GreekModeType.Phrygian]: new GreekModeInfo(
         GreekModeType.Phrygian,
@@ -88,9 +93,7 @@ export class GreekModeDictionary {
     return GreekModeDictionary.instance;
   }
 
-  public getMode(type: GreekModeType): GreekModeInfo {
-    return this.modes[type];
+  public static getModeInfo(type: GreekModeType): GreekModeInfo {
+    return GreekModeDictionary.getInstance().modes[type];
   }
 }
-
-export const MODE_PATTERNS = GreekModeDictionary.getInstance().getMode;

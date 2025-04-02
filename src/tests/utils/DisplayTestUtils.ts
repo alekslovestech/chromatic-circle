@@ -15,9 +15,8 @@ export function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: s
 
 export function verifyGreekModeScaleDegrees(greekMode: GreekModeType, expectedNotes: string[]) {
   expectedNotes.forEach((note, index) => {
-    const scaleDegreeInfo = GreekModeDictionary.getInstance()
-      .getMode(greekMode)
-      .getScaleDegreeInfoFromPosition(index);
+    const scaleDegreeInfo =
+      GreekModeDictionary.getModeInfo(greekMode).getScaleDegreeInfoFromPosition(index);
     expect(scaleDegreeInfo.getDisplayString()).toEqual(note);
   });
 }

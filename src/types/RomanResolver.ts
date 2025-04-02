@@ -3,10 +3,10 @@ import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
-import { ixOffset, ixScaleDegree, OffsetIndex, ScaleDegree } from "./IndexTypes";
+import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
-import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
+import { addChromatic, noteTextToIndex } from "./ChromaticIndex";
 import { GreekModeDictionary } from "./GreekMode";
 
 export class RomanResolver {
@@ -77,18 +77,7 @@ export class RomanResolver {
 
   static getScaleDegreeFromNoteAndKey(noteName: string, key: MusicalKey): number {
     const chromaticIndex = noteTextToIndex(noteName);
-    return RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, key);
-  }
-
-  static getScaleDegreeFromIndexAndKey(
-    chromaticIndex: ChromaticIndex,
-    key: MusicalKey,
-  ): ScaleDegree {
-    const greekMode = GreekModeDictionary.getInstance().getMode(key.greekMode);
-    const scaleDegreeInfo = greekMode.getScaleDegreeInfoFromChromatic(
-      chromaticIndex,
-      key.tonicIndex,
-    );
-    return scaleDegreeInfo ? scaleDegreeInfo.scaleDegree : ixScaleDegree(-1);
+    const thisGreekMode = GreekModeDictionary.getModeInfo(key.greekMode);
+    return thisGreekMode.getScaleDegreeFromIndexAndKey(chromaticIndex, key);
   }
 }
