@@ -35,8 +35,10 @@ export const getNoteTextFromChromaticIndex = (
 };
 
 const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
-  const scaleDegree = musicalKey.getScaleDegreeFromIndexAndKey(chromaticIndex);
-  return scaleDegree > 0 ? RomanNumeralUtils.toRoman(scaleDegree).toLowerCase() : "";
+  const scaleDegreeInfo = musicalKey.getScaleDegreeInfo(chromaticIndex);
+  return scaleDegreeInfo
+    ? RomanNumeralUtils.toRoman(scaleDegreeInfo.scaleDegree).toLowerCase()
+    : "";
 };
 
 export const getDisplayString = (

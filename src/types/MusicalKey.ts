@@ -4,7 +4,7 @@ import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex"
 import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
 import { GreekModeType } from "./GreekModes/GreekModeType";
 import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
-import { ixScaleDegree, ScaleDegree } from "./GreekModes/ScaleDegreeType";
+import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
 import { KeyType } from "./KeyType";
 import { getBasicNoteInfo } from "./NoteConstants";
 import { NoteInfo } from "./NoteInfo";
@@ -35,31 +35,21 @@ export class MusicalKey {
     return new MusicalKey(tonicAsString, classicalMode, greekMode);
   }
 
-  getScaleDegreeFromIndexAndKey(chromaticIndex: ChromaticIndex): ScaleDegree {
+  getScaleDegreeInfo(chromaticIndex: ChromaticIndex): ScaleDegreeInfo | null {
     const thisGreekMode = GreekModeDictionary.getModeInfo(this.greekMode);
     const scaleDegreeInfo = GreekModeUtils.getScaleDegreeInfoFromChromatic(
       thisGreekMode,
       chromaticIndex,
       this.tonicIndex,
     );
-    return scaleDegreeInfo ? scaleDegreeInfo.scaleDegree : ixScaleDegree(-1);
+    return scaleDegreeInfo;
   }
 
   getScaleDegreeDisplayString(chromaticIndex: ChromaticIndex): string {
     if (!this.isDiatonicNote(chromaticIndex)) return "";
 
-    const thisGreekMode = GreekModeDictionary.getModeInfo(this.greekMode);
-    const scaleDegreeInfo = GreekModeUtils.getScaleDegreeInfoFromChromatic(
-      thisGreekMode,
-      chromaticIndex,
-      this.tonicIndex,
-    );
-    return scaleDegreeInfo?.getDisplayString() ?? "";
-  }
-
-  getScaleDegreeFromNoteAndKey(noteName: string): number {
-    const chromaticIndex = noteTextToIndex(noteName);
-    return this.getScaleDegreeFromIndexAndKey(chromaticIndex);
+    const scaleDegreeInfo = this.getScaleDegreeInfo(chromaticIndex);
+    return scaleDegreeInfo!.getDisplayString();
   }
 
   private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
