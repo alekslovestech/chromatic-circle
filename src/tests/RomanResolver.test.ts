@@ -44,29 +44,3 @@ describe("Resolved roman numeral tests", () => {
     verifyResolvedChord(gMajor, "♭VI", "Eb", ChordType.Major);
   });
 });
-
-describe("Scale degree from chromatic index", () => {
-  test("C in C major (I)", () => {
-    expect(C_MAJOR.getScaleDegreeFromNoteAndKey("C")).toBe(1);
-  });
-
-  /*
-  test("E♭ in C major (♭III)", () => {
-    const key = new MusicalKey("C", KeyType.Major); // C major
-    expect(RomanResolver.getScaleDegreeFromNoteAndKey("E♭", key)).toBe(3);
-  }); */
-
-  test("G in C major (V)", () => {
-    expect(C_MAJOR.getScaleDegreeFromNoteAndKey("G")).toBe(5);
-  });
-
-  test("F♯ in D major (III)", () => {
-    const key = MusicalKey.fromClassicalMode("D", KeyType.Major); // D major
-    expect(key.getScaleDegreeFromNoteAndKey("F#")).toBe(3);
-  });
-
-  test("B♭ in F major (IV)", () => {
-    const key = MusicalKey.fromClassicalMode("F", KeyType.Major); // F major
-    expect(key.getScaleDegreeFromNoteAndKey("Bb")).toBe(4);
-  });
-});

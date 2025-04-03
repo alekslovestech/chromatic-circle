@@ -1,6 +1,6 @@
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalSignForDisplay } from "./AccidentalType";
-import { ScaleDegree } from "./IndexTypes";
+import { ScaleDegree } from "./GreekModes/ScaleDegreeType";
 import { ChordType } from "./NoteGroupingTypes";
 
 export class RomanChord {
