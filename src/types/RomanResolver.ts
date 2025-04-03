@@ -6,8 +6,7 @@ import { AccidentalType, getAccidentalType } from "./AccidentalType";
 import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
-import { addChromatic, noteTextToIndex } from "./ChromaticIndex";
-import { GreekModeDictionary } from "./GreekMode";
+import { addChromatic } from "./ChromaticIndex";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
