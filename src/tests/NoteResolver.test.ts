@@ -1,7 +1,8 @@
-import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
 import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
 import { noteTextToIndex } from "../types/ChromaticIndex";
+import { KeyType } from "../types/KeyType";
 
 /**
  * Helper function to verify that a note resolves correctly in a given key
@@ -15,7 +16,7 @@ function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNo
   expect(note).toEqual(expectedNote);
 }
 
-const cMajor = MusicalKeyUtil.DEFAULT_MUSICAL_KEY;
+const cMajor = DEFAULT_MUSICAL_KEY;
 const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
 const dMinor = MusicalKey.fromClassicalMode("D", KeyType.Minor);
 const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);

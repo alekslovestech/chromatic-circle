@@ -1,26 +1,24 @@
 import React from "react";
 
-import { KeyType, MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { MusicalKey } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekMode";
+import { KeyType } from "../types/KeyType";
 import { formatForDisplay } from "../utils/NoteNameUtils";
-
-import { useDisplay } from "../contexts/DisplayContext";
-import { GlobalMode } from "../types/SettingModes";
+import { KeySignatureUtils } from "../utils/KeySignatureUtils";
 
 import { useMusical } from "../contexts/MusicalContext";
 
 import "../styles/CircularSettings.css";
 
-export const MusicalKeySelector = () => {
+export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
-  const { globalMode } = useDisplay();
-  const advanced = globalMode === GlobalMode.Advanced;
-  const keys = MusicalKeyUtil.getKeyList(selectedMusicalKey.classicalMode);
+
+  const keys = KeySignatureUtils.getKeyList(selectedMusicalKey.classicalMode);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleKeyNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const keyName = event.target.value as string;
-    const newKey = MusicalKey.fromClassicalMode(keyName, selectedMusicalKey.classicalMode);
+    const newKey = MusicalKey.fromGreekMode(keyName, selectedMusicalKey.greekMode);
     setSelectedMusicalKey(newKey);
   };
 
@@ -40,17 +38,23 @@ export const MusicalKeySelector = () => {
 
   return (
     <div className="musical-key-selector">
-      <select onChange={handleKeyNameChange} value={selectedMusicalKey.tonicString}>
+      <select
+        id="tonic-select"
+        onChange={handleKeyNameChange}
+        value={selectedMusicalKey.tonicString}
+      >
         {keys.map((key) => (
           <option key={key} value={key}>
             {formatForDisplay(key)}
           </option>
         ))}
       </select>
-      {advanced ? (
-        <select onChange={handleGreekModeChange}>
+      {/* In advanced mode (useDropdownSelector=true), show dropdown with all Greek modes
+          In basic mode, show simple Major/Minor toggle button */}
+      {useDropdownSelector ? (
+        <select id="greek-mode-select" onChange={handleGreekModeChange}>
           {Object.values(GreekModeType).map((mode) => (
-            <option key={mode} value={mode}>
+            <option id={`greek-mode-option-${mode}`} key={mode} value={mode}>
               {mode}
             </option>
           ))}

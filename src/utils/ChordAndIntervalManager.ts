@@ -7,7 +7,7 @@ import {
   ixActualArray,
   ixInversion,
 } from "../types/IndexTypes";
-import { MusicalKey, MusicalKeyUtil } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
 import { NoteGrouping } from "../types/NoteGrouping";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
@@ -82,7 +82,7 @@ export class ChordAndIntervalManager {
   static getChordNameFromIndices(
     indices: ActualIndex[],
     displayMode = ChordDisplayMode.Letters_Short,
-    selectedMusicalKey: MusicalKey = MusicalKeyUtil.DEFAULT_MUSICAL_KEY,
+    selectedMusicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
     /* accidental = AccidentalType.Sharp,*/
   ): string {
     const chordMatch = this.getMatchFromIndices(indices);

@@ -3,10 +3,10 @@ import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalType } from "./AccidentalType";
-import { ixOffset, ixScaleDegree, OffsetIndex, ScaleDegree } from "./IndexTypes";
+import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
-import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
+import { addChromatic } from "./ChromaticIndex";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -72,20 +72,5 @@ export class RomanResolver {
       throw new Error(`Invalid roman notation ${romanString}`);
     }
     return new RomanChord(ordinal, chordType, accidental, bassDegree);
-  }
-
-  static getScaleDegreeFromNoteAndKey(noteName: string, key: MusicalKey): number {
-    const chromaticIndex = noteTextToIndex(noteName);
-    return RomanResolver.getScaleDegreeFromIndexAndKey(chromaticIndex, key);
-  }
-
-  static getScaleDegreeFromIndexAndKey(
-    chromaticIndex: ChromaticIndex,
-    key: MusicalKey,
-  ): ScaleDegree {
-    const scale = key.getAbsoluteScaleNotes();
-    const isDiatonic = scale.includes(chromaticIndex);
-    const scaleDegree = isDiatonic ? scale.indexOf(chromaticIndex) + 1 : -1;
-    return ixScaleDegree(scaleDegree);
   }
 }

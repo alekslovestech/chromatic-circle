@@ -1,5 +1,10 @@
+import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
 import { AccidentalType } from "./AccidentalType";
-import { ixScaleDegree } from "./IndexTypes";
+import { addChromatic, noteTextToIndex } from "./ChromaticIndex";
+import { ChromaticIndex } from "./ChromaticIndex";
+import { ixActual, ixScaleDegree, ScaleDegree } from "./IndexTypes";
+import { MAJOR_KEY_SIGNATURES } from "./KeySignatures";
+import { MusicalKey } from "./MusicalKey";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 
 export enum GreekModeType {
@@ -13,6 +18,8 @@ export enum GreekModeType {
   Aeolian = "Aeolian",
   Locrian = "Locrian",
 }
+
+const IONIAN_PATTERN = [0, 2, 4, 5, 7, 9, 11];
 export class GreekModeInfo {
   constructor(
     public readonly type: GreekModeType,
@@ -20,26 +27,43 @@ export class GreekModeInfo {
     public readonly modeNumber: number,
   ) {}
 
-  //private IONIAN_PATTERN = GreekModeDictionary.getInstance().getMode(GreekModeType.Ionian).pattern;
-  public getScaleDegreeInfo(index: number): ScaleDegreeInfo {
-    const currentNote = this.pattern[index];
-    const ionianNote = GreekModeDictionary.IONIAN_PATTERN[index];
-    const accidental =
-      currentNote > ionianNote
-        ? AccidentalType.Sharp
-        : currentNote < ionianNote
-        ? AccidentalType.Flat
-        : AccidentalType.None;
-    return new ScaleDegreeInfo(ixScaleDegree(index + 1), accidental);
+  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
+    const currentNote = this.pattern[scaleDegreeIndex];
+    const ionianNote = IONIAN_PATTERN[scaleDegreeIndex];
+    const accidental = this.getAccidentalFromNotes(currentNote, ionianNote);
+    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+  }
+
+  public getScaleDegreeInfoFromChromatic(
+    chromaticIndex: ChromaticIndex,
+    tonicIndex: ChromaticIndex,
+  ): ScaleDegreeInfo | null {
+    // Find which scale degree this note is
+    const scaleDegreePosition = this.pattern.findIndex(
+      (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
+    );
+
+    return scaleDegreePosition === -1
+      ? null
+      : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
+  }
+
+  private getAccidentalFromNotes(currentNote: number, ionianNote: number): AccidentalType {
+    return currentNote > ionianNote
+      ? AccidentalType.Sharp
+      : currentNote < ionianNote
+      ? AccidentalType.Flat
+      : AccidentalType.None;
   }
 }
+
 export class GreekModeDictionary {
   private static instance: GreekModeDictionary;
   private readonly modes: Record<GreekModeType, GreekModeInfo>;
-  public static readonly IONIAN_PATTERN = [0, 2, 4, 5, 7, 9, 11];
+
   private constructor() {
     this.modes = {
-      [GreekModeType.Ionian]: new GreekModeInfo(GreekModeType.Ionian, [0, 2, 4, 5, 7, 9, 11], 1), // Major scale
+      [GreekModeType.Ionian]: new GreekModeInfo(GreekModeType.Ionian, IONIAN_PATTERN, 1), // Major scale
       [GreekModeType.Dorian]: new GreekModeInfo(GreekModeType.Dorian, [0, 2, 3, 5, 7, 9, 10], 2), // Minor with raised 6th
       [GreekModeType.Phrygian]: new GreekModeInfo(
         GreekModeType.Phrygian,
@@ -66,9 +90,27 @@ export class GreekModeDictionary {
     return GreekModeDictionary.instance;
   }
 
-  public getMode(type: GreekModeType): GreekModeInfo {
-    return this.modes[type];
+  public static getModeInfo(type: GreekModeType): GreekModeInfo {
+    return GreekModeDictionary.getInstance().modes[type];
+  }
+
+  private static getRelativeIonian(note: string, mode: GreekModeType): string {
+    const greekModeInfo = GreekModeDictionary.getModeInfo(mode);
+    const modeIndex = greekModeInfo.modeNumber;
+    const modePattern = greekModeInfo.pattern;
+    const relativeIonianIndex = modePattern.length - modeIndex;
+    const initialIndex = noteTextToIndex(note);
+    const relativeIonianChromaticIndex = addChromatic(
+      initialIndex,
+      modePattern[relativeIonianIndex],
+    );
+    return getNoteTextFromActualIndex(ixActual(relativeIonianChromaticIndex), AccidentalType.Sharp);
+  }
+
+  // Get the relative Ionian (major) key for a given Greek mode
+  // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
+  public static getKeySignatureFromGreekMode(note: string, mode: GreekModeType): string[] {
+    const relativeIonian = this.getRelativeIonian(note, mode);
+    return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
   }
 }
-
-export const MODE_PATTERNS = GreekModeDictionary.getInstance().getMode;
