@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { ixScaleDegree } from "../types/IndexTypes";
+import { ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 
 describe("Scale Degree Info", () => {

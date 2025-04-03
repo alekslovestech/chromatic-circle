@@ -2,7 +2,7 @@ import { AccidentalType } from "../types/AccidentalType";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { RomanChord } from "../types/RomanChord";
 import { RomanResolver } from "../types/RomanResolver";
-import { ixScaleDegree } from "../types/IndexTypes";
+import { ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 export function verifyRomanChord(numeral: string, expected: RomanChord) {
   expect(RomanResolver.getRomanChord(numeral)).toEqual(expected);
 }

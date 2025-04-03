@@ -2,7 +2,6 @@ import { getAccidentalSignForDisplay } from "../AccidentalType";
 
 import { AccidentalType } from "../AccidentalType";
 import { ScaleDegree, ixScaleDegree } from "./ScaleDegreeType";
-
 export class ScaleDegreeInfo {
   public readonly scaleDegree: ScaleDegree;
   public readonly accidentalPrefix: AccidentalType;

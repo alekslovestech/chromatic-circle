@@ -4,7 +4,7 @@ import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex"
 import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
 import { GreekModeType } from "./GreekModes/GreekModeType";
 import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
-import { ixScaleDegree, ScaleDegree } from "./IndexTypes";
+import { ixScaleDegree, ScaleDegree } from "./GreekModes/ScaleDegreeType";
 import { KeyType } from "./KeyType";
 import { getBasicNoteInfo } from "./NoteConstants";
 import { NoteInfo } from "./NoteInfo";

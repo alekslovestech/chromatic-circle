@@ -1,4 +1,5 @@
-import { ixScaleDegree, ScaleDegree } from "../types/IndexTypes";
+import { ScaleDegree, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
+
 import { RomanNumeralString } from "../types/RomanTypes";
 
 export class RomanNumeralUtils {
