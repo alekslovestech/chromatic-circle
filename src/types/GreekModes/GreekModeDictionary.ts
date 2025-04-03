@@ -1,9 +1,3 @@
-import { getNoteTextFromChromaticIndex } from "../../utils/NoteNameUtils";
-import { AccidentalType } from "../AccidentalType";
-import { addChromatic, noteTextToIndex } from "../ChromaticIndex";
-import { ChromaticIndex } from "../ChromaticIndex";
-import { MAJOR_KEY_SIGNATURES } from "../KeySignatures";
-import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 import { GreekModeType } from "./GreekModeType";
 import { GreekModeInfo } from "./GreekModeInfo";
 

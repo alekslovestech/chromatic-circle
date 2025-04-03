@@ -1,8 +1,8 @@
 import { AccidentalType } from "../AccidentalType";
-import { ixScaleDegree } from "../IndexTypes";
 import { IONIAN_PATTERN } from "./GreekModeDictionary";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
+import { ixScaleDegree } from "./ScaleDegreeType";
 
 export class GreekModeInfo {
   constructor(
