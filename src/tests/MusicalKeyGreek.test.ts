@@ -1,5 +1,12 @@
-import { verifyGreekModeScaleNotes } from "./utils/DisplayTestUtils";
+import { noteTextToIndex } from "../types/ChromaticIndex";
+import { MusicalKey } from "../types/MusicalKey";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
+
+function verifyGreekModeScaleNotes(musicalKey: MusicalKey, expectedNotes: string[]) {
+  const noteList = musicalKey.getAbsoluteScaleNotes();
+  const expectedIndices = expectedNotes.map((note) => noteTextToIndex(note));
+  expect(noteList).toEqual(expectedIndices);
+}
 
 describe("Greek Mode Index Arrays", () => {
   let constants: GreekTestConstants;

@@ -14,7 +14,12 @@ export class GreekModeInfo {
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
     const currentNote = this.pattern[scaleDegreeIndex];
     const ionianNote = IONIAN_PATTERN[scaleDegreeIndex];
-    const accidental = this.getAccidentalFromNotes(currentNote, ionianNote);
+    const accidental =
+      currentNote > ionianNote
+        ? AccidentalType.Sharp
+        : currentNote < ionianNote
+        ? AccidentalType.Flat
+        : AccidentalType.None;
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
   }
 
@@ -22,13 +27,5 @@ export class GreekModeInfo {
     return this.pattern.map((_, index) =>
       this.getScaleDegreeInfoFromPosition(index).getDisplayString(),
     );
-  }
-
-  private getAccidentalFromNotes(currentNote: number, ionianNote: number): AccidentalType {
-    return currentNote > ionianNote
-      ? AccidentalType.Sharp
-      : currentNote < ionianNote
-      ? AccidentalType.Flat
-      : AccidentalType.None;
   }
 }
