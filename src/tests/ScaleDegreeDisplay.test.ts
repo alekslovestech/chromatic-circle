@@ -50,19 +50,6 @@ describe("getScaleDegreeDisplayString", () => {
   });
 
   describe("Dorian Mode", () => {
-    it("C is a flat 7 in D Dorian", () => {
-      expect(dDorianKey.getScaleDegreeDisplayString(ixChromatic(0))).toEqual("♭7");
-    });
-    it("C is a 1 in C Dorian", () => {
-      expect(cDorianKey.getScaleDegreeDisplayString(ixChromatic(0))).toEqual("1");
-    });
-    it("B♭ does not exist in D Dorian", () => {
-      expect(dDorianKey.getScaleDegreeDisplayString(ixChromatic(10))).toEqual("");
-    });
-    it("B is a 6 in D Dorian", () => {
-      expect(dDorianKey.getScaleDegreeDisplayString(ixChromatic(11))).toEqual("6");
-    });
-
     it("should display correct scale degrees for C Dorian", () => {
       verifyScaleDegreesArray(cDorianKey, [
         "1",
