@@ -16,9 +16,9 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
   const keys = KeySignatureUtils.getKeyList(selectedMusicalKey.classicalMode);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
-  const handleKeyNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const keyName = event.target.value as string;
-    const newKey = MusicalKey.fromGreekMode(keyName, selectedMusicalKey.greekMode);
+  const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const tonicName = event.target.value as string;
+    const newKey = MusicalKey.fromGreekMode(tonicName, selectedMusicalKey.greekMode);
     setSelectedMusicalKey(newKey);
   };
 
@@ -40,7 +40,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     <div className="musical-key-selector">
       <select
         id="tonic-select"
-        onChange={handleKeyNameChange}
+        onChange={handleTonicNameChange}
         value={selectedMusicalKey.tonicString}
       >
         {keys.map((key) => (
