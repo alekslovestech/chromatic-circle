@@ -18,7 +18,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleKeyNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const keyName = event.target.value as string;
-    const newKey = MusicalKey.fromClassicalMode(keyName, selectedMusicalKey.classicalMode);
+    const newKey = MusicalKey.fromGreekMode(keyName, selectedMusicalKey.greekMode);
     setSelectedMusicalKey(newKey);
   };
 

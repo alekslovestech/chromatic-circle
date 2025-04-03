@@ -18,6 +18,10 @@ export class MusicalKey {
     this.greekMode = greekMode;
   }
 
+  toString(): string {
+    return `${this.tonicString} (${this.classicalMode} | ${this.greekMode})`;
+  }
+
   static fromClassicalMode(tonicAsString: string, classicalMode: KeyType): MusicalKey {
     const greekMode =
       classicalMode === KeyType.Major ? GreekModeType.Ionian : GreekModeType.Aeolian;
