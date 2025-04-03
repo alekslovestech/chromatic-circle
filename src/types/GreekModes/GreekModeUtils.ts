@@ -25,21 +25,18 @@ export class GreekModeUtils {
 
   // Get the relative Ionian (major) key for a given Greek mode
   // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
-  public static getKeySignatureFromGreekMode(note: string, mode: GreekModeType): string[] {
-    const relativeIonian = this.getRelativeIonian(note, mode);
+  public static getKeySignatureFromGreekMode(tonicString: string, mode: GreekModeType): string[] {
+    const relativeIonian = this.getRelativeIonian(tonicString, mode);
     return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
   }
 
-  private static getRelativeIonian(note: string, mode: GreekModeType): string {
+  private static getRelativeIonian(tonicString: string, mode: GreekModeType): string {
     const greekModeInfo = GreekModeDictionary.getModeInfo(mode);
     const modeIndex = greekModeInfo.modeNumber;
     const modePattern = greekModeInfo.pattern;
     const relativeIonianIndex = modePattern.length - modeIndex;
-    const initialIndex = noteTextToIndex(note);
-    const relativeIonianChromaticIndex = addChromatic(
-      initialIndex,
-      modePattern[relativeIonianIndex],
-    );
+    const tonicIndex = noteTextToIndex(tonicString);
+    const relativeIonianChromaticIndex = addChromatic(tonicIndex, modePattern[relativeIonianIndex]);
     return getNoteTextFromChromaticIndex(relativeIonianChromaticIndex, AccidentalType.Sharp);
   }
 }

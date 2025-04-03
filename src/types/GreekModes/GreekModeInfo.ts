@@ -7,8 +7,8 @@ import { ixScaleDegree } from "./ScaleDegreeType";
 export class GreekModeInfo {
   constructor(
     public readonly type: GreekModeType,
-    public readonly pattern: number[],
-    public readonly modeNumber: number,
+    public readonly pattern: number[], // The pattern of the mode, typically 7 notes. e.g. [0, 2, 4, 5, 7, 9, 10] for Mixolydian
+    public readonly modeNumber: number, // The number of the mode, typically 1-7. e.g. 1 for Ionian, 2 for Dorian, etc.
   ) {}
 
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
@@ -16,6 +16,12 @@ export class GreekModeInfo {
     const ionianNote = IONIAN_PATTERN[scaleDegreeIndex];
     const accidental = this.getAccidentalFromNotes(currentNote, ionianNote);
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+  }
+
+  public getScaleDegreeDisplayStrings(): string[] {
+    return this.pattern.map((_, index) =>
+      this.getScaleDegreeInfoFromPosition(index).getDisplayString(),
+    );
   }
 
   private getAccidentalFromNotes(currentNote: number, ionianNote: number): AccidentalType {
