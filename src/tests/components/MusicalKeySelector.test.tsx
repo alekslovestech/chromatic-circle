@@ -4,12 +4,13 @@ import { RootProvider } from "../../contexts/RootContext";
 import { useMusical } from "../../contexts/MusicalContext";
 import { GreekModeType } from "../../types/GreekMode";
 import { MusicalKey } from "../../types/MusicalKey";
+import { ReactTestUtils } from "../utils/ReactTestUtils";
 
 describe("MusicalKeySelector tests", () => {
   const renderComponent = () =>
     render(
       <RootProvider>
-        <MusicalKeySelector isGreekMode={true} />
+        <MusicalKeySelector useDropdownSelector={true} />
       </RootProvider>,
     );
 
@@ -36,8 +37,9 @@ describe("MusicalKeySelector tests", () => {
     if (greekModeSelect) {
       //greekModeSelect.value = GreekModeType.Dorian;
       //fireEvent.change(greekModeSelect);
+      fireEvent.change(greekModeSelect, { target: { value: GreekModeType.Dorian } });
     }
     const selectedMusicalKey = result.current.selectedMusicalKey;
-    const newKey = MusicalKey.fromClassicalMode("D", selectedMusicalKey.classicalMode);
+    expect(selectedMusicalKey.greekMode).toBe(GreekModeType.Dorian);
   });
 });

@@ -24,7 +24,7 @@ export const CircularSettings = () => {
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <CircularVisModeSelect />
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-          <MusicalKeySelector isGreekMode={isAdvanced} />
+          <MusicalKeySelector useDropdownSelector={isAdvanced} />
           <TransposeWidget />
         </div>
         {<MonochromeModeToggle />}

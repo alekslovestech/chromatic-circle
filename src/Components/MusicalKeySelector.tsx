@@ -10,7 +10,7 @@ import { useMusical } from "../contexts/MusicalContext";
 
 import "../styles/CircularSettings.css";
 
-export const MusicalKeySelector = ({ isGreekMode }: { isGreekMode: boolean }) => {
+export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
 
   const keys = KeySignatureUtils.getKeyList(selectedMusicalKey.classicalMode);
@@ -49,7 +49,9 @@ export const MusicalKeySelector = ({ isGreekMode }: { isGreekMode: boolean }) =>
           </option>
         ))}
       </select>
-      {isGreekMode ? (
+      {/* In advanced mode (useDropdownSelector=true), show dropdown with all Greek modes
+          In basic mode, show simple Major/Minor toggle button */}
+      {useDropdownSelector ? (
         <select id="greek-mode-select" onChange={handleGreekModeChange}>
           {Object.values(GreekModeType).map((mode) => (
             <option id={`greek-mode-option-${mode}`} key={mode} value={mode}>
