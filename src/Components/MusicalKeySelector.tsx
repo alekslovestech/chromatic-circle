@@ -1,7 +1,7 @@
 import React from "react";
 
 import { MusicalKey } from "../types/MusicalKey";
-import { GreekModeType } from "../types/GreekMode";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/KeyType";
 import { formatForDisplay } from "../utils/NoteNameUtils";
 import { KeySignatureUtils } from "../utils/KeySignatureUtils";

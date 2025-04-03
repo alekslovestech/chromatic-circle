@@ -1,4 +1,4 @@
-import { GreekModeType } from "../../types/GreekMode";
+import { GreekModeType } from "../../types/GreekModes/GreekModeType";
 import { MusicalKey } from "../../types/MusicalKey";
 
 export class GreekTestConstants {

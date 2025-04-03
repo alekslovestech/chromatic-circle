@@ -2,7 +2,7 @@ import { act, fireEvent, render, renderHook } from "@testing-library/react";
 import { MusicalKeySelector } from "../../Components/MusicalKeySelector";
 import { RootProvider } from "../../contexts/RootContext";
 import { useMusical } from "../../contexts/MusicalContext";
-import { GreekModeType } from "../../types/GreekMode";
+import { GreekModeType } from "../../types/GreekModes/GreekModeType";
 
 describe("MusicalKeySelector tests", () => {
   const renderComponent = () =>

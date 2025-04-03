@@ -1,5 +1,5 @@
 import { ixChromatic, noteTextToIndex } from "../../types/ChromaticIndex";
-import { GreekModeDictionary, GreekModeType } from "../../types/GreekMode";
+import { GreekModeDictionary, GreekModeType } from "../../types/GreekModes/GreekModeDictionary";
 import { MusicalKey } from "../../types/MusicalKey";
 import { TWELVE } from "../../types/NoteConstants";
 

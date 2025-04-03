@@ -1,9 +1,9 @@
-import { ScaleDegree } from "./IndexTypes";
+import { ScaleDegree } from "../IndexTypes";
 
-import { getAccidentalSignForDisplay } from "./AccidentalType";
+import { getAccidentalSignForDisplay } from "../AccidentalType";
 
-import { AccidentalType } from "./AccidentalType";
-import { ixScaleDegree } from "./IndexTypes";
+import { AccidentalType } from "../AccidentalType";
+import { ixScaleDegree } from "../IndexTypes";
 
 export class ScaleDegreeInfo {
   public readonly scaleDegree: ScaleDegree;

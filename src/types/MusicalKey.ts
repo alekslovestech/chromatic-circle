@@ -1,7 +1,9 @@
 import { KeySignatureUtils } from "../utils/KeySignatureUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
-import { GreekModeDictionary, GreekModeType } from "./GreekMode";
+import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
+import { GreekModeType } from "./GreekModes/GreekModeType";
+import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
 import { ixScaleDegree, ScaleDegree } from "./IndexTypes";
 import { KeyType } from "./KeyType";
 import { getBasicNoteInfo } from "./NoteConstants";
@@ -34,9 +36,12 @@ export class MusicalKey {
   }
 
   getScaleDegreeFromIndexAndKey(chromaticIndex: ChromaticIndex): ScaleDegree {
-    const scaleDegreeInfo = GreekModeDictionary.getModeInfo(
-      this.greekMode,
-    ).getScaleDegreeInfoFromChromatic(chromaticIndex, this.tonicIndex);
+    const thisGreekMode = GreekModeDictionary.getModeInfo(this.greekMode);
+    const scaleDegreeInfo = GreekModeUtils.getScaleDegreeInfoFromChromatic(
+      thisGreekMode,
+      chromaticIndex,
+      this.tonicIndex,
+    );
     return scaleDegreeInfo ? scaleDegreeInfo.scaleDegree : ixScaleDegree(-1);
   }
 
@@ -44,7 +49,8 @@ export class MusicalKey {
     if (!this.isDiatonicNote(chromaticIndex)) return "";
 
     const thisGreekMode = GreekModeDictionary.getModeInfo(this.greekMode);
-    const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromChromatic(
+    const scaleDegreeInfo = GreekModeUtils.getScaleDegreeInfoFromChromatic(
+      thisGreekMode,
       chromaticIndex,
       this.tonicIndex,
     );

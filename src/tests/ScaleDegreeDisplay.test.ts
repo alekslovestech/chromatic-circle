@@ -1,4 +1,4 @@
-import { GreekModeType } from "../types/GreekMode";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { verifyGreekModeScaleDegrees, verifyScaleDegreesArray } from "./utils/DisplayTestUtils";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
