@@ -19,14 +19,8 @@ export const getNoteTextFromActualIndex = (
   accidentalPreference: AccidentalType,
 ): string => {
   const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
-  return formatNoteNameForDisplay(chromaticIndex, accidentalPreference);
-};
-
-export const getNoteTextFromChromaticIndex = (
-  chromaticIndex: ChromaticIndex,
-  accidentalPreference: AccidentalType,
-): string => {
-  return formatNoteNameForDisplay(chromaticIndex, accidentalPreference);
+  const noteInfo = NoteConverter.getBasicNoteInfo(chromaticIndex, accidentalPreference);
+  return noteInfo.formatNoteNameForDisplay();
 };
 
 const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
