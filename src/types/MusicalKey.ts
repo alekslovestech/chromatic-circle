@@ -2,7 +2,6 @@ import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex } from "./ChromaticIndex";
 import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
 import { GreekModeType } from "./GreekModes/GreekModeType";
-import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
 import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
 import { KeySignature } from "./KeySignature";
 import { KeyType } from "./KeyType";
@@ -40,8 +39,7 @@ export class MusicalKey {
 
   getScaleDegreeInfo(chromaticIndex: ChromaticIndex): ScaleDegreeInfo | null {
     const thisGreekMode = GreekModeDictionary.getModeInfo(this.greekMode);
-    const scaleDegreeInfo = GreekModeUtils.getScaleDegreeInfoFromChromatic(
-      thisGreekMode,
+    const scaleDegreeInfo = thisGreekMode.getScaleDegreeInfoFromChromatic(
       chromaticIndex,
       this.tonicIndex,
     );
@@ -52,20 +50,6 @@ export class MusicalKey {
     const scaleDegreeInfo = this.getScaleDegreeInfo(chromaticIndex);
     return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
   }
-
-  /*get tonicIndex(): ChromaticIndex {
-    return NoteConverter.toChromaticIndex(this.tonicString);
-  }*/
-  /*
-  //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
-  getOppositeKey(): MusicalKey {
-    const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
-    const newKeyList = this.keySignature.getNoteList();
-    const newTonicString = newKeyList.find(
-      (key) => NoteConverter.toChromaticIndex(key) === this.tonicIndex,
-    );
-    return MusicalKey.fromClassicalMode(newTonicString!, newMode);
-  }*/
 
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
