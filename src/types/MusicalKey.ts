@@ -13,7 +13,7 @@ export class MusicalKey {
   public readonly classicalMode: KeyType; // Major or minor scale
   public readonly greekMode: GreekModeType;
   public readonly keySignature: KeySignature;
-  private readonly tonicIndex: ChromaticIndex;
+  public readonly tonicIndex: ChromaticIndex;
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = NoteConverter.sanitizeNoteString(tonicAsString);
     this.classicalMode = classicalMode;
