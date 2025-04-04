@@ -1,10 +1,10 @@
-import { KeySignatureUtils } from "../utils/KeySignatureUtils";
 import { AccidentalType } from "./AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
 import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
 import { GreekModeType } from "./GreekModes/GreekModeType";
 import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
 import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
+import { KeySignature } from "./KeySignature";
 import { KeyType } from "./KeyType";
 import { getBasicNoteInfo } from "./NoteConstants";
 import { NoteInfo } from "./NoteInfo";
@@ -13,11 +13,13 @@ export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
   public readonly classicalMode: KeyType; // Major or minor scale
   public readonly greekMode: GreekModeType;
+  public readonly keySignature: KeySignature;
 
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = tonicAsString;
     this.classicalMode = classicalMode;
     this.greekMode = greekMode;
+    this.keySignature = new KeySignature(tonicAsString, classicalMode);
   }
 
   toString(): string {
@@ -46,15 +48,8 @@ export class MusicalKey {
   }
 
   getScaleDegreeDisplayString(chromaticIndex: ChromaticIndex): string {
-    if (!this.isDiatonicNote(chromaticIndex)) return "";
-
     const scaleDegreeInfo = this.getScaleDegreeInfo(chromaticIndex);
-    return scaleDegreeInfo!.getDisplayString();
-  }
-
-  private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
-    const majorModes = [GreekModeType.Ionian, GreekModeType.Lydian, GreekModeType.Mixolydian];
-    return majorModes.includes(mode) ? KeyType.Major : KeyType.Minor;
+    return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
   }
 
   get tonicIndex(): ChromaticIndex {
@@ -64,7 +59,7 @@ export class MusicalKey {
   //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
-    const newKeyList = KeySignatureUtils.getKeyList(newMode);
+    const newKeyList = this.keySignature.getNoteList();
     const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
     return MusicalKey.fromClassicalMode(newTonicString!, newMode);
   }
@@ -83,36 +78,19 @@ export class MusicalKey {
   getNoteInKey(chromaticIndex: ChromaticIndex): NoteInfo {
     const defaultAccidental = this.getDefaultAccidental();
     const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
-    return {
-      noteName: noteAtIndex.noteName,
-      accidental: this.getAccidentalInKey(noteAtIndex, defaultAccidental),
-    };
+    return new NoteInfo(
+      noteAtIndex.noteName,
+      this.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),
+    );
   }
 
   getDefaultAccidental(): AccidentalType {
-    const accidentals = this.getKeySignature();
-    return accidentals.every((acc) => acc.includes("#"))
-      ? AccidentalType.Sharp
-      : AccidentalType.Flat;
+    return this.keySignature.getDefaultAccidental();
   }
 
-  private getKeySignature(): string[] {
-    const keyMap = KeySignatureUtils.getKeySignatures(this.classicalMode);
-    return keyMap[this.tonicString] || [];
-  }
-
-  private getAccidentalInKey(note: NoteInfo, defaultAccidental: AccidentalType): AccidentalType {
-    const keySignatureWithoutAccidentals = this.getKeySignatureWithoutAccidentals();
-    return keySignatureWithoutAccidentals.includes(note.noteName)
-      ? note.accidental === defaultAccidental
-        ? AccidentalType.None
-        : AccidentalType.Natural
-      : note.accidental;
-  }
-
-  private getKeySignatureWithoutAccidentals(): string[] {
-    const keySignature = this.getKeySignature();
-    return keySignature.map((note) => note.replace(/[#b]/g, ""));
+  private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
+    const majorModes = [GreekModeType.Ionian, GreekModeType.Lydian, GreekModeType.Mixolydian];
+    return majorModes.includes(mode) ? KeyType.Major : KeyType.Minor;
   }
 }
 

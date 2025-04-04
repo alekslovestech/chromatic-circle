@@ -1,4 +1,4 @@
-import { getAccidentalSignForDisplay } from "../AccidentalType";
+import { getAccidentalSignForDisplay, getAccidentalType } from "../AccidentalType";
 
 import { AccidentalType } from "../AccidentalType";
 import { ScaleDegree, ixScaleDegree } from "./ScaleDegreeType";
@@ -19,12 +19,7 @@ export class ScaleDegreeInfo {
     const accidentalChar = scaleDegreeString.length > 1 ? scaleDegreeString[0] : "";
     const numberPart = scaleDegreeString.slice(-1);
     const scaleDegree = ixScaleDegree(parseInt(numberPart));
-    const accidental =
-      accidentalChar === "♯" || accidentalChar === "#"
-        ? AccidentalType.Sharp
-        : accidentalChar === "♭" || accidentalChar === "b"
-        ? AccidentalType.Flat
-        : AccidentalType.None;
+    const accidental = getAccidentalType(accidentalChar);
     return new ScaleDegreeInfo(scaleDegree, accidental);
   }
 }

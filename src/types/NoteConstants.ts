@@ -15,32 +15,32 @@ export const getBasicNoteInfo = (
   return notesArray[chromaticIndex];
 };
 
-const NOTES_WITH_SHARP = [
-  { noteName: "C", accidental: AccidentalType.None },
-  { noteName: "C", accidental: AccidentalType.Sharp },
-  { noteName: "D", accidental: AccidentalType.None },
-  { noteName: "D", accidental: AccidentalType.Sharp },
-  { noteName: "E", accidental: AccidentalType.None },
-  { noteName: "F", accidental: AccidentalType.None },
-  { noteName: "F", accidental: AccidentalType.Sharp },
-  { noteName: "G", accidental: AccidentalType.None },
-  { noteName: "G", accidental: AccidentalType.Sharp },
-  { noteName: "A", accidental: AccidentalType.None },
-  { noteName: "A", accidental: AccidentalType.Sharp },
-  { noteName: "B", accidental: AccidentalType.None },
+const NOTES_WITH_SHARP: NoteInfo[] = [
+  new NoteInfo("C", AccidentalType.None),
+  new NoteInfo("C", AccidentalType.Sharp),
+  new NoteInfo("D", AccidentalType.None),
+  new NoteInfo("D", AccidentalType.Sharp),
+  new NoteInfo("E", AccidentalType.None),
+  new NoteInfo("F", AccidentalType.None),
+  new NoteInfo("F", AccidentalType.Sharp),
+  new NoteInfo("G", AccidentalType.None),
+  new NoteInfo("G", AccidentalType.Sharp),
+  new NoteInfo("A", AccidentalType.None),
+  new NoteInfo("A", AccidentalType.Sharp),
+  new NoteInfo("B", AccidentalType.None),
 ];
 
-const NOTES_WITH_FLAT = [
-  { noteName: "C", accidental: AccidentalType.None },
-  { noteName: "D", accidental: AccidentalType.Flat },
-  { noteName: "D", accidental: AccidentalType.None },
-  { noteName: "E", accidental: AccidentalType.Flat },
-  { noteName: "E", accidental: AccidentalType.None },
-  { noteName: "F", accidental: AccidentalType.None },
-  { noteName: "G", accidental: AccidentalType.Flat },
-  { noteName: "G", accidental: AccidentalType.None },
-  { noteName: "A", accidental: AccidentalType.Flat },
-  { noteName: "A", accidental: AccidentalType.None },
-  { noteName: "B", accidental: AccidentalType.Flat },
-  { noteName: "B", accidental: AccidentalType.None },
+const NOTES_WITH_FLAT: NoteInfo[] = [
+  new NoteInfo("C", AccidentalType.None),
+  new NoteInfo("D", AccidentalType.Flat),
+  new NoteInfo("D", AccidentalType.None),
+  new NoteInfo("E", AccidentalType.Flat),
+  new NoteInfo("E", AccidentalType.None),
+  new NoteInfo("F", AccidentalType.None),
+  new NoteInfo("G", AccidentalType.Flat),
+  new NoteInfo("G", AccidentalType.None),
+  new NoteInfo("A", AccidentalType.Flat),
+  new NoteInfo("A", AccidentalType.None),
+  new NoteInfo("B", AccidentalType.Flat),
+  new NoteInfo("B", AccidentalType.None),
 ];

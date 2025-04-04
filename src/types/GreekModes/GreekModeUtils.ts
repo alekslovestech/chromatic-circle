@@ -1,7 +1,7 @@
 import { getNoteTextFromChromaticIndex } from "../../utils/NoteNameUtils";
 import { AccidentalType } from "../AccidentalType";
 import { addChromatic, ChromaticIndex, noteTextToIndex } from "../ChromaticIndex";
-import { MAJOR_KEY_SIGNATURES } from "../KeySignatures";
+import { MAJOR_KEY_SIGNATURES } from "../KeySignatureConstants";
 import { GreekModeDictionary } from "./GreekModeDictionary";
 import { GreekModeInfo } from "./GreekModeInfo";
 import { GreekModeType } from "./GreekModeType";
@@ -21,13 +21,6 @@ export class GreekModeUtils {
     return scaleDegreePosition === -1
       ? null
       : greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreePosition);
-  }
-
-  // Get the relative Ionian (major) key for a given Greek mode
-  // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
-  public static getKeySignatureFromGreekMode(tonicString: string, mode: GreekModeType): string[] {
-    const relativeIonian = this.getRelativeIonian(tonicString, mode);
-    return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
   }
 
   private static getRelativeIonian(tonicString: string, mode: GreekModeType): string {
