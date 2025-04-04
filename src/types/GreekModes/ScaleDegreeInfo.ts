@@ -1,5 +1,5 @@
-import { getAccidentalSignForDisplay, getAccidentalType } from "../AccidentalType";
-
+import { getAccidentalSignForDisplay } from "../AccidentalType";
+import { NoteConverter } from "../NoteConverter";
 import { AccidentalType } from "../AccidentalType";
 import { ScaleDegree, ixScaleDegree } from "./ScaleDegreeType";
 export class ScaleDegreeInfo {
@@ -19,7 +19,7 @@ export class ScaleDegreeInfo {
     const accidentalChar = scaleDegreeString.length > 1 ? scaleDegreeString[0] : "";
     const numberPart = scaleDegreeString.slice(-1);
     const scaleDegree = ixScaleDegree(parseInt(numberPart));
-    const accidental = getAccidentalType(accidentalChar);
+    const accidental = NoteConverter.getAccidentalType(accidentalChar);
     return new ScaleDegreeInfo(scaleDegree, accidental);
   }
 }

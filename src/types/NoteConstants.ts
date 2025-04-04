@@ -1,21 +1,10 @@
 import { AccidentalType } from "./AccidentalType";
-import { ChromaticIndex } from "./ChromaticIndex";
 import { NoteInfo } from "./NoteInfo";
 
 export const TWELVE = 12; //the magic number
 export const TWENTY4 = 2 * TWELVE;
-export const getNotesArray = (preference: AccidentalType) =>
-  preference === AccidentalType.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
 
-export const getBasicNoteInfo = (
-  chromaticIndex: ChromaticIndex,
-  accidentalPreference: AccidentalType,
-): NoteInfo => {
-  const notesArray = getNotesArray(accidentalPreference);
-  return notesArray[chromaticIndex];
-};
-
-const NOTES_WITH_SHARP: NoteInfo[] = [
+export const NOTES_WITH_SHARP: NoteInfo[] = [
   new NoteInfo("C", AccidentalType.None),
   new NoteInfo("C", AccidentalType.Sharp),
   new NoteInfo("D", AccidentalType.None),
@@ -30,7 +19,7 @@ const NOTES_WITH_SHARP: NoteInfo[] = [
   new NoteInfo("B", AccidentalType.None),
 ];
 
-const NOTES_WITH_FLAT: NoteInfo[] = [
+export const NOTES_WITH_FLAT: NoteInfo[] = [
   new NoteInfo("C", AccidentalType.None),
   new NoteInfo("D", AccidentalType.Flat),
   new NoteInfo("D", AccidentalType.None),

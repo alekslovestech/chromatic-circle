@@ -1,4 +1,6 @@
 import { AccidentalType } from "../AccidentalType";
+import { addChromatic } from "../ChromaticIndex";
+import { ChromaticIndex } from "../ChromaticIndex";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
@@ -27,5 +29,19 @@ export class GreekModeInfo {
     return this.pattern.map((_, index) =>
       this.getScaleDegreeInfoFromPosition(index).getDisplayString(),
     );
+  }
+
+  public getScaleDegreeInfoFromChromatic(
+    chromaticIndex: ChromaticIndex,
+    tonicIndex: ChromaticIndex,
+  ): ScaleDegreeInfo | null {
+    // Find which scale degree this note is
+    const scaleDegreePosition = this.pattern.findIndex(
+      (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
+    );
+
+    return scaleDegreePosition === -1
+      ? null
+      : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
   }
 }

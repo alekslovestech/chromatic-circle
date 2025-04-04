@@ -1,16 +1,15 @@
 import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
 import { RomanResolver } from "../types/RomanResolver";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { noteTextToIndex } from "../types/ChromaticIndex";
 import { KeyType } from "../types/KeyType";
-
+import { NoteConverter } from "../types/NoteConverter";
 function verifyResolvedChord(
   musicalKey: MusicalKey,
   romanNumeral: string,
   noteName: string,
   chordType: ChordType,
 ) {
-  const noteIndex = noteTextToIndex(noteName);
+  const noteIndex = NoteConverter.toChromaticIndex(noteName);
   const absoluteChord = RomanResolver.resolveAsAbsoluteChord(romanNumeral, musicalKey);
   expect(absoluteChord).toEqual({ chromaticIndex: noteIndex, chordType: chordType });
 }

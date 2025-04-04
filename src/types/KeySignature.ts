@@ -2,12 +2,19 @@
 import { AccidentalType } from "./AccidentalType";
 import { KeyType } from "./KeyType";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatureConstants";
-import { noteTextToIndex } from "./ChromaticIndex";
-import { getNotesArray } from "./NoteConstants";
+import { NoteConverter } from "./NoteConverter";
 
 export class KeySignature {
-  constructor(public readonly tonicString: string, public readonly mode: KeyType) {}
+  private readonly tonicString: string;
+  private readonly mode: KeyType;
+  //private readonly accidentals: string[];
 
+  constructor(tonicAsString: string, mode: KeyType) {
+    // Sanitize the tonic string to ensure it's in text format
+    this.tonicString = NoteConverter.sanitizeNoteString(tonicAsString);
+    this.mode = mode;
+    //this.accidentals = this.calculateAccidentals();
+  }
   getAccidentals(): string[] {
     const keyMap = this.mode === KeyType.Major ? MAJOR_KEY_SIGNATURES : MINOR_KEY_SIGNATURES;
     return keyMap[this.tonicString] || [];
@@ -20,14 +27,10 @@ export class KeySignature {
       : AccidentalType.Flat;
   }
 
-  getNoteList(): string[] {
-    const defaultAccidental = this.getDefaultAccidental();
-    const notesArray = getNotesArray(defaultAccidental);
-    return notesArray.map((note) => note.formatNoteNameForDisplay());
-  }
-
   applyToNote(noteName: string, noteAccidental: AccidentalType): AccidentalType {
-    const accidentalsWithoutSigns = this.getAccidentals().map((note) => note.replace(/[#b]/g, ""));
+    const accidentalsWithoutSigns = this.getAccidentals().map((note) =>
+      NoteConverter.stripAccidentals(note),
+    );
     const defaultAccidental = this.getDefaultAccidental();
 
     return accidentalsWithoutSigns.includes(noteName)
@@ -39,6 +42,8 @@ export class KeySignature {
 
   static getKeyList(mode: KeyType): string[] {
     const keyMap = mode === KeyType.Major ? MAJOR_KEY_SIGNATURES : MINOR_KEY_SIGNATURES;
-    return Object.keys(keyMap).sort((a, b) => noteTextToIndex(a) - noteTextToIndex(b));
+    return Object.keys(keyMap).sort(
+      (a, b) => NoteConverter.toChromaticIndex(a) - NoteConverter.toChromaticIndex(b),
+    );
   }
 }

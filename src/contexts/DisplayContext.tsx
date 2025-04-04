@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { CircularVisMode, ChordDisplayMode, KeyTextMode, GlobalMode } from "../types/SettingModes";
 
 export interface DisplaySettings {
@@ -24,6 +24,13 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
     ChordDisplayMode.Letters_Short,
   );
   const [globalMode, setGlobalMode] = useState<GlobalMode>(GlobalMode.Default);
+
+  // Set monochromeMode to true when in Advanced mode
+  useEffect(() => {
+    if (globalMode === GlobalMode.Advanced) {
+      setMonochromeMode(true);
+    }
+  }, [globalMode]);
 
   const value: DisplaySettings = {
     circularVisMode,
