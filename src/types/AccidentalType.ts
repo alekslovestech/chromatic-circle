@@ -4,14 +4,6 @@ export enum AccidentalType {
   Sharp = "Sharp",
   Flat = "Flat",
 }
-
-export const getAccidentalType = (prefix: string): AccidentalType =>
-  prefix === "#" || prefix === "♯"
-    ? AccidentalType.Sharp
-    : prefix === "b" || prefix === "♭"
-    ? AccidentalType.Flat
-    : AccidentalType.None;
-
 //mostly used in for text on keyboards / accidental toggle
 export const getAccidentalSignForDisplay = (accidental: AccidentalType): string => {
   switch (accidental) {

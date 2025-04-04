@@ -56,3 +56,20 @@ describe("getDefaultAccidental", () => {
     verifyMusicalKeyAccidental("F", KeyType.Minor, AccidentalType.Flat);
   });
 });
+
+describe("getOppositeKey", () => {
+  it("C major => C minor", () => {
+    const musicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
+    expect(musicalKey.getOppositeKey()).toEqual(MusicalKey.fromClassicalMode("C", KeyType.Minor));
+  });
+
+  it("D# minor => C major", () => {
+    const musicalKey = MusicalKey.fromClassicalMode("Db", KeyType.Major);
+    expect(musicalKey.getOppositeKey()).toEqual(MusicalKey.fromClassicalMode("C#", KeyType.Minor));
+  });
+
+  it("Eb major => Eb minor", () => {
+    const musicalKey = MusicalKey.fromClassicalMode("Eb", KeyType.Major);
+    expect(musicalKey.getOppositeKey()).toEqual(MusicalKey.fromClassicalMode("Eb", KeyType.Minor));
+  });
+});

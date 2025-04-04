@@ -1,10 +1,5 @@
-import { getNoteTextFromChromaticIndex } from "../../utils/NoteNameUtils";
-import { AccidentalType } from "../AccidentalType";
-import { addChromatic, ChromaticIndex, noteTextToIndex } from "../ChromaticIndex";
-import { MAJOR_KEY_SIGNATURES } from "../KeySignatureConstants";
-import { GreekModeDictionary } from "./GreekModeDictionary";
+import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
 import { GreekModeInfo } from "./GreekModeInfo";
-import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 
 export class GreekModeUtils {
@@ -21,15 +16,5 @@ export class GreekModeUtils {
     return scaleDegreePosition === -1
       ? null
       : greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreePosition);
-  }
-
-  private static getRelativeIonian(tonicString: string, mode: GreekModeType): string {
-    const greekModeInfo = GreekModeDictionary.getModeInfo(mode);
-    const modeIndex = greekModeInfo.modeNumber;
-    const modePattern = greekModeInfo.pattern;
-    const relativeIonianIndex = modePattern.length - modeIndex;
-    const tonicIndex = noteTextToIndex(tonicString);
-    const relativeIonianChromaticIndex = addChromatic(tonicIndex, modePattern[relativeIonianIndex]);
-    return getNoteTextFromChromaticIndex(relativeIonianChromaticIndex, AccidentalType.Sharp);
   }
 }

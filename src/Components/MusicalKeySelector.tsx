@@ -3,7 +3,7 @@ import React from "react";
 import { MusicalKey } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/KeyType";
-import { formatForDisplay } from "../utils/NoteNameUtils";
+import { KeySignature } from "../types/KeySignature";
 
 import { useMusical } from "../contexts/MusicalContext";
 
@@ -12,12 +12,13 @@ import "../styles/CircularSettings.css";
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
 
-  //const keys = selectedMusicalKey.keySignature.getNoteList();
-
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const tonicName = event.target.value as string;
-    const newKey = MusicalKey.fromGreekMode(tonicName, selectedMusicalKey.greekMode);
+
+    const newKey = useDropdownSelector
+      ? MusicalKey.fromGreekMode(tonicName, selectedMusicalKey.greekMode)
+      : MusicalKey.fromClassicalMode(tonicName, selectedMusicalKey.classicalMode);
     setSelectedMusicalKey(newKey);
   };
 
@@ -42,9 +43,9 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
         onChange={handleTonicNameChange}
         value={selectedMusicalKey.tonicString}
       >
-        {selectedMusicalKey.keySignature.getNoteList().map((key) => (
-          <option key={key} value={key}>
-            {formatForDisplay(key)}
+        {KeySignature.getKeyList(selectedMusicalKey.classicalMode).map((note) => (
+          <option key={note} value={note}>
+            {note}
           </option>
         ))}
       </select>

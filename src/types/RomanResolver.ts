@@ -2,11 +2,12 @@ import { MusicalKey } from "./MusicalKey";
 import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
-import { AccidentalType, getAccidentalType } from "./AccidentalType";
+import { AccidentalType } from "./AccidentalType";
 import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
 import { addChromatic } from "./ChromaticIndex";
+import { NoteConverter } from "./NoteConverter";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -60,7 +61,9 @@ export class RomanResolver {
 
   static getRomanChord(romanString: string): RomanChord {
     const parsedRoman = splitRomanString(romanString);
-    const accidental: AccidentalType = getAccidentalType(parsedRoman.accidentalPrefix);
+    const accidental: AccidentalType = NoteConverter.getAccidentalType(
+      parsedRoman.accidentalPrefix,
+    );
 
     const ordinal = RomanNumeralUtils.fromRoman(parsedRoman.pureRoman);
     const isLowercase = RomanNumeralUtils.isLowercaseRomanNumeral(parsedRoman.pureRoman);

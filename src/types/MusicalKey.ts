@@ -1,12 +1,12 @@
 import { AccidentalType } from "./AccidentalType";
-import { addChromatic, ChromaticIndex, noteTextToIndex } from "./ChromaticIndex";
+import { addChromatic, ChromaticIndex } from "./ChromaticIndex";
 import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
 import { GreekModeType } from "./GreekModes/GreekModeType";
 import { GreekModeUtils } from "./GreekModes/GreekModeUtils";
 import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
 import { KeySignature } from "./KeySignature";
 import { KeyType } from "./KeyType";
-import { getBasicNoteInfo } from "./NoteConstants";
+import { NoteConverter } from "./NoteConverter";
 import { NoteInfo } from "./NoteInfo";
 
 export class MusicalKey {
@@ -14,12 +14,13 @@ export class MusicalKey {
   public readonly classicalMode: KeyType; // Major or minor scale
   public readonly greekMode: GreekModeType;
   public readonly keySignature: KeySignature;
-
+  private readonly tonicIndex: ChromaticIndex;
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
-    this.tonicString = tonicAsString;
+    this.tonicString = NoteConverter.sanitizeNoteString(tonicAsString);
     this.classicalMode = classicalMode;
     this.greekMode = greekMode;
     this.keySignature = new KeySignature(tonicAsString, classicalMode);
+    this.tonicIndex = NoteConverter.toChromaticIndex(this.tonicString);
   }
 
   toString(): string {
@@ -52,16 +53,36 @@ export class MusicalKey {
     return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
   }
 
-  get tonicIndex(): ChromaticIndex {
-    return noteTextToIndex(this.tonicString);
-  }
-
+  /*get tonicIndex(): ChromaticIndex {
+    return NoteConverter.toChromaticIndex(this.tonicString);
+  }*/
+  /*
   //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
     const newKeyList = this.keySignature.getNoteList();
-    const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
+    const newTonicString = newKeyList.find(
+      (key) => NoteConverter.toChromaticIndex(key) === this.tonicIndex,
+    );
     return MusicalKey.fromClassicalMode(newTonicString!, newMode);
+  }*/
+
+  getOppositeKey(): MusicalKey {
+    const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
+
+    const enharmonicPairs: Record<string, string> = {
+      Ab: "G#",
+      Db: "C#",
+      "G#": "Ab",
+      "C#": "Db",
+    };
+
+    if (this.tonicString in enharmonicPairs) {
+      const newTonic = enharmonicPairs[this.tonicString];
+      return MusicalKey.fromClassicalMode(newTonic, newMode);
+    }
+
+    return MusicalKey.fromClassicalMode(this.tonicString, newMode);
   }
 
   getAbsoluteScaleNotes(): ChromaticIndex[] {
@@ -77,7 +98,7 @@ export class MusicalKey {
 
   getNoteInKey(chromaticIndex: ChromaticIndex): NoteInfo {
     const defaultAccidental = this.getDefaultAccidental();
-    const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
+    const noteAtIndex = NoteConverter.getBasicNoteInfo(chromaticIndex, defaultAccidental);
     return new NoteInfo(
       noteAtIndex.noteName,
       this.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),

@@ -1,10 +1,10 @@
-import { noteTextToIndex } from "../types/ChromaticIndex";
 import { MusicalKey } from "../types/MusicalKey";
+import { NoteConverter } from "../types/NoteConverter";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyGreekModeScaleNotes(musicalKey: MusicalKey, expectedNotes: string[]) {
   const noteList = musicalKey.getAbsoluteScaleNotes();
-  const expectedIndices = expectedNotes.map((note) => noteTextToIndex(note));
+  const expectedIndices = NoteConverter.noteArrayToIndices(expectedNotes);
   expect(noteList).toEqual(expectedIndices);
 }
 
