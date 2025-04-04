@@ -4,7 +4,6 @@ import { MusicalKey } from "../types/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/KeyType";
 import { formatForDisplay } from "../utils/NoteNameUtils";
-import { KeySignatureUtils } from "../utils/KeySignatureUtils";
 
 import { useMusical } from "../contexts/MusicalContext";
 
@@ -13,7 +12,7 @@ import "../styles/CircularSettings.css";
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
 
-  const keys = KeySignatureUtils.getKeyList(selectedMusicalKey.classicalMode);
+  const keys = selectedMusicalKey.keySignature.getAccidentalsWithoutSigns();
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

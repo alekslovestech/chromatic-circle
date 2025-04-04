@@ -1,5 +1,5 @@
 import { AccidentalType } from "../AccidentalType";
-import { IONIAN_PATTERN } from "./GreekModeDictionary";
+import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 import { ixScaleDegree } from "./ScaleDegreeType";
@@ -13,7 +13,7 @@ export class GreekModeInfo {
 
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
     const currentNote = this.pattern[scaleDegreeIndex];
-    const ionianNote = IONIAN_PATTERN[scaleDegreeIndex];
+    const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
     const accidental =
       currentNote > ionianNote
         ? AccidentalType.Sharp
