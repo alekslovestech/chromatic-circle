@@ -59,7 +59,7 @@ export class MusicalKey {
   //the name of the key with the same tonic but opposite mode (e.g. C major and A minor)
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
-    const newKeyList = this.keySignature.getAccidentalsWithoutSigns(); // KeySignatureUtils.getKeyList(newMode);
+    const newKeyList = this.keySignature.getNoteList();
     const newTonicString = newKeyList.find((key) => noteTextToIndex(key) === this.tonicIndex);
     return MusicalKey.fromClassicalMode(newTonicString!, newMode);
   }
@@ -78,10 +78,10 @@ export class MusicalKey {
   getNoteInKey(chromaticIndex: ChromaticIndex): NoteInfo {
     const defaultAccidental = this.getDefaultAccidental();
     const noteAtIndex = getBasicNoteInfo(chromaticIndex, defaultAccidental);
-    return {
-      noteName: noteAtIndex.noteName,
-      accidental: this.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),
-    };
+    return new NoteInfo(
+      noteAtIndex.noteName,
+      this.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),
+    );
   }
 
   getDefaultAccidental(): AccidentalType {

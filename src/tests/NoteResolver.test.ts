@@ -24,56 +24,35 @@ const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
 describe("Note resolution in keys", () => {
   describe("C major", () => {
     test("D resolves without accidental", () => {
-      verifyResolvedNote(cMajor, "D", {
-        noteName: "D",
-        accidental: AccidentalType.None,
-      });
+      verifyResolvedNote(cMajor, "D", new NoteInfo("D", AccidentalType.None));
     });
 
     test("C# resolves as sharp", () => {
-      verifyResolvedNote(cMajor, "C#", {
-        noteName: "C",
-        accidental: AccidentalType.Sharp,
-      });
+      verifyResolvedNote(cMajor, "C#", new NoteInfo("C", AccidentalType.Sharp));
     });
 
     test("Db is enharmonically equivalent to C#", () => {
-      verifyResolvedNote(cMajor, "Db", {
-        noteName: "C",
-        accidental: AccidentalType.Sharp,
-      });
+      verifyResolvedNote(cMajor, "Db", new NoteInfo("C", AccidentalType.Sharp));
     });
   });
 
   describe("D major", () => {
     test("F# is diatonic (no accidental needed)", () => {
-      verifyResolvedNote(dMajor, "F#", {
-        noteName: "F",
-        accidental: AccidentalType.None,
-      });
+      verifyResolvedNote(dMajor, "F#", new NoteInfo("F", AccidentalType.None));
     });
 
     test("F natural requires explicit natural", () => {
-      verifyResolvedNote(dMajor, "F", {
-        noteName: "F",
-        accidental: AccidentalType.Natural,
-      });
+      verifyResolvedNote(dMajor, "F", new NoteInfo("F", AccidentalType.Natural));
     });
   });
 
   describe("D minor", () => {
     test("Bb is diatonic (no accidental needed)", () => {
-      verifyResolvedNote(dMinor, "Bb", {
-        noteName: "B",
-        accidental: AccidentalType.None,
-      });
+      verifyResolvedNote(dMinor, "Bb", new NoteInfo("B", AccidentalType.None));
     });
 
     test("B natural requires explicit natural", () => {
-      verifyResolvedNote(dMinor, "B", {
-        noteName: "B",
-        accidental: AccidentalType.Natural,
-      });
+      verifyResolvedNote(dMinor, "B", new NoteInfo("B", AccidentalType.Natural));
     });
   });
 });

@@ -28,6 +28,21 @@ export const getAccidentalSignForDisplay = (accidental: AccidentalType): string 
   }
 };
 
+export const getAccidentalSignForDebug = (accidental: AccidentalType): string => {
+  switch (accidental) {
+    case AccidentalType.None:
+      return "";
+    case AccidentalType.Natural:
+      return "♮";
+    case AccidentalType.Sharp:
+      return "#";
+    case AccidentalType.Flat:
+      return "b";
+    default:
+      return "";
+  }
+};
+
 //mostly used in StaffRenderer / EasyScore format
 export const getAccidentalSignForEasyScore = (accidental: AccidentalType): string => {
   switch (accidental) {

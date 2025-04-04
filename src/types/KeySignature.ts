@@ -3,6 +3,7 @@ import { AccidentalType } from "./AccidentalType";
 import { KeyType } from "./KeyType";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatureConstants";
 import { noteTextToIndex } from "./ChromaticIndex";
+import { getNotesArray } from "./NoteConstants";
 
 export class KeySignature {
   constructor(public readonly tonicString: string, public readonly mode: KeyType) {}
@@ -12,10 +13,6 @@ export class KeySignature {
     return keyMap[this.tonicString] || [];
   }
 
-  getAccidentalsWithoutSigns(): string[] {
-    return this.getAccidentals().map((note) => note.replace(/[#b]/g, ""));
-  }
-
   getDefaultAccidental(): AccidentalType {
     const accidentals = this.getAccidentals();
     return accidentals.every((acc) => acc.includes("#"))
@@ -23,8 +20,14 @@ export class KeySignature {
       : AccidentalType.Flat;
   }
 
+  getNoteList(): string[] {
+    const defaultAccidental = this.getDefaultAccidental();
+    const notesArray = getNotesArray(defaultAccidental);
+    return notesArray.map((note) => note.formatNoteNameForDisplay());
+  }
+
   applyToNote(noteName: string, noteAccidental: AccidentalType): AccidentalType {
-    const accidentalsWithoutSigns = this.getAccidentalsWithoutSigns();
+    const accidentalsWithoutSigns = this.getAccidentals().map((note) => note.replace(/[#b]/g, ""));
     const defaultAccidental = this.getDefaultAccidental();
 
     return accidentalsWithoutSigns.includes(noteName)

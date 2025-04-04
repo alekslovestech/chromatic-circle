@@ -12,7 +12,7 @@ import "../styles/CircularSettings.css";
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
 
-  const keys = selectedMusicalKey.keySignature.getAccidentalsWithoutSigns();
+  //const keys = selectedMusicalKey.keySignature.getNoteList();
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,7 +42,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
         onChange={handleTonicNameChange}
         value={selectedMusicalKey.tonicString}
       >
-        {keys.map((key) => (
+        {selectedMusicalKey.keySignature.getNoteList().map((key) => (
           <option key={key} value={key}>
             {formatForDisplay(key)}
           </option>

@@ -23,13 +23,6 @@ export class GreekModeUtils {
       : greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreePosition);
   }
 
-  // Get the relative Ionian (major) key for a given Greek mode
-  // For example: D Dorian -> C Ionian, E Phrygian -> C Ionian
-  public static getKeySignatureFromGreekMode(tonicString: string, mode: GreekModeType): string[] {
-    const relativeIonian = this.getRelativeIonian(tonicString, mode);
-    return MAJOR_KEY_SIGNATURES[relativeIonian] || [];
-  }
-
   private static getRelativeIonian(tonicString: string, mode: GreekModeType): string {
     const greekModeInfo = GreekModeDictionary.getModeInfo(mode);
     const modeIndex = greekModeInfo.modeNumber;
