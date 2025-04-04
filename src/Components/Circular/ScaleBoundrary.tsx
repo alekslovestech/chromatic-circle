@@ -1,5 +1,4 @@
 import React from "react";
-import { ActualIndex } from "../../types/IndexTypes";
 import { CartesianPoint, PolarMath } from "../../utils/Circular/PolarMath";
 import { MusicalKey } from "../../types/MusicalKey";
 import "../../styles/CircularVis.css";
@@ -10,7 +9,7 @@ export class ScaleBoundrary {
     innerRadius: number,
     outerRadius: number,
   ): JSX.Element[] {
-    const lineCartesianPoints = this.getLineCartesianPoints(
+    const [point_start, point_end] = this.getLineCartesianPoints(
       selectedMusicalKey,
       innerRadius,
       outerRadius,
@@ -20,10 +19,10 @@ export class ScaleBoundrary {
       <line
         className="selected-notes-polygon"
         key="scale-boundrary"
-        x1={lineCartesianPoints[0].x}
-        y1={lineCartesianPoints[0].y}
-        x2={lineCartesianPoints[1].x}
-        y2={lineCartesianPoints[1].y}
+        x1={point_start.x}
+        y1={point_start.y}
+        x2={point_end.x}
+        y2={point_end.y}
         stroke="currentColor"
         strokeWidth="2"
       />,
@@ -35,7 +34,6 @@ export class ScaleBoundrary {
     innerRadius: number,
     outerRadius: number,
   ): CartesianPoint[] {
-    const lineCartesianPoints = [];
     const tonicIndex = selectedMusicalKey.tonicIndex;
 
     const { startAngle: startOfTonicAngle } = PolarMath.NoteIndexToAngleRange(tonicIndex);
@@ -50,9 +48,7 @@ export class ScaleBoundrary {
       startOfTonicAngle,
       true,
     );
-    lineCartesianPoints.push(point_start);
-    lineCartesianPoints.push(point_end);
 
-    return lineCartesianPoints;
+    return [point_start, point_end];
   }
 }

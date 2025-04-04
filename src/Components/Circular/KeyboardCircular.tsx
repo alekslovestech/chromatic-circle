@@ -24,7 +24,7 @@ export const KeyboardCircular = () => {
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   const { circularVisMode } = useDisplay();
   const isLogo = globalMode === GlobalMode.Logo;
-
+  const isAdvanced = globalMode === GlobalMode.Advanced;
   const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   return (
     <svg viewBox={coords.join(" ")} className="svg-container">
@@ -38,7 +38,7 @@ export const KeyboardCircular = () => {
         />
       ))}
       {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
-      {ScaleBoundrary.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
+      {isAdvanced && ScaleBoundrary.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
     </svg>
   );
 };
