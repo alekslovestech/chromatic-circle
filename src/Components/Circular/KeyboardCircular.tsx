@@ -1,14 +1,16 @@
 import { TWELVE } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
 import { ixChromatic } from "../../types/ChromaticIndex";
+import { GlobalMode } from "../../types/SettingModes";
 
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
-import { CircularVisualizations } from "./CircularVisualizations";
-import { PieSlice } from "./PieSlice";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
-import { GlobalMode } from "../../types/SettingModes";
+
+import { ScaleBoundrary } from "./ScaleBoundrary";
+import { CircularVisualizations } from "./CircularVisualizations";
+import { PieSlice } from "./PieSlice";
 
 import "../../styles/KeyboardCircular.css";
 
@@ -19,7 +21,7 @@ const INNER_RADIUS = 0.5 * MAX_RADIUS;
 export const KeyboardCircular = () => {
   const { globalMode } = useDisplay();
   const { handleKeyClick } = useKeyboardHandlers();
-  const { selectedNoteIndices } = useMusical();
+  const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   const { circularVisMode } = useDisplay();
   const isLogo = globalMode === GlobalMode.Logo;
 
@@ -36,6 +38,7 @@ export const KeyboardCircular = () => {
         />
       ))}
       {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
+      {ScaleBoundrary.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
     </svg>
   );
 };
