@@ -47,6 +47,7 @@ export class GreekModeInfo {
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
   }
 
+  //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)
   private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
 
