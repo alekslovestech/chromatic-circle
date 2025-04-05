@@ -6,7 +6,7 @@ import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { getDisplayString } from "../../utils/NoteNameUtils";
+import { getDisplayString } from "../../utils/NoteDisplayUtils";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";

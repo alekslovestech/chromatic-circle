@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { getNoteTextFromActualIndex } from "../utils/NoteNameUtils";
+import { getNoteTextFromActualIndex } from "../utils/NoteDisplayUtils";
 import { ixActual } from "../types/IndexTypes";
 
 describe("getNoteTextFromActualIndex", () => {

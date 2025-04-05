@@ -1,4 +1,5 @@
 import { GreekModeType } from "../../types/GreekModes/GreekModeType";
+import { KeyType } from "../../types/KeyType";
 import { MusicalKey } from "../../types/MusicalKey";
 
 export class GreekTestConstants {
@@ -11,6 +12,8 @@ export class GreekTestConstants {
   readonly C_MIXOLYDIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Mixolydian);
   readonly C_AEOLIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Aeolian);
   readonly C_LOCRIAN_KEY = MusicalKey.fromGreekMode("C", GreekModeType.Locrian);
+  readonly E_MAJOR = MusicalKey.fromClassicalMode("E", KeyType.Major);
+  readonly G_MAJOR = MusicalKey.fromClassicalMode("G", KeyType.Major);
 
   // Traditional starting positions for each mode
   readonly D_IONIAN_KEY = MusicalKey.fromGreekMode("D", GreekModeType.Ionian);

@@ -1,6 +1,8 @@
 import { AccidentalType } from "../AccidentalType";
-import { addChromatic } from "../ChromaticIndex";
+import { addChromatic, ixChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
+import { ChordType } from "../NoteGroupingTypes";
+import { RomanChord } from "../RomanChord";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
@@ -43,5 +45,42 @@ export class GreekModeInfo {
     return scaleDegreePosition === -1
       ? null
       : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
+  }
+
+  public getRomanDisplayString(scaleDegreeIndex: number): string {
+    const romanChord = this.getRomanChordRoot35(scaleDegreeIndex);
+    return romanChord.getString();
+  }
+
+  private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
+    const scaleDegreeInfo = this.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
+
+    const SCALE_LENGTH = this.pattern.length;
+    const rootOffset = this.pattern[scaleDegreeIndex];
+    const thirdOffset = this.pattern[(scaleDegreeIndex + 2) % SCALE_LENGTH];
+    const fifthOffset = this.pattern[(scaleDegreeIndex + 4) % SCALE_LENGTH];
+
+    const thirdInterval = addChromatic(ixChromatic(thirdOffset), -rootOffset);
+    const fifthInterval = addChromatic(ixChromatic(fifthOffset), -rootOffset);
+
+    let chordType: ChordType;
+    if (thirdInterval === 4 && fifthInterval === 7) {
+      chordType = ChordType.Major;
+    } else if (thirdInterval === 3 && fifthInterval === 7) {
+      chordType = ChordType.Minor;
+    } else if (thirdInterval === 3 && fifthInterval === 6) {
+      chordType = ChordType.Diminished;
+    } else if (thirdInterval === 4 && fifthInterval === 8) {
+      chordType = ChordType.Augmented;
+    } else {
+      chordType = ChordType.Unknown;
+    }
+
+    const romanChord = new RomanChord(
+      scaleDegreeInfo.scaleDegree,
+      chordType,
+      scaleDegreeInfo.accidentalPrefix,
+    );
+    return romanChord;
   }
 }

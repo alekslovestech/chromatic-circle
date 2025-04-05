@@ -1,4 +1,8 @@
+import { getAccidentalSignForDisplay } from "../types/AccidentalType";
+import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 import { ScaleDegree, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
+import { ChordType } from "../types/NoteGroupingTypes";
+import { RomanChord } from "../types/RomanChord";
 
 import { RomanNumeralString } from "../types/RomanTypes";
 
@@ -25,7 +29,7 @@ export class RomanNumeralUtils {
     }
   }
 
-  static toRoman(scaleDegree: ScaleDegree): string {
+  private static ScaleDegreeToRoman(scaleDegree: ScaleDegree): string {
     switch (scaleDegree) {
       case 1:
         return "I";
@@ -44,6 +48,16 @@ export class RomanNumeralUtils {
       default:
         return "Ø";
     }
+  }
+
+  //replace later
+  static toRoman(scaleDegreeInfo: ScaleDegreeInfo): string {
+    const romanChord = new RomanChord(
+      scaleDegreeInfo.scaleDegree,
+      ChordType.Major,
+      scaleDegreeInfo.accidentalPrefix,
+    );
+    return romanChord.getString();
   }
 
   static isLowercaseRomanNumeral(numeral: string): boolean {

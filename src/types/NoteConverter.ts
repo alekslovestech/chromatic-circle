@@ -88,11 +88,6 @@ export class NoteConverter {
     const notesArray = this.getNotesArray(accidentalPreference);
     return notesArray[chromaticIndex];
   };
-  /*
-  static getNoteList(keySignature: AccidentalType): string[] {
-    const notesArray = this.getNotesArray(preference);
-    return notesArray.map((note) => note.formatNoteNameForDisplay());
-  }*/
 
   static stripAccidentals(note: string): string {
     return note.replace(/[#b]/g, "");
