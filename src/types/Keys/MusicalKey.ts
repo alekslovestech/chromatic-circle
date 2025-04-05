@@ -1,13 +1,12 @@
-import { AccidentalType } from "./AccidentalType";
-import { addChromatic, ChromaticIndex } from "./ChromaticIndex";
-import { GreekModeDictionary } from "./GreekModes/GreekModeDictionary";
-import { GreekModeInfo } from "./GreekModes/GreekModeInfo";
-import { GreekModeType } from "./GreekModes/GreekModeType";
-import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
-import { KeySignature } from "./KeySignature";
-import { KeyType } from "./KeyType";
-import { NoteConverter } from "./NoteConverter";
-import { NoteInfo } from "./NoteInfo";
+import { AccidentalType } from "../AccidentalType";
+import { ChromaticIndex } from "../ChromaticIndex";
+import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
+import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
+import { GreekModeType } from "../GreekModes/GreekModeType";
+import { NoteConverter } from "../NoteConverter";
+import { NoteInfo } from "../NoteInfo";
+import { KeyType } from "../Keys/KeyType";
+import { KeySignature } from "../Keys/KeySignature";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -15,7 +14,7 @@ export class MusicalKey {
   public readonly greekMode: GreekModeType;
   public readonly keySignature: KeySignature;
   public readonly tonicIndex: ChromaticIndex;
-  private readonly greekModeInfo: GreekModeInfo;
+  public readonly greekModeInfo: GreekModeInfo;
 
   private constructor(tonicAsString: string, classicalMode: KeyType, greekMode: GreekModeType) {
     this.tonicString = NoteConverter.sanitizeNoteString(tonicAsString);
@@ -41,30 +40,6 @@ export class MusicalKey {
     return new MusicalKey(tonicAsString, classicalMode, greekMode);
   }
 
-  getScaleDegreeInfo(chromaticIndex: ChromaticIndex): ScaleDegreeInfo | null {
-    const scaleDegreeInfo = this.greekModeInfo.getScaleDegreeInfoFromChromatic(
-      chromaticIndex,
-      this.tonicIndex,
-    );
-    return scaleDegreeInfo;
-  }
-
-  getScaleDegreeDisplayString(chromaticIndex: ChromaticIndex): string {
-    const scaleDegreeInfo = this.getScaleDegreeInfo(chromaticIndex);
-    return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
-  }
-
-  getRomanDisplayString(chromaticIndex: ChromaticIndex): string {
-    const scaleDegreeInfo = this.getScaleDegreeInfo(chromaticIndex);
-    if (!scaleDegreeInfo) {
-      return "";
-    }
-    const romanChordDisplayString = this.greekModeInfo.getRomanDisplayString(
-      scaleDegreeInfo.scaleDegree - 1,
-    );
-    return romanChordDisplayString;
-  }
-
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
 
@@ -81,17 +56,6 @@ export class MusicalKey {
     }
 
     return MusicalKey.fromClassicalMode(this.tonicString, newMode);
-  }
-
-  getAbsoluteScaleNotes(): ChromaticIndex[] {
-    const tonicIndex = this.tonicIndex;
-    const offsetScale = this.greekModeInfo.pattern;
-    return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
-  }
-
-  isDiatonicNote(chromaticIndex: ChromaticIndex): boolean {
-    const indexArray = this.getAbsoluteScaleNotes();
-    return indexArray.includes(chromaticIndex);
   }
 
   getNoteInKey(chromaticIndex: ChromaticIndex): NoteInfo {

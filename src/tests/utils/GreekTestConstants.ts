@@ -1,6 +1,6 @@
 import { GreekModeType } from "../../types/GreekModes/GreekModeType";
-import { KeyType } from "../../types/KeyType";
-import { MusicalKey } from "../../types/MusicalKey";
+import { KeyType } from "../../types/Keys/KeyType";
+import { MusicalKey } from "../../types/Keys/MusicalKey";
 
 export class GreekTestConstants {
   private static instance: GreekTestConstants;

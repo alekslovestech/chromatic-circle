@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { ActualIndex, ixActualArray } from "../types/IndexTypes";
-import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 
 export interface MusicalSettings {
   selectedNoteIndices: ActualIndex[];

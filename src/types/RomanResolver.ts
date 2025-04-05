@@ -1,4 +1,4 @@
-import { MusicalKey } from "./MusicalKey";
+import { MusicalKey } from "./Keys/MusicalKey";
 import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
@@ -8,6 +8,7 @@ import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
 import { addChromatic } from "./ChromaticIndex";
 import { NoteConverter } from "./NoteConverter";
+import { MusicalKeyScale } from "./Keys/MusicalKeyScale";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -44,9 +45,9 @@ export class RomanResolver {
     return chordType;
   }
 
-  static resolveAsAbsoluteChord(romanString: string, musicKey: MusicalKey): AbsoluteChord {
+  static resolveAsAbsoluteChord(romanString: string, musicalKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
-    const scale = musicKey.getAbsoluteScaleNotes();
+    const scale = MusicalKeyScale.getAbsoluteScaleNotes(musicalKey);
     let chromaticIndex = scale[romanChord.scaleDegree - 1];
     const accidentalOffset: OffsetIndex =
       romanChord.accidental === AccidentalType.Flat

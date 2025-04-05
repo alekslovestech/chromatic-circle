@@ -1,8 +1,10 @@
 import { ixChromatic } from "../types/ChromaticIndex";
 import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { MusicalKeyDisplay } from "../types/Keys/MusicalKeyDisplay";
 import { TWELVE } from "../types/NoteConstants";
+import { KeyTextMode } from "../types/SettingModes";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyScaleDegreeDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
@@ -14,7 +16,11 @@ function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]
   expect(expectedArray.length).toBe(TWELVE);
 
   Array.from({ length: TWELVE }).forEach((_, i) => {
-    const scaleDegreeDisplayString = musicalKey.getScaleDegreeDisplayString(ixChromatic(i));
+    const scaleDegreeDisplayString = MusicalKeyDisplay.getDisplayString(
+      musicalKey,
+      ixChromatic(i),
+      KeyTextMode.ScaleDegree,
+    );
     expect(scaleDegreeDisplayString).toBe(expectedArray[i]);
   });
 }

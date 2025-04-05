@@ -1,7 +1,7 @@
-import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
-import { KeyType } from "../types/KeyType";
+import { KeyType } from "../types/Keys/KeyType";
 import { NoteConverter } from "../types/NoteConverter";
 
 /**

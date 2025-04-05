@@ -1,8 +1,10 @@
 import { ixChromatic } from "../types/ChromaticIndex";
 import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { MusicalKeyDisplay } from "../types/Keys/MusicalKeyDisplay";
 import { TWELVE } from "../types/NoteConstants";
+import { KeyTextMode } from "../types/SettingModes";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
@@ -17,7 +19,11 @@ function verifyRomanArray(musicalKey: MusicalKey, expectedArray: string[]) {
   expect(expectedArray.length).toBe(TWELVE);
 
   Array.from({ length: TWELVE }).forEach((_, i) => {
-    const romanDisplayString = musicalKey.getRomanDisplayString(ixChromatic(i));
+    const romanDisplayString = MusicalKeyDisplay.getDisplayString(
+      musicalKey,
+      ixChromatic(i),
+      KeyTextMode.Roman,
+    );
     expect(romanDisplayString).toBe(expectedArray[i]);
   });
 }

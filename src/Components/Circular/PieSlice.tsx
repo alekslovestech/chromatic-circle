@@ -6,10 +6,11 @@ import { PolarMath } from "../../utils/Circular/PolarMath";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { getDisplayString } from "../../utils/NoteDisplayUtils";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
+import { MusicalKeyDisplay } from "../../types/Keys/MusicalKeyDisplay";
+import { MusicalKeyScale } from "../../types/Keys/MusicalKeyScale";
 
 const ROMAN_MODE = false; //TODO: make this a prop
 const ROMAN_POINT_COEFFICIENT = 0.85;
@@ -56,7 +57,8 @@ export const PieSlice: React.FC<{
   const isSelected =
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
   const isDiatonic =
-    globalMode === GlobalMode.Advanced && selectedMusicalKey.isDiatonicNote(chromaticIndex);
+    globalMode === GlobalMode.Advanced &&
+    MusicalKeyScale.isDiatonicNote(selectedMusicalKey, chromaticIndex);
   if (isSelected) classNames.push("selected");
   if (isDiatonic) classNames.push("diatonic");
 
@@ -69,7 +71,7 @@ export const PieSlice: React.FC<{
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>
-            {getDisplayString(chromaticIndex, selectedMusicalKey, keyTextMode)}
+            {MusicalKeyDisplay.getDisplayString(selectedMusicalKey, chromaticIndex, keyTextMode)}
           </text>
         )}
       </g>
@@ -84,7 +86,11 @@ export const PieSlice: React.FC<{
           fontSize="4px"
         >
           <tspan fontSize="8px">
-            {getDisplayString(chromaticIndex, selectedMusicalKey, KeyTextMode.Roman)}
+            {MusicalKeyDisplay.getDisplayString(
+              selectedMusicalKey,
+              chromaticIndex,
+              KeyTextMode.Roman,
+            )}
           </tspan>
         </text>
       )}

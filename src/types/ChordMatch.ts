@@ -3,7 +3,7 @@ import { getNoteTextFromActualIndex } from "../utils/NoteDisplayUtils";
 
 import { AccidentalType } from "./AccidentalType";
 import { ActualIndex, InversionIndex, ixInversion } from "./IndexTypes";
-import { MusicalKey } from "./MusicalKey";
+import { MusicalKey } from "./Keys/MusicalKey";
 import { NoteGrouping } from "./NoteGrouping";
 import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 import { TWELVE } from "./NoteConstants";
