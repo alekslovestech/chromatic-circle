@@ -39,7 +39,7 @@ export class RomanChord {
         chordPostfix = "";
         break;
       default:
-        chordPostfix = "?";
+        chordPostfix = "";
     }
 
     return `${accidentalString}${romanNumeralString}${chordPostfix}`;
