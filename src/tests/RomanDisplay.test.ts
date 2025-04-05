@@ -1,86 +1,26 @@
+import { ixChromatic } from "../types/ChromaticIndex";
 import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { ChordType } from "../types/NoteGroupingTypes";
-import { RomanChord } from "../types/RomanChord";
+import { MusicalKey } from "../types/MusicalKey";
+import { TWELVE } from "../types/NoteConstants";
+import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
-  for (let i = 0; i < 7; i++) {
-    verifyOneRomanDisplayString(greekMode, i, expectedNotes[i]);
-  }
-}
-
-function getRomanChordRoot35(greekMode: GreekModeType, scaleDegreeIndex: number) {
-  const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
-  const scaleDegreeInfo = greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
-
-  const rootOffset = greekModeInfo.pattern[scaleDegreeIndex];
-  const thirdOffset = greekModeInfo.pattern[(scaleDegreeIndex + 2) % 7];
-  const fifthOffset = greekModeInfo.pattern[(scaleDegreeIndex + 4) % 7];
-
-  const thirdInterval = (thirdOffset - rootOffset + 12) % 12;
-  const fifthInterval = (fifthOffset - rootOffset + 12) % 12;
-
-  let chordType: ChordType;
-  if (thirdInterval === 4 && fifthInterval === 7) {
-    chordType = ChordType.Major;
-  } else if (thirdInterval === 3 && fifthInterval === 7) {
-    chordType = ChordType.Minor;
-  } else if (thirdInterval === 3 && fifthInterval === 6) {
-    chordType = ChordType.Diminished;
-    // Augmented
-  } else {
-    chordType = ChordType.Unknown;
-  }
-
-  const romanChord = new RomanChord(
-    scaleDegreeInfo.scaleDegree,
-    chordType,
-    scaleDegreeInfo.accidentalPrefix,
-  );
-  return romanChord;
-}
-
-function verifyOneRomanDisplayString(
-  greekMode: GreekModeType,
-  scaleDegreeIndex: number,
-  expectedString: string,
-) {
-  const romanChord = getRomanChordRoot35(greekMode, scaleDegreeIndex);
-  const displayString = romanChord.getString();
-  expect(displayString).toEqual(expectedString);
-}
-
-describe("Roman Mode individual indices", () => {
-  describe("verifyFromPattern", () => {
-    test("Ionian mode pattern [0]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 0, "I");
-    });
-
-    test("Ionian mode pattern [1]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 1, "ii");
-    });
-
-    test("Ionian mode pattern [2]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 2, "iii");
-    });
-
-    test("Ionian mode pattern [3]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 3, "IV");
-    });
-
-    test("Ionian mode pattern [4]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 4, "V");
-    });
-
-    test("Ionian mode pattern [5]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 5, "vi");
-    });
-
-    test("Ionian mode pattern [6]", () => {
-      verifyOneRomanDisplayString(GreekModeType.Ionian, 6, "vii°");
-    });
+  expectedNotes.forEach((expectedNote, i) => {
+    const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
+    const romanChordDisplayString = greekModeInfo.getRomanDisplayString(i);
+    expect(romanChordDisplayString).toEqual(expectedNote);
   });
-});
+}
+
+function verifyRomanArray(musicalKey: MusicalKey, expectedArray: string[]) {
+  expect(expectedArray.length).toBe(TWELVE);
+
+  Array.from({ length: TWELVE }).forEach((_, i) => {
+    const romanDisplayString = musicalKey.getRomanDisplayString(ixChromatic(i));
+    expect(romanDisplayString).toBe(expectedArray[i]);
+  });
+}
 
 describe("Roman Mode Index Arrays", () => {
   describe("verifyFromPattern", () => {
@@ -111,31 +51,30 @@ describe("Roman Mode Index Arrays", () => {
         "♭vii",
       ]);
     });
-    /*
 
     test("Lydian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Lydian, ["I", "II", "III", "♯IV", "V", "VI", "VII"]);
+      verifyRomanDisplayStrings(GreekModeType.Lydian, ["I", "II", "iii", "♯iv°", "V", "vi", "vii"]);
     });
 
     test("Mixolydian mode pattern", () => {
       verifyRomanDisplayStrings(GreekModeType.Mixolydian, [
         "I",
-        "II",
-        "III",
+        "ii",
+        "iii°",
         "IV",
-        "V",
-        "VI",
+        "v",
+        "vi",
         "♭VII",
       ]);
     });
 
     test("Aeolian mode pattern", () => {
       verifyRomanDisplayStrings(GreekModeType.Aeolian, [
-        "I",
-        "II",
+        "i",
+        "ii°",
         "♭III",
-        "IV",
-        "V",
+        "iv",
+        "v",
         "♭VI",
         "♭VII",
       ]);
@@ -143,14 +82,94 @@ describe("Roman Mode Index Arrays", () => {
 
     test("Locrian mode pattern", () => {
       verifyRomanDisplayStrings(GreekModeType.Locrian, [
-        "I",
+        "i°",
         "♭II",
-        "♭III",
-        "IV",
+        "♭iii",
+        "iv",
         "♭V",
         "♭VI",
-        "♭VII",
+        "♭vii",
       ]);
-    });*/
+    });
+  });
+});
+
+describe("getScaleDegreeDisplayString", () => {
+  let constants: GreekTestConstants;
+
+  beforeEach(() => {
+    constants = GreekTestConstants.getInstance();
+  });
+
+  describe("Ionian (Major) Scale", () => {
+    it("should display correct scale degrees for C Ionian", () => {
+      verifyRomanArray(constants.C_IONIAN_KEY, [
+        "I",
+        "",
+        "ii",
+        "",
+        "iii",
+        "IV",
+        "",
+        "V",
+        "",
+        "vi",
+        "",
+        "vii°",
+      ]);
+    });
+
+    it("should display correct scale degrees for D Ionian", () => {
+      verifyRomanArray(constants.D_IONIAN_KEY, [
+        "",
+        "vii°",
+        "I",
+        "",
+        "ii",
+        "",
+        "iii",
+        "IV",
+        "",
+        "V",
+        "",
+        "vi",
+      ]);
+    });
+  });
+
+  describe("Dorian Mode", () => {
+    it("should display correct scale degrees for C Dorian", () => {
+      verifyRomanArray(constants.C_DORIAN_KEY, [
+        "i",
+        "",
+        "ii",
+        "♭III",
+        "",
+        "IV",
+        "",
+        "v",
+        "",
+        "vi°",
+        "♭VII",
+        "",
+      ]);
+    });
+
+    it("should display correct scale degrees for D Dorian", () => {
+      verifyRomanArray(constants.D_DORIAN_KEY, [
+        "♭VII",
+        "",
+        "i",
+        "",
+        "ii",
+        "♭III",
+        "",
+        "IV",
+        "",
+        "v",
+        "",
+        "vi°",
+      ]);
+    });
   });
 });

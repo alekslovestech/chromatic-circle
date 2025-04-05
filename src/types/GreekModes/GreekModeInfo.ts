@@ -1,7 +1,9 @@
-import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
 import { AccidentalType } from "../AccidentalType";
 import { addChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
+import { ChordType } from "../NoteGroupingTypes";
+import { RomanChord } from "../RomanChord";
+import { GreekModeDictionary } from "./GreekModeDictionary";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
@@ -32,12 +34,6 @@ export class GreekModeInfo {
     );
   }
 
-  public getRomanDisplayStrings(): string[] {
-    return this.pattern.map((_, index) =>
-      RomanNumeralUtils.toRoman(this.getScaleDegreeInfoFromPosition(index)),
-    );
-  }
-
   public getScaleDegreeInfoFromChromatic(
     chromaticIndex: ChromaticIndex,
     tonicIndex: ChromaticIndex,
@@ -50,5 +46,44 @@ export class GreekModeInfo {
     return scaleDegreePosition === -1
       ? null
       : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
+  }
+
+  public getRomanDisplayString(scaleDegreeIndex: number): string {
+    const romanChord = GreekModeInfo.getRomanChordRoot35(this.type, scaleDegreeIndex);
+    return romanChord.getString();
+  }
+
+  private static getRomanChordRoot35(
+    greekMode: GreekModeType,
+    scaleDegreeIndex: number,
+  ): RomanChord {
+    const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
+    const scaleDegreeInfo = greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
+
+    const rootOffset = greekModeInfo.pattern[scaleDegreeIndex];
+    const thirdOffset = greekModeInfo.pattern[(scaleDegreeIndex + 2) % 7];
+    const fifthOffset = greekModeInfo.pattern[(scaleDegreeIndex + 4) % 7];
+
+    const thirdInterval = (thirdOffset - rootOffset + 12) % 12;
+    const fifthInterval = (fifthOffset - rootOffset + 12) % 12;
+
+    let chordType: ChordType;
+    if (thirdInterval === 4 && fifthInterval === 7) {
+      chordType = ChordType.Major;
+    } else if (thirdInterval === 3 && fifthInterval === 7) {
+      chordType = ChordType.Minor;
+    } else if (thirdInterval === 3 && fifthInterval === 6) {
+      chordType = ChordType.Diminished;
+      // Augmented
+    } else {
+      chordType = ChordType.Unknown;
+    }
+
+    const romanChord = new RomanChord(
+      scaleDegreeInfo.scaleDegree,
+      chordType,
+      scaleDegreeInfo.accidentalPrefix,
+    );
+    return romanChord;
   }
 }
