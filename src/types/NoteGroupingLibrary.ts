@@ -1,3 +1,4 @@
+import { CHORD_OFFSET_PATTERNS } from "./ChordOffsetPatterns";
 import { ixOffsetArray } from "./IndexTypes";
 import { NoteGrouping } from "./NoteGrouping";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "./NoteGroupingTypes";
@@ -65,12 +66,54 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createInterval(IntervalType.Octave, 13, "Oct", "Octave", 12),
 
     // Triads
-    NoteGrouping.createChord(ChordType.Major, 14, "maj", "", "Major Chord", [0, 4, 7]),
-    NoteGrouping.createChord(ChordType.Minor, 15, "min", "m", "Minor Chord", [0, 3, 7]),
-    NoteGrouping.createChord(ChordType.Diminished, 16, "dim", "°", "Diminished Chord", [0, 3, 6]),
-    NoteGrouping.createChord(ChordType.Augmented, 17, "aug", "+", "Augmented Chord", [0, 4, 8]),
-    NoteGrouping.createChord(ChordType.Sus4, 18, "sus4", "sus", "Suspended 4th Chord", [0, 5, 7]),
-    NoteGrouping.createChord(ChordType.Sus2, 19, "sus2", "sus2", "Suspended 2nd Chord", [0, 2, 7]),
+    NoteGrouping.createChord(
+      ChordType.Major,
+      14,
+      "maj",
+      "",
+      "Major Chord",
+      CHORD_OFFSET_PATTERNS.MAJOR,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Minor,
+      15,
+      "min",
+      "m",
+      "Minor Chord",
+      CHORD_OFFSET_PATTERNS.MINOR,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Diminished,
+      16,
+      "dim",
+      "°",
+      "Diminished Chord",
+      CHORD_OFFSET_PATTERNS.DIMINISHED,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Augmented,
+      17,
+      "aug",
+      "+",
+      "Augmented Chord",
+      CHORD_OFFSET_PATTERNS.AUGMENTED,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Sus4,
+      18,
+      "sus4",
+      "sus",
+      "Suspended 4th Chord",
+      CHORD_OFFSET_PATTERNS.SUS4,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Sus2,
+      19,
+      "sus2",
+      "sus2",
+      "Suspended 2nd Chord",
+      CHORD_OFFSET_PATTERNS.SUS2,
+    ),
 
     // Seventh Chords
     NoteGrouping.createChord(

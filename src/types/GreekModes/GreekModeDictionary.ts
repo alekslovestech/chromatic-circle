@@ -20,7 +20,7 @@ export class GreekModeDictionary {
       ), // Minor with raised 6th
       [GreekModeType.Phrygian]: new GreekModeInfo(
         GreekModeType.Phrygian,
-        [0, 1, 3, 5, 7, 8, 10],
+        GREEK_MODE_PATTERNS.PHRYGIAN,
         3,
       ), // Minor with lowered 2nd
       [GreekModeType.Spanish]: new GreekModeInfo(
@@ -40,7 +40,7 @@ export class GreekModeDictionary {
       ), // Major with raised 4th
       [GreekModeType.Mixolydian]: new GreekModeInfo(
         GreekModeType.Mixolydian,
-        [0, 2, 4, 5, 7, 9, 10],
+        GREEK_MODE_PATTERNS.MIXOLYDIAN,
         5,
       ), // Major with lowered 7th
       [GreekModeType.Aeolian]: new GreekModeInfo(
