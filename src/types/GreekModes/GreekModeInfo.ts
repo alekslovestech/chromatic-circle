@@ -70,7 +70,8 @@ export class GreekModeInfo {
       chordType = ChordType.Minor;
     } else if (thirdInterval === 3 && fifthInterval === 6) {
       chordType = ChordType.Diminished;
-      // Augmented
+    } else if (thirdInterval === 4 && fifthInterval === 8) {
+      chordType = ChordType.Augmented;
     } else {
       chordType = ChordType.Unknown;
     }
