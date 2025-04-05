@@ -5,6 +5,10 @@ import { MusicalKey } from "../types/MusicalKey";
 import { KeyTextMode } from "../types/SettingModes";
 import { RomanNumeralUtils } from "./RomanNumeralUtils";
 import { NoteConverter } from "../types/NoteConverter";
+import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
+import { ChordType } from "../types/NoteGroupingTypes";
+import { RomanChord } from "../types/RomanChord";
+import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 
 const formatNoteNameForDisplay = (
   chromaticIndex: ChromaticIndex,
@@ -23,9 +27,22 @@ export const getNoteTextFromActualIndex = (
   return noteInfo.formatNoteNameForDisplay();
 };
 
-const getRomanDisplayString = (chromaticIndex: ChromaticIndex, musicalKey: MusicalKey): string => {
+export const getRomanDisplayString = (
+  chromaticIndex: ChromaticIndex,
+  musicalKey: MusicalKey,
+): string => {
+  const greekModeInfo = GreekModeDictionary.getModeInfo(musicalKey.greekMode);
+  const pattern = greekModeInfo.pattern;
   const scaleDegreeInfo = musicalKey.getScaleDegreeInfo(chromaticIndex);
-  return scaleDegreeInfo ? RomanNumeralUtils.toRoman(scaleDegreeInfo).toLowerCase() : "";
+  if (scaleDegreeInfo) {
+    const romanChord = new RomanChord(
+      scaleDegreeInfo.scaleDegree,
+      ChordType.Minor,
+      scaleDegreeInfo.accidentalPrefix,
+    );
+    return romanChord.getString();
+  }
+  return "";
 };
 
 export const getDisplayString = (

@@ -1,6 +1,8 @@
-import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
+import { getAccidentalSignForDisplay } from "../types/AccidentalType";
 import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 import { ScaleDegree, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
+import { ChordType } from "../types/NoteGroupingTypes";
+import { RomanChord } from "../types/RomanChord";
 
 import { RomanNumeralString } from "../types/RomanTypes";
 
@@ -48,10 +50,14 @@ export class RomanNumeralUtils {
     }
   }
 
+  //replace later
   static toRoman(scaleDegreeInfo: ScaleDegreeInfo): string {
-    const pureRomanString = this.ScaleDegreeToRoman(scaleDegreeInfo.scaleDegree);
-    const accidentalString = getAccidentalSignForDisplay(scaleDegreeInfo.accidentalPrefix);
-    return `${accidentalString}${pureRomanString}`;
+    const romanChord = new RomanChord(
+      scaleDegreeInfo.scaleDegree,
+      ChordType.Major,
+      scaleDegreeInfo.accidentalPrefix,
+    );
+    return romanChord.getString();
   }
 
   static isLowercaseRomanNumeral(numeral: string): boolean {

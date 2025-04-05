@@ -24,8 +24,10 @@ export class RomanChord {
     const accidentalString = getAccidentalSignForDisplay(this.accidental);
     const romanNumeralString = RomanNumeralUtils.getScaleDegreeAsRomanString(
       this.scaleDegree,
-      true,
+      this.chordType === ChordType.Minor || this.chordType === ChordType.Diminished,
     );
-    return `${accidentalString}${romanNumeralString} (${this.chordType})`;
+    const chordPostfix = this.chordType === ChordType.Diminished ? "°" : "";
+
+    return `${accidentalString}${romanNumeralString}${chordPostfix}`;
   }
 }
