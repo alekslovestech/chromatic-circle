@@ -1,4 +1,4 @@
-import { MusicalKey } from "./MusicalKey";
+import { MusicalKey } from "./Keys/MusicalKey";
 import { RomanResolver } from "./RomanResolver";
 import { AbsoluteChord } from "./AbsoluteChord";
 

@@ -1,14 +1,14 @@
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { getNoteTextFromActualIndex } from "../utils/NoteDisplayUtils";
 
 import { AccidentalType } from "./AccidentalType";
 import { ActualIndex, InversionIndex, ixInversion } from "./IndexTypes";
-import { MusicalKey } from "./MusicalKey";
+import { MusicalKey } from "./Keys/MusicalKey";
 import { NoteGrouping } from "./NoteGrouping";
 import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
 import { TWELVE } from "./NoteConstants";
 import { NoteGroupingType } from "./NoteGroupingTypes";
 import { ChordDisplayMode } from "./SettingModes";
+import { NoteConverter } from "./NoteConverter";
 export class ChordMatch {
   constructor(
     public rootNote: ActualIndex,
@@ -17,7 +17,7 @@ export class ChordMatch {
   ) {}
 
   getRootNoteChordName = (displayMode: ChordDisplayMode, accidental: AccidentalType) => {
-    const rootNoteName = getNoteTextFromActualIndex(this.rootNote, accidental);
+    const rootNoteName = NoteConverter.getNoteTextFromActualIndex(this.rootNote, accidental);
     const idWithoutRoot = NoteGroupingLibrary.getId(this.definition.id, displayMode);
     const chordNameRoot = `${rootNoteName}${idWithoutRoot || ""}`;
     return chordNameRoot;
@@ -42,7 +42,10 @@ export class ChordMatch {
         return NoteGroupingLibrary.getId(this.definition.id, displayMode);
       default:
         if (bassNoteIndex !== this.rootNote) {
-          const bassNoteName = getNoteTextFromActualIndex(bassNoteIndex, selectedAccidental);
+          const bassNoteName = NoteConverter.getNoteTextFromActualIndex(
+            bassNoteIndex,
+            selectedAccidental,
+          );
           return `${chordNameRoot}/${bassNoteName}`;
         }
         return chordNameRoot;

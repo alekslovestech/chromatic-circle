@@ -1,8 +1,9 @@
-import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
-import { KeyType } from "../types/KeyType";
+import { KeyType } from "../types/Keys/KeyType";
 import { NoteConverter } from "../types/NoteConverter";
+import { KeyNoteResolver } from "../types/Keys/KeyNoteResolver";
 
 /**
  * Helper function to verify that a note resolves correctly in a given key
@@ -12,7 +13,7 @@ import { NoteConverter } from "../types/NoteConverter";
  */
 function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNote: NoteInfo) {
   const chromaticIndex = NoteConverter.toChromaticIndex(noteText);
-  const note = musicalKey.getNoteInKey(chromaticIndex);
+  const note = KeyNoteResolver.resolveNoteInKey(musicalKey, chromaticIndex);
   expect(note).toEqual(expectedNote);
 }
 

@@ -1,5 +1,5 @@
-import { MusicalKey } from "../types/MusicalKey";
-import { KeyType } from "../types/KeyType";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { KeyType } from "../types/Keys/KeyType";
 import { AccidentalType } from "../types/AccidentalType";
 
 const verifyMusicalKeyAccidental = (

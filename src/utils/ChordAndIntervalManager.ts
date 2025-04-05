@@ -7,7 +7,7 @@ import {
   ixActualArray,
   ixInversion,
 } from "../types/IndexTypes";
-import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteGrouping } from "../types/NoteGrouping";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";

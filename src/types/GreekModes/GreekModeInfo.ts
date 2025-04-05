@@ -1,4 +1,5 @@
 import { AccidentalType } from "../AccidentalType";
+import { CHORD_OFFSET_PATTERNS } from "../ChordOffsetPatterns";
 import { addChromatic, ixChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
 import { ChordType } from "../NoteGroupingTypes";
@@ -14,24 +15,6 @@ export class GreekModeInfo {
     public readonly pattern: number[], // The pattern of the mode, typically 7 notes. e.g. [0, 2, 4, 5, 7, 9, 10] for Mixolydian
     public readonly modeNumber: number, // The number of the mode, typically 1-7. e.g. 1 for Ionian, 2 for Dorian, etc.
   ) {}
-
-  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
-    const currentNote = this.pattern[scaleDegreeIndex];
-    const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
-    const accidental =
-      currentNote > ionianNote
-        ? AccidentalType.Sharp
-        : currentNote < ionianNote
-        ? AccidentalType.Flat
-        : AccidentalType.None;
-    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
-  }
-
-  public getScaleDegreeDisplayStrings(): string[] {
-    return this.pattern.map((_, index) =>
-      this.getScaleDegreeInfoFromPosition(index).getDisplayString(),
-    );
-  }
 
   public getScaleDegreeInfoFromChromatic(
     chromaticIndex: ChromaticIndex,
@@ -52,6 +35,19 @@ export class GreekModeInfo {
     return romanChord.getString();
   }
 
+  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
+    const currentNote = this.pattern[scaleDegreeIndex];
+    const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
+    const accidental =
+      currentNote > ionianNote
+        ? AccidentalType.Sharp
+        : currentNote < ionianNote
+        ? AccidentalType.Flat
+        : AccidentalType.None;
+    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+  }
+
+  //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)
   private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
 
@@ -64,17 +60,20 @@ export class GreekModeInfo {
     const fifthInterval = addChromatic(ixChromatic(fifthOffset), -rootOffset);
 
     let chordType: ChordType;
-    if (thirdInterval === 4 && fifthInterval === 7) {
-      chordType = ChordType.Major;
-    } else if (thirdInterval === 3 && fifthInterval === 7) {
-      chordType = ChordType.Minor;
-    } else if (thirdInterval === 3 && fifthInterval === 6) {
-      chordType = ChordType.Diminished;
-    } else if (thirdInterval === 4 && fifthInterval === 8) {
-      chordType = ChordType.Augmented;
-    } else {
-      chordType = ChordType.Unknown;
-    }
+    const intervals = [0, thirdInterval, fifthInterval];
+    const patterns = {
+      [ChordType.Major]: CHORD_OFFSET_PATTERNS.MAJOR,
+      [ChordType.Minor]: CHORD_OFFSET_PATTERNS.MINOR,
+      [ChordType.Diminished]: CHORD_OFFSET_PATTERNS.DIMINISHED,
+      [ChordType.Augmented]: CHORD_OFFSET_PATTERNS.AUGMENTED,
+    };
+
+    // Find matching chord pattern by comparing intervals
+    const matchingPattern = Object.entries(patterns).find(([_, pattern]) => {
+      return intervals.every((interval, index) => interval === pattern[index]);
+    });
+
+    chordType = (matchingPattern?.[0] as ChordType) || ChordType.Unknown;
 
     const romanChord = new RomanChord(
       scaleDegreeInfo.scaleDegree,

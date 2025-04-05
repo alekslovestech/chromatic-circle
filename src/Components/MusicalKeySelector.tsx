@@ -1,9 +1,9 @@
 import React from "react";
 
-import { MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/Keys/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { KeyType } from "../types/KeyType";
-import { KeySignature } from "../types/KeySignature";
+import { KeyType } from "../types/Keys/KeyType";
+import { KeySignature } from "../types/Keys/KeySignature";
 
 import { useMusical } from "../contexts/MusicalContext";
 

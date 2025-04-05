@@ -1,7 +1,6 @@
-import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/Keys/MusicalKey";
 import { RomanResolver } from "../types/RomanResolver";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { KeyType } from "../types/KeyType";
 import { NoteConverter } from "../types/NoteConverter";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 

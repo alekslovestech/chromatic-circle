@@ -1,6 +1,6 @@
 import React from "react";
 import { CartesianPoint, PolarMath } from "../../utils/Circular/PolarMath";
-import { MusicalKey } from "../../types/MusicalKey";
+import { MusicalKey } from "../../types/Keys/MusicalKey";
 import "../../styles/CircularVis.css";
 
 export class ScaleBoundrary {

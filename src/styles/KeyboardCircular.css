@@ -59,7 +59,7 @@
 
 /* Text Styles */
 .pie-slice-key text {
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-anchor: middle;
   dominant-baseline: middle;
   font-weight: bold;

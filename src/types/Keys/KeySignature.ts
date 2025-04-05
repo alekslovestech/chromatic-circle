@@ -1,8 +1,8 @@
 // src/types/KeySignature.ts
-import { AccidentalType } from "./AccidentalType";
+import { AccidentalType } from "../AccidentalType";
 import { KeyType } from "./KeyType";
 import { MAJOR_KEY_SIGNATURES, MINOR_KEY_SIGNATURES } from "./KeySignatureConstants";
-import { NoteConverter } from "./NoteConverter";
+import { NoteConverter } from "../NoteConverter";
 
 export class KeySignature {
   private readonly tonicString: string;

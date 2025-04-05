@@ -1,8 +1,8 @@
 import { ChromaticIndex, ixChromatic } from "../types/ChromaticIndex";
 import { AccidentalType } from "./AccidentalType";
-import { NOTES_WITH_SHARP } from "./NoteConstants";
-import { NOTES_WITH_FLAT } from "./NoteConstants";
-import { NoteInfo } from "./NoteInfo";
+import { actualIndexToChromaticAndOctave } from "./IndexTypes";
+import { ActualIndex } from "./IndexTypes";
+import { KeyNoteResolver } from "./Keys/KeyNoteResolver";
 
 export class NoteConverter {
   // For testing and input - converts text to index
@@ -78,17 +78,6 @@ export class NoteConverter {
     return indices.map((index) => this.fromChromaticIndex(index, preferSharps));
   }
 
-  static getNotesArray = (preference: AccidentalType): NoteInfo[] =>
-    preference === AccidentalType.Flat ? NOTES_WITH_FLAT : NOTES_WITH_SHARP;
-
-  static getBasicNoteInfo = (
-    chromaticIndex: ChromaticIndex,
-    accidentalPreference: AccidentalType,
-  ): NoteInfo => {
-    const notesArray = this.getNotesArray(accidentalPreference);
-    return notesArray[chromaticIndex];
-  };
-
   static stripAccidentals(note: string): string {
     return note.replace(/[#b]/g, "");
   }
@@ -109,4 +98,13 @@ export class NoteConverter {
         return AccidentalType.None;
     }
   }
+
+  static getNoteTextFromActualIndex = (
+    actualIndex: ActualIndex,
+    accidentalPreference: AccidentalType,
+  ): string => {
+    const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
+    const noteInfo = KeyNoteResolver.resolveAbsoluteNote(chromaticIndex, accidentalPreference);
+    return noteInfo.formatNoteNameForDisplay();
+  };
 }

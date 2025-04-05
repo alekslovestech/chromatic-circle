@@ -1,8 +1,8 @@
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { MusicalKey } from "../types/MusicalKey";
+import { MusicalKey } from "../types/Keys/MusicalKey";
 import { ChordDisplayMode } from "../types/SettingModes";
-import { KeyType } from "../types/KeyType";
+import { KeyType } from "../types/Keys/KeyType";
 
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 

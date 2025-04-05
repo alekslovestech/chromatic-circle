@@ -2,7 +2,7 @@ import React from "react";
 
 import { TWENTY4 } from "../types/NoteConstants";
 import { ActualIndex } from "../types/IndexTypes";
-import { getNoteTextFromActualIndex } from "../utils/NoteDisplayUtils";
+import { NoteConverter } from "../types/NoteConverter";
 import { useKeyboardHandlers } from "./useKeyboardHandlers";
 import { getBlackWhiteString } from "../utils/ColorUtils";
 import { IndexUtils } from "../utils/IndexUtils";
@@ -34,7 +34,10 @@ export const KeyboardLinear: React.FC = () => {
         className={classNames.join(" ")}
         onClick={() => handleKeyClick(actualIndex)}
       >
-        {getNoteTextFromActualIndex(actualIndex, selectedMusicalKey.getDefaultAccidental())}
+        {NoteConverter.getNoteTextFromActualIndex(
+          actualIndex,
+          selectedMusicalKey.getDefaultAccidental(),
+        )}
       </div>,
     );
   }

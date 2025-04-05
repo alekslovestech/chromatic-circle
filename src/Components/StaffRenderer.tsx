@@ -3,10 +3,10 @@ import { Vex, StaveNote } from "vexflow";
 
 import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
-import { MusicalKey } from "../types/MusicalKey";
-import { KeyType } from "../types/KeyType";
-
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { KeyType } from "../types/Keys/KeyType";
 import { useMusical } from "../contexts/MusicalContext";
+import { KeyNoteResolver } from "../types/Keys/KeyNoteResolver";
 
 const EasyScoreFromNotes = (
   actualIndices: ActualIndex[],
@@ -14,7 +14,7 @@ const EasyScoreFromNotes = (
 ): StaveNote[] => {
   const keys = actualIndices.map((actualIndex) => {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-    const noteInfo = selectedMusicalKey.getNoteInKey(chromaticIndex);
+    const noteInfo = KeyNoteResolver.resolveNoteInKey(selectedMusicalKey, chromaticIndex);
     return {
       key: `${noteInfo.noteName}/${4 + octaveOffset}`,
       accidentalSign: getAccidentalSignForEasyScore(noteInfo.accidental),
