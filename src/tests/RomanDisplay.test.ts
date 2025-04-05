@@ -52,6 +52,30 @@ describe("Roman Mode Index Arrays", () => {
       ]);
     });
 
+    test("Spanish mode pattern", () => {
+      verifyRomanDisplayStrings(GreekModeType.Spanish, [
+        "I",
+        "♭II",
+        "iii°",
+        "iv",
+        "v°",
+        "♭VI+",
+        "♭vii",
+      ]);
+    });
+
+    test("Arabic mode pattern", () => {
+      verifyRomanDisplayStrings(GreekModeType.Arabic, [
+        "I",
+        "♭II",
+        "iii",
+        "iv",
+        "V",
+        "♭VI+",
+        "VII",
+      ]);
+    });
+
     test("Lydian mode pattern", () => {
       verifyRomanDisplayStrings(GreekModeType.Lydian, ["I", "II", "iii", "♯iv°", "V", "vi", "vii"]);
     });
