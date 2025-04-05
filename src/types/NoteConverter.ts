@@ -1,5 +1,7 @@
 import { ChromaticIndex, ixChromatic } from "../types/ChromaticIndex";
 import { AccidentalType } from "./AccidentalType";
+import { actualIndexToChromaticAndOctave } from "./IndexTypes";
+import { ActualIndex } from "./IndexTypes";
 import { NOTES_WITH_SHARP } from "./NoteConstants";
 import { NOTES_WITH_FLAT } from "./NoteConstants";
 import { NoteInfo } from "./NoteInfo";
@@ -109,4 +111,13 @@ export class NoteConverter {
         return AccidentalType.None;
     }
   }
+
+  static getNoteTextFromActualIndex = (
+    actualIndex: ActualIndex,
+    accidentalPreference: AccidentalType,
+  ): string => {
+    const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
+    const noteInfo = NoteConverter.getBasicNoteInfo(chromaticIndex, accidentalPreference);
+    return noteInfo.formatNoteNameForDisplay();
+  };
 }
