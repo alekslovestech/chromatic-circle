@@ -1,9 +1,8 @@
 import { AccidentalType } from "../AccidentalType";
-import { addChromatic } from "../ChromaticIndex";
+import { addChromatic, ixChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
 import { ChordType } from "../NoteGroupingTypes";
 import { RomanChord } from "../RomanChord";
-import { GreekModeDictionary } from "./GreekModeDictionary";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
@@ -49,23 +48,20 @@ export class GreekModeInfo {
   }
 
   public getRomanDisplayString(scaleDegreeIndex: number): string {
-    const romanChord = GreekModeInfo.getRomanChordRoot35(this.type, scaleDegreeIndex);
+    const romanChord = this.getRomanChordRoot35(scaleDegreeIndex);
     return romanChord.getString();
   }
 
-  private static getRomanChordRoot35(
-    greekMode: GreekModeType,
-    scaleDegreeIndex: number,
-  ): RomanChord {
-    const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
-    const scaleDegreeInfo = greekModeInfo.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
+  private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
+    const scaleDegreeInfo = this.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
 
-    const rootOffset = greekModeInfo.pattern[scaleDegreeIndex];
-    const thirdOffset = greekModeInfo.pattern[(scaleDegreeIndex + 2) % 7];
-    const fifthOffset = greekModeInfo.pattern[(scaleDegreeIndex + 4) % 7];
+    const SCALE_LENGTH = this.pattern.length;
+    const rootOffset = this.pattern[scaleDegreeIndex];
+    const thirdOffset = this.pattern[(scaleDegreeIndex + 2) % SCALE_LENGTH];
+    const fifthOffset = this.pattern[(scaleDegreeIndex + 4) % SCALE_LENGTH];
 
-    const thirdInterval = (thirdOffset - rootOffset + 12) % 12;
-    const fifthInterval = (fifthOffset - rootOffset + 12) % 12;
+    const thirdInterval = addChromatic(ixChromatic(thirdOffset), -rootOffset);
+    const fifthInterval = addChromatic(ixChromatic(fifthOffset), -rootOffset);
 
     let chordType: ChordType;
     if (thirdInterval === 4 && fifthInterval === 7) {
