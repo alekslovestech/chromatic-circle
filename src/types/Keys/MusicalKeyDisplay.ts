@@ -1,5 +1,6 @@
 import { ChromaticIndex } from "../ChromaticIndex";
 import { NoteConverter } from "../NoteConverter";
+import { NoteInfo } from "../NoteInfo";
 import { KeyTextMode } from "../SettingModes";
 import { MusicalKey } from "./MusicalKey";
 import { MusicalKeyScale } from "./MusicalKeyScale";
@@ -12,7 +13,8 @@ export class MusicalKeyDisplay {
   ): string {
     switch (displayMode) {
       case KeyTextMode.NoteNames:
-        return this.getNoteNameDisplayString(musicalKey, chromaticIndex);
+        const noteInfo = this.resolveNoteInKey(musicalKey, chromaticIndex);
+        return noteInfo.formatNoteNameForDisplay();
       case KeyTextMode.ScaleDegree:
         return this.getScaleDegreeDisplayString(musicalKey, chromaticIndex);
       case KeyTextMode.Roman:
@@ -20,13 +22,13 @@ export class MusicalKeyDisplay {
     }
   }
 
-  private static getNoteNameDisplayString(
-    musicalKey: MusicalKey,
-    chromaticIndex: ChromaticIndex,
-  ): string {
-    const accidentalPreference = musicalKey.getDefaultAccidental();
-    const noteAtIndex = NoteConverter.getBasicNoteInfo(chromaticIndex, accidentalPreference);
-    return noteAtIndex.formatNoteNameForDisplay();
+  static resolveNoteInKey(musicalKey: MusicalKey, chromaticIndex: ChromaticIndex): NoteInfo {
+    const defaultAccidental = musicalKey.getDefaultAccidental();
+    const noteAtIndex = NoteConverter.getBasicNoteInfo(chromaticIndex, defaultAccidental);
+    return new NoteInfo(
+      noteAtIndex.noteName,
+      musicalKey.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),
+    );
   }
 
   private static getScaleDegreeDisplayString(

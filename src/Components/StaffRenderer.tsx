@@ -5,6 +5,7 @@ import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { KeyType } from "../types/Keys/KeyType";
+import { MusicalKeyDisplay } from "../types/Keys/MusicalKeyDisplay";
 
 import { useMusical } from "../contexts/MusicalContext";
 
@@ -14,7 +15,7 @@ const EasyScoreFromNotes = (
 ): StaveNote[] => {
   const keys = actualIndices.map((actualIndex) => {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-    const noteInfo = selectedMusicalKey.getNoteInKey(chromaticIndex);
+    const noteInfo = MusicalKeyDisplay.resolveNoteInKey(selectedMusicalKey, chromaticIndex);
     return {
       key: `${noteInfo.noteName}/${4 + octaveOffset}`,
       accidentalSign: getAccidentalSignForEasyScore(noteInfo.accidental),

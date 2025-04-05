@@ -3,6 +3,7 @@ import { NoteInfo } from "../types/NoteInfo";
 import { AccidentalType } from "../types/AccidentalType";
 import { KeyType } from "../types/Keys/KeyType";
 import { NoteConverter } from "../types/NoteConverter";
+import { MusicalKeyDisplay } from "../types/Keys/MusicalKeyDisplay";
 
 /**
  * Helper function to verify that a note resolves correctly in a given key
@@ -12,7 +13,7 @@ import { NoteConverter } from "../types/NoteConverter";
  */
 function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNote: NoteInfo) {
   const chromaticIndex = NoteConverter.toChromaticIndex(noteText);
-  const note = musicalKey.getNoteInKey(chromaticIndex);
+  const note = MusicalKeyDisplay.resolveNoteInKey(musicalKey, chromaticIndex);
   expect(note).toEqual(expectedNote);
 }
 

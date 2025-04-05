@@ -58,15 +58,6 @@ export class MusicalKey {
     return MusicalKey.fromClassicalMode(this.tonicString, newMode);
   }
 
-  getNoteInKey(chromaticIndex: ChromaticIndex): NoteInfo {
-    const defaultAccidental = this.getDefaultAccidental();
-    const noteAtIndex = NoteConverter.getBasicNoteInfo(chromaticIndex, defaultAccidental);
-    return new NoteInfo(
-      noteAtIndex.noteName,
-      this.keySignature.applyToNote(noteAtIndex.noteName, noteAtIndex.accidental),
-    );
-  }
-
   getDefaultAccidental(): AccidentalType {
     return this.keySignature.getDefaultAccidental();
   }
