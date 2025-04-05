@@ -1,3 +1,4 @@
+import { RomanNumeralUtils } from "../../utils/RomanNumeralUtils";
 import { AccidentalType } from "../AccidentalType";
 import { addChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
@@ -28,6 +29,12 @@ export class GreekModeInfo {
   public getScaleDegreeDisplayStrings(): string[] {
     return this.pattern.map((_, index) =>
       this.getScaleDegreeInfoFromPosition(index).getDisplayString(),
+    );
+  }
+
+  public getRomanDisplayStrings(): string[] {
+    return this.pattern.map((_, index) =>
+      RomanNumeralUtils.toRoman(this.getScaleDegreeInfoFromPosition(index)),
     );
   }
 

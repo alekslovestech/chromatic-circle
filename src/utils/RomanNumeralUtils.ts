@@ -1,3 +1,5 @@
+import { AccidentalType, getAccidentalSignForDisplay } from "../types/AccidentalType";
+import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 import { ScaleDegree, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 
 import { RomanNumeralString } from "../types/RomanTypes";
@@ -25,7 +27,7 @@ export class RomanNumeralUtils {
     }
   }
 
-  static toRoman(scaleDegree: ScaleDegree): string {
+  private static ScaleDegreeToRoman(scaleDegree: ScaleDegree): string {
     switch (scaleDegree) {
       case 1:
         return "I";
@@ -44,6 +46,12 @@ export class RomanNumeralUtils {
       default:
         return "Ø";
     }
+  }
+
+  static toRoman(scaleDegreeInfo: ScaleDegreeInfo): string {
+    const pureRomanString = this.ScaleDegreeToRoman(scaleDegreeInfo.scaleDegree);
+    const accidentalString = getAccidentalSignForDisplay(scaleDegreeInfo.accidentalPrefix);
+    return `${accidentalString}${pureRomanString}`;
   }
 
   static isLowercaseRomanNumeral(numeral: string): boolean {
