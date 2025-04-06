@@ -4,11 +4,13 @@ import { CircularVisMode, ChordDisplayMode, KeyTextMode, GlobalMode } from "../t
 export interface DisplaySettings {
   circularVisMode: CircularVisMode;
   monochromeMode: boolean;
+  scalePreviewMode: boolean;
   keyTextMode: KeyTextMode;
   chordDisplayMode: ChordDisplayMode;
   globalMode: GlobalMode;
   setCircularVisMode: (mode: CircularVisMode) => void;
   setMonochromeMode: (mode: boolean) => void;
+  setScalePreviewMode: (mode: boolean) => void;
   setKeyTextMode: (mode: KeyTextMode) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
   setGlobalMode: (mode: GlobalMode) => void;
@@ -19,6 +21,7 @@ const DisplayContext = createContext<DisplaySettings | null>(null);
 export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [circularVisMode, setCircularVisMode] = useState<CircularVisMode>(CircularVisMode.None);
   const [monochromeMode, setMonochromeMode] = useState<boolean>(false);
+  const [scalePreviewMode, setScalePreviewMode] = useState<boolean>(false);
   const [keyTextMode, setKeyTextMode] = useState<KeyTextMode>(KeyTextMode.NoteNames);
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
@@ -30,17 +33,20 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
     if (globalMode === GlobalMode.Advanced) {
       setMonochromeMode(true);
       setKeyTextMode(KeyTextMode.ScaleDegree);
+      setScalePreviewMode(true);
     }
   }, [globalMode]);
 
   const value: DisplaySettings = {
     circularVisMode,
     monochromeMode,
+    scalePreviewMode,
     keyTextMode,
     chordDisplayMode,
     globalMode,
     setCircularVisMode,
     setMonochromeMode,
+    setScalePreviewMode,
     setKeyTextMode,
     setChordDisplayMode,
     setGlobalMode,

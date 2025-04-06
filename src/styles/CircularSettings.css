@@ -25,6 +25,19 @@
     font-size: var(--settings-description-font-size);
 }
 
+.scale-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.scale-preview-label {
+  margin-top: -1px;
+  font-size: var(--settings-description-font-size);
+}
+
+
+
 .clear-button {
   font-size: var(--settings-description-font-size);  
   min-width: 50px;

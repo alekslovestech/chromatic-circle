@@ -14,7 +14,7 @@ export const TransposeWidget: React.FC = () => {
   const { globalMode } = useDisplay();
   const isAdvanced = globalMode === GlobalMode.Advanced;
 
-  const handleTranspose = (amount: number) => {
+  const handleSelectedNotesTranspose = (amount: number) => {
     const transposedIndices = ixActualArray(IndexUtils.shiftIndices(selectedNoteIndices, amount));
     setSelectedNoteIndices(transposedIndices);
   };
@@ -27,10 +27,10 @@ export const TransposeWidget: React.FC = () => {
   return (
     <div>
       <div className="transpose-buttons-container">
-        <button className="transpose-up-button" onClick={() => handleTranspose(1)}>
+        <button className="transpose-up-button" onClick={() => handleSelectedNotesTranspose(1)}>
           ↑♫↑
         </button>
-        <button className="transpose-down-button" onClick={() => handleTranspose(-1)}>
+        <button className="transpose-down-button" onClick={() => handleSelectedNotesTranspose(-1)}>
           ↓♫↓
         </button>
 
