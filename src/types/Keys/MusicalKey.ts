@@ -4,7 +4,6 @@ import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
 import { GreekModeType } from "../GreekModes/GreekModeType";
 import { NoteConverter } from "../NoteConverter";
-import { NoteInfo } from "../NoteInfo";
 import { KeyType } from "../Keys/KeyType";
 import { KeySignature } from "../Keys/KeySignature";
 
@@ -42,35 +41,24 @@ export class MusicalKey {
 
   getOppositeKey(): MusicalKey {
     const newMode = this.classicalMode === KeyType.Major ? KeyType.Minor : KeyType.Major;
-
-    const enharmonicPairs: Record<string, string> = {
-      Ab: "G#",
-      Db: "C#",
-      "G#": "Ab",
-      "C#": "Db",
-    };
-
-    if (this.tonicString in enharmonicPairs) {
-      const newTonic = enharmonicPairs[this.tonicString];
-      return MusicalKey.fromClassicalMode(newTonic, newMode);
-    }
-
-    return MusicalKey.fromClassicalMode(this.tonicString, newMode);
+    const newTonicAsString = this.findKeyWithTonicIndex(this.tonicIndex, newMode);
+    return MusicalKey.fromClassicalMode(newTonicAsString, newMode);
   }
 
   getTransposedKey(amount: number): MusicalKey {
-    const currentTonicIndex = this.tonicIndex;
-    const newTonicIndex = addChromatic(currentTonicIndex, amount);
-    const keyList = KeySignature.getKeyList(this.classicalMode);
-    const newTonicAsString = keyList.find(
-      (key) => NoteConverter.toChromaticIndex(key) === newTonicIndex,
-    );
-    const newKey = MusicalKey.fromGreekMode(newTonicAsString!, this.greekMode);
-    return newKey;
+    const newTonicIndex = addChromatic(this.tonicIndex, amount);
+    const newTonicAsString = this.findKeyWithTonicIndex(newTonicIndex, this.classicalMode);
+    return MusicalKey.fromGreekMode(newTonicAsString, this.greekMode);
   }
 
   getDefaultAccidental(): AccidentalType {
     return this.keySignature.getDefaultAccidental();
+  }
+
+  private findKeyWithTonicIndex(tonicIndex: ChromaticIndex, mode: KeyType): string {
+    const keyList = KeySignature.getKeyList(mode);
+    const tonicAsString = keyList.find((key) => NoteConverter.toChromaticIndex(key) === tonicIndex);
+    return tonicAsString!;
   }
 
   private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
