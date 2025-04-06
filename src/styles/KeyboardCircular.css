@@ -29,7 +29,7 @@
   border: 1px solid var(--serenity-border-color);
 }
 
-/* Hover States */
+/* Hover State */
 .pie-slice-key:hover path {
   opacity: 0.8;
 }
@@ -43,21 +43,57 @@
   fill: var(--serenity-key-black);
 }
 
-/* Selected States */
-.pie-slice-key.selected path {
-  fill: #d3d3d3; /* Boring lightgray for non-diatonic selected notes */
+.pie-slice-key.white[data-state="plain"] path {
+  fill: var(--serenity-key-white);
 }
 
-/* Diatonic States */
-.pie-slice-key.diatonic path {
+.pie-slice-key.black[data-state="plain"] path {
+  fill: var(--serenity-key-black);
+}
+
+.pie-slice-key.white[data-state="highlighted"] path {
   fill: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);
-  filter: brightness(1.1);
 }
 
-/* Selected + Diatonic States */
-.pie-slice-key.selected.diatonic path {
+.pie-slice-key.black[data-state="highlighted"] path {
+  fill: color-mix(in srgb, var(--serenity-key-black) 65%, var(--serenity-key-diatonic) 35%);
+}
+
+.pie-slice-key.white[data-state="muted"] path {
+  fill: var(--serenity-key-white);
+  opacity: 0.7;
+}
+
+.pie-slice-key.black[data-state="muted"] path {
+  fill: var(--serenity-key-black);
+  opacity: 0.7;
+}
+
+/* Selected States */
+.pie-slice-key.white.selected path {
+  fill: var(--serenity-key-white-selected0);
+}
+
+.pie-slice-key.black.selected path {
+  fill: var(--serenity-key-black-selected0);
+}
+
+.pie-slice-key.white[data-state="highlighted"].selected path {
   fill: color-mix(in srgb, var(--serenity-key-white-selected0) 65%, var(--serenity-key-diatonic) 35%);
-  filter: brightness(1.1);
+}
+
+.pie-slice-key.black[data-state="highlighted"].selected path {
+  fill: color-mix(in srgb, var(--serenity-key-black-selected0) 65%, var(--serenity-key-diatonic) 35%);
+}
+
+.pie-slice-key.white[data-state="muted"].selected path {
+  fill: lightgrey;
+  opacity: 0.5;
+}
+
+.pie-slice-key.black[data-state="muted"].selected path {
+  fill: var(--serenity-key-black);
+  opacity: 0.5;
 }
 
 /* Text Styles */
@@ -68,16 +104,6 @@
   font-weight: bold;
   pointer-events: none;
   fill: var(--serenity-note-text-on-white);
-}
-
-
-/* Text Styles */
-.pie-slice-key text {
-  font-size: 1rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  font-weight: bold;
-  pointer-events: none;
 }
 
 .pie-slice-key.white text {

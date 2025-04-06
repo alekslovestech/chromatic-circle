@@ -1,6 +1,6 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
+import { GlobalMode } from "../../types/SettingModes";
 
 import { getBlackWhiteString } from "../../utils/ColorUtils";
 import { IndexUtils } from "../../utils/IndexUtils";
@@ -28,20 +28,25 @@ export const PieSlice: React.FC<{
   const textPoint = ArcPathVisualizer.getTextPoint(chromaticIndex, outerRadius, innerRadius);
   const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
   const classNames = ["pie-slice-key", blackWhiteString];
+
   const isSelected =
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
-  const isDiatonic =
-    globalMode === GlobalMode.Advanced &&
-    MusicalKeyScale.isDiatonicNote(selectedMusicalKey, chromaticIndex);
   if (isSelected) classNames.push("selected");
-  if (isDiatonic) classNames.push("diatonic");
+
+  // Determine the visual state based on musical properties
+  const getVisualState = (): string => {
+    if (globalMode !== GlobalMode.Advanced) return "plain";
+    return MusicalKeyScale.isDiatonicNote(selectedMusicalKey, chromaticIndex)
+      ? "highlighted"
+      : "muted";
+  };
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
 
   return (
     <>
-      <g id={id} className={classNames.join(" ")} onClick={onClick}>
+      <g id={id} className={classNames.join(" ")} data-state={getVisualState()} onClick={onClick}>
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>
