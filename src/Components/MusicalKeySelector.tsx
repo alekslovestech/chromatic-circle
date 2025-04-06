@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/Keys/KeyType";
 import { KeySignature } from "../types/Keys/KeySignature";
+import { ixActual } from "../types/IndexTypes";
+import { TWELVE } from "../types/NoteConstants";
 
 import { useMusical } from "../contexts/MusicalContext";
+import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
-  const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
-
+  const { selectedMusicalKey, setSelectedMusicalKey, selectedNoteIndices, setSelectedNoteIndices } =
+    useMusical();
+  const { scalePreviewMode } = useDisplay();
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const tonicName = event.target.value as string;
@@ -21,6 +25,26 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
       : MusicalKey.fromClassicalMode(tonicName, selectedMusicalKey.classicalMode);
     setSelectedMusicalKey(newKey);
   };
+
+  useEffect(() => {
+    if (scalePreviewMode) {
+      // const scaleNotes = MusicalKeyScale.getAbsoluteScaleNotes(selectedMusicalKey);
+      const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
+      let scaleDegreeIndex = 0;
+      const interval = setInterval(() => {
+        if (scaleDegreeIndex < scaleOffsets.length) {
+          const currentNote = ixActual(
+            selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex],
+          );
+          setSelectedNoteIndices([currentNote]);
+          scaleDegreeIndex++;
+        } else {
+          setSelectedNoteIndices([ixActual(selectedMusicalKey.tonicIndex + TWELVE)]);
+          clearInterval(interval);
+        }
+      }, 500);
+    }
+  }, [selectedMusicalKey]);
 
   //Ionian / Dorian / Phrygian / Lydian / Mixolydian / Aeolian / Locrian
   const handleGreekModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
