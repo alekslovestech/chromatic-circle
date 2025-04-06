@@ -17,7 +17,7 @@ export class ScaleBoundrary {
 
     return [
       <line
-        className="selected-notes-polygon"
+        className="scale-boundary-line"
         key="scale-boundrary"
         x1={point_start.x}
         y1={point_start.y}
@@ -36,15 +36,16 @@ export class ScaleBoundrary {
   ): CartesianPoint[] {
     const tonicIndex = selectedMusicalKey.tonicIndex;
 
+    const COEFF = 1.05;
     const { startAngle: startOfTonicAngle } = PolarMath.NoteIndexToAngleRange(tonicIndex);
     const point_start: CartesianPoint = PolarMath.getCartesianFromPolar(
-      innerRadius,
+      innerRadius / COEFF,
       startOfTonicAngle,
       true,
     );
 
     const point_end: CartesianPoint = PolarMath.getCartesianFromPolar(
-      outerRadius * 1.5,
+      outerRadius * COEFF,
       startOfTonicAngle,
       true,
     );
