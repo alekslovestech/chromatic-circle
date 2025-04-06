@@ -1,5 +1,5 @@
 import { AccidentalType } from "../AccidentalType";
-import { ChromaticIndex } from "../ChromaticIndex";
+import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
 import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
 import { GreekModeType } from "../GreekModes/GreekModeType";
@@ -56,6 +56,17 @@ export class MusicalKey {
     }
 
     return MusicalKey.fromClassicalMode(this.tonicString, newMode);
+  }
+
+  getTransposedKey(amount: number): MusicalKey {
+    const currentTonicIndex = this.tonicIndex;
+    const newTonicIndex = addChromatic(currentTonicIndex, amount);
+    const keyList = KeySignature.getKeyList(this.classicalMode);
+    const newTonicAsString = keyList.find(
+      (key) => NoteConverter.toChromaticIndex(key) === newTonicIndex,
+    );
+    const newKey = MusicalKey.fromGreekMode(newTonicAsString!, this.greekMode);
+    return newKey;
   }
 
   getDefaultAccidental(): AccidentalType {

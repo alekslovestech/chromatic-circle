@@ -1,6 +1,7 @@
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { KeyType } from "../types/Keys/KeyType";
 import { AccidentalType } from "../types/AccidentalType";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
 
 const verifyMusicalKeyAccidental = (
   key: string,
@@ -71,5 +72,49 @@ describe("getOppositeKey", () => {
   it("Eb major => Eb minor", () => {
     const musicalKey = MusicalKey.fromClassicalMode("Eb", KeyType.Major);
     expect(musicalKey.getOppositeKey()).toEqual(MusicalKey.fromClassicalMode("Eb", KeyType.Minor));
+  });
+});
+
+describe("getTransposedKey", () => {
+  it("C major => Db major", () => {
+    const musicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
+    expect(musicalKey.getTransposedKey(+1)).toEqual(
+      MusicalKey.fromClassicalMode("Db", KeyType.Major),
+    );
+  });
+
+  it("C Dorian => C# Dorian", () => {
+    const musicalKey = MusicalKey.fromGreekMode("C", GreekModeType.Dorian);
+    expect(musicalKey.getTransposedKey(+1)).toEqual(
+      MusicalKey.fromGreekMode("C#", GreekModeType.Dorian),
+    );
+  });
+
+  it("E Phrygian minor => F Phrygian minor", () => {
+    const musicalKey = MusicalKey.fromGreekMode("E", GreekModeType.Phrygian);
+    expect(musicalKey.getTransposedKey(+1)).toEqual(
+      MusicalKey.fromGreekMode("F", GreekModeType.Phrygian),
+    );
+  });
+
+  it("C major => B major", () => {
+    const musicalKey = MusicalKey.fromClassicalMode("C", KeyType.Major);
+    expect(musicalKey.getTransposedKey(-1)).toEqual(
+      MusicalKey.fromClassicalMode("B", KeyType.Major),
+    );
+  });
+
+  it("C Dorian => B Dorian", () => {
+    const musicalKey = MusicalKey.fromGreekMode("C", GreekModeType.Dorian);
+    expect(musicalKey.getTransposedKey(-1)).toEqual(
+      MusicalKey.fromGreekMode("B", GreekModeType.Dorian),
+    );
+  });
+
+  it("F Phrygian minor => E Phrygian minor", () => {
+    const musicalKey = MusicalKey.fromGreekMode("F", GreekModeType.Phrygian);
+    expect(musicalKey.getTransposedKey(-1)).toEqual(
+      MusicalKey.fromGreekMode("E", GreekModeType.Phrygian),
+    );
   });
 });
