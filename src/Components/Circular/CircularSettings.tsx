@@ -15,6 +15,7 @@ import "../../styles/CircularSettings.css";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { GlobalMode } from "../../types/SettingModes";
+import { ScalePreviewToggle } from "./ScalePreviewToggle";
 
 export const CircularSettings = () => {
   const { globalMode } = useDisplay();
@@ -28,6 +29,7 @@ export const CircularSettings = () => {
           <TransposeWidget />
         </div>
         {<MonochromeModeToggle />}
+        {isAdvanced && <ScalePreviewToggle />}
         {isAdvanced && <KeyTextModeSelect />}
         <ClearButton />
         <ChordNameDisplay />
