@@ -13,8 +13,7 @@ import { useDisplay } from "../contexts/DisplayContext";
 import "../styles/CircularSettings.css";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
-  const { selectedMusicalKey, setSelectedMusicalKey, selectedNoteIndices, setSelectedNoteIndices } =
-    useMusical();
+  const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
   const { scalePreviewMode } = useDisplay();
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,7 +41,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
           setSelectedNoteIndices([ixActual(selectedMusicalKey.tonicIndex + TWELVE)]);
           clearInterval(interval);
         }
-      }, 500);
+      }, 250);
     }
   }, [selectedMusicalKey]);
 
