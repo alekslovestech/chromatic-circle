@@ -44,18 +44,32 @@
 }
 
 /* Selected States */
-.pie-slice-key.white.selected path {
-  fill: var(--serenity-key-white-selected0);
+.pie-slice-key.selected path {
+  fill: #d3d3d3; /* Boring lightgray for non-diatonic selected notes */
 }
 
-.pie-slice-key.black.selected path {
-  fill: var(--serenity-key-black-selected0);
-}
-
+/* Diatonic States */
 .pie-slice-key.diatonic path {
-  stroke: var(--serenity-key-diatonic);
-  stroke-width: 3px;
+  fill: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);
+  filter: brightness(1.1);
 }
+
+/* Selected + Diatonic States */
+.pie-slice-key.selected.diatonic path {
+  fill: color-mix(in srgb, var(--serenity-key-white-selected0) 65%, var(--serenity-key-diatonic) 35%);
+  filter: brightness(1.1);
+}
+
+/* Text Styles */
+.pie-slice-key text {
+  font-size: 1rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-weight: bold;
+  pointer-events: none;
+  fill: var(--serenity-note-text-on-white);
+}
+
 
 /* Text Styles */
 .pie-slice-key text {
@@ -73,4 +87,3 @@
 .pie-slice-key.black text {
   fill: var(--serenity-note-text-on-black);
 }
-
