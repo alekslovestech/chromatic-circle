@@ -29,6 +29,7 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
   useEffect(() => {
     if (globalMode === GlobalMode.Advanced) {
       setMonochromeMode(true);
+      setKeyTextMode(KeyTextMode.ScaleDegree);
     }
   }, [globalMode]);
 
