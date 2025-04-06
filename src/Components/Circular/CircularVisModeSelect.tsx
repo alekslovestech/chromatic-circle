@@ -49,12 +49,19 @@ export const CircularVisModeSelect: React.FC = () => {
 
   useEffect(() => {
     // Reset visualization mode when input mode changes
-    if (inputMode === InputMode.SingleNote) {
-      setCircularVisMode(CircularVisMode.None);
-    } else if (inputMode === InputMode.IntervalPresets) {
-      setCircularVisMode(CircularVisMode.Radial);
-    } else if (inputMode === InputMode.ChordPresets) {
-      setCircularVisMode(CircularVisMode.Polygon);
+    switch (inputMode) {
+      case InputMode.SingleNote:
+        setCircularVisMode(CircularVisMode.None);
+        break;
+      case InputMode.IntervalPresets:
+        setCircularVisMode(CircularVisMode.Radial);
+        break;
+      case InputMode.ChordPresets:
+        setCircularVisMode(CircularVisMode.Polygon);
+        break;
+      case InputMode.Toggle:
+        setCircularVisMode(CircularVisMode.Polygon);
+        break;
     }
   }, [inputMode, setCircularVisMode]);
 
