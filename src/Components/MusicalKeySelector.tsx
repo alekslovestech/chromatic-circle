@@ -7,8 +7,6 @@ import { KeySignature } from "../types/Keys/KeySignature";
 import { ixActualArray } from "../types/IndexTypes";
 import { KeyTextMode } from "../types/SettingModes";
 
-import { GreekModeInfo } from "../types/GreekModes/GreekModeInfo";
-
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 

@@ -68,16 +68,11 @@ export class GreekModeInfo {
   private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
 
-    const SCALE_LENGTH = this.pattern.length;
-    const rootOffset = this.pattern[scaleDegreeIndex];
-    const thirdOffset = this.pattern[(scaleDegreeIndex + 2) % SCALE_LENGTH];
-    const fifthOffset = this.pattern[(scaleDegreeIndex + 4) % SCALE_LENGTH];
+    const offsets135 = this.getOffsets135(scaleDegreeIndex);
 
-    const thirdInterval = addChromatic(ixChromatic(thirdOffset), -rootOffset);
-    const fifthInterval = addChromatic(ixChromatic(fifthOffset), -rootOffset);
+    const offsetsFromRoot = offsets135.map((offset) => offset - offsets135[0]);
 
     let chordType: ChordType;
-    const intervals = [0, thirdInterval, fifthInterval];
     const patterns = {
       [ChordType.Major]: CHORD_OFFSET_PATTERNS.MAJOR,
       [ChordType.Minor]: CHORD_OFFSET_PATTERNS.MINOR,
@@ -85,9 +80,9 @@ export class GreekModeInfo {
       [ChordType.Augmented]: CHORD_OFFSET_PATTERNS.AUGMENTED,
     };
 
-    // Find matching chord pattern by comparing intervals
+    // Find matching chord pattern
     const matchingPattern = Object.entries(patterns).find(([_, pattern]) => {
-      return intervals.every((interval, index) => interval === pattern[index]);
+      return offsetsFromRoot.every((offset, index) => offset === pattern[index]);
     });
 
     chordType = (matchingPattern?.[0] as ChordType) || ChordType.Unknown;
