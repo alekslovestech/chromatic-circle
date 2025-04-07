@@ -26,23 +26,25 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
   };
 
   useEffect(() => {
-    if (scalePreviewMode) {
-      // const scaleNotes = MusicalKeyScale.getAbsoluteScaleNotes(selectedMusicalKey);
-      const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
-      let scaleDegreeIndex = 0;
-      const interval = setInterval(() => {
-        if (scaleDegreeIndex < scaleOffsets.length) {
-          const currentNote = ixActual(
-            selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex],
-          );
-          setSelectedNoteIndices([currentNote]);
-          scaleDegreeIndex++;
-        } else {
-          setSelectedNoteIndices([ixActual(selectedMusicalKey.tonicIndex + TWELVE)]);
-          clearInterval(interval);
-        }
-      }, 250);
+    if (!scalePreviewMode) {
+      return;
     }
+    const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
+    let scaleDegreeIndex = 0;
+    const interval = setInterval(() => {
+      if (scaleDegreeIndex < scaleOffsets.length) {
+        const currentNote = ixActual(
+          selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex],
+        );
+        setSelectedNoteIndices([currentNote]);
+        scaleDegreeIndex++;
+      } else {
+        setSelectedNoteIndices([ixActual(selectedMusicalKey.tonicIndex + TWELVE)]);
+        clearInterval(interval);
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
   }, [selectedMusicalKey]);
 
   //Ionian / Dorian / Phrygian / Lydian / Mixolydian / Aeolian / Locrian
