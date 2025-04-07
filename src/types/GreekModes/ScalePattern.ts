@@ -16,19 +16,6 @@ export class ScalePattern {
     this.pattern = [...pattern];
   }
 
-  public getScaleDegreeInfoFromChromatic(
-    chromaticIndex: ChromaticIndex,
-    tonicIndex: ChromaticIndex,
-  ): ScaleDegreeInfo | null {
-    const scaleDegreePosition = this.pattern.findIndex(
-      (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
-    );
-
-    return scaleDegreePosition === -1
-      ? null
-      : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
-  }
-
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
     const currentNote = this.pattern[scaleDegreeIndex];
     const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
@@ -56,10 +43,6 @@ export class ScalePattern {
     return [rootOffset, thirdOffset, fifthOffset];
   }
 
-  public getAbsoluteScaleNotes(tonicIndex: ChromaticIndex): ChromaticIndex[] {
-    return this.pattern.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
-  }
-
   public getLength(): number {
     return this.SCALE_LENGTH;
   }
@@ -70,5 +53,36 @@ export class ScalePattern {
 
   public toArray(): number[] {
     return [...this.pattern];
+  }
+
+  /**
+   * Finds the position of a note in the scale based on its relative offset from the tonic.
+   * @param relativeOffset The offset from the tonic (0-11)
+   * @returns The position in the scale (0-6), or -1 if not found
+   */
+  public findPositionInScale(relativeOffset: number): number {
+    // Normalize the offset to be within 0-11
+    const normalizedOffset = ((relativeOffset % 12) + 12) % 12;
+    return this.pattern.findIndex((offset) => offset === normalizedOffset);
+  }
+
+  /**
+   * Adds a base value to each offset in the pattern using addChromatic.
+   * This is useful for converting relative offsets to absolute chromatic indices.
+   * @param baseValue The base value to add to each offset
+   * @returns An array of chromatic indices
+   */
+  public addOffsetsChromatic(chromaticIndex: ChromaticIndex): ChromaticIndex[] {
+    return this.pattern.map((element) => addChromatic(chromaticIndex, element));
+  }
+
+  /**
+   * Adds a base value to each offset in the pattern using simple addition.
+   * This is useful for mathematical operations on the pattern.
+   * @param baseValue The base value to add to each offset
+   * @returns An array of numbers
+   */
+  public addToOffsetsSimple(baseValue: number): number[] {
+    return this.pattern.map((element) => element + baseValue);
   }
 }

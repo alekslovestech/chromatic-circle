@@ -8,7 +8,6 @@ import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
 import { addChromatic } from "./ChromaticIndex";
 import { NoteConverter } from "./NoteConverter";
-import { MusicalKeyScale } from "./Keys/MusicalKeyScale";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -47,7 +46,7 @@ export class RomanResolver {
 
   static resolveAsAbsoluteChord(romanString: string, musicalKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
-    const scale = MusicalKeyScale.getAbsoluteScaleNotes(musicalKey);
+    const scale = musicalKey.greekModeInfo.getAbsoluteScaleNotes(musicalKey.tonicIndex);
     let chromaticIndex = scale[romanChord.scaleDegree - 1];
     const accidentalOffset: OffsetIndex =
       romanChord.accidental === AccidentalType.Flat

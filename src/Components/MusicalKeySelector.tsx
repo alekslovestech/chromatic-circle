@@ -20,15 +20,15 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     if (!scalePreviewMode) {
       return;
     }
-    const greekModeInfo = selectedMusicalKey.greekModeInfo;
+    const scalePattern = selectedMusicalKey.scalePattern;
     let scaleDegreeIndex = 0;
     const interval = setInterval(
       () => {
         const isRomanMode = keyTextMode === KeyTextMode.Roman;
         const playedOffsets = isRomanMode
-          ? greekModeInfo.getOffsets135(scaleDegreeIndex)
-          : greekModeInfo.getRootOffset(scaleDegreeIndex);
-        if (scaleDegreeIndex < greekModeInfo.pattern.length) {
+          ? scalePattern.getOffsets135(scaleDegreeIndex)
+          : scalePattern.getRootOffset(scaleDegreeIndex);
+        if (scaleDegreeIndex < scalePattern.getLength()) {
           const selectedNoteIndices = ixActualArray(
             playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset),
           );
