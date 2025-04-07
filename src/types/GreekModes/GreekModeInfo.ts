@@ -49,6 +49,39 @@ export class GreekModeInfo {
     return this.scalePattern.addOffsetsChromatic(tonicIndex);
   }
 
+  /**
+   * Gets the display strings for all scale degrees in this mode.
+   * This is useful for testing and display purposes.
+   * @returns An array of scale degree display strings (e.g., ["1", "2", "♭3", "4", "5", "6", "♭7"])
+   */
+  public getScaleDegreeDisplayStrings(): string[] {
+    return Array.from({ length: this.scalePattern.getLength() }, (_, i) => {
+      const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(i);
+      return scaleDegreeInfo.getDisplayString();
+    });
+  }
+
+  public getIonianTonicIndex(tonicIndex: ChromaticIndex): ChromaticIndex {
+    const offset = this.modeNumber - 1;
+
+    const scaleLength = this.scalePattern.getLength();
+    const ionianOffset = this.scalePattern.getOffsetAtIndex((scaleLength - offset) % scaleLength);
+
+    // Apply the offset to the tonic to get the Ionian tonic
+    return addChromatic(tonicIndex, ionianOffset);
+  }
+
+  /**
+   * Determines if a note is diatonic in this mode with the given tonic.
+   * @param chromaticIndex The chromatic index of the note
+   * @param tonicIndex The chromatic index of the tonic
+   * @returns True if the note is diatonic in this mode, false otherwise
+   */
+  public isDiatonicNote(chromaticIndex: ChromaticIndex, tonicIndex: ChromaticIndex): boolean {
+    const scaleNotes = this.getAbsoluteScaleNotes(tonicIndex);
+    return scaleNotes.includes(chromaticIndex);
+  }
+
   public getRomanDisplayString(scaleDegreeIndex: number): string {
     const romanChord = this.getRomanChordRoot35(scaleDegreeIndex);
     return romanChord.getString();

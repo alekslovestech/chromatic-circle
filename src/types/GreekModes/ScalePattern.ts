@@ -51,10 +51,6 @@ export class ScalePattern {
     return this.pattern[index];
   }
 
-  public toArray(): number[] {
-    return [...this.pattern];
-  }
-
   /**
    * Finds the position of a note in the scale based on its relative offset from the tonic.
    * @param relativeOffset The offset from the tonic (0-11)
