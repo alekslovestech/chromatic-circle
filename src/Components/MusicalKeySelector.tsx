@@ -6,12 +6,12 @@ import { KeyType } from "../types/Keys/KeyType";
 import { KeySignature } from "../types/Keys/KeySignature";
 import { ixActual, ixActualArray } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
+import { KeyTextMode } from "../types/SettingModes";
 
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
-import { KeyTextMode } from "../types/SettingModes";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
