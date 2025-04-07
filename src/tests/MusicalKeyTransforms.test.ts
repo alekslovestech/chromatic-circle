@@ -86,4 +86,9 @@ describe("getCanonicalIonianKey", () => {
   it("C Phrygian => Ab Ionian", () => {
     expect(greekTestConstants.C_PHRYGIAN_KEY.getCanonicalIonianKey().tonicString).toEqual("Ab");
   });
+
+  it("C Arabic => Ab Ionian", () => {
+    const musicalKey = MusicalKey.fromGreekMode("C", GreekModeType.Arabic);
+    expect(musicalKey.getCanonicalIonianKey().tonicString).toEqual("Ab");
+  });
 });
