@@ -1,16 +1,15 @@
+import { MusicalKey } from "./MusicalKey";
 import { ChromaticIndex } from "../ChromaticIndex";
 import { KeyTextMode } from "../SettingModes";
 import { KeyNoteResolver } from "./KeyNoteResolver";
-import { MusicalKey } from "./MusicalKey";
-import { MusicalKeyScale } from "./MusicalKeyScale";
 
 export class MusicalKeyDisplay {
   static getDisplayString(
     musicalKey: MusicalKey,
     chromaticIndex: ChromaticIndex,
-    displayMode: KeyTextMode,
+    keyTextMode: KeyTextMode,
   ): string {
-    switch (displayMode) {
+    switch (keyTextMode) {
       case KeyTextMode.NoteNames:
         const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
           chromaticIndex,
@@ -18,31 +17,14 @@ export class MusicalKeyDisplay {
         );
         return noteInfo.formatNoteNameForDisplay();
       case KeyTextMode.ScaleDegree:
-        return this.getScaleDegreeDisplayString(musicalKey, chromaticIndex);
+        const scaleDegreeInfo = musicalKey.getScaleDegreeInfoFromChromatic(chromaticIndex);
+        return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
       case KeyTextMode.Roman:
-        return this.getRomanDisplayString(musicalKey, chromaticIndex);
+        const romanScaleDegreeInfo = musicalKey.getScaleDegreeInfoFromChromatic(chromaticIndex);
+        if (!romanScaleDegreeInfo) return "";
+        return musicalKey.greekModeInfo.getRomanDisplayString(romanScaleDegreeInfo.scaleDegree - 1);
+      default:
+        return "";
     }
-  }
-
-  private static getScaleDegreeDisplayString(
-    musicalKey: MusicalKey,
-    chromaticIndex: ChromaticIndex,
-  ): string {
-    const scaleDegreeInfo = MusicalKeyScale.getScaleDegreeInfo(musicalKey, chromaticIndex);
-    return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
-  }
-
-  private static getRomanDisplayString(
-    musicalKey: MusicalKey,
-    chromaticIndex: ChromaticIndex,
-  ): string {
-    const scaleDegreeInfo = MusicalKeyScale.getScaleDegreeInfo(musicalKey, chromaticIndex);
-    if (!scaleDegreeInfo) {
-      return "";
-    }
-    const romanChordDisplayString = musicalKey.greekModeInfo.getRomanDisplayString(
-      scaleDegreeInfo.scaleDegree - 1,
-    );
-    return romanChordDisplayString;
   }
 }

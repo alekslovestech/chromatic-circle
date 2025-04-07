@@ -7,17 +7,11 @@ export class MusicalKeyScale {
     musicalKey: MusicalKey,
     chromaticIndex: ChromaticIndex,
   ): ScaleDegreeInfo | null {
-    const scaleDegreeInfo = musicalKey.greekModeInfo.getScaleDegreeInfoFromChromatic(
-      chromaticIndex,
-      musicalKey.tonicIndex,
-    );
-    return scaleDegreeInfo;
+    return musicalKey.getScaleDegreeInfoFromChromatic(chromaticIndex);
   }
 
   static getAbsoluteScaleNotes(musicalKey: MusicalKey): ChromaticIndex[] {
-    const tonicIndex = musicalKey.tonicIndex;
-    const offsetScale = musicalKey.greekModeInfo.pattern;
-    return offsetScale.map((offsetIndex) => addChromatic(tonicIndex, offsetIndex));
+    return musicalKey.greekModeInfo.scalePattern.getAbsoluteScaleNotes(musicalKey.tonicIndex);
   }
 
   static isDiatonicNote(musicalKey: MusicalKey, chromaticIndex: ChromaticIndex): boolean {

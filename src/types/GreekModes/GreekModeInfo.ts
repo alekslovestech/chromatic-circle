@@ -9,26 +9,29 @@ import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 import { GreekModeType } from "./GreekModeType";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 import { ixScaleDegree } from "./ScaleDegreeType";
+import { ScalePattern } from "./ScalePattern";
 
 export class GreekModeInfo {
+  /**
+   * The scale pattern for this mode.
+   * For most use cases, you can access this directly to use ScalePattern methods.
+   * For common operations, consider using the domain-specific methods provided by GreekModeInfo.
+   */
+  public readonly scalePattern: ScalePattern;
+
   constructor(
     public readonly type: GreekModeType,
-    public readonly pattern: number[], // The pattern of the mode, typically 7 notes. e.g. [0, 2, 4, 5, 7, 9, 10] for Mixolydian
+    pattern: number[], // The pattern of the mode, typically 7 notes. e.g. [0, 2, 4, 5, 7, 9, 10] for Mixolydian
     public readonly modeNumber: number, // The number of the mode, typically 1-7. e.g. 1 for Ionian, 2 for Dorian, etc.
-  ) {}
+  ) {
+    this.scalePattern = new ScalePattern(pattern);
+  }
 
   public getScaleDegreeInfoFromChromatic(
     chromaticIndex: ChromaticIndex,
     tonicIndex: ChromaticIndex,
   ): ScaleDegreeInfo | null {
-    // Find which scale degree this note is
-    const scaleDegreePosition = this.pattern.findIndex(
-      (offset) => addChromatic(tonicIndex, offset) === chromaticIndex,
-    );
-
-    return scaleDegreePosition === -1
-      ? null
-      : this.getScaleDegreeInfoFromPosition(scaleDegreePosition);
+    return this.scalePattern.getScaleDegreeInfoFromChromatic(chromaticIndex, tonicIndex);
   }
 
   public getRomanDisplayString(scaleDegreeIndex: number): string {
@@ -37,31 +40,15 @@ export class GreekModeInfo {
   }
 
   public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
-    const currentNote = this.pattern[scaleDegreeIndex];
-    const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
-    const accidental =
-      currentNote > ionianNote
-        ? AccidentalType.Sharp
-        : currentNote < ionianNote
-        ? AccidentalType.Flat
-        : AccidentalType.None;
-    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+    return this.scalePattern.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
   }
 
   public getRootOffset(scaleDegreeIndex: number): [number] {
-    return [this.pattern[scaleDegreeIndex]];
+    return this.scalePattern.getRootOffset(scaleDegreeIndex);
   }
 
   public getOffsets135(scaleDegreeIndex: number): [number, number, number] {
-    const SCALE_LENGTH = this.pattern.length;
-    const rootOffset = this.pattern[scaleDegreeIndex];
-    let thirdOffset = this.pattern[(scaleDegreeIndex + 2) % SCALE_LENGTH];
-    let fifthOffset = this.pattern[(scaleDegreeIndex + 4) % SCALE_LENGTH];
-
-    thirdOffset += thirdOffset < rootOffset ? TWELVE : 0;
-    fifthOffset += fifthOffset < rootOffset ? TWELVE : 0;
-
-    return [rootOffset, thirdOffset, fifthOffset];
+    return this.scalePattern.getOffsets135(scaleDegreeIndex);
   }
 
   //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)

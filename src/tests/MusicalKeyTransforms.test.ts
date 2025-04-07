@@ -13,6 +13,7 @@ describe("getOppositeKey", () => {
 
   it("Db major => C# minor", () => {
     const musicalKey = MusicalKey.fromClassicalMode("Db", KeyType.Major);
+
     expect(musicalKey.getOppositeKey()).toEqual(MusicalKey.fromClassicalMode("C#", KeyType.Minor));
   });
 
