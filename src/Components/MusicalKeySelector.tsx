@@ -4,8 +4,7 @@ import { MusicalKey } from "../types/Keys/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/Keys/KeyType";
 import { KeySignature } from "../types/Keys/KeySignature";
-import { ixActual, ixActualArray } from "../types/IndexTypes";
-import { TWELVE } from "../types/NoteConstants";
+import { ixActualArray } from "../types/IndexTypes";
 import { KeyTextMode } from "../types/SettingModes";
 
 import { useMusical } from "../contexts/MusicalContext";
@@ -21,31 +20,22 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     if (!scalePreviewMode) {
       return;
     }
-    const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
+    const greekModeInfo = selectedMusicalKey.greekModeInfo;
     let scaleDegreeIndex = 0;
     const interval = setInterval(
       () => {
-        if (scaleDegreeIndex < scaleOffsets.length) {
-          if (keyTextMode === KeyTextMode.Roman) {
-            const [rootOffset, thirdOffset, fifthOffset] =
-              selectedMusicalKey.greekModeInfo.getOffsets135(scaleDegreeIndex);
-
-            const triadNotes = [rootOffset, thirdOffset, fifthOffset].map(
-              (offset) => selectedMusicalKey.tonicIndex + offset,
-            );
-            setSelectedNoteIndices(ixActualArray(triadNotes));
-          } else {
-            const noteIndex = selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex];
-            const currentNote = ixActual(noteIndex);
-            setSelectedNoteIndices([currentNote]);
-          }
-
+        const isRomanMode = keyTextMode === KeyTextMode.Roman;
+        const playedOffsets = isRomanMode
+          ? greekModeInfo.getOffsets135(scaleDegreeIndex)
+          : greekModeInfo.getRootOffset(scaleDegreeIndex);
+        if (scaleDegreeIndex < greekModeInfo.pattern.length) {
+          const selectedNoteIndices = ixActualArray(
+            playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset),
+          );
+          setSelectedNoteIndices(selectedNoteIndices);
           scaleDegreeIndex++;
-        }
-        // After playing all notes, play the octave and stop
-        else {
-          const octaveNote = ixActual(selectedMusicalKey.tonicIndex + TWELVE);
-          setSelectedNoteIndices([octaveNote]);
+        } else {
+          setSelectedNoteIndices(ixActualArray([selectedMusicalKey.tonicIndex]));
           clearInterval(interval);
         }
       },

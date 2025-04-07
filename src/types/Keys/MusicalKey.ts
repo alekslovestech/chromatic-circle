@@ -62,7 +62,7 @@ export class MusicalKey {
       tonicIndex,
       this.greekModeInfo.pattern[(scaleLength - offset) % scaleLength],
     );
-    const ionianTonicString = this.findKeyWithTonicIndex(ionianTonicIndex, this.classicalMode);
+    const ionianTonicString = this.findKeyWithTonicIndex(ionianTonicIndex, KeyType.Major);
     // Convert back to a note name
     return MusicalKey.fromGreekMode(ionianTonicString, GreekModeType.Ionian);
   }
