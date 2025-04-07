@@ -4,8 +4,9 @@ import { MusicalKey } from "../types/Keys/MusicalKey";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { KeyType } from "../types/Keys/KeyType";
 import { KeySignature } from "../types/Keys/KeySignature";
-import { ixActual } from "../types/IndexTypes";
+import { ixActual, ixActualArray } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
+import { KeyTextMode } from "../types/SettingModes";
 
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
@@ -13,9 +14,48 @@ import { useDisplay } from "../contexts/DisplayContext";
 import "../styles/CircularSettings.css";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
-  const { selectedMusicalKey, setSelectedMusicalKey, selectedNoteIndices, setSelectedNoteIndices } =
-    useMusical();
-  const { scalePreviewMode } = useDisplay();
+  const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
+  const { scalePreviewMode, keyTextMode } = useDisplay();
+
+  useEffect(() => {
+    if (!scalePreviewMode) {
+      return;
+    }
+    const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
+    let scaleDegreeIndex = 0;
+    const interval = setInterval(
+      () => {
+        if (scaleDegreeIndex < scaleOffsets.length) {
+          if (keyTextMode === KeyTextMode.Roman) {
+            const [rootOffset, thirdOffset, fifthOffset] =
+              selectedMusicalKey.greekModeInfo.getOffsets135(scaleDegreeIndex);
+
+            const triadNotes = [rootOffset, thirdOffset, fifthOffset].map(
+              (offset) => selectedMusicalKey.tonicIndex + offset,
+            );
+            setSelectedNoteIndices(ixActualArray(triadNotes));
+          } else {
+            const noteIndex = selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex];
+            const currentNote = ixActual(noteIndex);
+            setSelectedNoteIndices([currentNote]);
+          }
+
+          scaleDegreeIndex++;
+        }
+        // After playing all notes, play the octave and stop
+        else {
+          const octaveNote = ixActual(selectedMusicalKey.tonicIndex + TWELVE);
+          setSelectedNoteIndices([octaveNote]);
+          clearInterval(interval);
+        }
+      },
+      // Use slower interval for triads, faster for single notes
+      keyTextMode === KeyTextMode.Roman ? 500 : 250,
+    );
+
+    return () => clearInterval(interval);
+  }, [selectedMusicalKey, keyTextMode]);
+
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const tonicName = event.target.value as string;
@@ -25,26 +65,6 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
       : MusicalKey.fromClassicalMode(tonicName, selectedMusicalKey.classicalMode);
     setSelectedMusicalKey(newKey);
   };
-
-  useEffect(() => {
-    if (scalePreviewMode) {
-      // const scaleNotes = MusicalKeyScale.getAbsoluteScaleNotes(selectedMusicalKey);
-      const scaleOffsets = selectedMusicalKey.greekModeInfo.pattern;
-      let scaleDegreeIndex = 0;
-      const interval = setInterval(() => {
-        if (scaleDegreeIndex < scaleOffsets.length) {
-          const currentNote = ixActual(
-            selectedMusicalKey.tonicIndex + scaleOffsets[scaleDegreeIndex],
-          );
-          setSelectedNoteIndices([currentNote]);
-          scaleDegreeIndex++;
-        } else {
-          setSelectedNoteIndices([ixActual(selectedMusicalKey.tonicIndex + TWELVE)]);
-          clearInterval(interval);
-        }
-      }, 500);
-    }
-  }, [selectedMusicalKey]);
 
   //Ionian / Dorian / Phrygian / Lydian / Mixolydian / Aeolian / Locrian
   const handleGreekModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

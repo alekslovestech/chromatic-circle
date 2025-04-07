@@ -66,14 +66,15 @@ const StaffRenderer: React.FC = () => {
     const originalContainerWidth = containerRef.current?.clientWidth || 0;
     const staveWidth = originalContainerWidth * 0.6;
     const stave = new VF.Stave(0, 0, staveWidth);
-    stave.addClef("treble").addKeySignature(getKeySignatureForVex(selectedMusicalKey)); //.addTimeSignature("4/4");
+    const canonicalIonianKey = selectedMusicalKey.getCanonicalIonianKey();
+    stave.addClef("treble").addKeySignature(getKeySignatureForVex(canonicalIonianKey)); //.addTimeSignature("4/4");
     stave.setStyle({ strokeStyle: "black" });
 
     stave.setContext(context).draw();
 
     if (selectedNoteIndices.length === 0) return;
     // Create notes
-    const notes = EasyScoreFromNotes(selectedNoteIndices, selectedMusicalKey);
+    const notes = EasyScoreFromNotes(selectedNoteIndices, canonicalIonianKey);
 
     // Create a voice in 4/4
     const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });

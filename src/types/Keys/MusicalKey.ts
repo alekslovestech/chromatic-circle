@@ -51,6 +51,22 @@ export class MusicalKey {
     return MusicalKey.fromGreekMode(newTonicAsString, this.greekMode);
   }
 
+  getCanonicalIonianKey(): MusicalKey {
+    const offset = this.greekModeInfo.modeNumber - 1;
+
+    // Apply this offset to the tonic to get the corresponding Ionian tonic
+    const tonicIndex = NoteConverter.toChromaticIndex(this.tonicString);
+
+    const scaleLength = this.greekModeInfo.pattern.length;
+    const ionianTonicIndex = addChromatic(
+      tonicIndex,
+      this.greekModeInfo.pattern[(scaleLength - offset) % scaleLength],
+    );
+    const ionianTonicString = this.findKeyWithTonicIndex(ionianTonicIndex, this.classicalMode);
+    // Convert back to a note name
+    return MusicalKey.fromGreekMode(ionianTonicString, GreekModeType.Ionian);
+  }
+
   getDefaultAccidental(): AccidentalType {
     return this.keySignature.getDefaultAccidental();
   }
