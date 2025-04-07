@@ -2,6 +2,7 @@ import { AccidentalType } from "../AccidentalType";
 import { CHORD_OFFSET_PATTERNS } from "../ChordOffsetPatterns";
 import { addChromatic, ixChromatic } from "../ChromaticIndex";
 import { ChromaticIndex } from "../ChromaticIndex";
+import { TWELVE } from "../NoteConstants";
 import { ChordType } from "../NoteGroupingTypes";
 import { RomanChord } from "../RomanChord";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
@@ -45,6 +46,18 @@ export class GreekModeInfo {
         ? AccidentalType.Flat
         : AccidentalType.None;
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+  }
+
+  public getOffsets135(scaleDegreeIndex: number): [number, number, number] {
+    const SCALE_LENGTH = this.pattern.length;
+    const rootOffset = this.pattern[scaleDegreeIndex];
+    let thirdOffset = this.pattern[(scaleDegreeIndex + 2) % SCALE_LENGTH];
+    let fifthOffset = this.pattern[(scaleDegreeIndex + 4) % SCALE_LENGTH];
+
+    thirdOffset += thirdOffset < rootOffset ? TWELVE : 0;
+    fifthOffset += fifthOffset < rootOffset ? TWELVE : 0;
+
+    return [rootOffset, thirdOffset, fifthOffset];
   }
 
   //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)
