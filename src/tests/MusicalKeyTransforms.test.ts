@@ -82,4 +82,8 @@ describe("getCanonicalIonianKey", () => {
   it("C Lydian => G Ionian", () => {
     expect(greekTestConstants.C_LYDIAN_KEY.getCanonicalIonianKey().tonicString).toEqual("G");
   });
+
+  it("C Phrygian => Ab Ionian", () => {
+    expect(greekTestConstants.C_PHRYGIAN_KEY.getCanonicalIonianKey().tonicString).toEqual("Ab");
+  });
 });
