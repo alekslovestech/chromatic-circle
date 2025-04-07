@@ -48,6 +48,10 @@ export class GreekModeInfo {
     return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
   }
 
+  public getRootOffset(scaleDegreeIndex: number): [number] {
+    return [this.pattern[scaleDegreeIndex]];
+  }
+
   public getOffsets135(scaleDegreeIndex: number): [number, number, number] {
     const SCALE_LENGTH = this.pattern.length;
     const rootOffset = this.pattern[scaleDegreeIndex];
