@@ -8,9 +8,7 @@ import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyScaleDegreeDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
   const musicalKey = MusicalKey.fromGreekMode("C", greekMode);
-  const displayStrings = musicalKey.greekModeInfo.pattern.map((i) =>
-    MusicalKeyDisplay.getDisplayString(musicalKey, ixChromatic(i), KeyTextMode.ScaleDegree),
-  );
+  const displayStrings = musicalKey.greekModeInfo.getScaleDegreeDisplayStrings();
   expect(displayStrings).toEqual(expectedNotes);
 }
 

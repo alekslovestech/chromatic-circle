@@ -9,7 +9,6 @@ import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
 import { MusicalKeyDisplay } from "../../types/Keys/MusicalKeyDisplay";
-import { MusicalKeyScale } from "../../types/Keys/MusicalKeyScale";
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 
 export const PieSlice: React.FC<{
@@ -36,7 +35,10 @@ export const PieSlice: React.FC<{
   // Determine the visual state based on musical properties
   const getVisualState = (): string => {
     if (globalMode !== GlobalMode.Advanced) return "plain";
-    return MusicalKeyScale.isDiatonicNote(selectedMusicalKey, chromaticIndex)
+    return selectedMusicalKey.greekModeInfo.isDiatonicNote(
+      chromaticIndex,
+      selectedMusicalKey.tonicIndex,
+    )
       ? "highlighted"
       : "muted";
   };

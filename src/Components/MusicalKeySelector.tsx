@@ -17,18 +17,14 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
   const { scalePreviewMode, keyTextMode } = useDisplay();
 
   useEffect(() => {
-    if (!scalePreviewMode) {
-      return;
-    }
-    const greekModeInfo = selectedMusicalKey.greekModeInfo;
+    if (!scalePreviewMode) return;
+
     let scaleDegreeIndex = 0;
     const interval = setInterval(
       () => {
         const isRomanMode = keyTextMode === KeyTextMode.Roman;
-        const playedOffsets = isRomanMode
-          ? greekModeInfo.getOffsets135(scaleDegreeIndex)
-          : greekModeInfo.getRootOffset(scaleDegreeIndex);
-        if (scaleDegreeIndex < greekModeInfo.pattern.length) {
+        const playedOffsets = selectedMusicalKey.getOffsets(scaleDegreeIndex, isRomanMode);
+        if (scaleDegreeIndex < selectedMusicalKey.scalePatternLength) {
           const selectedNoteIndices = ixActualArray(
             playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset),
           );

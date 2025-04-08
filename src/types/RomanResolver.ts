@@ -3,12 +3,10 @@ import { ChordType } from "./NoteGroupingTypes";
 import { RomanChord } from "./RomanChord";
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType } from "./AccidentalType";
-import { ixOffset, OffsetIndex } from "./IndexTypes";
 import { splitRomanString } from "./RomanParser";
 import { AbsoluteChord } from "./AbsoluteChord";
 import { addChromatic } from "./ChromaticIndex";
 import { NoteConverter } from "./NoteConverter";
-import { MusicalKeyScale } from "./Keys/MusicalKeyScale";
 
 export class RomanResolver {
   private static determineChordType(isLowercase: boolean, suffix: string): ChordType {
@@ -47,14 +45,14 @@ export class RomanResolver {
 
   static resolveAsAbsoluteChord(romanString: string, musicalKey: MusicalKey): AbsoluteChord {
     const romanChord = RomanResolver.getRomanChord(romanString);
-    const scale = MusicalKeyScale.getAbsoluteScaleNotes(musicalKey);
+    const scale = musicalKey.greekModeInfo.getAbsoluteScaleNotes(musicalKey.tonicIndex);
     let chromaticIndex = scale[romanChord.scaleDegree - 1];
-    const accidentalOffset: OffsetIndex =
+    const accidentalOffset =
       romanChord.accidental === AccidentalType.Flat
-        ? ixOffset(-1)
+        ? -1
         : romanChord.accidental === AccidentalType.Sharp
-        ? ixOffset(1)
-        : ixOffset(0);
+        ? 1
+        : 0;
     chromaticIndex = addChromatic(chromaticIndex, accidentalOffset);
 
     return new AbsoluteChord(chromaticIndex, romanChord.chordType);
