@@ -71,12 +71,6 @@ export class GreekModeInfo {
     return addChromatic(tonicIndex, ionianOffset);
   }
 
-  /**
-   * Determines if a note is diatonic in this mode with the given tonic.
-   * @param chromaticIndex The chromatic index of the note
-   * @param tonicIndex The chromatic index of the tonic
-   * @returns True if the note is diatonic in this mode, false otherwise
-   */
   public isDiatonicNote(chromaticIndex: ChromaticIndex, tonicIndex: ChromaticIndex): boolean {
     const scaleNotes = this.getAbsoluteScaleNotes(tonicIndex);
     return scaleNotes.includes(chromaticIndex);

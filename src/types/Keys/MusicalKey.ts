@@ -28,8 +28,23 @@ export class MusicalKey {
     this.greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
   }
 
-  public get scalePattern(): ScalePattern {
-    return this.greekModeInfo.scalePattern;
+  public get scalePatternLength(): number {
+    return this.greekModeInfo.scalePattern.getLength();
+  }
+
+  /**
+   * Gets the offsets for a given scale degree.
+   * @param scaleDegreeIndex The index in the scale pattern (0-6)
+   * @param isRoman If true, returns offsets for root, third and fifth (for roman numeral triads)
+   *               If false, returns just the root offset (for single note scale degrees)
+   * @returns Array of semitone offsets from the tonic
+   *         For isRoman=true: [root, third, fifth] offsets
+   *         For isRoman=false: [root] offset only
+   */
+  public getOffsets(scaleDegreeIndex: number, isRoman: boolean): number[] {
+    return isRoman
+      ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
+      : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
   }
 
   toString(): string {
@@ -43,7 +58,13 @@ export class MusicalKey {
   }
 
   static fromGreekMode(tonicAsString: string, greekMode: GreekModeType): MusicalKey {
-    const classicalMode = this.getClassicalModeFromGreekMode(greekMode);
+    const classicalMode = [
+      GreekModeType.Ionian,
+      GreekModeType.Lydian,
+      GreekModeType.Mixolydian,
+    ].includes(greekMode)
+      ? KeyType.Major
+      : KeyType.Minor;
     return new MusicalKey(tonicAsString, classicalMode, greekMode);
   }
 
@@ -77,23 +98,10 @@ export class MusicalKey {
     return KeyNoteResolver.resolveAbsoluteNote(chromaticIndex, this.getDefaultAccidental());
   }
 
-  getScaleLength(): number {
-    return this.scalePattern.getLength();
-  }
-
-  getScaleOffsetAtIndex(index: number): number {
-    return this.scalePattern.getOffsetAtIndex(index);
-  }
-
   private findKeyWithTonicIndex(tonicIndex: ChromaticIndex, mode: KeyType): string {
     const keyList = KeySignature.getKeyList(mode);
     const tonicAsString = keyList.find((key) => NoteConverter.toChromaticIndex(key) === tonicIndex);
     return tonicAsString!;
-  }
-
-  private static getClassicalModeFromGreekMode(mode: GreekModeType): KeyType {
-    const majorModes = [GreekModeType.Ionian, GreekModeType.Lydian, GreekModeType.Mixolydian];
-    return majorModes.includes(mode) ? KeyType.Major : KeyType.Minor;
   }
 }
 

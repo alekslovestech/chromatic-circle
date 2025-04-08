@@ -78,7 +78,7 @@ export class ScalePattern {
    * @param baseValue The base value to add to each offset
    * @returns An array of numbers
    */
-  public addToOffsetsSimple(baseValue: number): number[] {
+  public addOffsetsSimple(baseValue: number): number[] {
     return this.pattern.map((element) => element + baseValue);
   }
 }
