@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import AudioPlayer from "./Components/AudioPlayer";
@@ -20,13 +20,15 @@ const AppContent: React.FC = () => {
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
-  if (mode === "logo") {
-    setGlobalMode(GlobalMode.Logo);
-  } else if (mode === "advanced") {
-    setGlobalMode(GlobalMode.Advanced);
-  } else {
-    setGlobalMode(GlobalMode.Default);
-  }
+  useEffect(() => {
+    if (mode === "logo") {
+      setGlobalMode(GlobalMode.Logo);
+    } else if (mode === "advanced") {
+      setGlobalMode(GlobalMode.Advanced);
+    } else {
+      setGlobalMode(GlobalMode.Default);
+    }
+  }, [mode, setGlobalMode]);
 
   return (
     <div className="grid-container" /* style={borderStyle} */>
