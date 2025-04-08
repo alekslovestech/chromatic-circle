@@ -11,6 +11,7 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
+import { IndexUtils } from "../utils/IndexUtils";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
@@ -25,10 +26,11 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
         const isRomanMode = keyTextMode === KeyTextMode.Roman;
         const playedOffsets = selectedMusicalKey.getOffsets(scaleDegreeIndex, isRomanMode);
         if (scaleDegreeIndex < selectedMusicalKey.scalePatternLength) {
-          const selectedNoteIndices = ixActualArray(
-            playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset),
+          const noteIndices = playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset);
+          const sanitizedNoteIndices = ixActualArray(
+            IndexUtils.fitChordToAbsoluteRange(noteIndices),
           );
-          setSelectedNoteIndices(selectedNoteIndices);
+          setSelectedNoteIndices(sanitizedNoteIndices);
           scaleDegreeIndex++;
         } else {
           setSelectedNoteIndices(ixActualArray([selectedMusicalKey.tonicIndex]));
