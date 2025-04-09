@@ -1,4 +1,4 @@
-import { ActualIndex, InversionIndex, ixActualArray } from "../types/IndexTypes";
+import { ActualIndex, InversionIndex } from "../types/IndexTypes";
 import { TWELVE, TWENTY4 } from "../types/NoteConstants";
 
 export class IndexUtils {
@@ -8,15 +8,6 @@ export class IndexUtils {
   static normalizeIndices = (indices: number[]): number[] => {
     const rootNote = indices[0];
     return indices.map((note) => (note - rootNote + TWELVE) % TWELVE);
-  };
-
-  private static shiftToRange = (indices: number[], min: number, max: number): number[] => {
-    const shift = indices.some((note) => note >= max)
-      ? -TWELVE
-      : indices.some((note) => note < min)
-      ? TWELVE
-      : 0;
-    return indices.map((note) => note + shift);
   };
 
   static isNoteInRange = (note: number): boolean => note >= 0 && note < TWENTY4;
@@ -73,5 +64,14 @@ export class IndexUtils {
   static shiftIndices = (indices: number[], shiftAmount: number): number[] => {
     const newIndices = indices.map((index) => index + shiftAmount);
     return this.fitChordToAbsoluteRange(newIndices);
+  };
+
+  private static shiftToRange = (indices: number[], min: number, max: number): number[] => {
+    const shift = indices.some((note) => note >= max)
+      ? -TWELVE
+      : indices.some((note) => note < min)
+      ? TWELVE
+      : 0;
+    return indices.map((note) => note + shift);
   };
 }

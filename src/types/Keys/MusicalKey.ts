@@ -9,7 +9,6 @@ import { KeySignature } from "../Keys/KeySignature";
 import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
 import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
-import { ScalePattern } from "../GreekModes/ScalePattern";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")

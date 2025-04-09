@@ -7,11 +7,12 @@ import { KeySignature } from "../types/Keys/KeySignature";
 import { ixActualArray } from "../types/IndexTypes";
 import { KeyTextMode } from "../types/SettingModes";
 
+import { IndexUtils } from "../utils/IndexUtils";
+
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
-import { IndexUtils } from "../utils/IndexUtils";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
@@ -81,8 +82,6 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
           </option>
         ))}
       </select>
-      {/* In advanced mode (useDropdownSelector=true), show dropdown with all Greek modes
-          In basic mode, show simple Major/Minor toggle button */}
       {useDropdownSelector ? (
         <select id="greek-mode-select" onChange={handleGreekModeChange}>
           {Object.values(GreekModeType).map((mode) => (
