@@ -1,6 +1,9 @@
-import { getAccidentalSignForDisplay } from "../types/AccidentalType";
 import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
-import { ScaleDegree, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
+import {
+  ScaleDegree,
+  ixScaleDegree,
+  scaleDegreeToIndex,
+} from "../types/GreekModes/ScaleDegreeType";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { RomanChord } from "../types/RomanChord";
 
@@ -29,27 +32,6 @@ export class RomanNumeralUtils {
     }
   }
 
-  private static ScaleDegreeToRoman(scaleDegree: ScaleDegree): string {
-    switch (scaleDegree) {
-      case 1:
-        return "I";
-      case 2:
-        return "II";
-      case 3:
-        return "III";
-      case 4:
-        return "IV";
-      case 5:
-        return "V";
-      case 6:
-        return "VI";
-      case 7:
-        return "VII";
-      default:
-        return "Ø";
-    }
-  }
-
   //replace later
   static toRoman(scaleDegreeInfo: ScaleDegreeInfo): string {
     const romanChord = new RomanChord(
@@ -71,6 +53,7 @@ export class RomanNumeralUtils {
     const bigNumerals: RomanNumeralString[] = ["I", "II", "III", "IV", "V", "VI", "VII"];
     const smallNumerals: RomanNumeralString[] = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
 
-    return isLowercase ? smallNumerals[scaleDegree - 1] : bigNumerals[scaleDegree - 1];
+    const index = scaleDegreeToIndex(scaleDegree);
+    return isLowercase ? smallNumerals[index] : bigNumerals[index];
   }
 }

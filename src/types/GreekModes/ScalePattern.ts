@@ -2,7 +2,7 @@ import { AccidentalType } from "../AccidentalType";
 import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
 import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
-import { ixScaleDegree, ixScaleDegreeIndex, ScaleDegreeIndex } from "./ScaleDegreeType";
+import { ixScaleDegreeIndex, ScaleDegreeIndex } from "./ScaleDegreeType";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 
 export class ScalePattern {
