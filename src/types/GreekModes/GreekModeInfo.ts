@@ -5,7 +5,8 @@ import { RomanChord } from "../RomanChord";
 import { GreekModeType } from "./GreekModeType";
 import { ScalePattern } from "./ScalePattern";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
-
+import { ScaleDegreeIndex } from "./ScaleDegreeType";
+import { ixScaleDegreeIndex } from "./ScaleDegreeType";
 export class GreekModeInfo {
   /**
    * The scale pattern for this mode.
@@ -33,7 +34,8 @@ export class GreekModeInfo {
     tonicIndex: ChromaticIndex,
   ): ScaleDegreeInfo | null {
     const relativeOffset = (chromaticIndex - tonicIndex + 12) % 12; // Normalize to 0-11
-    const scaleDegreePosition = this.scalePattern.findPositionInScale(relativeOffset);
+    const scaleDegreePosition: ScaleDegreeIndex =
+      this.scalePattern.findPositionInScale(relativeOffset);
 
     return scaleDegreePosition === -1
       ? null
@@ -56,7 +58,9 @@ export class GreekModeInfo {
    */
   public getScaleDegreeDisplayStrings(): string[] {
     return Array.from({ length: this.scalePattern.getLength() }, (_, i) => {
-      const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(i);
+      const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(
+        ixScaleDegreeIndex(i),
+      );
       return scaleDegreeInfo.getDisplayString();
     });
   }
@@ -65,7 +69,9 @@ export class GreekModeInfo {
     const offset = this.modeNumber - 1;
 
     const scaleLength = this.scalePattern.getLength();
-    const ionianOffset = this.scalePattern.getOffsetAtIndex((scaleLength - offset) % scaleLength);
+    const ionianOffset = this.scalePattern.getOffsetAtIndex(
+      ixScaleDegreeIndex((scaleLength - offset) % scaleLength),
+    );
 
     // Apply the offset to the tonic to get the Ionian tonic
     return addChromatic(tonicIndex, ionianOffset);
@@ -76,20 +82,20 @@ export class GreekModeInfo {
     return scaleNotes.includes(chromaticIndex);
   }
 
-  public getRomanDisplayString(scaleDegreeIndex: number): string {
+  public getRomanDisplayString(scaleDegreeIndex: ScaleDegreeIndex): string {
     const romanChord = this.getRomanChordRoot35(scaleDegreeIndex);
     return romanChord.getString();
   }
 
   //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)
-  private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
+  private getRomanChordRoot35(scaleDegreeIndex: ScaleDegreeIndex): RomanChord {
     const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
 
     const offsets135 = this.scalePattern.getOffsets135(scaleDegreeIndex);
 
     const offsetsFromRoot = offsets135.map((offset) => offset - offsets135[0]);
 
-    let chordType: ChordType;
+    let chordType: ChordType = ChordType.Unknown;
     const patterns = {
       [ChordType.Major]: CHORD_OFFSET_PATTERNS.MAJOR,
       [ChordType.Minor]: CHORD_OFFSET_PATTERNS.MINOR,

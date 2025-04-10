@@ -11,6 +11,7 @@ import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
 import { KeyTextMode } from "../SettingModes";
 import { TWELVE } from "../NoteConstants";
+import { ScaleDegreeIndex, scaleDegreeToIndex } from "../GreekModes/ScaleDegreeType";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -42,7 +43,7 @@ export class MusicalKey {
    *         For isRoman=true: [root, third, fifth] offsets
    *         For isRoman=false: [root] offset only
    */
-  public getOffsets(scaleDegreeIndex: number, isRoman: boolean): number[] {
+  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isRoman: boolean): number[] {
     return isRoman
       ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
       : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
@@ -119,7 +120,9 @@ export class MusicalKey {
       case KeyTextMode.Roman:
         const romanScaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
         if (!romanScaleDegreeInfo) return "";
-        return this.greekModeInfo.getRomanDisplayString(romanScaleDegreeInfo.scaleDegree - 1);
+        return this.greekModeInfo.getRomanDisplayString(
+          scaleDegreeToIndex(romanScaleDegreeInfo.scaleDegree),
+        );
       default:
         return "";
     }

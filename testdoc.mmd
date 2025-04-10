@@ -1,0 +1,15 @@
+MusicalKey:
+    getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string
+    getDisplayStringArray(keyTextMode: KeyTextMode): string[]
+    getScaleDegreeInfoFromChromatic(chromaticIndex: ChromaticIndex): ScaleDegreeInfo | null
+    getNoteInfoFromChromatic(chromaticIndex: ChromaticIndex): NoteInfo
+    getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string
+    getDisplayStringArray(keyTextMode: KeyTextMode): string[]
+
+GreekModeInfo:
+    getScaleDegreeDisplayStrings(): string[]
+    getRomanDisplayString(scaleDegreeIndex: number): string
+    getScaleDegreeInfoFromChromatic(chromaticIndex: ChromaticIndex, tonicIndex: ChromaticIndex): ScaleDegreeInfo | null
+    getAbsoluteScaleNotes(tonicIndex: ChromaticIndex): ChromaticIndex[]
+    getScaleDegreeDisplayStrings(): string[]
+    getRomanDisplayString(scaleDegreeIndex: number): string
