@@ -1,5 +1,5 @@
 import { AccidentalType } from "../AccidentalType";
-import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
+import { addChromatic, ChromaticIndex, ixChromatic } from "../ChromaticIndex";
 import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
 import { GreekModeType } from "../GreekModes/GreekModeType";
@@ -9,6 +9,8 @@ import { KeySignature } from "../Keys/KeySignature";
 import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
 import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
+import { KeyTextMode } from "../SettingModes";
+import { TWELVE } from "../NoteConstants";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -101,6 +103,32 @@ export class MusicalKey {
     const keyList = KeySignature.getKeyList(mode);
     const tonicAsString = keyList.find((key) => NoteConverter.toChromaticIndex(key) === tonicIndex);
     return tonicAsString!;
+  }
+
+  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
+    switch (keyTextMode) {
+      case KeyTextMode.NoteNames:
+        const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
+          chromaticIndex,
+          this.getDefaultAccidental(),
+        );
+        return noteInfo.formatNoteNameForDisplay();
+      case KeyTextMode.ScaleDegree:
+        const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
+        return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
+      case KeyTextMode.Roman:
+        const romanScaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
+        if (!romanScaleDegreeInfo) return "";
+        return this.greekModeInfo.getRomanDisplayString(romanScaleDegreeInfo.scaleDegree - 1);
+      default:
+        return "";
+    }
+  }
+
+  getDisplayStringArray(keyTextMode: KeyTextMode): string[] {
+    return Array.from({ length: TWELVE }, (_, i) =>
+      this.getDisplayString(ixChromatic(i), keyTextMode),
+    );
   }
 }
 
