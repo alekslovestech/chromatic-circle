@@ -1,6 +1,5 @@
 import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { ixScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { TWELVE } from "../types/NoteConstants";
 import { KeyTextMode } from "../types/SettingModes";
@@ -8,16 +7,9 @@ import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
   const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
-  expectedNotes.forEach((expectedNote, i) => {
-    const scaleDegreeInfo = greekModeInfo.scalePattern.getScaleDegreeInfoFromPosition(
-      ixScaleDegreeIndex(i),
-    );
-    const romanChordDisplayString = greekModeInfo.getDisplayString(
-      scaleDegreeInfo,
-      KeyTextMode.Roman,
-    );
-    expect(romanChordDisplayString).toEqual(expectedNote);
-  });
+  const romanDisplayStrings = greekModeInfo.getDisplayStrings(KeyTextMode.Roman);
+
+  expect(romanDisplayStrings).toEqual(expectedNotes);
 }
 
 function verifyRomanArray(musicalKey: MusicalKey, expectedArray: string[]) {

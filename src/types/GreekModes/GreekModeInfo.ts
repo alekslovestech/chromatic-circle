@@ -54,17 +54,12 @@ export class GreekModeInfo implements IScalePatternForRomanChords {
     return this.scalePattern.addOffsetsChromatic(tonicIndex);
   }
 
-  /**
-   * Gets the display strings for all scale degrees in this mode.
-   * This is useful for testing and display purposes.
-   * @returns An array of scale degree display strings (e.g., ["1", "2", "♭3", "4", "5", "6", "♭7"])
-   */
-  public getScaleDegreeDisplayStrings(): string[] {
+  public getDisplayStrings(keyTextMode: KeyTextMode): string[] {
     return Array.from({ length: this.scalePattern.getLength() }, (_, i) => {
       const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(
         ixScaleDegreeIndex(i),
       );
-      return scaleDegreeInfo.getDisplayString();
+      return this.getDisplayString(scaleDegreeInfo, keyTextMode);
     });
   }
 
