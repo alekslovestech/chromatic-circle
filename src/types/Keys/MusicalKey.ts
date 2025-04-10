@@ -107,6 +107,7 @@ export class MusicalKey {
   }
 
   getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
+    const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
     switch (keyTextMode) {
       case KeyTextMode.NoteNames:
         const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
@@ -115,14 +116,9 @@ export class MusicalKey {
         );
         return noteInfo.formatNoteNameForDisplay();
       case KeyTextMode.ScaleDegree:
-        const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
         return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
       case KeyTextMode.Roman:
-        const romanScaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
-        if (!romanScaleDegreeInfo) return "";
-        return this.greekModeInfo.getRomanDisplayString(
-          scaleDegreeToIndex(romanScaleDegreeInfo.scaleDegree),
-        );
+        return scaleDegreeInfo ? this.greekModeInfo.getRomanDisplayString(scaleDegreeInfo) : "";
       default:
         return "";
     }

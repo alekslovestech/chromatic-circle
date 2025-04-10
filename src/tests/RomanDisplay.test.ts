@@ -9,7 +9,10 @@ import { GreekTestConstants } from "./utils/GreekTestConstants";
 function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
   const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
   expectedNotes.forEach((expectedNote, i) => {
-    const romanChordDisplayString = greekModeInfo.getRomanDisplayString(ixScaleDegreeIndex(i));
+    const scaleDegreeInfo = greekModeInfo.scalePattern.getScaleDegreeInfoFromPosition(
+      ixScaleDegreeIndex(i),
+    );
+    const romanChordDisplayString = greekModeInfo.getRomanDisplayString(scaleDegreeInfo);
     expect(romanChordDisplayString).toEqual(expectedNote);
   });
 }
