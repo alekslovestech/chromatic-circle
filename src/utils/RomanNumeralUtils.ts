@@ -32,16 +32,6 @@ export class RomanNumeralUtils {
     }
   }
 
-  //replace later
-  static toRoman(scaleDegreeInfo: ScaleDegreeInfo): string {
-    const romanChord = new RomanChord(
-      scaleDegreeInfo.scaleDegree,
-      ChordType.Major,
-      scaleDegreeInfo.accidentalPrefix,
-    );
-    return romanChord.getString();
-  }
-
   static isLowercaseRomanNumeral(numeral: string): boolean {
     return numeral.toLowerCase() === numeral;
   }
