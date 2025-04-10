@@ -12,7 +12,10 @@ function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: stri
     const scaleDegreeInfo = greekModeInfo.scalePattern.getScaleDegreeInfoFromPosition(
       ixScaleDegreeIndex(i),
     );
-    const romanChordDisplayString = greekModeInfo.getRomanDisplayString(scaleDegreeInfo);
+    const romanChordDisplayString = greekModeInfo.getDisplayString(
+      scaleDegreeInfo,
+      KeyTextMode.Roman,
+    );
     expect(romanChordDisplayString).toEqual(expectedNote);
   });
 }

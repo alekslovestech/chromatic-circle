@@ -8,6 +8,7 @@ import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 import { ScaleDegreeIndex, scaleDegreeToIndex } from "./ScaleDegreeType";
 import { ixScaleDegreeIndex } from "./ScaleDegreeType";
 import { IScalePatternForRomanChords } from "../IScalePatternForRomanChords";
+import { KeyTextMode } from "../SettingModes";
 
 export class GreekModeInfo implements IScalePatternForRomanChords {
   /**
@@ -84,9 +85,15 @@ export class GreekModeInfo implements IScalePatternForRomanChords {
     return scaleNotes.includes(chromaticIndex);
   }
 
-  public getRomanDisplayString(scaleDegreeInfo: ScaleDegreeInfo): string {
-    const romanChord = RomanChord.fromScaleDegreeInfo(scaleDegreeInfo, this);
-    return romanChord.getString();
+  public getDisplayString(scaleDegreeInfo: ScaleDegreeInfo, keyTextMode: KeyTextMode): string {
+    if (keyTextMode === KeyTextMode.ScaleDegree) {
+      return scaleDegreeInfo.getDisplayString();
+    }
+    if (keyTextMode === KeyTextMode.Roman) {
+      const romanChord = RomanChord.fromScaleDegreeInfo(scaleDegreeInfo, this);
+      return romanChord.getString();
+    }
+    throw new Error("Unexpected key text mode");
   }
 
   //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)

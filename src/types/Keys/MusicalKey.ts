@@ -11,7 +11,7 @@ import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
 import { KeyTextMode } from "../SettingModes";
 import { TWELVE } from "../NoteConstants";
-import { ScaleDegreeIndex, scaleDegreeToIndex } from "../GreekModes/ScaleDegreeType";
+import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -108,20 +108,16 @@ export class MusicalKey {
 
   getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
-    switch (keyTextMode) {
-      case KeyTextMode.NoteNames:
-        const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
-          chromaticIndex,
-          this.getDefaultAccidental(),
-        );
-        return noteInfo.formatNoteNameForDisplay();
-      case KeyTextMode.ScaleDegree:
-        return scaleDegreeInfo ? scaleDegreeInfo.getDisplayString() : "";
-      case KeyTextMode.Roman:
-        return scaleDegreeInfo ? this.greekModeInfo.getRomanDisplayString(scaleDegreeInfo) : "";
-      default:
-        return "";
+    if (keyTextMode === KeyTextMode.NoteNames) {
+      const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
+        chromaticIndex,
+        this.getDefaultAccidental(),
+      );
+      return noteInfo.formatNoteNameForDisplay();
     }
+    if (!scaleDegreeInfo) return "";
+
+    return this.greekModeInfo.getDisplayString(scaleDegreeInfo, keyTextMode);
   }
 
   getDisplayStringArray(keyTextMode: KeyTextMode): string[] {
