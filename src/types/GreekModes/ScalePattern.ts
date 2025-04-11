@@ -2,7 +2,7 @@ import { AccidentalType } from "../AccidentalType";
 import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
 import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
-import { ixScaleDegree } from "./ScaleDegreeType";
+import { ixScaleDegreeIndex, ScaleDegreeIndex } from "./ScaleDegreeType";
 import { GREEK_MODE_PATTERNS } from "./GreekModePatterns";
 
 export class ScalePattern {
@@ -16,7 +16,7 @@ export class ScalePattern {
     this.pattern = [...pattern];
   }
 
-  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: number): ScaleDegreeInfo {
+  public getScaleDegreeInfoFromPosition(scaleDegreeIndex: ScaleDegreeIndex): ScaleDegreeInfo {
     const currentNote = this.pattern[scaleDegreeIndex];
     const ionianNote = GREEK_MODE_PATTERNS.IONIAN[scaleDegreeIndex];
     const accidental =
@@ -25,14 +25,14 @@ export class ScalePattern {
         : currentNote < ionianNote
         ? AccidentalType.Flat
         : AccidentalType.None;
-    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
+    return ScaleDegreeInfo.fromScaleDegreeIndex(scaleDegreeIndex, accidental);
   }
 
-  public getRootOffset(scaleDegreeIndex: number): [number] {
+  public getRootOffset(scaleDegreeIndex: ScaleDegreeIndex): [number] {
     return [this.pattern[scaleDegreeIndex]];
   }
 
-  public getOffsets135(scaleDegreeIndex: number): [number, number, number] {
+  public getOffsets135(scaleDegreeIndex: ScaleDegreeIndex): [number, number, number] {
     const rootOffset = this.pattern[scaleDegreeIndex];
     let thirdOffset = this.pattern[(scaleDegreeIndex + 2) % this.SCALE_LENGTH];
     let fifthOffset = this.pattern[(scaleDegreeIndex + 4) % this.SCALE_LENGTH];
@@ -47,7 +47,7 @@ export class ScalePattern {
     return this.SCALE_LENGTH;
   }
 
-  public getOffsetAtIndex(index: number): number {
+  public getOffsetAtIndex(index: ScaleDegreeIndex): number {
     return this.pattern[index];
   }
 
@@ -56,10 +56,10 @@ export class ScalePattern {
    * @param relativeOffset The offset from the tonic (0-11)
    * @returns The position in the scale (0-6), or -1 if not found
    */
-  public findPositionInScale(relativeOffset: number): number {
+  public findPositionInScale(relativeOffset: number): ScaleDegreeIndex {
     // Normalize the offset to be within 0-11
     const normalizedOffset = ((relativeOffset % 12) + 12) % 12;
-    return this.pattern.findIndex((offset) => offset === normalizedOffset);
+    return ixScaleDegreeIndex(this.pattern.findIndex((offset) => offset === normalizedOffset));
   }
 
   /**

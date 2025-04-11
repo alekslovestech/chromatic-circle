@@ -1,31 +1,22 @@
-import { ixChromatic } from "../types/ChromaticIndex";
 import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { MusicalKey } from "../types/Keys/MusicalKey";
-import { MusicalKeyDisplay } from "../types/Keys/MusicalKeyDisplay";
 import { TWELVE } from "../types/NoteConstants";
 import { KeyTextMode } from "../types/SettingModes";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyRomanDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
-  expectedNotes.forEach((expectedNote, i) => {
-    const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
-    const romanChordDisplayString = greekModeInfo.getRomanDisplayString(i);
-    expect(romanChordDisplayString).toEqual(expectedNote);
-  });
+  const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
+  const romanDisplayStrings = greekModeInfo.getDisplayStrings(KeyTextMode.Roman);
+
+  expect(romanDisplayStrings).toEqual(expectedNotes);
 }
 
 function verifyRomanArray(musicalKey: MusicalKey, expectedArray: string[]) {
   expect(expectedArray.length).toBe(TWELVE);
 
-  Array.from({ length: TWELVE }).forEach((_, i) => {
-    const romanDisplayString = MusicalKeyDisplay.getDisplayString(
-      musicalKey,
-      ixChromatic(i),
-      KeyTextMode.Roman,
-    );
-    expect(romanDisplayString).toBe(expectedArray[i]);
-  });
+  const displayStrings = musicalKey.getDisplayStringArray(KeyTextMode.Roman);
+  expect(displayStrings).toEqual(expectedArray);
 }
 
 describe("Roman Mode Index Arrays", () => {
