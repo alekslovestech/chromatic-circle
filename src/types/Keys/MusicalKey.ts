@@ -1,5 +1,5 @@
 import { AccidentalType } from "../AccidentalType";
-import { addChromatic, ChromaticIndex } from "../ChromaticIndex";
+import { addChromatic, ChromaticIndex, ixChromatic } from "../ChromaticIndex";
 import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
 import { GreekModeType } from "../GreekModes/GreekModeType";
@@ -9,7 +9,9 @@ import { KeySignature } from "../Keys/KeySignature";
 import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
 import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
-import { ScalePattern } from "../GreekModes/ScalePattern";
+import { KeyTextMode } from "../SettingModes";
+import { TWELVE } from "../NoteConstants";
+import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -41,7 +43,7 @@ export class MusicalKey {
    *         For isRoman=true: [root, third, fifth] offsets
    *         For isRoman=false: [root] offset only
    */
-  public getOffsets(scaleDegreeIndex: number, isRoman: boolean): number[] {
+  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isRoman: boolean): number[] {
     return isRoman
       ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
       : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
@@ -102,6 +104,26 @@ export class MusicalKey {
     const keyList = KeySignature.getKeyList(mode);
     const tonicAsString = keyList.find((key) => NoteConverter.toChromaticIndex(key) === tonicIndex);
     return tonicAsString!;
+  }
+
+  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
+    const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
+    if (keyTextMode === KeyTextMode.NoteNames) {
+      const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
+        chromaticIndex,
+        this.getDefaultAccidental(),
+      );
+      return noteInfo.formatNoteNameForDisplay();
+    }
+    if (!scaleDegreeInfo) return "";
+
+    return this.greekModeInfo.getDisplayString(scaleDegreeInfo, keyTextMode);
+  }
+
+  getDisplayStringArray(keyTextMode: KeyTextMode): string[] {
+    return Array.from({ length: TWELVE }, (_, i) =>
+      this.getDisplayString(ixChromatic(i), keyTextMode),
+    );
   }
 }
 

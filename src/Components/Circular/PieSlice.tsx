@@ -1,15 +1,12 @@
 import React from "react";
-import { ChromaticIndex } from "../../types/ChromaticIndex";
+import { useMusical } from "../../contexts/MusicalContext";
+import { useDisplay } from "../../contexts/DisplayContext";
 import { GlobalMode } from "../../types/SettingModes";
-import { MusicalKeyDisplay } from "../../types/Keys/MusicalKeyDisplay";
-
-import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
-
-import { useDisplay } from "../../contexts/DisplayContext";
-import { useMusical } from "../../contexts/MusicalContext";
+import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
@@ -52,7 +49,7 @@ export const PieSlice: React.FC<{
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>
-            {MusicalKeyDisplay.getDisplayString(selectedMusicalKey, chromaticIndex, keyTextMode)}
+            {selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode)}
           </text>
         )}
       </g>

@@ -1,18 +1,22 @@
 import React, { useEffect } from "react";
 
 import { MusicalKey } from "../types/Keys/MusicalKey";
-import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { KeyType } from "../types/Keys/KeyType";
-import { KeySignature } from "../types/Keys/KeySignature";
+
 import { ixActualArray } from "../types/IndexTypes";
 import { KeyTextMode } from "../types/SettingModes";
+
+import { ixScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
+
+import { KeyType } from "../types/Keys/KeyType";
+import { KeySignature } from "../types/Keys/KeySignature";
+
+import { IndexUtils } from "../utils/IndexUtils";
 
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
-import { IndexUtils } from "../utils/IndexUtils";
-
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
   const { scalePreviewMode, keyTextMode } = useDisplay();
@@ -21,11 +25,14 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     if (!scalePreviewMode) return;
 
     let scaleDegreeIndex = 0;
+    const isRomanMode = keyTextMode === KeyTextMode.Roman;
     const interval = setInterval(
       () => {
-        const isRomanMode = keyTextMode === KeyTextMode.Roman;
-        const playedOffsets = selectedMusicalKey.getOffsets(scaleDegreeIndex, isRomanMode);
         if (scaleDegreeIndex < selectedMusicalKey.scalePatternLength) {
+          const playedOffsets = selectedMusicalKey.getOffsets(
+            ixScaleDegreeIndex(scaleDegreeIndex),
+            isRomanMode,
+          );
           const noteIndices = playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset);
           const sanitizedNoteIndices = ixActualArray(
             IndexUtils.fitChordToAbsoluteRange(noteIndices),
@@ -81,8 +88,6 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
           </option>
         ))}
       </select>
-      {/* In advanced mode (useDropdownSelector=true), show dropdown with all Greek modes
-          In basic mode, show simple Major/Minor toggle button */}
       {useDropdownSelector ? (
         <select id="greek-mode-select" onChange={handleGreekModeChange}>
           {Object.values(GreekModeType).map((mode) => (

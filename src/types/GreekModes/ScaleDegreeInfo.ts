@@ -1,7 +1,12 @@
 import { getAccidentalSignForDisplay } from "../AccidentalType";
 import { NoteConverter } from "../NoteConverter";
 import { AccidentalType } from "../AccidentalType";
-import { ScaleDegree, ixScaleDegree } from "./ScaleDegreeType";
+import {
+  ScaleDegree,
+  ScaleDegreeIndex,
+  ixScaleDegree,
+  scaleDegreeIndexToScaleDegree,
+} from "./ScaleDegreeType";
 export class ScaleDegreeInfo {
   public readonly scaleDegree: ScaleDegree;
   public readonly accidentalPrefix: AccidentalType;
@@ -9,6 +14,13 @@ export class ScaleDegreeInfo {
   public constructor(scaleDegree: ScaleDegree, accidental: AccidentalType = AccidentalType.None) {
     this.scaleDegree = scaleDegree;
     this.accidentalPrefix = accidental;
+  }
+
+  static fromScaleDegreeIndex(
+    scaleDegreeIndex: ScaleDegreeIndex,
+    accidental: AccidentalType = AccidentalType.None,
+  ): ScaleDegreeInfo {
+    return new ScaleDegreeInfo(scaleDegreeIndexToScaleDegree(scaleDegreeIndex), accidental);
   }
 
   getDisplayString(): string {

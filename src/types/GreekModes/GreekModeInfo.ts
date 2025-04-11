@@ -5,8 +5,12 @@ import { RomanChord } from "../RomanChord";
 import { GreekModeType } from "./GreekModeType";
 import { ScalePattern } from "./ScalePattern";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
+import { ScaleDegreeIndex, scaleDegreeToIndex } from "./ScaleDegreeType";
+import { ixScaleDegreeIndex } from "./ScaleDegreeType";
+import { IScalePatternForRomanChords } from "../IScalePatternForRomanChords";
+import { KeyTextMode } from "../SettingModes";
 
-export class GreekModeInfo {
+export class GreekModeInfo implements IScalePatternForRomanChords {
   /**
    * The scale pattern for this mode.
    * For most use cases, you can access this directly to use ScalePattern methods.
@@ -33,7 +37,8 @@ export class GreekModeInfo {
     tonicIndex: ChromaticIndex,
   ): ScaleDegreeInfo | null {
     const relativeOffset = (chromaticIndex - tonicIndex + 12) % 12; // Normalize to 0-11
-    const scaleDegreePosition = this.scalePattern.findPositionInScale(relativeOffset);
+    const scaleDegreePosition: ScaleDegreeIndex =
+      this.scalePattern.findPositionInScale(relativeOffset);
 
     return scaleDegreePosition === -1
       ? null
@@ -49,15 +54,12 @@ export class GreekModeInfo {
     return this.scalePattern.addOffsetsChromatic(tonicIndex);
   }
 
-  /**
-   * Gets the display strings for all scale degrees in this mode.
-   * This is useful for testing and display purposes.
-   * @returns An array of scale degree display strings (e.g., ["1", "2", "♭3", "4", "5", "6", "♭7"])
-   */
-  public getScaleDegreeDisplayStrings(): string[] {
+  public getDisplayStrings(keyTextMode: KeyTextMode): string[] {
     return Array.from({ length: this.scalePattern.getLength() }, (_, i) => {
-      const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(i);
-      return scaleDegreeInfo.getDisplayString();
+      const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(
+        ixScaleDegreeIndex(i),
+      );
+      return this.getDisplayString(scaleDegreeInfo, keyTextMode);
     });
   }
 
@@ -65,7 +67,9 @@ export class GreekModeInfo {
     const offset = this.modeNumber - 1;
 
     const scaleLength = this.scalePattern.getLength();
-    const ionianOffset = this.scalePattern.getOffsetAtIndex((scaleLength - offset) % scaleLength);
+    const ionianOffset = this.scalePattern.getOffsetAtIndex(
+      ixScaleDegreeIndex((scaleLength - offset) % scaleLength),
+    );
 
     // Apply the offset to the tonic to get the Ionian tonic
     return addChromatic(tonicIndex, ionianOffset);
@@ -76,20 +80,19 @@ export class GreekModeInfo {
     return scaleNotes.includes(chromaticIndex);
   }
 
-  public getRomanDisplayString(scaleDegreeIndex: number): string {
-    const romanChord = this.getRomanChordRoot35(scaleDegreeIndex);
-    return romanChord.getString();
+  public getDisplayString(scaleDegreeInfo: ScaleDegreeInfo, keyTextMode: KeyTextMode): string {
+    if (keyTextMode === KeyTextMode.ScaleDegree) {
+      return scaleDegreeInfo.getDisplayString();
+    }
+    if (keyTextMode === KeyTextMode.Roman) {
+      const romanChord = RomanChord.fromScaleDegreeInfo(scaleDegreeInfo, this);
+      return romanChord.getString();
+    }
+    throw new Error("Unexpected key text mode");
   }
 
   //scaleDegreeIndex is the index of the scale degree in the pattern (0-6)
-  private getRomanChordRoot35(scaleDegreeIndex: number): RomanChord {
-    const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(scaleDegreeIndex);
-
-    const offsets135 = this.scalePattern.getOffsets135(scaleDegreeIndex);
-
-    const offsetsFromRoot = offsets135.map((offset) => offset - offsets135[0]);
-
-    let chordType: ChordType;
+  public determineChordType(offsetsFromRoot: number[]): ChordType {
     const patterns = {
       [ChordType.Major]: CHORD_OFFSET_PATTERNS.MAJOR,
       [ChordType.Minor]: CHORD_OFFSET_PATTERNS.MINOR,
@@ -102,13 +105,12 @@ export class GreekModeInfo {
       return offsetsFromRoot.every((offset, index) => offset === pattern[index]);
     });
 
-    chordType = (matchingPattern?.[0] as ChordType) || ChordType.Unknown;
+    return (matchingPattern?.[0] as ChordType) || ChordType.Unknown;
+  }
 
-    const romanChord = new RomanChord(
-      scaleDegreeInfo.scaleDegree,
-      chordType,
-      scaleDegreeInfo.accidentalPrefix,
-    );
-    return romanChord;
+  public getTriadOffsets(scaleDegreeInfo: ScaleDegreeInfo): number[] {
+    const scaleDegreeIndex = scaleDegreeToIndex(scaleDegreeInfo.scaleDegree);
+    const offsets135 = this.scalePattern.getOffsets135(scaleDegreeIndex);
+    return offsets135.map((offset) => offset - offsets135[0]);
   }
 }
