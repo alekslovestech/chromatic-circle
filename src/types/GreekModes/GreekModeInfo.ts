@@ -5,7 +5,7 @@ import { RomanChord } from "../RomanChord";
 import { GreekModeType } from "./GreekModeType";
 import { ScalePattern } from "./ScalePattern";
 import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
-import { ScaleDegreeIndex, scaleDegreeToIndex } from "./ScaleDegreeType";
+import { ScaleDegreeIndex } from "./ScaleDegreeType";
 import { ixScaleDegreeIndex } from "./ScaleDegreeType";
 import { IScalePatternForRomanChords } from "../IScalePatternForRomanChords";
 import { KeyTextMode } from "../SettingModes";
@@ -109,7 +109,7 @@ export class GreekModeInfo implements IScalePatternForRomanChords {
   }
 
   public getTriadOffsets(scaleDegreeInfo: ScaleDegreeInfo): number[] {
-    const scaleDegreeIndex = scaleDegreeToIndex(scaleDegreeInfo.scaleDegree);
+    const scaleDegreeIndex = scaleDegreeInfo.scaleDegreeIndex;
     const offsets135 = this.scalePattern.getOffsets135(scaleDegreeIndex);
     return offsets135.map((offset) => offset - offsets135[0]);
   }

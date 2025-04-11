@@ -1,8 +1,4 @@
-import {
-  ScaleDegree,
-  ixScaleDegree,
-  scaleDegreeToIndex,
-} from "../types/GreekModes/ScaleDegreeType";
+import { ScaleDegree, ScaleDegreeIndex, ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 
 import { RomanNumeralString } from "../types/RomanTypes";
 
@@ -34,13 +30,12 @@ export class RomanNumeralUtils {
   }
 
   static getScaleDegreeAsRomanString(
-    scaleDegree: ScaleDegree,
+    scaleDegreeIndex: ScaleDegreeIndex,
     isLowercase: boolean = false,
   ): RomanNumeralString {
     const bigNumerals: RomanNumeralString[] = ["I", "II", "III", "IV", "V", "VI", "VII"];
     const smallNumerals: RomanNumeralString[] = ["i", "ii", "iii", "iv", "v", "vi", "vii"];
 
-    const index = scaleDegreeToIndex(scaleDegree);
-    return isLowercase ? smallNumerals[index] : bigNumerals[index];
+    return isLowercase ? smallNumerals[scaleDegreeIndex] : bigNumerals[scaleDegreeIndex];
   }
 }

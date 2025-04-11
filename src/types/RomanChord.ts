@@ -1,6 +1,6 @@
 import { RomanNumeralUtils } from "../utils/RomanNumeralUtils";
 import { AccidentalType, getAccidentalSignForDisplay } from "./AccidentalType";
-import { ScaleDegree, scaleDegreeToIndex } from "./GreekModes/ScaleDegreeType";
+import { ixScaleDegreeIndex, ScaleDegree, ScaleDegreeIndex } from "./GreekModes/ScaleDegreeType";
 import { ChordType } from "./NoteGroupingTypes";
 import { IScalePatternForRomanChords } from "./IScalePatternForRomanChords";
 import { ScaleDegreeInfo } from "./GreekModes/ScaleDegreeInfo";
@@ -23,6 +23,10 @@ export class RomanChord {
     this.bassDegree = bassDegree;
   }
 
+  get scaleDegreeIndex(): ScaleDegreeIndex {
+    return ixScaleDegreeIndex(this.scaleDegree - 1);
+  }
+
   /**
    * Creates a Roman chord from a scale degree info using a scale pattern.
    * @param scaleDegreeInfo The scale degree info containing the scale degree and accidental
@@ -42,7 +46,7 @@ export class RomanChord {
   getString(): string {
     const accidentalString = getAccidentalSignForDisplay(this.accidental);
     const romanNumeralString = RomanNumeralUtils.getScaleDegreeAsRomanString(
-      this.scaleDegree,
+      this.scaleDegreeIndex,
       this.chordType === ChordType.Minor || this.chordType === ChordType.Diminished,
     );
     let chordPostfix = "?";
