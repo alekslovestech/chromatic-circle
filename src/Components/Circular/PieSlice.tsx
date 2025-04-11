@@ -1,12 +1,15 @@
 import React from "react";
-import { useMusical } from "../../contexts/MusicalContext";
-import { useDisplay } from "../../contexts/DisplayContext";
 import { GlobalMode } from "../../types/SettingModes";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
+
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { getBlackWhiteString } from "../../utils/ColorUtils";
-import { ChromaticIndex } from "../../types/ChromaticIndex";
+import { VisualStateUtils } from "../../tests/utils/VisualStateUtils";
+
+import { useMusical } from "../../contexts/MusicalContext";
+import { useDisplay } from "../../contexts/DisplayContext";
 
 export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
@@ -29,23 +32,14 @@ export const PieSlice: React.FC<{
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
   if (isSelected) classNames.push("selected");
 
-  // Determine the visual state based on musical properties
-  const getVisualState = (): string => {
-    if (globalMode !== GlobalMode.Advanced) return "plain";
-    return selectedMusicalKey.greekModeInfo.isDiatonicNote(
-      chromaticIndex,
-      selectedMusicalKey.tonicIndex,
-    )
-      ? "highlighted"
-      : "muted";
-  };
+  const visualState = VisualStateUtils.getVisualState(selectedMusicalKey, chromaticIndex);
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
 
   return (
     <>
-      <g id={id} className={classNames.join(" ")} data-state={getVisualState()} onClick={onClick}>
+      <g id={id} className={classNames.join(" ")} data-state={visualState} onClick={onClick}>
         {pathElement}
         {showText && (
           <text x={textPoint.x} y={textPoint.y}>

@@ -1,12 +1,13 @@
 import React from "react";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { NoteConverter } from "../../types/NoteConverter";
 import { MusicalKey } from "../../types/Keys/MusicalKey";
 
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isBlackKey } from "../../utils/KeyboardUtils";
 
 import { useDisplay } from "../../contexts/DisplayContext";
+import { VisualStateUtils } from "../../tests/utils/VisualStateUtils";
+import { KeyTextMode } from "../../types/SettingModes";
 
 const WHITE_KEYS_PER_OCTAVE = 7;
 const BLACK2WHITE_WIDTH_RATIO = 0.7; // Black keys are 70% the width of white keys
@@ -49,19 +50,20 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   if (isRootNote) classNames.push("root-note");
   if (isShortKey) classNames.push("short");
 
+  // Get visual state
+  const visualState = VisualStateUtils.getVisualState(selectedMusicalKey, chromaticIndex);
+
   // Create ID
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
   // Get note text
-  const noteText = NoteConverter.getNoteTextFromActualIndex(
-    actualIndex,
-    selectedMusicalKey.getDefaultAccidental(),
-  );
+  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyTextMode.NoteNames);
 
   return (
     <div
       id={id}
       className={classNames.join(" ")}
+      data-state={visualState}
       style={{
         left: `${left}px`,
       }}
