@@ -1,3 +1,4 @@
+import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { TWELVE } from "../types/NoteConstants";
@@ -5,8 +6,8 @@ import { KeyTextMode } from "../types/SettingModes";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyScaleDegreeDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
-  const musicalKey = MusicalKey.fromGreekMode("C", greekMode);
-  const displayStrings = musicalKey.greekModeInfo.getDisplayStrings(KeyTextMode.ScaleDegree);
+  const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
+  const displayStrings = greekModeInfo.getDisplayStrings(KeyTextMode.ScaleDegree);
   expect(displayStrings).toEqual(expectedNotes);
 }
 

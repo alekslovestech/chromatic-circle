@@ -1,11 +1,8 @@
-import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 import {
   ScaleDegree,
   ixScaleDegree,
   scaleDegreeToIndex,
 } from "../types/GreekModes/ScaleDegreeType";
-import { ChordType } from "../types/NoteGroupingTypes";
-import { RomanChord } from "../types/RomanChord";
 
 import { RomanNumeralString } from "../types/RomanTypes";
 
