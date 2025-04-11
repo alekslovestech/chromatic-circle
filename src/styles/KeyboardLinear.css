@@ -12,15 +12,26 @@
 }
 
 .piano-key {
-  border: 1px solid var(--key-border-color);
-  display: flex;
+  position: absolute;
   align-items: flex-end;
-  justify-content: center;
+  border: 1px solid var(--key-border-color);
   box-sizing: border-box;
   cursor: pointer;
+  display: flex;
   font-size: 0.8rem;
   font-weight: bold;
+  height: 100%;
+  justify-content: center;
   padding: 0 5px; /* Added padding to center the text */
+  z-index: 1;
+}
+
+.piano-key.short {
+  align-items: center;
+  font-size: 0.8rem;
+  height: 60%;
+  justify-content: center;
+  z-index: 2;
 }
 
 .piano-key.white.root-note,
@@ -39,13 +50,8 @@
 }
  
 .piano-key.black {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 2px;
   background-color: var(--key-black-default);
   color: var(--key-text-on-black);
-  font-size: 0.8rem; 
 }
 
 .piano-key.black.selected {

@@ -4,7 +4,7 @@ import { TWENTY4 } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useMusical } from "../../contexts/MusicalContext";
-import { PianoKey } from "./PianoKey";
+import { PianoKeyLinear } from "./PianoKeyLinear";
 
 import "../../styles/KeyboardLinear.css";
 
@@ -34,7 +34,7 @@ export const KeyboardLinear: React.FC = () => {
     const isRootNote = checkIsRootNote(actualIndex);
 
     keys.push(
-      <PianoKey
+      <PianoKeyLinear
         key={actualIndex}
         actualIndex={actualIndex}
         isSelected={isSelected}
