@@ -5,7 +5,7 @@ import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 
-import { KeyboardLinear } from "../../Components/KeyboardLinear";
+import { KeyboardLinear } from "../../Components/Linear/KeyboardLinear";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 

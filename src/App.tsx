@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import AudioPlayer from "./Components/AudioPlayer";
 import { KeyboardCircular } from "./Components/Circular/KeyboardCircular";
 import { CircularSettings } from "./Components/Circular/CircularSettings";
-import { KeyboardLinear } from "./Components/KeyboardLinear";
+import { KeyboardLinear } from "./Components/Linear/KeyboardLinear";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 

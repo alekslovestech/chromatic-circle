@@ -5,7 +5,7 @@ import { ReactTestUtils } from "../utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
 
-import { KeyboardLinear } from "../../Components/KeyboardLinear";
+import { KeyboardLinear } from "../../Components/Linear/KeyboardLinear";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 import { KeyboardCircular } from "../../Components/Circular/KeyboardCircular";
