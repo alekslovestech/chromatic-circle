@@ -5,14 +5,14 @@ import {
   ScaleDegree,
   ScaleDegreeIndex,
   ixScaleDegree,
-  scaleDegreeIndexToScaleDegree,
+  ixScaleDegreeIndex,
 } from "./ScaleDegreeType";
 export class ScaleDegreeInfo {
-  public readonly scaleDegree: ScaleDegree;
+  private readonly _scaleDegree: ScaleDegree;
   public readonly accidentalPrefix: AccidentalType;
 
   public constructor(scaleDegree: ScaleDegree, accidental: AccidentalType = AccidentalType.None) {
-    this.scaleDegree = scaleDegree;
+    this._scaleDegree = scaleDegree;
     this.accidentalPrefix = accidental;
   }
 
@@ -20,11 +20,19 @@ export class ScaleDegreeInfo {
     scaleDegreeIndex: ScaleDegreeIndex,
     accidental: AccidentalType = AccidentalType.None,
   ): ScaleDegreeInfo {
-    return new ScaleDegreeInfo(scaleDegreeIndexToScaleDegree(scaleDegreeIndex), accidental);
+    return new ScaleDegreeInfo(ixScaleDegree(scaleDegreeIndex + 1), accidental);
   }
 
   getDisplayString(): string {
-    return getAccidentalSignForDisplay(this.accidentalPrefix) + this.scaleDegree.toString();
+    return getAccidentalSignForDisplay(this.accidentalPrefix) + this._scaleDegree.toString();
+  }
+
+  get scaleDegree(): ScaleDegree {
+    return this._scaleDegree;
+  }
+
+  get scaleDegreeIndex(): ScaleDegreeIndex {
+    return ixScaleDegreeIndex(this._scaleDegree - 1);
   }
 
   static fromString(scaleDegreeString: string): ScaleDegreeInfo {

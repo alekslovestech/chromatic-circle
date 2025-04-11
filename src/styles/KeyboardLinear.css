@@ -1,8 +1,5 @@
 :root {
   --h2wratio: 0.25; /* Height to width ratio of the linear keyboard */
-  --b2wKeyRatio: 0.7; /* Black to white key width ratio */
-  --wKeysPer2Octaves: 14; /* 14 white keys fit into the full width */
-  --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
 }
 
 .keyboardlinear {
@@ -33,9 +30,6 @@
 }
 
 .piano-key.white {
-  width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
-  height: 100%;
-  z-index: 1;
   color: var(--key-text-on-white);
   background-color: var(--key-white-default);
 }
@@ -45,12 +39,6 @@
 }
  
 .piano-key.black {
-  width: calc(100% / var(--bKeysPer2Octaves));
-  height: 60%;
-  margin-left: calc(-100% / var(--bKeysPer2Octaves)  / 2);
-  margin-right: calc(-100% / var(--bKeysPer2Octaves)  / 2);
-  margin-top: 0;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: flex-start;

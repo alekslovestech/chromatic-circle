@@ -18,12 +18,3 @@ export function ixScaleDegree(n: number): ScaleDegree {
     throw new Error("Invalid ScaleDegree=" + n);
   return n as ScaleDegree;
 }
-
-// Conversion between types
-export function scaleDegreeIndexToScaleDegree(index: ScaleDegreeIndex): ScaleDegree {
-  return ixScaleDegree(index + 1);
-}
-
-export function scaleDegreeToIndex(degree: ScaleDegree): ScaleDegreeIndex {
-  return ixScaleDegreeIndex(degree - 1);
-}

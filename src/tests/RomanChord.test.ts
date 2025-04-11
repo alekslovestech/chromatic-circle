@@ -5,7 +5,7 @@ import { RomanResolver } from "../types/RomanResolver";
 import { ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 
 export function verifyRomanChord(numeral: string, expected: RomanChord) {
-  expect(RomanResolver.getRomanChord(numeral)).toEqual(expected);
+  expect(RomanResolver.createRomanChordFromString(numeral)).toEqual(expected);
 }
 
 describe("RomanNumeral chord tests", () => {
