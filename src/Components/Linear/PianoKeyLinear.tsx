@@ -9,7 +9,6 @@ import { isBlackKey } from "../../utils/KeyboardUtils";
 import { useDisplay } from "../../contexts/DisplayContext";
 
 const WHITE_KEYS_PER_OCTAVE = 7;
-const WHITE_KEYS_PER_2_OCTAVES = 14;
 const BLACK2WHITE_WIDTH_RATIO = 0.7; // Black keys are 70% the width of white keys
 
 interface PianoKeyProps {
@@ -30,21 +29,20 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   onClick,
 }) => {
   const { monochromeMode } = useDisplay();
+
+  const longKeyWidth = containerWidth / (2 * WHITE_KEYS_PER_OCTAVE);
+
   const isShortKey = isBlackKey(actualIndex);
-  // Determine should we "show" dark keys as black or leave them as the rest.
-  const isVisuallyBlack = isShortKey && !monochromeMode;
+  const isVisuallyBlack = isShortKey && !monochromeMode; // Show dark keys as black or leave them as the rest
 
-  const longKeyWidth = containerWidth / WHITE_KEYS_PER_2_OCTAVES;
-
+  // Calculate key position
   const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-
-  // Map chromatic indices to white key positions (0-6)
-  const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
+  const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6]; // Map chromatic indices to white key positions (0-6)
   const position = whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
-  const width = isShortKey ? longKeyWidth * BLACK2WHITE_WIDTH_RATIO : longKeyWidth;
   const left =
     position * longKeyWidth - (isShortKey ? (longKeyWidth * BLACK2WHITE_WIDTH_RATIO) / 2 : 0);
-  // Create class names
+
+  // Setup styling
   const classNames = ["piano-key"];
   classNames.push(isVisuallyBlack ? "black" : "white");
   if (isSelected) classNames.push("selected");
@@ -66,7 +64,6 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
       className={classNames.join(" ")}
       style={{
         left: `${left}px`,
-        width: `${width}px`,
       }}
       onClick={() => onClick(actualIndex)}
     >
@@ -74,24 +71,3 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
     </div>
   );
 };
-
-/**
- * Calculates the position and dimensions of a piano key
- */
-function calculateKeyRect(
-  actualIndex: ActualIndex,
-  containerWidth: number,
-): { left: number; width: number } /*heightRatio: number; zIndex: number /*borderStyle: string */ {
-  const isShort = isBlackKey(actualIndex);
-  const whiteKeyWidth = containerWidth / WHITE_KEYS_PER_2_OCTAVES;
-
-  const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-
-  // Map chromatic indices to white key positions (0-6)
-  const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
-  const position = whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
-  return {
-    width: isShort ? whiteKeyWidth * BLACK2WHITE_WIDTH_RATIO : whiteKeyWidth,
-    left: position * whiteKeyWidth - (isShort ? (whiteKeyWidth * BLACK2WHITE_WIDTH_RATIO) / 2 : 0),
-  };
-}
