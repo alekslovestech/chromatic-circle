@@ -43,13 +43,6 @@
   fill: var(--serenity-key-black);
 }
 
-.pie-slice-key.white[data-state="plain"] path {
-  fill: var(--serenity-key-white);
-}
-
-.pie-slice-key.black[data-state="plain"] path {
-  fill: var(--serenity-key-black);
-}
 
 .pie-slice-key.white[data-state="highlighted"] path {
   fill: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);

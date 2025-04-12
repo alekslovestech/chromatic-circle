@@ -49,9 +49,6 @@
   background-color: var(--serenity-key-white);
 }
 
-.piano-key.white[data-state="plain"] {
-  background-color: var(--serenity-key-white);
-}
 
 .piano-key.white[data-state="highlighted"] {
   background-color: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);
@@ -68,6 +65,7 @@
 
 .piano-key.white[data-state="highlighted"].selected {
   background-color: color-mix(in srgb, var(--serenity-key-white-selected0) 65%, var(--serenity-key-diatonic) 35%);
+  opacity: 1.0;
 }
 
 .piano-key.white[data-state="muted"].selected {
@@ -79,10 +77,6 @@
 .piano-key.black {
   background-color: var(--serenity-key-black);
   color: var(--serenity-note-text-on-black);
-}
-
-.piano-key.black[data-state="plain"] {
-  background-color: var(--serenity-key-black);
 }
 
 .piano-key.black[data-state="highlighted"] {
