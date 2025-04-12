@@ -43,7 +43,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   const left =
     position * longKeyWidth - (isShortKey ? (longKeyWidth * BLACK2WHITE_WIDTH_RATIO) / 2 : 0);
 
-  const classNames = ["key-base", "piano-key", blackWhiteString];
+  const classNames = ["key-base", "piano-key"]; //, blackWhiteString];
   if (isSelected) classNames.push("selected");
   if (isRootNote) classNames.push("root-note");
   if (isShortKey) classNames.push("short");

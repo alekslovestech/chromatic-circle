@@ -1,55 +1,64 @@
 /* Common base styles for both circular and linear keys */
-.key-base {
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  
-  .key-base {
-    border: 1px solid var(--serenity-border-color);
-  }
-  
-  .key-base.root-note {
-    border: 2px solid var(--key-root-note-border);
-  }
+:is(.key-base, .key-base path) {
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 1px solid var(--serenity-border-color);
+}
 
-  /* White Keys */
-.key-base.white {
-    color: var(--serenity-note-text-on-white);
-    background-color: var(--serenity-key-white);
-  }
-  
-  .key-base.white.selected {
-    background-color: var(--serenity-key-white-selected);
-  }
-  
-  /* Black Keys */
-  .key-base.black {
-    color: var(--serenity-note-text-on-black);
-    background-color: var(--serenity-key-black);
-  }
-  
-  .key-base.black.selected {
-    background-color: var(--serenity-key-black-selected);
-  }
+.key-base.root-note {
+  border: 2px solid var(--key-root-note-border);
+}
 
-  /* Highlighted Keys (Diatonic Notes) */
-  .key-base.highlighted {
-    color: var(--serenity-note-text-on-white);
-    background-color: var(--serenity-key-white);
-  }
-  
-  .key-base.highlighted.selected {
-    background-color: var(--serenity-key-white-selected);
-  }
-  
-  /* Muted Keys (Chromatic Notes) */
-  .key-base.muted {
-    color: var(--serenity-note-text-on-black);
-    background-color: var(--serenity-key-black);
-  }
-  
-  .key-base.muted.selected {
-    background-color: var(--serenity-key-black-selected);
-  }
+/* white unselected */
+:is(.key-base.white, .key-base.white path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-key-white);
+  fill: var(--serenity-key-white);
+}
+
+/* white selected */
+:is(.key-base.white.selected, .key-base.white.selected path) {
+  background-color: var(--serenity-key-white-selected0);
+  fill: var(--serenity-key-white-selected0);
+}
+
+/* black unselected */
+:is(.key-base.black, .key-base.black path) {
+  color: var(--serenity-note-text-on-black);
+  background-color: var(--serenity-key-black);
+  fill: var(--serenity-key-black);
+}
+
+:is(.key-base.black.selected, .key-base.black.selected path) {
+  background-color: var(--serenity-key-black-selected0);
+  fill: var(--serenity-key-black-selected0);
+}
+
+/* Highlighted unselectd */
+:is(.key-base.highlighted, .key-base.highlighted path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: lightblue;
+  fill: lightblue;
+}
+
+/* Highlighted selected */
+:is(.key-base.highlighted.selected, .key-base.highlighted.selected path) {
+  background-color: lightskyblue;
+  fill: lightskyblue;
+}
+
+/* Muted unselectd */
+:is(.key-base.muted, .key-base.muted path) {
+  color: var(--serenity-note-text-on-black);
+  background-color: lightgray;
+  fill: lightgray;
+  opacity: 0.7;
+}
+
+:is(.key-base.muted.selected, .key-base.muted.selected path) {
+  background-color: darkgray;
+  fill: darkgray;
+  opacity: 0.5;
+}

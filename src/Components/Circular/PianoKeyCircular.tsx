@@ -30,14 +30,14 @@ export const PianoKeyCircular: React.FC<{
   const isVisuallyBlack = !monochromeMode && isBlackKey(chromaticIndex);
   const blackWhiteString = isVisuallyBlack ? "black" : "white";
 
-  const classNames = ["key-base", "pie-slice-key", blackWhiteString];
+  const classNames = ["key-base", "pie-slice-key"]; //, blackWhiteString];
 
   const isSelected =
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
-  if (isSelected) classNames.push("selected");
 
   const visualState = VisualStateUtils.getVisualState(chromaticIndex);
   classNames.push(visualState);
+  if (isSelected) classNames.push("selected");
 
   console.log(`PianoKeyCircular: ${chromaticIndex} visualState: ${visualState}`);
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
