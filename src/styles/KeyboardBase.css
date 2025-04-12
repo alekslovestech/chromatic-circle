@@ -39,26 +39,29 @@
 /* Highlighted unselectd */
 :is(.key-base.highlighted, .key-base.highlighted path) {
   color: var(--serenity-note-text-on-white);
-  background-color: lightblue;
-  fill: lightblue;
+  background-color: var(--serenity-highlighted-unselected);
+  fill: var(--serenity-highlighted-unselected);
 }
 
 /* Highlighted selected */
 :is(.key-base.highlighted.selected, .key-base.highlighted.selected path) {
-  background-color: lightskyblue;
-  fill: lightskyblue;
+  color: var(--serenity-note-text-on-black);
+  background-color: var(--serenity-highlighted-selected);
+  fill: var(--serenity-highlighted-selected);
 }
 
 /* Muted unselectd */
 :is(.key-base.muted, .key-base.muted path) {
-  color: var(--serenity-note-text-on-black);
-  background-color: lightgray;
-  fill: lightgray;
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-muted-unselected);
+  fill: var(--serenity-muted-unselected);
   opacity: 0.7;
 }
 
+/* Muted selected */
 :is(.key-base.muted.selected, .key-base.muted.selected path) {
-  background-color: darkgray;
-  fill: darkgray;
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-muted-selected);
+  fill: var(--serenity-muted-selected);
   opacity: 0.5;
 }

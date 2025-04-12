@@ -4,7 +4,7 @@ import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
-import { isBlackKey, isSelectedEitherOctave } from "../../utils/KeyboardUtils";
+import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { VisualStateUtils } from "../../tests/utils/VisualStateUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
@@ -20,15 +20,13 @@ export const PianoKeyCircular: React.FC<{
   onClick: () => void;
 }> = ({ chromaticIndex, outerRadius, innerRadius, onClick }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { monochromeMode, keyTextMode, globalMode } = useDisplay();
+  const { keyTextMode, globalMode } = useDisplay();
   const pathElement = ArcPathVisualizer.getArcPathFromIndex(
     chromaticIndex,
     outerRadius,
     innerRadius,
   );
   const textPoint = ArcPathVisualizer.getTextPoint(chromaticIndex, outerRadius, innerRadius);
-  const isVisuallyBlack = !monochromeMode && isBlackKey(chromaticIndex);
-  const blackWhiteString = isVisuallyBlack ? "black" : "white";
 
   const classNames = ["key-base", "pie-slice-key"]; //, blackWhiteString];
 

@@ -34,59 +34,6 @@
   opacity: 0.8;
 }
 
-/*
-.pie-slice-key.white path {
-  fill: var(--serenity-key-white);
-}
-
-.pie-slice-key.black path {
-  fill: var(--serenity-key-black);
-}
-
-.pie-slice-key.white.highlighted path {
-  fill: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.black.highlighted path {
-  fill: color-mix(in srgb, var(--serenity-key-black) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.white.muted path {
-  fill: var(--serenity-key-white);
-  opacity: 0.7;
-}
-
-.pie-slice-key.black.muted path {
-  fill: var(--serenity-key-black);
-  opacity: 0.7;
-}
-
-.pie-slice-key.white.selected path {
-  fill: var(--serenity-key-white-selected0);
-}
-
-.pie-slice-key.black.selected path {
-  fill: var(--serenity-key-black-selected0);
-}
-
-.pie-slice-key.white.highlighted.selected path {
-  fill: color-mix(in srgb, var(--serenity-key-white-selected0) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.black.highlighted.selected path {
-  fill: color-mix(in srgb, var(--serenity-key-black-selected0) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.white.muted.selected path {
-  fill: lightgrey;
-  opacity: 0.5;
-}
-
-.pie-slice-key.black.muted.selected path {
-  fill: var(--serenity-key-black);
-  opacity: 0.5;
-} */
-
 /* Text Styles */
 .pie-slice-key text {
   font-size: 1rem;

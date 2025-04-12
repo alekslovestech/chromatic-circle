@@ -29,13 +29,9 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   containerWidth,
   onClick,
 }) => {
-  const { monochromeMode } = useDisplay();
-
   const longKeyWidth = containerWidth / (2 * WHITE_KEYS_PER_OCTAVE);
 
   const isShortKey = isBlackKey(actualIndex);
-  const isVisuallyBlack = !monochromeMode && isShortKey;
-  const blackWhiteString = isVisuallyBlack ? "black" : "white";
   // Calculate key position
   const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
   const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6]; // Map chromatic indices to white key positions (0-6)
