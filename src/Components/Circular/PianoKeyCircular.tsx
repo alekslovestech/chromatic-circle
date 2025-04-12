@@ -13,7 +13,7 @@ import { useDisplay } from "../../contexts/DisplayContext";
 import "../../styles/KeyboardBase.css";
 import "../../styles/KeyboardCircular.css";
 
-export const PieSlice: React.FC<{
+export const PianoKeyCircular: React.FC<{
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;

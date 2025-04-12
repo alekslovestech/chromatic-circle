@@ -10,7 +10,7 @@ import { useMusical } from "../../contexts/MusicalContext";
 
 import { ScaleBoundrary } from "./ScaleBoundrary";
 import { CircularVisualizations } from "./CircularVisualizations";
-import { PieSlice } from "./PieSlice";
+import { PianoKeyCircular } from "./PianoKeyCircular";
 
 import "../../styles/KeyboardCircular.css";
 
@@ -29,7 +29,7 @@ export const KeyboardCircular = () => {
   return (
     <svg viewBox={coords.join(" ")} className="svg-container">
       {Array.from({ length: TWELVE }).map((_, index) => (
-        <PieSlice
+        <PianoKeyCircular
           key={index}
           chromaticIndex={ixChromatic(index)}
           onClick={() => (isLogo ? () => {} : handleKeyClick(index as ActualIndex))}
