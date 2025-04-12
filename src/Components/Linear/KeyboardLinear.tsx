@@ -6,6 +6,7 @@ import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useMusical } from "../../contexts/MusicalContext";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 
+import "../../styles/KeyboardBase.css";
 import "../../styles/KeyboardLinear.css";
 
 export const KeyboardLinear: React.FC = () => {

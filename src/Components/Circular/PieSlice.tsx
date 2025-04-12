@@ -4,12 +4,14 @@ import { ChromaticIndex } from "../../types/ChromaticIndex";
 
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
-import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { getBlackWhiteString } from "../../utils/ColorUtils";
+import { isBlackKey, isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { VisualStateUtils } from "../../tests/utils/VisualStateUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
 import { useDisplay } from "../../contexts/DisplayContext";
+
+import "../../styles/KeyboardBase.css";
+import "../../styles/KeyboardCircular.css";
 
 export const PieSlice: React.FC<{
   chromaticIndex: ChromaticIndex;
@@ -25,8 +27,10 @@ export const PieSlice: React.FC<{
     innerRadius,
   );
   const textPoint = ArcPathVisualizer.getTextPoint(chromaticIndex, outerRadius, innerRadius);
-  const blackWhiteString = monochromeMode ? "white" : getBlackWhiteString(chromaticIndex);
-  const classNames = ["pie-slice-key", blackWhiteString];
+  const isVisuallyBlack = !monochromeMode && isBlackKey(chromaticIndex);
+  const blackWhiteString = isVisuallyBlack ? "black" : "white";
+
+  const classNames = ["key-base", "pie-slice-key", blackWhiteString];
 
   const isSelected =
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
@@ -36,17 +40,16 @@ export const PieSlice: React.FC<{
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
+  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode);
 
   return (
-    <>
-      <g id={id} className={classNames.join(" ")} data-state={visualState} onClick={onClick}>
-        {pathElement}
-        {showText && (
-          <text x={textPoint.x} y={textPoint.y}>
-            {selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode)}
-          </text>
-        )}
-      </g>
-    </>
+    <g id={id} className={classNames.join(" ")} data-state={visualState} onClick={onClick}>
+      {pathElement}
+      {showText && (
+        <text x={textPoint.x} y={textPoint.y}>
+          {noteText}
+        </text>
+      )}
+    </g>
   );
 };

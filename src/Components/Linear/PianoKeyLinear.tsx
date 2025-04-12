@@ -34,8 +34,8 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   const longKeyWidth = containerWidth / (2 * WHITE_KEYS_PER_OCTAVE);
 
   const isShortKey = isBlackKey(actualIndex);
-  const isVisuallyBlack = isShortKey && !monochromeMode; // Show dark keys as black or leave them as the rest
-
+  const isVisuallyBlack = !monochromeMode && isShortKey;
+  const blackWhiteString = isVisuallyBlack ? "black" : "white";
   // Calculate key position
   const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
   const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6]; // Map chromatic indices to white key positions (0-6)
@@ -43,9 +43,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   const left =
     position * longKeyWidth - (isShortKey ? (longKeyWidth * BLACK2WHITE_WIDTH_RATIO) / 2 : 0);
 
-  // Setup styling
-  const classNames = ["piano-key"];
-  classNames.push(isVisuallyBlack ? "black" : "white");
+  const classNames = ["key-base", "piano-key", blackWhiteString];
   if (isSelected) classNames.push("selected");
   if (isRootNote) classNames.push("root-note");
   if (isShortKey) classNames.push("short");
@@ -53,7 +51,6 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   // Get visual state
   const visualState = VisualStateUtils.getVisualState(selectedMusicalKey, chromaticIndex);
 
-  // Create ID
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
   // Get note text
