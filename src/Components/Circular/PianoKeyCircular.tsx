@@ -37,7 +37,6 @@ export const PianoKeyCircular: React.FC<{
   classNames.push(visualState);
   if (isSelected) classNames.push("selected");
 
-  console.log(`PianoKeyCircular: ${chromaticIndex} visualState: ${visualState}`);
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode);

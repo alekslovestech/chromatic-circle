@@ -18,7 +18,7 @@
   --serenity-border-color: rgba(0, 0, 0, 0.15);
   --serenity-polygon-stroke: rgb(204, 204, 204);
   --serenity-highlighted-unselected: lightblue;
-  --serenity-highlighted-selected: blue;
+  --serenity-highlighted-selected: rgb(0, 187, 255);
   --serenity-muted-unselected: lightgray;
   --serenity-muted-selected: gray;
 

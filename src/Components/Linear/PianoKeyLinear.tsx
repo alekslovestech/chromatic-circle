@@ -48,7 +48,6 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   const visualState = VisualStateUtils.getVisualState(chromaticIndex);
   classNames.push(visualState);
 
-  console.log(`PianoKeyLinear: ${chromaticIndex} visualState: ${visualState}`);
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
   // Get note text
