@@ -27,12 +27,19 @@ export const TransposeWidget: React.FC = () => {
   return (
     <div>
       <div className="transpose-buttons-container">
-        <button className="transpose-up-button" onClick={() => handleSelectedNotesTranspose(1)}>
-          ↑♫↑
-        </button>
-        <button className="transpose-down-button" onClick={() => handleSelectedNotesTranspose(-1)}>
-          ↓♫↓
-        </button>
+        {!isAdvanced && (
+          <>
+            <button className="transpose-up-button" onClick={() => handleSelectedNotesTranspose(1)}>
+              ↑♫↑
+            </button>
+            <button
+              className="transpose-down-button"
+              onClick={() => handleSelectedNotesTranspose(-1)}
+            >
+              ↓♫↓
+            </button>
+          </>
+        )}
 
         {isAdvanced && (
           <>

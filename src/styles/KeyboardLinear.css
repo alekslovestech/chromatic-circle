@@ -1,8 +1,6 @@
 :root {
   --h2wratio: 0.25; /* Height to width ratio of the linear keyboard */
-  --b2wKeyRatio: 0.7; /* Black to white key width ratio */
-  --wKeysPer2Octaves: 14; /* 14 white keys fit into the full width */
-  --bKeysPer2Octaves: calc(var(--wKeysPer2Octaves) /var(--b2wKeyRatio)); /* 20 black keys fit into the full width */
+  --white-keys-per-2-octaves: 14;
 }
 
 .keyboardlinear {
@@ -15,60 +13,34 @@
 }
 
 .piano-key {
-  border: 1px solid var(--key-border-color);
-  display: flex;
+  position: absolute;
   align-items: flex-end;
-  justify-content: center;
+  border: 1px solid var(--key-border-color);
   box-sizing: border-box;
   cursor: pointer;
+  display: flex;
   font-size: 0.8rem;
   font-weight: bold;
+  width: calc(100% / var(--white-keys-per-2-octaves));
+  height: 100%;
+  justify-content: center;
   padding: 0 5px; /* Added padding to center the text */
+  z-index: 1;
+}
+
+.piano-key.short {
+  align-items: center;
+  font-size: 0.8rem;
+  height: 60%;
+  width: calc((100% / var(--white-keys-per-2-octaves)) * 0.7);
+  justify-content: center;
+  z-index: 2;
 }
 
 .piano-key.white.root-note,
 .piano-key.black.root-note,
 .piano-key.root-note {
   border: 2px solid var(--key-root-note-border);
-}
-
-.piano-key.white {
-  width: calc(100% / var(--wKeysPer2Octaves)); /* 14 white keys */
-  height: 100%;
-  z-index: 1;
-  color: var(--key-text-on-white);
-  background-color: var(--key-white-default);
-}
-
-.piano-key.white.selected {
-  background-color: var(--key-white-selected-primary);
-}
- 
-.piano-key.black {
-  width: calc(100% / var(--bKeysPer2Octaves));
-  height: 60%;
-  margin-left: calc(-100% / var(--bKeysPer2Octaves)  / 2);
-  margin-right: calc(-100% / var(--bKeysPer2Octaves)  / 2);
-  margin-top: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 2px;
-  background-color: var(--key-black-default);
-  color: var(--key-text-on-black);
-  font-size: 0.8rem; 
-}
-
-.piano-key.black.selected {
-  background-color: var(--key-black-selected-primary);
-}
-
-.piano-key.black span {
-  transform: rotate(-90deg);
-  transform-origin: center center;
-  white-space: nowrap;
-  margin-left: -25%;
 }
 
 

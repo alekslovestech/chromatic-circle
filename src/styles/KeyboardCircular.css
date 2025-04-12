@@ -19,8 +19,8 @@
 
 /* Pie Slice Keys */
 .pie-slice-key {
-  cursor: pointer;
-  transition: all 0.3s ease;
+  cursor: pointer; /*only here the class is note empty*/
+  /*transition: all 0.3s ease; */
 }
 
 .pie-slice-key path {
@@ -32,68 +32,6 @@
 /* Hover State */
 .pie-slice-key:hover path {
   opacity: 0.8;
-}
-
-/* Key Colors */
-.pie-slice-key.white path {
-  fill: var(--serenity-key-white);
-}
-
-.pie-slice-key.black path {
-  fill: var(--serenity-key-black);
-}
-
-.pie-slice-key.white[data-state="plain"] path {
-  fill: var(--serenity-key-white);
-}
-
-.pie-slice-key.black[data-state="plain"] path {
-  fill: var(--serenity-key-black);
-}
-
-.pie-slice-key.white[data-state="highlighted"] path {
-  fill: color-mix(in srgb, var(--serenity-key-white) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.black[data-state="highlighted"] path {
-  fill: color-mix(in srgb, var(--serenity-key-black) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.white[data-state="muted"] path {
-  fill: var(--serenity-key-white);
-  opacity: 0.7;
-}
-
-.pie-slice-key.black[data-state="muted"] path {
-  fill: var(--serenity-key-black);
-  opacity: 0.7;
-}
-
-/* Selected States */
-.pie-slice-key.white.selected path {
-  fill: var(--serenity-key-white-selected0);
-}
-
-.pie-slice-key.black.selected path {
-  fill: var(--serenity-key-black-selected0);
-}
-
-.pie-slice-key.white[data-state="highlighted"].selected path {
-  fill: color-mix(in srgb, var(--serenity-key-white-selected0) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.black[data-state="highlighted"].selected path {
-  fill: color-mix(in srgb, var(--serenity-key-black-selected0) 65%, var(--serenity-key-diatonic) 35%);
-}
-
-.pie-slice-key.white[data-state="muted"].selected path {
-  fill: lightgrey;
-  opacity: 0.5;
-}
-
-.pie-slice-key.black[data-state="muted"].selected path {
-  fill: var(--serenity-key-black);
-  opacity: 0.5;
 }
 
 /* Text Styles */

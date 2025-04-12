@@ -17,6 +17,10 @@
   --serenity-icon-selected-background: #598ABB;
   --serenity-border-color: rgba(0, 0, 0, 0.15);
   --serenity-polygon-stroke: rgb(204, 204, 204);
+  --serenity-highlighted-unselected: rgb(168, 213, 226);
+  --serenity-highlighted-selected: rgb(0, 187, 255);
+  --serenity-muted-unselected: rgb(211, 211, 211);
+  --serenity-muted-selected: rgb(64, 64, 64);
 
   /* Semantic Color Variables */
   --color-background-primary: var(--serenity-bglight);

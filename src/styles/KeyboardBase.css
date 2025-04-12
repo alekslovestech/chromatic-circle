@@ -1,0 +1,67 @@
+/* Common base styles for both circular and linear keys */
+:is(.key-base, .key-base path) {
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: all 0.1s ease;
+  border: 1px solid var(--serenity-border-color);
+}
+
+.key-base.root-note {
+  border: 2px solid var(--key-root-note-border);
+}
+
+/* white unselected */
+:is(.key-base.white, .key-base.white path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-key-white);
+  fill: var(--serenity-key-white);
+}
+
+/* white selected */
+:is(.key-base.white.selected, .key-base.white.selected path) {
+  background-color: var(--serenity-key-white-selected0);
+  fill: var(--serenity-key-white-selected0);
+}
+
+/* black unselected */
+:is(.key-base.black, .key-base.black path) {
+  color: var(--serenity-note-text-on-black);
+  background-color: var(--serenity-key-black);
+  fill: var(--serenity-key-black);
+}
+
+:is(.key-base.black.selected, .key-base.black.selected path) {
+  background-color: var(--serenity-key-black-selected0);
+  fill: var(--serenity-key-black-selected0);
+}
+
+/* Highlighted unselectd */
+:is(.key-base.highlighted, .key-base.highlighted path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-highlighted-unselected);
+  fill: var(--serenity-highlighted-unselected);
+}
+
+/* Highlighted selected */
+:is(.key-base.highlighted.selected, .key-base.highlighted.selected path) {
+  color: var(--serenity-note-text-on-black);
+  background-color: var(--serenity-highlighted-selected);
+  fill: var(--serenity-highlighted-selected);
+}
+
+/* Muted unselectd */
+:is(.key-base.muted, .key-base.muted path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-muted-unselected);
+  fill: var(--serenity-muted-unselected);
+  opacity: 0.7;
+}
+
+/* Muted selected */
+:is(.key-base.muted.selected, .key-base.muted.selected path) {
+  color: var(--serenity-note-text-on-white);
+  background-color: var(--serenity-muted-selected);
+  fill: var(--serenity-muted-selected);
+  opacity: 0.5;
+}
