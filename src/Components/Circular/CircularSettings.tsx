@@ -23,7 +23,7 @@ export const CircularSettings = () => {
   return (
     <div id="keyboardcircular-settings">
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-        <CircularVisModeSelect />
+        {!isAdvanced && <CircularVisModeSelect />}
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
           <MusicalKeySelector useDropdownSelector={isAdvanced} />
           <TransposeWidget />
