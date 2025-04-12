@@ -19,8 +19,8 @@
 
 /* Pie Slice Keys */
 .pie-slice-key {
-  cursor: pointer;
-  transition: all 0.3s ease;
+  cursor: pointer; /*only here the class is note empty*/
+  /*transition: all 0.3s ease; */
 }
 
 .pie-slice-key path {

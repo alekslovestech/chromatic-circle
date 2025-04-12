@@ -35,21 +35,21 @@
   }
 
   /* Highlighted Keys (Diatonic Notes) */
-.key-base[data-scale="highlighted"] {
+  .key-base.highlighted {
     color: var(--serenity-note-text-on-white);
     background-color: var(--serenity-key-white);
   }
   
-  .key-base[data-scale="highlighted"].selected {
+  .key-base.highlighted.selected {
     background-color: var(--serenity-key-white-selected);
   }
   
   /* Muted Keys (Chromatic Notes) */
-  .key-base[data-scale="muted"] {
+  .key-base.muted {
     color: var(--serenity-note-text-on-black);
     background-color: var(--serenity-key-black);
   }
   
-  .key-base[data-scale="muted"].selected {
+  .key-base.muted.selected {
     background-color: var(--serenity-key-black-selected);
   }

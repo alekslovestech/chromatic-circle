@@ -36,14 +36,16 @@ export const PianoKeyCircular: React.FC<{
     globalMode !== GlobalMode.Logo && isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
   if (isSelected) classNames.push("selected");
 
-  const visualState = VisualStateUtils.getVisualState(selectedMusicalKey, chromaticIndex);
+  const visualState = VisualStateUtils.getVisualState(chromaticIndex);
+  classNames.push(visualState);
 
+  console.log(`PianoKeyCircular: ${chromaticIndex} visualState: ${visualState}`);
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode);
 
   return (
-    <g id={id} className={classNames.join(" ")} data-state={visualState} onClick={onClick}>
+    <g id={id} className={classNames.join(" ")} onClick={onClick}>
       {pathElement}
       {showText && (
         <text x={textPoint.x} y={textPoint.y}>

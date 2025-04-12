@@ -49,8 +49,10 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   if (isShortKey) classNames.push("short");
 
   // Get visual state
-  const visualState = VisualStateUtils.getVisualState(selectedMusicalKey, chromaticIndex);
+  const visualState = VisualStateUtils.getVisualState(chromaticIndex);
+  classNames.push(visualState);
 
+  console.log(`PianoKeyLinear: ${chromaticIndex} visualState: ${visualState}`);
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
   // Get note text
@@ -60,7 +62,6 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
     <div
       id={id}
       className={classNames.join(" ")}
-      data-state={visualState}
       style={{
         left: `${left}px`,
       }}
