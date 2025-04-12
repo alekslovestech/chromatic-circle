@@ -28,7 +28,7 @@ export const CircularSettings = () => {
           <MusicalKeySelector useDropdownSelector={isAdvanced} />
           <TransposeWidget />
         </div>
-        {<MonochromeModeToggle />}
+        {!isAdvanced && <MonochromeModeToggle />}
         {isAdvanced && <ScalePreviewToggle />}
         {isAdvanced && <KeyTextModeSelect />}
         <ClearButton />

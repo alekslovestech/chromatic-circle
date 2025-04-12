@@ -8,7 +8,7 @@ export class VisualStateUtils {
   // Determine the visual state based on musical properties
   static getVisualState(chromaticIndex: ChromaticIndex): string {
     const { selectedMusicalKey } = useMusical();
-    const { globalMode } = useDisplay();
+    const { globalMode, monochromeMode } = useDisplay();
 
     const isAdvanced = globalMode === GlobalMode.Advanced;
     if (isAdvanced) {
@@ -19,6 +19,6 @@ export class VisualStateUtils {
       return isDiatonic ? "highlighted" : "muted";
     }
 
-    return isBlackKey(chromaticIndex) ? "black" : "white";
+    return monochromeMode ? "white" : isBlackKey(chromaticIndex) ? "black" : "white";
   }
 }
