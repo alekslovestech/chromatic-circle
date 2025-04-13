@@ -36,6 +36,7 @@
   transform: translateX(-50%);
   justify-content: center;
   z-index: 2;
+  opacity: 1;
 }
 
 .piano-key.white.root-note,
