@@ -5,7 +5,7 @@ import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { VisualStateUtils } from "../../tests/utils/VisualStateUtils";
+import { VisualStateUtils } from "../../utils/VisualStateUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
 import { useDisplay } from "../../contexts/DisplayContext";
@@ -39,8 +39,8 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   const isSelected = isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
 
   const visualState = VisualStateUtils.getVisualState(chromaticIndex);
-
   classNames.push(visualState);
+
   if (isSelected) classNames.push("selected");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);

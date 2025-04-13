@@ -1,11 +1,12 @@
-import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { useMusical } from "../../contexts/MusicalContext";
-import { isBlackKey } from "../../utils/KeyboardUtils";
-import { useDisplay } from "../../contexts/DisplayContext";
-import { GlobalMode } from "../../types/SettingModes";
+import { ChromaticIndex } from "../types/ChromaticIndex";
+import { GlobalMode } from "../types/SettingModes";
+
+import { useMusical } from "../contexts/MusicalContext";
+import { useDisplay } from "../contexts/DisplayContext";
+
+import { isBlackKey } from "./KeyboardUtils";
 
 export class VisualStateUtils {
-  // Determine the visual state based on musical properties
   static getVisualState(chromaticIndex: ChromaticIndex): string {
     const { selectedMusicalKey } = useMusical();
     const { globalMode, monochromeMode } = useDisplay();

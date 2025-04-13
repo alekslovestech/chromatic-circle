@@ -33,6 +33,7 @@
   font-size: 0.8rem;
   height: 60%;
   width: calc((100% / var(--white-keys-per-2-octaves)) * 0.7);
+  transform: translateX(-50%);
   justify-content: center;
   z-index: 2;
 }
