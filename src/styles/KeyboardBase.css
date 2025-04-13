@@ -55,7 +55,7 @@
   color: var(--serenity-note-text-on-white);
   background-color: var(--serenity-muted-unselected);
   fill: var(--serenity-muted-unselected);
-  opacity: 0.7;
+  opacity: 1;
 }
 
 /* Muted selected */
@@ -63,5 +63,5 @@
   color: var(--serenity-note-text-on-white);
   background-color: var(--serenity-muted-selected);
   fill: var(--serenity-muted-selected);
-  opacity: 0.5;
+  opacity: 1;
 }

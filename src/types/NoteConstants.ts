@@ -4,6 +4,8 @@ import { NoteInfo } from "./NoteInfo";
 export const TWELVE = 12; //the magic number
 export const TWENTY4 = 2 * TWELVE;
 
+export const WHITE_KEYS_PER_OCTAVE = 7;
+
 export const NOTES_WITH_SHARP: NoteInfo[] = [
   new NoteInfo("C", AccidentalType.None),
   new NoteInfo("C", AccidentalType.Sharp),
