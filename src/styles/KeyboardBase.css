@@ -4,11 +4,13 @@
   font-size: 0.8rem;
   font-weight: bold;
   transition: all 0.1s ease;
-  border: 1px solid var(--serenity-border-color);
+  border-width: 1.0px;
+  border-style: solid;
+  border-color: var(--serenity-key-border-color);
 }
 
 .key-base.root-note {
-  border: 2px solid var(--key-root-note-border);
+  border-color: var(--key-root-note-border);
 }
 
 /* white unselected */
