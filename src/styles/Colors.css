@@ -15,12 +15,15 @@
   --serenity-note-text-on-white: #333333;
   --serenity-note-text-on-black: #F5F5F5;
   --serenity-icon-selected-background: #598ABB;
-  --serenity-border-color: rgba(0, 0, 0, 0.15);
-  --serenity-polygon-stroke: rgb(204, 204, 204);
-  --serenity-highlighted-unselected: rgb(168, 213, 226);
-  --serenity-highlighted-selected: rgb(0, 187, 255);
-  --serenity-muted-unselected: rgb(211, 211, 211);
-  --serenity-muted-selected: rgb(150, 150, 150);
+  --serenity-button-border-color: rgba(0, 0, 0, 0.15);
+  --serenity-key-border-color: #6E6E6E;
+  --serenity-polygon-stroke: rgb(176, 214, 253);
+  --serenity-highlighted-unselected: #EAF4FF;
+  --serenity-highlighted-selected: #71B6FB;
+  --serenity-muted-unselected: #E4E5E6;
+  --serenity-muted-selected: #969696;
+  --serenity-muted-font: #9C9C9C;
+  --serenity-highlighted-font: #444444;  
 
   /* Semantic Color Variables */
   --color-background-primary: var(--serenity-bglight);
@@ -32,8 +35,6 @@
   --button-background-selected: var(--serenity-icon-selected-background);
   --button-text-default: var(--serenity-darkgrey);
   --button-text-selected: white;
-  --button-border-default: var(--serenity-border-color);
-  --button-border-selected: #3a8dcc;
 
   /* Piano Key Colors */
   --key-white-default: var(--serenity-key-white);
@@ -44,27 +45,16 @@
   --key-black-selected-secondary: var(--serenity-key-black-selected1);
   --key-text-on-white: var(--serenity-note-text-on-white);
   --key-text-on-black: var(--serenity-note-text-on-black);
-  --key-border-color: var(--serenity-border-color);
   --key-root-note-border: var(--root-note-highlight);
   --key-stroke-color: grey; 
   --key-hover-opacity: 0.8;
 
   /* Toggle Button Colors */
   --toggle-button-background: var(--serenity-key-white);
-  --toggle-button-text: var(--serenity-note-text-on-white);
-  --toggle-button-border: var(--serenity-border-color);
 
   /* Visualization Colors */
   --vis-button-background-default: white;
   --vis-button-background-selected: var(--serenity-icon-selected-background);
-  --vis-button-background-disabled: lightgray;
-  --vis-button-border-default: rgba(0, 0, 0, 0.3);
-  --vis-button-stroke-default: rgba(0, 0, 0, 0.4);
-  --vis-button-fill-default: none;
-  --vis-button-stroke-selected: white;
-  --vis-polygon-stroke: var(--serenity-polygon-stroke);
-  --vis-base-note-fill: var(--root-note-highlight);
-  --vis-base-note-stroke: var(--serenity-polygon-stroke);
 
   --settings-button-font-size: 0.8rem;
   --settings-description-font-size: 0.6rem;

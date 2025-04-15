@@ -4,11 +4,13 @@
   font-size: 0.8rem;
   font-weight: bold;
   transition: all 0.1s ease;
-  border: 1px solid var(--serenity-border-color);
+  border-width: 1.0px;
+  border-style: solid;
+  border-color: var(--serenity-key-border-color);
 }
 
 .key-base.root-note {
-  border: 2px solid var(--key-root-note-border);
+  border-color: var(--key-root-note-border);
 }
 
 /* white unselected */
@@ -45,23 +47,21 @@
 
 /* Highlighted selected */
 :is(.key-base.highlighted.selected, .key-base.highlighted.selected path) {
-  color: var(--serenity-note-text-on-black);
+  color: var(--serenity-note-text-on-white);
   background-color: var(--serenity-highlighted-selected);
   fill: var(--serenity-highlighted-selected);
 }
 
 /* Muted unselectd */
 :is(.key-base.muted, .key-base.muted path) {
-  color: var(--serenity-note-text-on-white);
+  color: var(--serenity-muted-font);
   background-color: var(--serenity-muted-unselected);
   fill: var(--serenity-muted-unselected);
-  opacity: 1;
 }
 
 /* Muted selected */
 :is(.key-base.muted.selected, .key-base.muted.selected path) {
-  color: var(--serenity-note-text-on-white);
+  color: var(--serenity-note-text-on-black);
   background-color: var(--serenity-muted-selected);
   fill: var(--serenity-muted-selected);
-  opacity: 1;
 }

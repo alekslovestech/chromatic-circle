@@ -33,6 +33,7 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
     if (globalMode === GlobalMode.Advanced) {
       setMonochromeMode(true);
       setKeyTextMode(KeyTextMode.ScaleDegree);
+      setCircularVisMode(CircularVisMode.Polygon);
       setScalePreviewMode(true);
     }
   }, [globalMode]);
