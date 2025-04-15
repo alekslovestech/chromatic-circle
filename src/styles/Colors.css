@@ -17,10 +17,12 @@
   --serenity-icon-selected-background: #598ABB;
   --serenity-border-color: rgba(0, 0, 0, 0.15);
   --serenity-polygon-stroke: rgb(204, 204, 204);
-  --serenity-highlighted-unselected: rgb(168, 213, 226);
-  --serenity-highlighted-selected: rgb(0, 187, 255);
-  --serenity-muted-unselected: rgb(211, 211, 211);
-  --serenity-muted-selected: rgb(150, 150, 150);
+  --serenity-highlighted-unselected: #EAF4FF;
+  --serenity-highlighted-selected: #71B6FB;
+  --serenity-muted-unselected: #E4E5E6;
+  --serenity-muted-selected: #969696;
+  --serenity-muted-font: #9C9C9C;
+  --serenity-highlighted-font: #444444;  
 
   /* Semantic Color Variables */
   --color-background-primary: var(--serenity-bglight);
