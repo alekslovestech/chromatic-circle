@@ -1,6 +1,6 @@
 
 :root {
-  --root-note-highlight: #ff0077;
+  --root-note-highlight: rgb(59, 97, 222);
 
   --serenity-bglight: #f7f8fa;
   --serenity-softgrey: #E1E3E6;
@@ -19,8 +19,8 @@
   --serenity-key-border-color: #6E6E6E;
   --serenity-polygon-stroke: rgb(176, 214, 253);
 
-  --serenity-highlighted-unselected: rgb(200, 200, 255);
-  --serenity-highlighted-selected: rgb(113, 182, 255);
+  --serenity-highlighted-unselected: rgb(113, 182, 255);
+  --serenity-highlighted-selected:  rgb(59, 97, 222);
   --serenity-highlighted-font: #444444;
 
   --serenity-muted-unselected: #E4E5E6;
