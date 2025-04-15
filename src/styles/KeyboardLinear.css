@@ -4,46 +4,53 @@
 }
 
 .keyboardlinear {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
   width: 100%;
   max-width: var(--keyboardlinear-max-width);
-  aspect-ratio: calc(1 / var(--h2wratio));
   max-height: 100%;
-  display: flex;
-  position: relative;
+  aspect-ratio: calc(1 / var(--h2wratio));
+  border: 1px solid var(--serenity-key-border-color);
 }
 
 .piano-key {
   position: absolute;
-  align-items: flex-end;
-  border: 1px solid var(--serenity-key-border-color);
   box-sizing: border-box;
-  cursor: pointer;
-  display: flex;
-  font-size: 0.8rem;
-  font-weight: bold;
   width: calc(100% / var(--white-keys-per-2-octaves));
   height: 100%;
-  justify-content: center;
   padding: 0 5px; /* Added padding to center the text */
+  border: 1px solid var(--serenity-key-border-color);
+  
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  cursor: pointer;
   z-index: 1;
 }
 
 .piano-key.short {
   align-items: center;
-  font-size: 0.8rem;
-  height: 60%;
-  width: calc((100% / var(--white-keys-per-2-octaves)) * 0.7);
-  transform: translateX(-50%);
-  justify-content: center;
   border: 2.0px solid var(--serenity-key-border-color);
-  z-index: 2;
+  font-size: 0.8rem;
+  width: calc((100% / var(--white-keys-per-2-octaves)) * 0.7);
+  height: 60%;
+  
+  justify-content: center;
   opacity: 1;
+  transform: translateX(-50%);
+ 
+  z-index: 2;
 }
 
 .piano-key.white.root-note,
 .piano-key.black.root-note,
 .piano-key.root-note {
-  border: 2px solid var(--key-root-note-border);
+  border: 2px solid var(--root-note-highlight);
 }
 
 

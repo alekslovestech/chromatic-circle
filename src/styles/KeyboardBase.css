@@ -10,7 +10,7 @@
 }
 
 .key-base.root-note {
-  border-color: var(--key-root-note-border);
+  border-color: var(--root-note-highlight);
 }
 
 /* white unselected */
