@@ -43,7 +43,7 @@
 .piano-key.white.root-note,
 .piano-key.black.root-note,
 .piano-key.root-note {
-  border: 2px solid var(--key-root-note-border);
+  border: 2px solid var(--root-note-highlight);
 }
 
 

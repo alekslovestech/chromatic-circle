@@ -1,6 +1,6 @@
 
 :root {
-  --root-note-highlight: #ff0077;  /* This one is still used via --key-root-note-border */
+  --root-note-highlight: #ff0077;
 
   --serenity-bglight: #f7f8fa;
   --serenity-softgrey: #E1E3E6;
@@ -18,16 +18,15 @@
   --serenity-button-border-color: rgba(0, 0, 0, 0.15);
   --serenity-key-border-color: #6E6E6E;
   --serenity-polygon-stroke: rgb(176, 214, 253);
-  --serenity-highlighted-unselected: #EAF4FF;
-  --serenity-highlighted-selected: #71B6FB;
+
+  --serenity-highlighted-unselected: rgb(200, 200, 255);
+  --serenity-highlighted-selected: rgb(113, 182, 255);
+  --serenity-highlighted-font: #444444;
+
   --serenity-muted-unselected: #E4E5E6;
   --serenity-muted-selected: #969696;
   --serenity-muted-font: #9C9C9C;
-  --serenity-highlighted-font: #444444;  
 
-  /* Semantic Color Variables */
-  --color-background-primary: var(--serenity-bglight);
-  --color-background-secondary: var(--serenity-softgrey);
   
   /* Button Colors */
   --button-background-default: var(--serenity-softgrey);
@@ -37,15 +36,6 @@
   --button-text-selected: white;
 
   /* Piano Key Colors */
-  --key-white-default: var(--serenity-key-white);
-  --key-black-default: var(--serenity-key-black);
-  --key-white-selected-primary: var(--serenity-key-white-selected0);
-  --key-white-selected-secondary: var(--serenity-key-white-selected1);
-  --key-black-selected-primary: var(--serenity-key-black-selected0);
-  --key-black-selected-secondary: var(--serenity-key-black-selected1);
-  --key-text-on-white: var(--serenity-note-text-on-white);
-  --key-text-on-black: var(--serenity-note-text-on-black);
-  --key-root-note-border: var(--root-note-highlight);
   --key-stroke-color: grey; 
   --key-hover-opacity: 0.8;
 
