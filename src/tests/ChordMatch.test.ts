@@ -7,7 +7,7 @@ import {
   InversionIndex,
 } from "../types/IndexTypes";
 import { ChordMatch } from "../types/ChordMatch";
-import { ChordFactory } from "../types/ChordFactory";
+import { ChordFactory } from "../utils/ChordFactory";
 
 function expectChordMatch(
   actual: ChordMatch,

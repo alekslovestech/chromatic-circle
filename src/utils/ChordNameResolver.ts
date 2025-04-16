@@ -1,13 +1,14 @@
-import { AccidentalType } from "./AccidentalType";
-import { addOffsetToActual } from "./IndexTypes";
-import { MusicalKey } from "./Keys/MusicalKey";
-import { NoteGroupingLibrary } from "./NoteGroupingLibrary";
-import { ChordType, NoteGroupingType, NoteGroupingId } from "./NoteGroupingTypes";
-import { ChordDisplayMode } from "./SettingModes";
-import { NoteConverter } from "./NoteConverter";
-import { ChordMatch } from "./ChordMatch";
+import { AccidentalType } from "../types/AccidentalType";
+import { addOffsetToActual } from "../types/IndexTypes";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
+import { ChordType, NoteGroupingType, NoteGroupingId } from "../types/NoteGroupingTypes";
+import { ChordDisplayMode } from "../types/SettingModes";
+import { NoteConverter } from "../types/NoteConverter";
+import { ChordMatch } from "../types/ChordMatch";
+import { InversionIndex, ixInversion } from "../types/IndexTypes";
+
 import { ChordFactory } from "./ChordFactory";
-import { InversionIndex, ixInversion } from "./IndexTypes";
 
 export class ChordNameResolver {
   static deriveChordName(

@@ -5,8 +5,8 @@ import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { IndexUtils } from "./IndexUtils";
-import { ChordFactory } from "../types/ChordFactory";
-import { ChordNameResolver } from "../types/ChordNameResolver";
+import { ChordFactory } from "./ChordFactory";
+import { ChordNameResolver } from "./ChordNameResolver";
 
 interface DisplayInfo {
   noteGroupingString: string;
