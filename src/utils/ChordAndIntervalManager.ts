@@ -71,31 +71,47 @@ export class ChordAndIntervalManager {
   }
 
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch {
-    if (indices.length === 0) {
+    if (indices.length === 0)
       return new ChordMatch(0 as ActualIndex, this.getDefinitionFromId(SpecialType.None));
-    }
 
     const normalizedIndices = IndexUtils.normalizeIndices(indices);
 
-    for (const id of NoteGroupingLibrary.getAllIds()) {
-      const noteGroupingId = id as NoteGroupingId; // Ensure id is treated as NoteGroupingId
-      const definition = this.getDefinitionFromId(noteGroupingId);
+    const allIds = NoteGroupingLibrary.getAllIds();
+    // First check all note grouping types in root position
+    for (const id of allIds) {
+      const definition = this.getDefinitionFromId(id);
 
-      // Check for root position (0th index) first
-      const rootIndices = IndexUtils.normalizeIndices(definition.inversions[0]);
-      if (!IndexUtils.areIndicesEqual(rootIndices, normalizedIndices)) continue;
-      return this.getChordMatchFromIndices(indices, definition, ixInversion(0));
+      const rootMatch = this.checkForMatchingInversion(
+        indices,
+        normalizedIndices,
+        definition,
+        ixInversion(0),
+      );
+      if (rootMatch) return rootMatch;
     }
-    // Then check other inversions
-    for (const id of NoteGroupingLibrary.getAllIds()) {
-      const definition = this.getDefinitionFromId(id as NoteGroupingId);
+
+    // Then check all inversions for each type
+    for (const id of allIds) {
+      const definition = this.getDefinitionFromId(id);
+
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
-        const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[i]);
-        if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) continue;
-        return this.getChordMatchFromIndices(indices, definition, ixInversion(i));
+        const match = this.checkForMatchingInversion(indices, normalizedIndices, definition, i);
+        if (match) return match;
       }
     }
+
     return this.getChordMatchUnknown(indices);
+  }
+
+  private static checkForMatchingInversion(
+    indices: ActualIndex[],
+    normalizedIndices: number[],
+    definition: NoteGrouping,
+    inversionIndex: InversionIndex,
+  ): ChordMatch | null {
+    const inversionIndices = IndexUtils.normalizeIndices(definition.inversions[inversionIndex]);
+    if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) return null;
+    return this.getChordMatchFromIndices(indices, definition, inversionIndex);
   }
 
   static getChordNameFromIndices(
