@@ -3,10 +3,10 @@ import { ChordType } from "../types/NoteGroupingTypes";
 import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { KeyType } from "../types/Keys/KeyType";
-
+import { ChordNameResolver } from "../types/ChordNameResolver";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-
+import { ChordFactory } from "../types/ChordFactory";
 function verifyDisplayInfo(
   expectedNoteGrouping: string,
   expectedChordName: string,
@@ -28,13 +28,9 @@ function verifyChordNameWithMode(
   displayMode: ChordDisplayMode = ChordDisplayMode.Letters_Short,
   musicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
 ) {
-  expect(
-    ChordAndIntervalManager.getChordNameFromIndices(
-      ixActualArray(indices),
-      displayMode,
-      musicalKey,
-    ),
-  ).toBe(expectedChordName);
+  const chordMatch = ChordFactory.getMatchFromIndices(ixActualArray(indices));
+  const actual = ChordNameResolver.deriveChordName(chordMatch, displayMode, musicalKey);
+  expect(actual).toBe(expectedChordName);
 }
 
 function verifyChordNotesFromIndex(
@@ -55,82 +51,67 @@ function verifyChordNotesFromIndex(
 describe("ChordAndIntervalManager", () => {
   describe("getOffsetsFromIdAndInversion", () => {
     it("should return correct offsets for major chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Major);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Major);
       expect(result).toEqual([0, 4, 7]);
     });
 
     it("should return correct offsets for minor chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Minor);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Minor);
       expect(result).toEqual([0, 3, 7]);
     });
 
     it("should return correct offsets for dominant seventh chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Dominant7);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Dominant7);
       expect(result).toEqual([0, 4, 7, 10]);
     });
 
     it("should return correct offsets for major seventh chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Major7);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Major7);
       expect(result).toEqual([0, 4, 7, 11]);
     });
 
     it("should return correct offsets for minor seventh chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Minor7);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Minor7);
       expect(result).toEqual([0, 3, 7, 10]);
     });
 
     it("should return correct offsets for diminished chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Diminished);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Diminished);
       expect(result).toEqual([0, 3, 6]);
     });
 
     it("should return correct offsets for augmented chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Augmented);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Augmented);
       expect(result).toEqual([0, 4, 8]);
     });
 
     it("should return correct offsets for suspended fourth chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(ChordType.Sus4);
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Sus4);
       expect(result).toEqual([0, 5, 7]);
     });
 
     it("should handle first inversion of major chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
-        ChordType.Major,
-        ixInversion(1),
-      );
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Major, ixInversion(1));
       expect(result).toEqual([-8, -5, 0]); // E is the bass note, C is the root note
     });
 
     it("should handle second inversion of major chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
-        ChordType.Major,
-        ixInversion(2),
-      );
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Major, ixInversion(2));
       expect(result).toEqual([-5, 0, 4]); // G is the bass note, C is the root note
     });
 
     it("should handle first inversion of minor chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
-        ChordType.Minor,
-        ixInversion(1),
-      );
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Minor, ixInversion(1));
       expect(result).toEqual([-9, -5, 0]); // E is the bass note, C is the root note
     });
 
     it("should handle second inversion of dominant seventh chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
-        ChordType.Dominant7,
-        ixInversion(2),
-      );
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Dominant7, ixInversion(2));
       expect(result).toEqual([-5, -2, 0, 4]); // G is the bass note, C is the root note
     });
 
     it("should handle third inversion of major seventh chord", () => {
-      const result = ChordAndIntervalManager.getOffsetsFromIdAndInversion(
-        ChordType.Major7,
-        ixInversion(3),
-      );
+      const result = ChordFactory.getOffsetsFromIdAndInversion(ChordType.Major7, ixInversion(3));
       expect(result).toEqual([-1, 0, 4, 7]); // B is the bass note, C is the root note
     });
   });

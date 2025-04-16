@@ -16,17 +16,17 @@ class NoteGroupingLibrarySingleton {
     const grouping = this.getGroupingById(key);
     switch (chordDisplayMode) {
       case ChordDisplayMode.Letters_Long:
-        return grouping?.lettersId || "";
+        return grouping.lettersId;
       case ChordDisplayMode.Symbols:
-        return grouping?.symbolsId || "";
+        return grouping.symbolsId;
       case ChordDisplayMode.Letters_Short:
-        const lettersId = grouping?.lettersId || "";
+        const lettersId = grouping.lettersId;
         const displayId = lettersId === "min" ? "m" : lettersId === "maj" ? "" : lettersId;
         return displayId;
       case ChordDisplayMode.DisplayName:
-        return grouping?.displayName || "";
+        return grouping.displayName;
       case ChordDisplayMode.ElementId:
-        return `${grouping?.id}`;
+        return `${grouping.id}`;
       default:
         return "";
     }

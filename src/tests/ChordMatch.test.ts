@@ -1,4 +1,3 @@
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
 import {
   ActualIndex,
@@ -8,6 +7,7 @@ import {
   InversionIndex,
 } from "../types/IndexTypes";
 import { ChordMatch } from "../types/ChordMatch";
+import { ChordFactory } from "../types/ChordFactory";
 
 function expectChordMatch(
   actual: ChordMatch,
@@ -36,7 +36,7 @@ function expectedUnknownChord(actual: ChordMatch) {
 describe("ChordMatch tests", () => {
   describe("getMatchFromIndices", () => {
     it('should return "No notes selected" for empty array', () => {
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices([]);
+      const actualChordMatch = ChordFactory.getMatchFromIndices([]);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
@@ -47,7 +47,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a major chord in root position", () => {
       const indices = ixActualArray([0, 4, 7]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
@@ -58,7 +58,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a minor chord in root position", () => {
       const indices = ixActualArray([0, 3, 7]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
@@ -69,7 +69,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify Dm", () => {
       const indices = ixActualArray([2, 5, 9]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(2),
@@ -80,7 +80,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a C♯/D♭ major ", () => {
       const indices = ixActualArray([1, 5, 8]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(1),
@@ -91,7 +91,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a major chord in first inversion [1]", () => {
       const indices = ixActualArray([4, 7, 12]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
@@ -103,7 +103,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a major chord in second inversion [2]", () => {
       const indices = ixActualArray([7, 12, 16]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
@@ -115,7 +115,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a dominant seventh chord in root position", () => {
       const indices = ixActualArray([0, 4, 7, 10]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
@@ -127,7 +127,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a major seventh chord in third inversion", () => {
       const indices = ixActualArray([11, 12, 16, 19]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
@@ -139,7 +139,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a diminished chord", () => {
       const indices = ixActualArray([0, 3, 6]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
 
       expectChordMatch(actualChordMatch, {
@@ -151,7 +151,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify an augmented chord", () => {
       const indices = ixActualArray([0, 4, 8]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
@@ -162,7 +162,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a suspended fourth chord", () => {
       const indices = ixActualArray([0, 5, 7]);
-      const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
       expect(actualChordMatch).toBeDefined();
       expectChordMatch(actualChordMatch, {
         rootNote: ixActual(0),
@@ -173,7 +173,7 @@ describe("ChordMatch tests", () => {
 
     it("should return None for an empty array", () => {
       const indices = ixActualArray([]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const result = ChordFactory.getMatchFromIndices(indices);
       expect(result).toBeDefined();
       expectChordMatch(result, {
         rootNote: ixActual(0),
@@ -184,7 +184,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify a single note", () => {
       const indices: ActualIndex[] = ixActualArray([0]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const result = ChordFactory.getMatchFromIndices(indices);
       expectChordMatch(result, {
         rootNote: ixActual(0),
         noteGroupingId: SpecialType.Note,
@@ -194,7 +194,7 @@ describe("ChordMatch tests", () => {
 
     it("should correctly identify an interval", () => {
       const indices = ixActualArray([0, 7]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const result = ChordFactory.getMatchFromIndices(indices);
       expectChordMatch(result, {
         rootNote: ixActual(0),
         noteGroupingId: IntervalType.Fifth,
@@ -204,13 +204,13 @@ describe("ChordMatch tests", () => {
 
     it("C C# D - should return C -", () => {
       const indices = ixActualArray([0, 1, 2]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const result = ChordFactory.getMatchFromIndices(indices);
       expectedUnknownChord(result);
     });
 
     it("C D E - should return C -", () => {
       const indices = ixActualArray([0, 2, 4]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      const result = ChordFactory.getMatchFromIndices(indices);
       expectedUnknownChord(result);
     });
   });
