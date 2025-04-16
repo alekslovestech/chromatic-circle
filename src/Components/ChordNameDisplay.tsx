@@ -6,6 +6,7 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/ChordNameDisplay.css";
+import { NoteGrouping } from "../types/NoteGrouping";
 
 export const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
@@ -22,14 +23,15 @@ export const ChordNameDisplay: React.FC = () => {
   }
 
   const renderNoteGrouping = () => {
-    const chordMatch = ChordAndIntervalManager.getMatchFromIndices(selectedNoteIndices);
-    const noteGrouping = chordMatch?.definition.getNoteGroupingType();
-    const chordName = chordMatch?.deriveChordName(chordDisplayMode, selectedMusicalKey);
-    const noteGroupingString = noteGrouping?.toString() || "";
+    const { noteGroupingString, chordName } = ChordAndIntervalManager.getDisplayInfoFromIndices(
+      selectedNoteIndices,
+      chordDisplayMode,
+      selectedMusicalKey,
+    );
     return (
       <div className="chord-name-description">
-        <span>{noteGroupingString ? `${noteGroupingString}: ` : ""}</span>
-        <span className="chord-name-value">{chordName || "?"}</span>
+        <span>{`${noteGroupingString}: `}</span>
+        <span className="chord-name-value">{chordName}</span>
       </div>
     );
   };

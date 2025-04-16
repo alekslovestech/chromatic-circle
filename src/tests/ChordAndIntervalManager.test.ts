@@ -1,10 +1,11 @@
 import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { ChordType } from "../types/NoteGroupingTypes";
-import { MusicalKey } from "../types/Keys/MusicalKey";
+import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { KeyType } from "../types/Keys/KeyType";
 
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
 
 describe("ChordAndIntervalManager", () => {
   describe("getOffsetsFromIdAndInversion", () => {
@@ -283,9 +284,89 @@ describe("ChordAndIntervalManager", () => {
     });
 
     it('should return "Unknown" for unrecognized chord', () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 1, 2]))).toBe(
-        "Unknown",
+      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 1, 2]))).toBe("C-");
+    });
+  });
+
+  describe("getDisplayPropertiesFromIndices", () => {
+    it("should return correct display properties for major chord", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([0, 4, 7]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
       );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("C");
+    });
+
+    it("test 0 notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        [],
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("None");
+      expect(result.chordName).toBe("Ø");
+    });
+
+    it("test C, C#, D notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([0, 1, 2]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("C-");
+    });
+
+    it("test C D E notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([0, 2, 4]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("C-");
+    });
+
+    it("test G, A, B notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([7, 9, 11]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("G-");
+    });
+
+    it("test B, Db, F notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([11, 13, 15]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("B-");
+    });
+
+    it("test A#, C, E notes selected", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([10, 12, 16]),
+        ChordDisplayMode.Letters_Short,
+        DEFAULT_MUSICAL_KEY,
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("A♯-");
+    });
+
+    it("test A#, C, E notes selected in C Dorian", () => {
+      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+        ixActualArray([10, 12, 16]),
+        ChordDisplayMode.Letters_Short,
+        MusicalKey.fromGreekMode("C", GreekModeType.Dorian),
+      );
+      expect(result.noteGroupingString).toBe("Chord");
+      expect(result.chordName).toBe("B♭-");
     });
   });
 });

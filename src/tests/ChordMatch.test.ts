@@ -10,7 +10,7 @@ import {
 import { ChordMatch } from "../types/ChordMatch";
 
 function expectChordMatch(
-  actual: ChordMatch | undefined,
+  actual: ChordMatch,
   expected: {
     rootNote: ActualIndex;
     noteGroupingId: NoteGroupingId;
@@ -27,6 +27,10 @@ function expectChordMatch(
   } else {
     fail("ChordMatch is undefined");
   }
+}
+
+function expectedUnknownChord(actual: ChordMatch) {
+  expect(actual.definition.id).toBe(ChordType.Unknown);
 }
 
 describe("ChordMatch tests", () => {
@@ -133,12 +137,6 @@ describe("ChordMatch tests", () => {
       });
     });
 
-    it("should return undefined for an unrecognized chord", () => {
-      const indices = ixActualArray([0, 1, 2]);
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
-      expect(result).toBeUndefined();
-    });
-
     it("should correctly identify a diminished chord", () => {
       const indices = ixActualArray([0, 3, 6]);
       const actualChordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
@@ -172,16 +170,6 @@ describe("ChordMatch tests", () => {
         inversionIndex: ixInversion(0),
       });
     });
-    /*
-
-    it("should handle octave equivalence", () => {
-      const indices: ActualIndex[] = [0, 4, 19]; // C, E, G (but G is two octaves higher)
-      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
-      expect(result).toEqual({
-        definition: expect.objectContaining({ id: NoteGroupingId.Chord_Maj }),
-        inversionIndex: 0,
-      });
-    }); */
 
     it("should return None for an empty array", () => {
       const indices = ixActualArray([]);
@@ -212,6 +200,18 @@ describe("ChordMatch tests", () => {
         noteGroupingId: IntervalType.Fifth,
         inversionIndex: ixInversion(0),
       });
+    });
+
+    it("C C# D - should return C -", () => {
+      const indices = ixActualArray([0, 1, 2]);
+      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      expectedUnknownChord(result);
+    });
+
+    it("C D E - should return C -", () => {
+      const indices = ixActualArray([0, 2, 4]);
+      const result = ChordAndIntervalManager.getMatchFromIndices(indices);
+      expectedUnknownChord(result);
     });
   });
 });
