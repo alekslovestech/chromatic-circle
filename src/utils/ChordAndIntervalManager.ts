@@ -15,6 +15,11 @@ import { TWELVE } from "../types/NoteConstants";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { IndexUtils } from "./IndexUtils";
 
+interface DisplayInfo {
+  noteGroupingString: string;
+  chordName: string;
+}
+
 export class ChordAndIntervalManager {
   static getDefinitionFromId = (id: NoteGroupingId): NoteGrouping =>
     NoteGroupingLibrary.getGroupingById(id);
@@ -28,7 +33,7 @@ export class ChordAndIntervalManager {
     indices: ActualIndex[],
     chordDisplayMode: ChordDisplayMode,
     musicalKey: MusicalKey,
-  ) {
+  ): DisplayInfo {
     const chordMatch = ChordAndIntervalManager.getMatchFromIndices(indices);
     const noteGrouping = NoteGrouping.getNoteGroupingTypeFromNumNotes(indices.length);
     const chordName = chordMatch.deriveChordName(chordDisplayMode, musicalKey);
@@ -50,26 +55,6 @@ export class ChordAndIntervalManager {
     return definition.inversions[inversionIndex];
   }
 
-  private static getChordMatchFromIndices(
-    indices: ActualIndex[],
-    definition: NoteGrouping,
-    inversionIndex: InversionIndex,
-  ): ChordMatch {
-    const rootNoteIndex = ixActual(
-      IndexUtils.rootNoteAtInversion(indices, inversionIndex) % TWELVE,
-    );
-    return new ChordMatch(rootNoteIndex, definition, inversionIndex);
-  }
-
-  private static getChordMatchUnknown(indices: ActualIndex[]): ChordMatch {
-    const inversionIndex = ixInversion(0);
-    const rootNoteIndex = ixActual(
-      IndexUtils.rootNoteAtInversion(indices, inversionIndex) % TWELVE,
-    );
-    const definition = NoteGrouping.createUnknownChord(indices);
-    return new ChordMatch(rootNoteIndex, definition, inversionIndex);
-  }
-
   static getMatchFromIndices(indices: ActualIndex[]): ChordMatch {
     if (indices.length === 0)
       return new ChordMatch(0 as ActualIndex, this.getDefinitionFromId(SpecialType.None));
@@ -80,7 +65,6 @@ export class ChordAndIntervalManager {
     // First check all note grouping types in root position
     for (const id of allIds) {
       const definition = this.getDefinitionFromId(id);
-
       const rootMatch = this.checkForMatchingInversion(
         indices,
         normalizedIndices,
@@ -93,7 +77,6 @@ export class ChordAndIntervalManager {
     // Then check all inversions for each type
     for (const id of allIds) {
       const definition = this.getDefinitionFromId(id);
-
       for (let i = 1 as InversionIndex; i < definition.inversions.length; i++) {
         const match = this.checkForMatchingInversion(indices, normalizedIndices, definition, i);
         if (match) return match;
@@ -101,6 +84,41 @@ export class ChordAndIntervalManager {
     }
 
     return this.getChordMatchUnknown(indices);
+  }
+
+  static getChordNameFromIndices(
+    indices: ActualIndex[],
+    displayMode = ChordDisplayMode.Letters_Short,
+    selectedMusicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
+  ): string {
+    const chordMatch = this.getMatchFromIndices(indices);
+    return chordMatch.deriveChordName(displayMode, selectedMusicalKey);
+  }
+
+  static calculateChordNotesFromIndex = (
+    rootIndex: ActualIndex,
+    chordType: NoteGroupingId,
+    inversionIndex: InversionIndex = ixInversion(0),
+  ): ActualIndex[] => {
+    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
+    const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
+    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(newNotes));
+  };
+
+  private static getChordMatchFromIndices(
+    indices: ActualIndex[],
+    definition: NoteGrouping,
+    inversionIndex: InversionIndex,
+  ): ChordMatch {
+    const rootNoteIndex = ixActual(
+      IndexUtils.rootNoteAtInversion(indices, inversionIndex) % TWELVE,
+    );
+    return new ChordMatch(rootNoteIndex, definition, inversionIndex);
+  }
+
+  private static getChordMatchUnknown(indices: ActualIndex[]): ChordMatch {
+    const definition = NoteGrouping.createUnknownChord(indices);
+    return new ChordMatch(ixActual(indices[0]), definition, ixInversion(0));
   }
 
   private static checkForMatchingInversion(
@@ -113,26 +131,4 @@ export class ChordAndIntervalManager {
     if (!IndexUtils.areIndicesEqual(inversionIndices, normalizedIndices)) return null;
     return this.getChordMatchFromIndices(indices, definition, inversionIndex);
   }
-
-  static getChordNameFromIndices(
-    indices: ActualIndex[],
-    displayMode = ChordDisplayMode.Letters_Short,
-    selectedMusicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
-    /* accidental = AccidentalType.Sharp,*/
-  ): string {
-    const chordMatch = this.getMatchFromIndices(indices);
-    if (chordMatch) return chordMatch.deriveChordName(displayMode, selectedMusicalKey);
-
-    return "Unknown";
-  }
-
-  static calculateChordNotesFromIndex = (
-    rootIndex: ActualIndex,
-    chordType: NoteGroupingId,
-    inversionIndex: InversionIndex = ixInversion(0),
-  ): ActualIndex[] => {
-    const chordOffsets = this.getOffsetsFromIdAndInversion(chordType, inversionIndex);
-    const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
-    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(newNotes));
-  };
 }
