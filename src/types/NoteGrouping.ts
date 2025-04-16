@@ -1,6 +1,6 @@
 import { IndexUtils } from "../utils/IndexUtils";
-import { ixOffsetArray, OffsetIndex } from "./IndexTypes";
-import { NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
+import { ActualIndex, ixOffset, ixOffsetArray, OffsetIndex } from "./IndexTypes";
+import { ChordType, NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
 
 export class NoteGrouping {
   public readonly inversions: OffsetIndex[][];
@@ -35,10 +35,18 @@ export class NoteGrouping {
   }
 
   getNoteGroupingType(): NoteGroupingType {
-    if (this.numNotes === 0) return NoteGroupingType.None;
-    if (this.numNotes === 1) return NoteGroupingType.Note;
-    if (this.numNotes === 2) return NoteGroupingType.Interval;
+    return NoteGrouping.getNoteGroupingTypeFromNumNotes(this.numNotes);
+  }
+
+  static getNoteGroupingTypeFromNumNotes(numNotes: number): NoteGroupingType {
+    if (numNotes === 0) return NoteGroupingType.None;
+    if (numNotes === 1) return NoteGroupingType.Note;
+    if (numNotes === 2) return NoteGroupingType.Interval;
     return NoteGroupingType.Chord;
+  }
+
+  getNoteGroupingTypeFromId(id: NoteGroupingId): NoteGroupingType {
+    return this.getNoteGroupingType();
   }
 
   public static createInterval(
@@ -75,5 +83,11 @@ export class NoteGrouping {
       ixOffsetArray(offsets),
       true,
     );
+  }
+
+  public static createUnknownChord(indices: ActualIndex[]): NoteGrouping {
+    const firstIndex = indices.length > 0 ? indices[0] : 0;
+    const offsets = indices.map((index) => ixOffset(index - firstIndex));
+    return new NoteGrouping(ChordType.Unknown, "", "", "", -1, offsets, false);
   }
 }

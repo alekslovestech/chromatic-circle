@@ -51,3 +51,7 @@ export function actualIndexToChromaticAndOctave(actualIndex: ActualIndex) {
     octaveOffset: ixOctaveOffset(actualIndex >= TWELVE ? 1 : 0),
   };
 }
+
+export function addOffsetToActual(a: ActualIndex, b: OffsetIndex): ActualIndex {
+  return ixActual((a + b + TWENTY4) % TWENTY4);
+}
