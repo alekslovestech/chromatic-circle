@@ -6,7 +6,6 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/ChordNameDisplay.css";
-import { NoteGrouping } from "../types/NoteGrouping";
 
 export const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();

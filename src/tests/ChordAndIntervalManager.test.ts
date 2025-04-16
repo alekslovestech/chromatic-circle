@@ -1,4 +1,4 @@
-import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
+import { InversionIndex, ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { ChordType } from "../types/NoteGroupingTypes";
 import { DEFAULT_MUSICAL_KEY, MusicalKey } from "../types/Keys/MusicalKey";
 import { ChordDisplayMode } from "../types/SettingModes";
@@ -6,6 +6,51 @@ import { KeyType } from "../types/Keys/KeyType";
 
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
+
+function verifyDisplayInfo(
+  expectedNoteGrouping: string,
+  expectedChordName: string,
+  indices: number[],
+  musicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
+) {
+  const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
+    ixActualArray(indices),
+    ChordDisplayMode.Letters_Short,
+    musicalKey,
+  );
+  expect(result.noteGroupingString).toBe(expectedNoteGrouping);
+  expect(result.chordName).toBe(expectedChordName);
+}
+
+function verifyChordNameWithMode(
+  expectedChordName: string,
+  indices: number[],
+  displayMode: ChordDisplayMode = ChordDisplayMode.Letters_Short,
+  musicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
+) {
+  expect(
+    ChordAndIntervalManager.getChordNameFromIndices(
+      ixActualArray(indices),
+      displayMode,
+      musicalKey,
+    ),
+  ).toBe(expectedChordName);
+}
+
+function verifyChordNotesFromIndex(
+  expectedNotes: number[],
+  index: number,
+  chordType: ChordType,
+  inversion: InversionIndex = ixInversion(0),
+) {
+  const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
+    ixActual(index),
+    chordType,
+    inversion,
+  );
+  expect(result.length).toEqual(expectedNotes.length);
+  expect(result).toEqual(expectedNotes);
+}
 
 describe("ChordAndIntervalManager", () => {
   describe("getOffsetsFromIdAndInversion", () => {
@@ -92,281 +137,155 @@ describe("ChordAndIntervalManager", () => {
 
   describe("calculateChordNotesFromIndex", () => {
     it("should calculate correct notes for major chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Major,
-      );
-      expect(result).toEqual([0, 4, 7]);
+      verifyChordNotesFromIndex([0, 4, 7], 0, ChordType.Major);
     });
 
     it("should calculate correct notes for minor chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Minor,
-      );
-      expect(result).toEqual([0, 3, 7]);
+      verifyChordNotesFromIndex([0, 3, 7], 0, ChordType.Minor);
     });
 
     it("should calculate correct notes for first inversion of major chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Major,
-        ixInversion(1),
-      );
-      expect(result).toEqual([4, 7, 12]);
+      verifyChordNotesFromIndex([4, 7, 12], 0, ChordType.Major, ixInversion(1));
     });
 
     it("should calculate correct notes for second inversion of dominant seventh chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Dominant7,
-        ixInversion(2),
-      );
-      expect(result).toEqual([7, 10, 12, 16]);
+      verifyChordNotesFromIndex([7, 10, 12, 16], 0, ChordType.Dominant7, ixInversion(2));
     });
 
     it("should clip notes to range when doClip is true", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(22),
-        ChordType.Major,
-        ixInversion(0),
-      );
-      expect(result).toEqual([10, 14, 17]);
+      verifyChordNotesFromIndex([10, 14, 17], 22, ChordType.Major, ixInversion(0));
     });
 
     it("should calculate correct notes for first inversion of minor chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Minor,
-        ixInversion(1),
-      );
-      expect(result).toEqual([3, 7, 12]);
+      verifyChordNotesFromIndex([3, 7, 12], 0, ChordType.Minor, ixInversion(1));
     });
 
     it("should calculate correct notes for second inversion of augmented chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Minor,
-        ixInversion(2),
-      );
-      expect(result).toEqual([7, 12, 15]);
+      verifyChordNotesFromIndex([7, 12, 15], 0, ChordType.Minor, ixInversion(2));
     });
 
     it("should calculate correct notes for third inversion of dominant seventh chord", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Dominant7,
-        ixInversion(3),
-      );
-      expect(result).toEqual([10, 12, 16, 19]);
+      verifyChordNotesFromIndex([10, 12, 16, 19], 0, ChordType.Dominant7, ixInversion(3));
     });
 
     it("7add13 should span 13 semitones", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(0),
-        ChordType.Seven13,
-      );
-      expect(result.length).toEqual(5);
-      expect(result).toEqual([0, 4, 7, 10, 13]);
+      verifyChordNotesFromIndex([0, 4, 7, 10, 13], 0, ChordType.Seven13);
     });
 
     it("7add13 starting at 12, fit to range by being moved to 0", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(12),
-        ChordType.Seven13,
-      );
-      expect(result.length).toEqual(5);
-      expect(result).toEqual([0, 4, 7, 10, 13]);
+      verifyChordNotesFromIndex([0, 4, 7, 10, 13], 12, ChordType.Seven13);
     });
 
     it("7add13 starting at 11, doesn't fit, so we truncate", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(11),
-        ChordType.Seven13,
-      );
-      expect(result.length).toEqual(4);
-      //expect(result).toEqual([0, 4, 7, 10, 13]);
+      verifyChordNotesFromIndex([11, 15, 18, 21], 11, ChordType.Seven13);
     });
 
     it("7add9 should span 14 semitones", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(12),
-        ChordType.Add9,
-      );
-      expect(result.length).toEqual(4);
-      expect(result).toEqual([0, 4, 7, 14]);
+      verifyChordNotesFromIndex([0, 4, 7, 14], 12, ChordType.Add9);
     });
 
     it("7add9 starting at 11 doesn't fit, so we truncate", () => {
-      const result = ChordAndIntervalManager.calculateChordNotesFromIndex(
-        ixActual(11),
-        ChordType.Add9,
-      );
-      expect(result.length).toEqual(3);
-      // expect(result).toEqual([0, 4, 7, 14]);
+      verifyChordNotesFromIndex([11, 15, 18], 11, ChordType.Add9);
     });
   });
 
   describe("getChordNameFromIndices", () => {
     it('should return "Ø" for empty array', () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices([])).toBe("Ø");
+      verifyChordNameWithMode("Ø", []);
     });
 
     it("should return correct interval name for major third", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4]))).toBe("M3");
+      verifyChordNameWithMode("M3", [0, 4]);
     });
 
     it("should return correct chord name for major chord", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 4, 7]))).toBe("C");
+      verifyChordNameWithMode("C", [0, 4, 7]);
     });
 
     it("should return correct chord name for major chord in first inversion", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4, 7, 12]))).toBe(
-        "C/E",
-      );
+      verifyChordNameWithMode("C/E", [4, 7, 12]);
     });
 
     it("should return correct chord name for major chord in second inversion", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([7, 12, 16]))).toBe(
-        "C/G",
-      );
+      verifyChordNameWithMode("C/G", [7, 12, 16]);
     });
 
     it("should return correct chord name for minor chord", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([2, 5, 9]))).toBe("Dm");
+      verifyChordNameWithMode("Dm", [2, 5, 9]);
     });
 
     it("should return correct chord name for minor chord in first inversion", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([5, 9, 14]))).toBe(
-        "Dm/F",
-      );
+      verifyChordNameWithMode("Dm/F", [5, 9, 14]);
     });
 
     it("should return only note name for single note", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([4]))).toBe("E");
+      verifyChordNameWithMode("E", [4]);
     });
 
     it("should return correct chord for diminished chord", () => {
-      const eDimIndices = ixActualArray([4, 7, 10]);
-      expect(ChordAndIntervalManager.getChordNameFromIndices(eDimIndices)).toBe("Edim");
-      expect(
-        ChordAndIntervalManager.getChordNameFromIndices(eDimIndices, ChordDisplayMode.Symbols),
-      ).toBe("E°");
+      verifyChordNameWithMode("Edim", [4, 7, 10], ChordDisplayMode.Letters_Short);
+      verifyChordNameWithMode("E°", [4, 7, 10], ChordDisplayMode.Symbols);
     });
 
     it("should use flat accidentals when specified", () => {
-      expect(
-        ChordAndIntervalManager.getChordNameFromIndices(
-          ixActualArray([1, 5, 8]),
-          ChordDisplayMode.Letters_Short,
-          MusicalKey.fromClassicalMode("Db", KeyType.Major),
-        ),
-      ).toBe("D♭");
-    });
-
-    it("should correctly identify a dominant seventh chord in root position", () => {
-      const cDom7Indices = ixActualArray([0, 4, 7, 10]);
-      expect(
-        ChordAndIntervalManager.getChordNameFromIndices(
-          cDom7Indices,
-          ChordDisplayMode.Letters_Long,
-        ),
-      ).toBe("C7");
-      expect(
-        ChordAndIntervalManager.getChordNameFromIndices(cDom7Indices, ChordDisplayMode.Symbols),
-      ).toBe("C7");
-    });
-
-    it("should correctly identify a sus4 chord", () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 5, 7]))).toBe(
-        "Csus4",
+      verifyChordNameWithMode(
+        "D♭",
+        [1, 5, 8],
+        ChordDisplayMode.Letters_Short,
+        MusicalKey.fromClassicalMode("Db", KeyType.Major),
       );
     });
 
+    it("should correctly identify a dominant seventh chord in root position", () => {
+      verifyChordNameWithMode("C7", [0, 4, 7, 10], ChordDisplayMode.Letters_Long);
+      verifyChordNameWithMode("C7", [0, 4, 7, 10], ChordDisplayMode.Symbols);
+    });
+
+    it("should correctly identify a sus4 chord", () => {
+      verifyChordNameWithMode("Csus4", [0, 5, 7]);
+    });
+
     it('should return "Unknown" for unrecognized chord', () => {
-      expect(ChordAndIntervalManager.getChordNameFromIndices(ixActualArray([0, 1, 2]))).toBe("C-");
+      verifyChordNameWithMode("C-", [0, 1, 2]);
     });
   });
 
   describe("getDisplayPropertiesFromIndices", () => {
     it("should return correct display properties for major chord", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([0, 4, 7]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("C");
+      verifyDisplayInfo("Chord", "C", [0, 4, 7]);
     });
 
     it("test 0 notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        [],
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("None");
-      expect(result.chordName).toBe("Ø");
+      verifyDisplayInfo("None", "Ø", []);
     });
 
     it("test C, C#, D notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([0, 1, 2]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("C-");
+      verifyDisplayInfo("Chord", "C-", [0, 1, 2]);
     });
 
     it("test C D E notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([0, 2, 4]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("C-");
+      verifyDisplayInfo("Chord", "C-", [0, 2, 4]);
     });
 
     it("test G, A, B notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([7, 9, 11]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("G-");
+      verifyDisplayInfo("Chord", "G-", [7, 9, 11]);
     });
 
     it("test B, Db, F notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([11, 13, 15]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("B-");
+      verifyDisplayInfo("Chord", "B-", [11, 13, 15]);
     });
 
     it("test A#, C, E notes selected", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([10, 12, 16]),
-        ChordDisplayMode.Letters_Short,
-        DEFAULT_MUSICAL_KEY,
-      );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("A♯-");
+      verifyDisplayInfo("Chord", "A♯-", [10, 12, 16]);
     });
 
     it("test A#, C, E notes selected in C Dorian", () => {
-      const result = ChordAndIntervalManager.getDisplayInfoFromIndices(
-        ixActualArray([10, 12, 16]),
-        ChordDisplayMode.Letters_Short,
+      verifyDisplayInfo(
+        "Chord",
+        "B♭-",
+        [10, 12, 16],
         MusicalKey.fromGreekMode("C", GreekModeType.Dorian),
       );
-      expect(result.noteGroupingString).toBe("Chord");
-      expect(result.chordName).toBe("B♭-");
     });
   });
 });
