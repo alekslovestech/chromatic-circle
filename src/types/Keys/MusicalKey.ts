@@ -63,7 +63,7 @@ export class MusicalKey {
     const classicalMode = [
       GreekModeType.Ionian,
       GreekModeType.Lydian,
-      GreekModeType.Mixolydian,
+      //   GreekModeType.Mixolydian,
     ].includes(greekMode)
       ? KeyType.Major
       : KeyType.Minor;
