@@ -5,8 +5,7 @@ import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { IndexUtils } from "./IndexUtils";
-import { ChordFactory } from "./ChordFactory";
-import { ChordNameResolver } from "./ChordNameResolver";
+import { ChordUtils } from "./ChordUtils";
 
 interface DisplayInfo {
   noteGroupingString: string;
@@ -27,9 +26,9 @@ export class ChordAndIntervalManager {
     chordDisplayMode: ChordDisplayMode,
     musicalKey: MusicalKey,
   ): DisplayInfo {
-    const chordMatch = ChordFactory.getMatchFromIndices(indices);
+    const chordMatch = ChordUtils.getMatchFromIndices(indices);
     const noteGrouping = NoteGrouping.getNoteGroupingTypeFromNumNotes(indices.length);
-    const chordName = ChordNameResolver.deriveChordName(chordMatch, chordDisplayMode, musicalKey);
+    const chordName = ChordUtils.deriveChordName(chordMatch, chordDisplayMode, musicalKey);
     const noteGroupingString = noteGrouping.toString();
     return { noteGroupingString, chordName };
   }
@@ -39,7 +38,7 @@ export class ChordAndIntervalManager {
     chordType: NoteGroupingId,
     inversionIndex: InversionIndex = ixInversion(0),
   ): ActualIndex[] => {
-    const chordOffsets = ChordFactory.getOffsetsFromIdAndInversion(chordType, inversionIndex);
+    const chordOffsets = ChordUtils.getOffsetsFromIdAndInversion(chordType, inversionIndex);
     const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
     return ixActualArray(IndexUtils.fitChordToAbsoluteRange(newNotes));
   };

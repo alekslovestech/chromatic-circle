@@ -1,217 +1,85 @@
 import { ChordType, IntervalType, NoteGroupingId, SpecialType } from "../types/NoteGroupingTypes";
-import {
-  ActualIndex,
-  ixActual,
-  ixActualArray,
-  ixInversion,
-  InversionIndex,
-} from "../types/IndexTypes";
+import { ixActual, ixActualArray, ixInversion } from "../types/IndexTypes";
 import { ChordMatch } from "../types/ChordMatch";
-import { ChordFactory } from "../utils/ChordFactory";
+import { ChordUtils } from "../utils/ChordUtils";
 
-function expectChordMatch(
-  actual: ChordMatch,
-  expected: {
-    rootNote: ActualIndex;
-    noteGroupingId: NoteGroupingId;
-    inversionIndex: InversionIndex;
-  },
+function verifyChordMatch(
+  expectedRootNote: number,
+  expectedDefinitionId: NoteGroupingId,
+  expectedInversionIndex: number,
+  indices: number[],
 ) {
+  const actual: ChordMatch = ChordUtils.getMatchFromIndices(ixActualArray(indices));
   expect(actual).toBeDefined();
-  if (actual) {
-    expect({
-      rootNote: actual.rootNote,
-      noteGroupingId: actual.definition.id,
-      inversionIndex: actual.inversionIndex,
-    }).toEqual(expected);
-  } else {
-    fail("ChordMatch is undefined");
-  }
-}
-
-function expectedUnknownChord(actual: ChordMatch) {
-  expect(actual.definition.id).toBe(ChordType.Unknown);
+  expect(actual.rootNote).toBe(ixActual(expectedRootNote));
+  expect(actual.definition.id).toBe(expectedDefinitionId);
+  expect(actual.inversionIndex).toBe(ixInversion(expectedInversionIndex));
 }
 
 describe("ChordMatch tests", () => {
   describe("getMatchFromIndices", () => {
     it('should return "No notes selected" for empty array', () => {
-      const actualChordMatch = ChordFactory.getMatchFromIndices([]);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: SpecialType.None,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, SpecialType.None, 0, []);
     });
 
     it("should correctly identify a major chord in root position", () => {
-      const indices = ixActualArray([0, 4, 7]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Major,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Major, 0, [0, 4, 7]);
     });
 
     it("should correctly identify a minor chord in root position", () => {
-      const indices = ixActualArray([0, 3, 7]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Minor,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Minor, 0, [0, 3, 7]);
     });
 
     it("should correctly identify Dm", () => {
-      const indices = ixActualArray([2, 5, 9]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(2),
-        noteGroupingId: ChordType.Minor,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(2, ChordType.Minor, 0, [2, 5, 9]);
     });
 
     it("should correctly identify a C♯/D♭ major ", () => {
-      const indices = ixActualArray([1, 5, 8]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(1),
-        noteGroupingId: ChordType.Major,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(1, ChordType.Major, 0, [1, 5, 8]);
     });
 
     it("should correctly identify a major chord in first inversion [1]", () => {
-      const indices = ixActualArray([4, 7, 12]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Major,
-        inversionIndex: ixInversion(1),
-      });
+      verifyChordMatch(0, ChordType.Major, 1, [4, 7, 12]);
     });
 
     it("should correctly identify a major chord in second inversion [2]", () => {
-      const indices = ixActualArray([7, 12, 16]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Major,
-        inversionIndex: ixInversion(2),
-      });
+      verifyChordMatch(0, ChordType.Major, 2, [7, 12, 16]);
     });
 
     it("should correctly identify a dominant seventh chord in root position", () => {
-      const indices = ixActualArray([0, 4, 7, 10]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Dominant7,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Dominant7, 0, [0, 4, 7, 10]);
     });
 
     it("should correctly identify a major seventh chord in third inversion", () => {
-      const indices = ixActualArray([11, 12, 16, 19]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Major7,
-        inversionIndex: ixInversion(3),
-      });
+      verifyChordMatch(0, ChordType.Major7, 3, [11, 12, 16, 19]);
     });
 
     it("should correctly identify a diminished chord", () => {
-      const indices = ixActualArray([0, 3, 6]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Diminished,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Diminished, 0, [0, 3, 6]);
     });
 
     it("should correctly identify an augmented chord", () => {
-      const indices = ixActualArray([0, 4, 8]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Augmented,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Augmented, 0, [0, 4, 8]);
     });
 
     it("should correctly identify a suspended fourth chord", () => {
-      const indices = ixActualArray([0, 5, 7]);
-      const actualChordMatch = ChordFactory.getMatchFromIndices(indices);
-      expect(actualChordMatch).toBeDefined();
-      expectChordMatch(actualChordMatch, {
-        rootNote: ixActual(0),
-        noteGroupingId: ChordType.Sus4,
-        inversionIndex: ixInversion(0),
-      });
-    });
-
-    it("should return None for an empty array", () => {
-      const indices = ixActualArray([]);
-      const result = ChordFactory.getMatchFromIndices(indices);
-      expect(result).toBeDefined();
-      expectChordMatch(result, {
-        rootNote: ixActual(0),
-        noteGroupingId: SpecialType.None,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, ChordType.Sus4, 0, [0, 5, 7]);
     });
 
     it("should correctly identify a single note", () => {
-      const indices: ActualIndex[] = ixActualArray([0]);
-      const result = ChordFactory.getMatchFromIndices(indices);
-      expectChordMatch(result, {
-        rootNote: ixActual(0),
-        noteGroupingId: SpecialType.Note,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, SpecialType.Note, 0, [0]);
     });
 
     it("should correctly identify an interval", () => {
-      const indices = ixActualArray([0, 7]);
-      const result = ChordFactory.getMatchFromIndices(indices);
-      expectChordMatch(result, {
-        rootNote: ixActual(0),
-        noteGroupingId: IntervalType.Fifth,
-        inversionIndex: ixInversion(0),
-      });
+      verifyChordMatch(0, IntervalType.Fifth, 0, [0, 7]);
     });
 
     it("C C# D - should return C -", () => {
-      const indices = ixActualArray([0, 1, 2]);
-      const result = ChordFactory.getMatchFromIndices(indices);
-      expectedUnknownChord(result);
+      verifyChordMatch(0, ChordType.Unknown, 0, [0, 1, 2]);
     });
 
     it("C D E - should return C -", () => {
-      const indices = ixActualArray([0, 2, 4]);
-      const result = ChordFactory.getMatchFromIndices(indices);
-      expectedUnknownChord(result);
+      verifyChordMatch(0, ChordType.Unknown, 0, [0, 2, 4]);
     });
   });
 });

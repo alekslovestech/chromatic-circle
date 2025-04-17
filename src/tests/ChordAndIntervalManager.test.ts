@@ -5,9 +5,8 @@ import { ChordDisplayMode } from "../types/SettingModes";
 import { KeyType } from "../types/Keys/KeyType";
 
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-import { ChordNameResolver } from "../utils/ChordNameResolver";
 import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
-import { ChordFactory } from "../utils/ChordFactory";
+import { ChordUtils } from "../utils/ChordUtils";
 
 function verifyDisplayInfo(
   expectedNoteGrouping: string,
@@ -30,8 +29,8 @@ function verifyChordNameWithMode(
   displayMode: ChordDisplayMode = ChordDisplayMode.Letters_Short,
   musicalKey: MusicalKey = DEFAULT_MUSICAL_KEY,
 ) {
-  const chordMatch = ChordFactory.getMatchFromIndices(ixActualArray(indices));
-  const actual = ChordNameResolver.deriveChordName(chordMatch, displayMode, musicalKey);
+  const chordMatch = ChordUtils.getMatchFromIndices(ixActualArray(indices));
+  const actual = ChordUtils.deriveChordName(chordMatch, displayMode, musicalKey);
   expect(actual).toBe(expectedChordName);
 }
 
@@ -55,7 +54,7 @@ function verifyOffsetsFromIdAndInversion(
   id: ChordType,
   inversionIndex: InversionIndex = ixInversion(0),
 ) {
-  const result = ChordFactory.getOffsetsFromIdAndInversion(id, inversionIndex);
+  const result = ChordUtils.getOffsetsFromIdAndInversion(id, inversionIndex);
   expect(result).toEqual(expectedOffsets);
 }
 
