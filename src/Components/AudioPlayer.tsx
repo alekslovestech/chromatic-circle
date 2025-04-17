@@ -78,7 +78,7 @@ const AudioPlayer: React.FC = () => {
     });
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [audioContextRef, soundUrl, playSelectedNotes]);
+  }, [audioContextRef, playSelectedNotes]);
 
   useEffect(() => {
     if (!audioBufferRef.current) {
