@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
 
 import { useMusical } from "../contexts/MusicalContext";
@@ -46,10 +46,10 @@ const AudioPlayer: React.FC = () => {
     };
   };
 
-  const playSelectedNotes = () => {
+  const playSelectedNotes = useCallback(() => {
     activeSourcesRef.current.forEach((source) => source.stop());
     selectedNoteIndices.forEach((index) => playSound(index));
-  };
+  }, [selectedNoteIndices]);
 
   //On mount, create the audio context
   useEffect(() => {
@@ -78,7 +78,7 @@ const AudioPlayer: React.FC = () => {
     });
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [audioContextRef]);
+  }, [audioContextRef, soundUrl, playSelectedNotes]);
 
   useEffect(() => {
     if (!audioBufferRef.current) {
@@ -88,7 +88,7 @@ const AudioPlayer: React.FC = () => {
     playSelectedNotes();
 
     return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [selectedNoteIndices, audioBufferRef]);
+  }, [selectedNoteIndices, audioBufferRef, playSelectedNotes]);
 
   return (
     <div>
