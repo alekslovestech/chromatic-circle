@@ -27,7 +27,7 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   onClick,
 }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { keyTextMode, globalMode } = useDisplay();
+  const { keyTextMode, globalMode, monochromeMode } = useDisplay();
   const pathElement = ArcPathVisualizer.getArcPathFromIndex(
     chromaticIndex,
     outerRadius,
@@ -38,7 +38,13 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   const classNames = ["key-base", "pie-slice-key"];
   const isSelected = isSelectedEitherOctave(chromaticIndex, selectedNoteIndices);
 
-  const visualState = VisualStateUtils.getVisualState(chromaticIndex);
+  const isAdvanced = globalMode === GlobalMode.Advanced;
+  const visualState = VisualStateUtils.getVisualState(
+    chromaticIndex,
+    isAdvanced,
+    selectedMusicalKey,
+    monochromeMode,
+  );
   classNames.push(visualState);
 
   if (isSelected) classNames.push("selected");

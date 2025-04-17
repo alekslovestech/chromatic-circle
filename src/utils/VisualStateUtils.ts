@@ -1,21 +1,19 @@
 import { ChromaticIndex } from "../types/ChromaticIndex";
-import { GlobalMode } from "../types/SettingModes";
-
-import { useMusical } from "../contexts/MusicalContext";
-import { useDisplay } from "../contexts/DisplayContext";
 
 import { isBlackKey } from "./KeyboardUtils";
+import { MusicalKey } from "../types/Keys/MusicalKey";
 
 export class VisualStateUtils {
-  static getVisualState(chromaticIndex: ChromaticIndex): string {
-    const { selectedMusicalKey } = useMusical();
-    const { globalMode, monochromeMode } = useDisplay();
-
-    const isAdvanced = globalMode === GlobalMode.Advanced;
+  static getVisualState(
+    chromaticIndex: ChromaticIndex,
+    isAdvanced: boolean,
+    musicalKey: MusicalKey,
+    monochromeMode: boolean,
+  ): string {
     if (isAdvanced) {
-      const isDiatonic = selectedMusicalKey.greekModeInfo.isDiatonicNote(
+      const isDiatonic = musicalKey.greekModeInfo.isDiatonicNote(
         chromaticIndex,
-        selectedMusicalKey.tonicIndex,
+        musicalKey.tonicIndex,
       );
       return isDiatonic ? "highlighted" : "muted";
     }
