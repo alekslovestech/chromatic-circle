@@ -5,7 +5,7 @@ import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { ChordType, NoteGroupingType, NoteGroupingId } from "../types/NoteGroupingTypes";
 import { ChordDisplayMode } from "../types/SettingModes";
 import { NoteConverter } from "../types/NoteConverter";
-import { ChordMatch } from "../types/ChordMatch";
+import { IChordMatch } from "../types/ChordMatch";
 import {
   InversionIndex,
   ixInversion,
@@ -35,7 +35,7 @@ export class ChordUtils {
     return definition.inversions[inversionIndex];
   }
 
-  static getMatchFromIndices(indices: ActualIndex[]): ChordMatch {
+  static getMatchFromIndices(indices: ActualIndex[]): IChordMatch {
     if (indices.length === 0) {
       return {
         rootNote: ixActual(0),
@@ -84,7 +84,7 @@ export class ChordUtils {
   }
 
   static deriveChordName(
-    chordMatch: ChordMatch,
+    chordMatch: IChordMatch,
     displayMode: ChordDisplayMode,
     selectedMusicalKey: MusicalKey,
   ): string {
@@ -110,7 +110,7 @@ export class ChordUtils {
     );
   }
 
-  private static getBassNoteIndex(chordMatch: ChordMatch, isUnknownChord: boolean): ActualIndex {
+  private static getBassNoteIndex(chordMatch: IChordMatch, isUnknownChord: boolean): ActualIndex {
     if (isUnknownChord || chordMatch.definition.offsets.length === 0) {
       return chordMatch.rootNote;
     }
@@ -123,7 +123,7 @@ export class ChordUtils {
   }
 
   private static getChordNameRoot(
-    chordMatch: ChordMatch,
+    chordMatch: IChordMatch,
     selectedAccidental: AccidentalType,
     isUnknownChord: boolean,
     displayMode: ChordDisplayMode,
@@ -139,7 +139,7 @@ export class ChordUtils {
   }
 
   private static getNoteGroupingType(
-    chordMatch: ChordMatch,
+    chordMatch: IChordMatch,
     isUnknownChord: boolean,
   ): NoteGroupingType {
     return isUnknownChord ? NoteGroupingType.Chord : chordMatch.definition.getNoteGroupingType();
@@ -151,7 +151,7 @@ export class ChordUtils {
     bassNoteIndex: ActualIndex,
     rootNoteIndex: ActualIndex,
     selectedAccidental: AccidentalType,
-    chordMatch: ChordMatch,
+    chordMatch: IChordMatch,
     displayMode: ChordDisplayMode,
   ): string {
     switch (noteGroupingType) {
