@@ -45,10 +45,6 @@ export class NoteGrouping {
     return NoteGroupingType.Chord;
   }
 
-  getNoteGroupingTypeFromId(id: NoteGroupingId): NoteGroupingType {
-    return this.getNoteGroupingType();
-  }
-
   public static createInterval(
     id: NoteGroupingId,
     orderId: number,

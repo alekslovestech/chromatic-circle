@@ -2,7 +2,7 @@ import React from "react";
 
 import { WHITE_KEYS_PER_OCTAVE } from "../../types/NoteConstants";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { KeyTextMode } from "../../types/SettingModes";
+import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isBlackKey } from "../../utils/KeyboardUtils";
@@ -10,6 +10,7 @@ import { isBlackKey } from "../../utils/KeyboardUtils";
 import { VisualStateUtils } from "../../utils/VisualStateUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
+import { useDisplay } from "../../contexts/DisplayContext";
 
 interface PianoKeyProps {
   actualIndex: ActualIndex;
@@ -25,6 +26,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   onClick,
 }) => {
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
+  const { globalMode, monochromeMode } = useDisplay();
 
   const isShortKey = isBlackKey(actualIndex);
 
@@ -38,7 +40,13 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
 
   const classNames = ["key-base", "piano-key"];
   const isSelected = selectedNoteIndices.includes(actualIndex);
-  const visualState = VisualStateUtils.getVisualState(chromaticIndex);
+  const isAdvanced = globalMode === GlobalMode.Advanced;
+  const visualState = VisualStateUtils.getVisualState(
+    chromaticIndex,
+    isAdvanced,
+    selectedMusicalKey,
+    monochromeMode,
+  );
   classNames.push(visualState);
 
   if (isSelected) classNames.push("selected");

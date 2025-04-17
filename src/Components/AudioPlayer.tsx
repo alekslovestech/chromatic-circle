@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
 
 import { useMusical } from "../contexts/MusicalContext";
 
-const soundUrl = "/piano-shot.wav";
+const SOUND_URL = "/piano-shot.wav";
 const FREQ_MULTIPLIER = 0.25;
 
 const getMultiplierFromIndex = (index: number) => {
@@ -46,39 +46,33 @@ const AudioPlayer: React.FC = () => {
     };
   };
 
-  const playSelectedNotes = () => {
+  const playSelectedNotes = useCallback(() => {
     activeSourcesRef.current.forEach((source) => source.stop());
     selectedNoteIndices.forEach((index) => playSound(index));
-  };
+  }, [selectedNoteIndices]);
 
   //On mount, create the audio context
   useEffect(() => {
     if (!audioContextRef.current) {
-      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", soundUrl);
+      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", SOUND_URL);
       audioContextRef.current = new AudioContext();
     }
-    return () => {
-      console.log("Cleaning up audio context (AudioPlayer.tsx)");
-      //if (audioContextRef.current)
-      // audioContextRef.current.close(); // Cleanup the audio context when the component unmounts
-    };
+    return () => {};
   }, []);
 
   useEffect(() => {
-    if (!audioContextRef || !soundUrl) {
+    if (!audioContextRef || !SOUND_URL) {
       console.log("audioContext or soundUrl is null");
       return;
     }
 
-    console.log("audioContext is initialized, now loading audio from:", soundUrl);
-    loadAudio(soundUrl).then(() => {
-      console.log("Audio buffer loaded successfully");
-      //optional: play initial notes when audio is loaded
+    console.log("audioContext is initialized, now loading audio from:", SOUND_URL);
+    loadAudio(SOUND_URL).then(() => {
       playSelectedNotes();
     });
 
-    return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [audioContextRef]);
+    return;
+  }, [audioContextRef, playSelectedNotes]);
 
   useEffect(() => {
     if (!audioBufferRef.current) {
@@ -87,15 +81,10 @@ const AudioPlayer: React.FC = () => {
     }
     playSelectedNotes();
 
-    return; // () => sourceNode?.stop(); // Stop the audio when the src changes or component unmounts
-  }, [selectedNoteIndices, audioBufferRef]);
+    return;
+  }, [selectedNoteIndices, audioBufferRef, playSelectedNotes]);
 
-  return (
-    <div>
-      {/*Notes:{" "}
-      {selectedNoteIndices.map((one) => NOTE_NAMES[one]).join("-")}*/}
-    </div>
-  );
+  return null;
 };
 
 export default AudioPlayer;

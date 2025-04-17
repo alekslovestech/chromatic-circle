@@ -49,7 +49,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     );
 
     return () => clearInterval(interval);
-  }, [selectedMusicalKey, keyTextMode]);
+  }, [selectedMusicalKey, keyTextMode, scalePreviewMode, setSelectedNoteIndices]);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
