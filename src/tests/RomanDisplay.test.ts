@@ -18,99 +18,51 @@ function verifyRomanArray(musicalKey: MusicalKey, expectedArray: string[]) {
   const displayStrings = musicalKey.getDisplayStringArray(KeyTextMode.Roman);
   expect(displayStrings).toEqual(expectedArray);
 }
-
 describe("Roman Mode Index Arrays", () => {
+  const modePatternCases = [
+    {
+      mode: GreekModeType.Ionian,
+      expected: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
+    },
+    {
+      mode: GreekModeType.Dorian,
+      expected: ["i", "ii", "♭III", "IV", "v", "vi°", "♭VII"],
+    },
+    {
+      mode: GreekModeType.Phrygian,
+      expected: ["i", "♭II", "♭III", "iv", "v°", "♭VI", "♭vii"],
+    },
+    {
+      mode: GreekModeType.Spanish,
+      expected: ["I", "♭II", "iii°", "iv", "v°", "♭VI+", "♭vii"],
+    },
+    {
+      mode: GreekModeType.Arabic,
+      expected: ["I", "♭II", "iii", "iv", "V", "♭VI+", "VII"],
+    },
+    {
+      mode: GreekModeType.Lydian,
+      expected: ["I", "II", "iii", "♯iv°", "V", "vi", "vii"],
+    },
+    {
+      mode: GreekModeType.Mixolydian,
+      expected: ["I", "ii", "iii°", "IV", "v", "vi", "♭VII"],
+    },
+    {
+      mode: GreekModeType.Aeolian,
+      expected: ["i", "ii°", "♭III", "iv", "v", "♭VI", "♭VII"],
+    },
+    {
+      mode: GreekModeType.Locrian,
+      expected: ["i°", "♭II", "♭iii", "iv", "♭V", "♭VI", "♭vii"],
+    },
+  ];
+
   describe("verifyFromPattern", () => {
-    test("Ionian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Ionian, ["I", "ii", "iii", "IV", "V", "vi", "vii°"]);
-    });
-
-    test("Dorian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Dorian, [
-        "i",
-        "ii",
-        "♭III",
-        "IV",
-        "v",
-        "vi°",
-        "♭VII",
-      ]);
-    });
-
-    test("Phrygian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Phrygian, [
-        "i",
-        "♭II",
-        "♭III",
-        "iv",
-        "v°",
-        "♭VI",
-        "♭vii",
-      ]);
-    });
-
-    test("Spanish mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Spanish, [
-        "I",
-        "♭II",
-        "iii°",
-        "iv",
-        "v°",
-        "♭VI+",
-        "♭vii",
-      ]);
-    });
-
-    test("Arabic mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Arabic, [
-        "I",
-        "♭II",
-        "iii",
-        "iv",
-        "V",
-        "♭VI+",
-        "VII",
-      ]);
-    });
-
-    test("Lydian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Lydian, ["I", "II", "iii", "♯iv°", "V", "vi", "vii"]);
-    });
-
-    test("Mixolydian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Mixolydian, [
-        "I",
-        "ii",
-        "iii°",
-        "IV",
-        "v",
-        "vi",
-        "♭VII",
-      ]);
-    });
-
-    test("Aeolian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Aeolian, [
-        "i",
-        "ii°",
-        "♭III",
-        "iv",
-        "v",
-        "♭VI",
-        "♭VII",
-      ]);
-    });
-
-    test("Locrian mode pattern", () => {
-      verifyRomanDisplayStrings(GreekModeType.Locrian, [
-        "i°",
-        "♭II",
-        "♭iii",
-        "iv",
-        "♭V",
-        "♭VI",
-        "♭vii",
-      ]);
+    modePatternCases.forEach(({ mode, expected }) => {
+      test(`${mode} mode pattern`, () => {
+        verifyRomanDisplayStrings(mode, expected);
+      });
     });
   });
 });
@@ -122,75 +74,46 @@ describe("getScaleDegreeDisplayString", () => {
     constants = GreekTestConstants.getInstance();
   });
 
-  describe("Ionian (Major) Scale", () => {
-    it("should display correct scale degrees for C Ionian", () => {
-      verifyRomanArray(constants.C_IONIAN_KEY, [
-        "I",
-        "",
-        "ii",
-        "",
-        "iii",
-        "IV",
-        "",
-        "V",
-        "",
-        "vi",
-        "",
-        "vii°",
-      ]);
-    });
+  const scaleCases = [
+    {
+      desc: "Ionian (Major) Scale",
+      cases: [
+        {
+          key: "C Ionian",
+          musicalKey: () => constants.C_IONIAN_KEY,
+          expected: ["I", "", "ii", "", "iii", "IV", "", "V", "", "vi", "", "vii°"],
+        },
+        {
+          key: "D Ionian",
+          musicalKey: () => constants.D_IONIAN_KEY,
+          expected: ["", "vii°", "I", "", "ii", "", "iii", "IV", "", "V", "", "vi"],
+        },
+      ],
+    },
+    {
+      desc: "Dorian Mode",
+      cases: [
+        {
+          key: "C Dorian",
+          musicalKey: () => constants.C_DORIAN_KEY,
+          expected: ["i", "", "ii", "♭III", "", "IV", "", "v", "", "vi°", "♭VII", ""],
+        },
+        {
+          key: "D Dorian",
+          musicalKey: () => constants.D_DORIAN_KEY,
+          expected: ["♭VII", "", "i", "", "ii", "♭III", "", "IV", "", "v", "", "vi°"],
+        },
+      ],
+    },
+  ];
 
-    it("should display correct scale degrees for D Ionian", () => {
-      verifyRomanArray(constants.D_IONIAN_KEY, [
-        "",
-        "vii°",
-        "I",
-        "",
-        "ii",
-        "",
-        "iii",
-        "IV",
-        "",
-        "V",
-        "",
-        "vi",
-      ]);
-    });
-  });
-
-  describe("Dorian Mode", () => {
-    it("should display correct scale degrees for C Dorian", () => {
-      verifyRomanArray(constants.C_DORIAN_KEY, [
-        "i",
-        "",
-        "ii",
-        "♭III",
-        "",
-        "IV",
-        "",
-        "v",
-        "",
-        "vi°",
-        "♭VII",
-        "",
-      ]);
-    });
-
-    it("should display correct scale degrees for D Dorian", () => {
-      verifyRomanArray(constants.D_DORIAN_KEY, [
-        "♭VII",
-        "",
-        "i",
-        "",
-        "ii",
-        "♭III",
-        "",
-        "IV",
-        "",
-        "v",
-        "",
-        "vi°",
-      ]);
+  scaleCases.forEach(({ desc, cases }) => {
+    describe(desc, () => {
+      cases.forEach(({ key, musicalKey, expected }) => {
+        it(`should display correct scale degrees for ${key}`, () => {
+          verifyRomanArray(musicalKey(), expected);
+        });
+      });
     });
   });
 });

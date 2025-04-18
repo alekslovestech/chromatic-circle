@@ -1,56 +1,71 @@
 import { splitRomanString, ParsedRomanString } from "../types/RomanParser";
 
-describe("SplitRomanString  tests", () => {
-  test("I", () => {
-    expect(splitRomanString("I")).toEqual(new ParsedRomanString("", "I", "", undefined));
+describe("SplitRomanString tests", () => {
+  const testCases = [
+    {
+      desc: "Basic numeral",
+      input: "I",
+      expected: new ParsedRomanString("", "I", "", undefined),
+    },
+    {
+      desc: "Sharp accidental",
+      input: "♯I",
+      expected: new ParsedRomanString("♯", "I", "", undefined),
+    },
+    {
+      desc: "Flat accidental",
+      input: "♭I",
+      expected: new ParsedRomanString("♭", "I", "", undefined),
+    },
+    {
+      desc: "Flat minor",
+      input: "♭iii",
+      expected: new ParsedRomanString("♭", "iii", "", undefined),
+    },
+    {
+      desc: "Dominant 7",
+      input: "I7",
+      expected: new ParsedRomanString("", "I", "7", undefined),
+    },
+    {
+      desc: "Augmented",
+      input: "I+",
+      expected: new ParsedRomanString("", "I", "+", undefined),
+    },
+    {
+      desc: "Major 7",
+      input: "Imaj7",
+      expected: new ParsedRomanString("", "I", "maj7", undefined),
+    },
+    {
+      desc: "Sharp with major 7",
+      input: "♯Imaj7",
+      expected: new ParsedRomanString("♯", "I", "maj7", undefined),
+    },
+    {
+      desc: "Major/major slash chord",
+      input: "I/V",
+      expected: new ParsedRomanString("", "I", "", "V"),
+    },
+    {
+      desc: "Major/minor slash chord",
+      input: "I/v",
+      expected: new ParsedRomanString("", "I", "", "v"),
+    },
+    {
+      desc: "Minor/major slash chord",
+      input: "i/V",
+      expected: new ParsedRomanString("", "i", "", "V"),
+    },
+  ];
+
+  testCases.forEach(({ desc, input, expected }) => {
+    test(desc, () => {
+      expect(splitRomanString(input)).toEqual(expected);
+    });
   });
 
-  //pure accidentals
-  test("♯I", () => {
-    expect(splitRomanString("♯I")).toEqual(new ParsedRomanString("♯", "I", "", undefined));
-  });
-
-  test("♭I", () => {
-    expect(splitRomanString("♭I")).toEqual(new ParsedRomanString("♭", "I", "", undefined));
-  });
-
-  test("♭iii", () => {
-    expect(splitRomanString("♭iii")).toEqual(new ParsedRomanString("♭", "iii", "", undefined));
-  });
-
-  //chord suffixes
-  test("I7", () => {
-    expect(splitRomanString("I7")).toEqual(new ParsedRomanString("", "I", "7", undefined));
-  });
-
-  test("I+", () => {
-    expect(splitRomanString("I+")).toEqual(new ParsedRomanString("", "I", "+", undefined));
-  });
-
-  test("Imaj7", () => {
-    expect(splitRomanString("Imaj7")).toEqual(new ParsedRomanString("", "I", "maj7", undefined));
-  });
-
-  //accidentals and chord suffixes
-  test("♯Imaj7", () => {
-    expect(splitRomanString("♯Imaj7")).toEqual(new ParsedRomanString("♯", "I", "maj7", undefined));
-  });
-
-  //slash chords
-  test("I/V (slash chord)", () => {
-    expect(splitRomanString("I/V")).toEqual(new ParsedRomanString("", "I", "", "V"));
-  });
-
-  test("I/v (Major/minor)", () => {
-    expect(splitRomanString("I/v")).toEqual(new ParsedRomanString("", "I", "", "v"));
-  });
-
-  test("i/V (Minor/major)", () => {
-    expect(splitRomanString("i/V")).toEqual(new ParsedRomanString("", "i", "", "V"));
-  });
-
-  //invalid slash chord
-  test("I/V/VII", () => {
+  test("Invalid slash chord throws error", () => {
     expect(() => splitRomanString("I/V/VII")).toThrow();
   });
 });

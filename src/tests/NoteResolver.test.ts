@@ -5,55 +5,48 @@ import { KeyType } from "../types/Keys/KeyType";
 import { NoteConverter } from "../types/NoteConverter";
 import { KeyNoteResolver } from "../types/Keys/KeyNoteResolver";
 
-/**
- * Helper function to verify that a note resolves correctly in a given key
- * @param musicalKey - The musical key context to resolve the note in
- * @param noteText - The text representation of the note (e.g. "C#", "Bb")
- * @param expectedNote - The expected NoteInfo result after resolution
- */
 function verifyResolvedNote(musicalKey: MusicalKey, noteText: string, expectedNote: NoteInfo) {
   const chromaticIndex = NoteConverter.toChromaticIndex(noteText);
   const note = KeyNoteResolver.resolveNoteInKey(musicalKey, chromaticIndex);
   expect(note).toEqual(expectedNote);
 }
 
-const cMajor = DEFAULT_MUSICAL_KEY;
-const dMajor = MusicalKey.fromClassicalMode("D", KeyType.Major);
-const dMinor = MusicalKey.fromClassicalMode("D", KeyType.Minor);
-const eMajor = MusicalKey.fromClassicalMode("E", KeyType.Major);
-
 describe("Note resolution in keys", () => {
-  describe("C major", () => {
-    test("D resolves without accidental", () => {
-      verifyResolvedNote(cMajor, "D", new NoteInfo("D", AccidentalType.None));
-    });
+  const testCases = [
+    {
+      desc: "C major",
+      key: DEFAULT_MUSICAL_KEY,
+      cases: [
+        { note: "D", expected: new NoteInfo("D", AccidentalType.None) },
+        { note: "C#", expected: new NoteInfo("C", AccidentalType.Sharp) },
+        { note: "Db", expected: new NoteInfo("C", AccidentalType.Sharp) },
+      ],
+    },
+    {
+      desc: "D major",
+      key: MusicalKey.fromClassicalMode("D", KeyType.Major),
+      cases: [
+        { note: "F#", expected: new NoteInfo("F", AccidentalType.None) },
+        { note: "F", expected: new NoteInfo("F", AccidentalType.Natural) },
+      ],
+    },
+    {
+      desc: "D minor",
+      key: MusicalKey.fromClassicalMode("D", KeyType.Minor),
+      cases: [
+        { note: "Bb", expected: new NoteInfo("B", AccidentalType.None) },
+        { note: "B", expected: new NoteInfo("B", AccidentalType.Natural) },
+      ],
+    },
+  ];
 
-    test("C# resolves as sharp", () => {
-      verifyResolvedNote(cMajor, "C#", new NoteInfo("C", AccidentalType.Sharp));
-    });
-
-    test("Db is enharmonically equivalent to C#", () => {
-      verifyResolvedNote(cMajor, "Db", new NoteInfo("C", AccidentalType.Sharp));
-    });
-  });
-
-  describe("D major", () => {
-    test("F# is diatonic (no accidental needed)", () => {
-      verifyResolvedNote(dMajor, "F#", new NoteInfo("F", AccidentalType.None));
-    });
-
-    test("F natural requires explicit natural", () => {
-      verifyResolvedNote(dMajor, "F", new NoteInfo("F", AccidentalType.Natural));
-    });
-  });
-
-  describe("D minor", () => {
-    test("Bb is diatonic (no accidental needed)", () => {
-      verifyResolvedNote(dMinor, "Bb", new NoteInfo("B", AccidentalType.None));
-    });
-
-    test("B natural requires explicit natural", () => {
-      verifyResolvedNote(dMinor, "B", new NoteInfo("B", AccidentalType.Natural));
+  testCases.forEach(({ desc, key, cases }) => {
+    describe(desc, () => {
+      cases.forEach(({ note, expected }) => {
+        test(`${note} resolves to ${expected.noteName}${expected.accidental}`, () => {
+          verifyResolvedNote(key, note, expected);
+        });
+      });
     });
   });
 });

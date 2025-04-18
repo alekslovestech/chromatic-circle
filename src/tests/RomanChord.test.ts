@@ -9,134 +9,105 @@ export function verifyRomanChord(numeral: string, expected: RomanChord) {
 }
 
 describe("RomanNumeral chord tests", () => {
-  test("I", () => {
-    verifyRomanChord("I", new RomanChord(ixScaleDegree(1), ChordType.Major));
-  });
+  const testCases = [
+    {
+      desc: "Basic major and minor chords",
+      cases: [
+        { numeral: "I", expected: new RomanChord(ixScaleDegree(1), ChordType.Major) },
+        { numeral: "IV", expected: new RomanChord(ixScaleDegree(4), ChordType.Major) },
+        { numeral: "vi", expected: new RomanChord(ixScaleDegree(6), ChordType.Minor) },
+        { numeral: "vii", expected: new RomanChord(ixScaleDegree(7), ChordType.Minor) },
+      ],
+    },
+    {
+      desc: "Accidentals",
+      cases: [
+        {
+          numeral: "♯I",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Major, AccidentalType.Sharp),
+        },
+        {
+          numeral: "♭I",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Major, AccidentalType.Flat),
+        },
+        {
+          numeral: "♭iii",
+          expected: new RomanChord(ixScaleDegree(3), ChordType.Minor, AccidentalType.Flat),
+        },
+        {
+          numeral: "♯iii",
+          expected: new RomanChord(ixScaleDegree(3), ChordType.Minor, AccidentalType.Sharp),
+        },
+        {
+          numeral: "♭VI",
+          expected: new RomanChord(ixScaleDegree(6), ChordType.Major, AccidentalType.Flat),
+        },
+      ],
+    },
+    {
+      desc: "Chord suffixes",
+      cases: [
+        { numeral: "I7", expected: new RomanChord(ixScaleDegree(1), ChordType.Dominant7) },
+        { numeral: "I+", expected: new RomanChord(ixScaleDegree(1), ChordType.Augmented) },
+        { numeral: "Imaj7", expected: new RomanChord(ixScaleDegree(1), ChordType.Major7) },
+        { numeral: "viio", expected: new RomanChord(ixScaleDegree(7), ChordType.Diminished) },
+        { numeral: "viio7", expected: new RomanChord(ixScaleDegree(7), ChordType.Diminished7) },
+        { numeral: "IV7", expected: new RomanChord(ixScaleDegree(4), ChordType.Dominant7) },
+        { numeral: "vi7", expected: new RomanChord(ixScaleDegree(6), ChordType.Minor7) },
+        { numeral: "IVmaj7", expected: new RomanChord(ixScaleDegree(4), ChordType.Major7) },
+        { numeral: "viiø7", expected: new RomanChord(ixScaleDegree(7), ChordType.HalfDiminished) },
+      ],
+    },
+    {
+      desc: "Invalid cases",
+      invalidCases: [
+        { numeral: "i+", error: "aug chord cannot be lowercase" },
+        { numeral: "imaj7", error: "maj7 cannot be lowercase" },
+        { numeral: "VIIo", error: "dim chord cannot be uppercase" },
+        { numeral: "VIIo7", error: "dim7 chord cannot be uppercase" },
+        { numeral: "VIIø7", error: "dim7 cannot be uppercase" },
+      ],
+    },
+    {
+      desc: "Combined features",
+      cases: [
+        {
+          numeral: "♯Imaj7",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Major7, AccidentalType.Sharp),
+        },
+        {
+          numeral: "I/V",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Major, undefined, 5),
+        },
+        {
+          numeral: "I/v",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Major, undefined, 5),
+        },
+        {
+          numeral: "i/V",
+          expected: new RomanChord(ixScaleDegree(1), ChordType.Minor, undefined, 5),
+        },
+      ],
+    },
+  ];
 
-  test("IV", () => {
-    verifyRomanChord("IV", new RomanChord(ixScaleDegree(4), ChordType.Major));
-  });
+  testCases.forEach(({ desc, cases, invalidCases }) => {
+    describe(desc, () => {
+      if (cases) {
+        cases.forEach(({ numeral, expected }) => {
+          test(numeral, () => {
+            verifyRomanChord(numeral, expected);
+          });
+        });
+      }
 
-  test("vi", () => {
-    verifyRomanChord("vi", new RomanChord(ixScaleDegree(6), ChordType.Minor));
-  });
-
-  test("vii", () => {
-    verifyRomanChord("vii", new RomanChord(ixScaleDegree(7), ChordType.Minor));
-  });
-
-  //pure accidentals
-  test("♯I", () => {
-    verifyRomanChord("♯I", new RomanChord(ixScaleDegree(1), ChordType.Major, AccidentalType.Sharp));
-  });
-
-  test("♭I", () => {
-    verifyRomanChord("♭I", new RomanChord(ixScaleDegree(1), ChordType.Major, AccidentalType.Flat));
-  });
-
-  test("♭iii", () => {
-    verifyRomanChord(
-      "♭iii",
-      new RomanChord(ixScaleDegree(3), ChordType.Minor, AccidentalType.Flat),
-    );
-  });
-
-  test("#iii", () => {
-    verifyRomanChord(
-      "♯iii",
-      new RomanChord(ixScaleDegree(3), ChordType.Minor, AccidentalType.Sharp),
-    );
-  });
-
-  test("♭VI", () => {
-    verifyRomanChord("♭VI", new RomanChord(ixScaleDegree(6), ChordType.Major, AccidentalType.Flat));
-  });
-
-  //chord suffixes
-  test("I7", () => {
-    verifyRomanChord("I7", new RomanChord(ixScaleDegree(1), ChordType.Dominant7));
-  });
-
-  test("I+", () => {
-    verifyRomanChord("I+", new RomanChord(ixScaleDegree(1), ChordType.Augmented));
-  });
-
-  test("i+ (aug chord cannot be lowercase)", () => {
-    expect(() =>
-      verifyRomanChord("i+", new RomanChord(ixScaleDegree(6), ChordType.Augmented)),
-    ).toThrow();
-  });
-
-  test("Imaj7", () => {
-    verifyRomanChord("Imaj7", new RomanChord(ixScaleDegree(1), ChordType.Major7));
-  });
-
-  test("imaj7 (maj7 cannot be lowercase)", () => {
-    expect(() =>
-      verifyRomanChord("imaj7", new RomanChord(ixScaleDegree(1), ChordType.Major7)),
-    ).toThrow();
-  });
-
-  test("viio (dim)", () => {
-    verifyRomanChord("viio", new RomanChord(ixScaleDegree(7), ChordType.Diminished));
-  });
-
-  test("VIIo (dim chord cannot be uppercase)", () => {
-    expect(() =>
-      verifyRomanChord("VIIo", new RomanChord(ixScaleDegree(6), ChordType.Diminished)),
-    ).toThrow();
-  });
-
-  test("viio7 (dim7)", () => {
-    verifyRomanChord("viio7", new RomanChord(ixScaleDegree(7), ChordType.Diminished7));
-  });
-
-  test("VIIo7 (dim7 chord cannot be uppercase)", () => {
-    expect(() =>
-      verifyRomanChord("VIIo7", new RomanChord(ixScaleDegree(6), ChordType.Diminished7)),
-    ).toThrow();
-  });
-
-  test("IV7", () => {
-    verifyRomanChord("IV7", new RomanChord(ixScaleDegree(4), ChordType.Dominant7));
-  });
-
-  test("iv7 (iv min7)", () => {
-    verifyRomanChord("vi7", new RomanChord(ixScaleDegree(6), ChordType.Minor7));
-  });
-
-  test("IVmaj7", () => {
-    verifyRomanChord("IVmaj7", new RomanChord(ixScaleDegree(4), ChordType.Major7));
-  });
-
-  test("viiø7 (vii dim7)", () => {
-    verifyRomanChord("viiø7", new RomanChord(ixScaleDegree(7), ChordType.HalfDiminished));
-  });
-
-  test("VIIø7 (dim7 cannot be uppercase)", () => {
-    expect(() =>
-      verifyRomanChord("VIIø7", new RomanChord(ixScaleDegree(7), ChordType.HalfDiminished)),
-    ).toThrow();
-  });
-
-  //accidentals and chord suffixes
-  test("♯Imaj7", () => {
-    verifyRomanChord(
-      "♯Imaj7",
-      new RomanChord(ixScaleDegree(1), ChordType.Major7, AccidentalType.Sharp),
-    );
-  });
-
-  //slash chords
-  test("I/V (slash chord)", () => {
-    verifyRomanChord("I/V", new RomanChord(ixScaleDegree(1), ChordType.Major, undefined, 5));
-  });
-
-  test("I/v (Major/minor)", () => {
-    verifyRomanChord("I/v", new RomanChord(ixScaleDegree(1), ChordType.Major, undefined, 5));
-  });
-
-  test("i/V (Minor/major)", () => {
-    verifyRomanChord("i/V", new RomanChord(ixScaleDegree(1), ChordType.Minor, undefined, 5));
+      if (invalidCases) {
+        invalidCases.forEach(({ numeral, error }) => {
+          test(`${numeral} (${error})`, () => {
+            expect(() => RomanResolver.createRomanChordFromString(numeral)).toThrow();
+          });
+        });
+      }
+    });
   });
 });

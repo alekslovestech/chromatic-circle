@@ -3,23 +3,37 @@ import { ixScaleDegree } from "../types/GreekModes/ScaleDegreeType";
 import { ScaleDegreeInfo } from "../types/GreekModes/ScaleDegreeInfo";
 
 describe("Scale Degree Info", () => {
-  test("1", () => {
-    const scaleDegreeInfo = new ScaleDegreeInfo(ixScaleDegree(1));
-    expect(scaleDegreeInfo.getDisplayString()).toEqual("1");
-  });
+  const testCases = [
+    {
+      desc: "1",
+      degree: 1,
+      accidental: undefined,
+      expected: "1",
+    },
+    {
+      desc: "♭1",
+      degree: 1,
+      accidental: AccidentalType.Flat,
+      expected: "♭1",
+    },
+    {
+      desc: "♯1",
+      degree: 1,
+      accidental: AccidentalType.Sharp,
+      expected: "♯1",
+    },
+    {
+      desc: "♭7",
+      degree: 7,
+      accidental: AccidentalType.Flat,
+      expected: "♭7",
+    },
+  ];
 
-  test("♭1", () => {
-    const scaleDegreeInfo = new ScaleDegreeInfo(ixScaleDegree(1), AccidentalType.Flat);
-    expect(scaleDegreeInfo.getDisplayString()).toEqual("♭1");
-  });
-
-  test("♯1", () => {
-    const scaleDegreeInfo = new ScaleDegreeInfo(ixScaleDegree(1), AccidentalType.Sharp);
-    expect(scaleDegreeInfo.getDisplayString()).toEqual("♯1");
-  });
-
-  test("♭7", () => {
-    const scaleDegreeInfo = new ScaleDegreeInfo(ixScaleDegree(7), AccidentalType.Flat);
-    expect(scaleDegreeInfo.getDisplayString()).toEqual("♭7");
+  testCases.forEach(({ desc, degree, accidental, expected }) => {
+    test(desc, () => {
+      const scaleDegreeInfo = new ScaleDegreeInfo(ixScaleDegree(degree), accidental);
+      expect(scaleDegreeInfo.getDisplayString()).toEqual(expected);
+    });
   });
 });
