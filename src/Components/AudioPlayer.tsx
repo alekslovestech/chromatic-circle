@@ -1,90 +1,124 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
-
+import * as Tone from "tone";
 import { useMusical } from "../contexts/MusicalContext";
 
-const SOUND_URL = "/piano-shot.wav";
-const FREQ_MULTIPLIER = 0.25;
-
-const getMultiplierFromIndex = (index: number) => {
-  return Math.pow(2, index / TWELVE);
-};
+// Base frequency for A4 (440Hz)
+const BASE_FREQUENCY = 440;
+// A4 is at index 69 in MIDI notation
+const A4_MIDI_INDEX = 69;
 
 const AudioPlayer: React.FC = () => {
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const audioBufferRef = useRef<AudioBuffer | null>(null);
-  const activeSourcesRef = useRef<AudioBufferSourceNode[]>([]);
+  const synthRef = useRef<Tone.PolySynth | null>(null);
   const { selectedNoteIndices } = useMusical();
 
-  const loadAudio = async (url: string) => {
-    const response = await fetch(url);
-    const arrayBuffer: ArrayBuffer = await response.arrayBuffer();
-    if (!audioContextRef) {
-      throw new Error("Audio context is not initialized");
-    }
-    audioBufferRef.current =
-      audioContextRef.current != null
-        ? await audioContextRef.current.decodeAudioData(arrayBuffer)
-        : null;
-  };
-
-  const playSound = (index: number) => {
-    const playbackRate = getMultiplierFromIndex(index);
-
-    if (!audioContextRef.current) {
-      console.error("Audio context is not initialized");
-      return;
-    }
-    var source = audioContextRef.current.createBufferSource();
-    source.buffer = audioBufferRef.current;
-    source.playbackRate.value = playbackRate * FREQ_MULTIPLIER;
-    source.connect(audioContextRef.current.destination);
-    source.start(0);
-    activeSourcesRef.current.push(source);
-    source.onended = function () {
-      source.disconnect();
-    };
-  };
-
-  const playSelectedNotes = useCallback(() => {
-    activeSourcesRef.current.forEach((source) => source.stop());
-    selectedNoteIndices.forEach((index) => playSound(index));
-  }, [selectedNoteIndices]);
-
-  //On mount, create the audio context
+  // Initialize Tone.js synth
   useEffect(() => {
-    if (!audioContextRef.current) {
-      console.log("Creating audio context (AudioPlayer.tsx), soundUrl=", SOUND_URL);
-      audioContextRef.current = new AudioContext();
-    }
-    return () => {};
+    let isActive = true;
+
+    const initSynth = async () => {
+      try {
+        // Create a polyphonic synth
+        const synth = new Tone.PolySynth(Tone.Synth, {
+          oscillator: {
+            type: "sine",
+          },
+          envelope: {
+            attack: 0.02,
+            decay: 0.1,
+            sustain: 0.3,
+            release: 0.8,
+          },
+        }).toDestination();
+
+        // Set initial volume
+        Tone.getDestination().volume.value = -12; // -12 dB (quieter)
+
+        if (isActive) {
+          synthRef.current = synth;
+        } else {
+          synth.dispose();
+        }
+      } catch (error) {
+        console.error("Failed to initialize synth:", error);
+      }
+    };
+
+    initSynth();
+
+    // Clean up on unmount
+    return () => {
+      isActive = false;
+      if (synthRef.current) {
+        synthRef.current.dispose();
+        synthRef.current = null;
+      }
+    };
   }, []);
 
-  useEffect(() => {
-    if (!audioContextRef || !SOUND_URL) {
-      console.log("audioContext or soundUrl is null");
-      return;
-    }
+  // Convert note index to frequency
+  const getFrequencyFromIndex = useCallback((index: number): number => {
+    // Convert index to MIDI note number (assuming index 0 is C4)
+    const midiNote = index + 60; // C4 is MIDI note 60
+    // Calculate frequency using the formula: f = 440 * 2^((midiNote - 69) / 12)
+    return BASE_FREQUENCY * Math.pow(2, (midiNote - A4_MIDI_INDEX) / TWELVE);
+  }, []);
 
-    console.log("audioContext is initialized, now loading audio from:", SOUND_URL);
-    loadAudio(SOUND_URL).then(() => {
+  // Play a single note
+  const playNote = useCallback(
+    (index: number) => {
+      if (!synthRef.current) return;
+
+      try {
+        const frequency = getFrequencyFromIndex(index);
+        synthRef.current.triggerAttackRelease(frequency, "8n");
+      } catch (error) {
+        console.error("Failed to play note:", error);
+      }
+    },
+    [getFrequencyFromIndex],
+  );
+
+  // Play all selected notes
+  const playSelectedNotes = useCallback(() => {
+    if (!synthRef.current) return;
+
+    try {
+      // Stop any currently playing notes
+      synthRef.current.releaseAll();
+
+      // Play each selected note
+      selectedNoteIndices.forEach((index) => playNote(index));
+    } catch (error) {
+      console.error("Failed to play selected notes:", error);
+    }
+  }, [selectedNoteIndices, playNote]);
+
+  // Play notes when selection changes
+  useEffect(() => {
+    if (synthRef.current) {
       playSelectedNotes();
-    });
-
-    return;
-  }, [audioContextRef, playSelectedNotes]);
-
-  useEffect(() => {
-    if (!audioBufferRef.current) {
-      console.log("audioBuffer not loaded or audioContext is null");
-      return;
     }
-    playSelectedNotes();
+  }, [selectedNoteIndices, playSelectedNotes]);
 
-    return;
-  }, [selectedNoteIndices, audioBufferRef, playSelectedNotes]);
+  // Initialize Tone.js context on user interaction
+  const initializeTone = useCallback(async () => {
+    try {
+      if (Tone.getContext().state !== "running") {
+        await Tone.start();
+        console.log("Tone.js context started");
+      }
+    } catch (error) {
+      console.error("Failed to start Tone.js context:", error);
+    }
+  }, []);
 
-  return null;
+  // Add a button to initialize Tone.js (required by browsers)
+  return (
+    <div>
+      <button onClick={initializeTone}>Initialize Audio</button>
+    </div>
+  );
 };
 
 export default AudioPlayer;
