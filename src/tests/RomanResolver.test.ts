@@ -16,32 +16,40 @@ function verifyResolvedChord(
 }
 
 describe("Resolved roman numeral tests", () => {
-  let constants: GreekTestConstants;
-  beforeEach(() => {
-    constants = GreekTestConstants.getInstance();
-  });
+  const constants = GreekTestConstants.getInstance();
 
-  test("Resolve roman numeral I in C major", () => {
-    verifyResolvedChord(constants.C_IONIAN_KEY, "I", "C", ChordType.Major);
-  });
+  const testCases = [
+    {
+      desc: "C major chords",
+      key: constants.C_IONIAN_KEY,
+      cases: [
+        { numeral: "I", note: "C", type: ChordType.Major },
+        { numeral: "Imaj7", note: "C", type: ChordType.Major7 },
+        { numeral: "V", note: "G", type: ChordType.Major },
+      ],
+    },
+    {
+      desc: "E major chords",
+      key: constants.E_MAJOR,
+      cases: [
+        { numeral: "I", note: "E", type: ChordType.Major },
+        { numeral: "V", note: "B", type: ChordType.Major },
+      ],
+    },
+    {
+      desc: "G major chords",
+      key: constants.G_MAJOR,
+      cases: [{ numeral: "♭VI", note: "Eb", type: ChordType.Major }],
+    },
+  ];
 
-  test("Resolve roman numeral Imaj7 in C major", () => {
-    verifyResolvedChord(constants.C_IONIAN_KEY, "Imaj7", "C", ChordType.Major7);
-  });
-
-  test("Resolve roman numeral V in C major", () => {
-    verifyResolvedChord(constants.C_IONIAN_KEY, "V", "G", ChordType.Major);
-  });
-
-  test("Resolve roman numeral in E major", () => {
-    verifyResolvedChord(constants.E_MAJOR, "I", "E", ChordType.Major);
-  });
-
-  test("Resolve roman numeral V in E major", () => {
-    verifyResolvedChord(constants.E_MAJOR, "V", "B", ChordType.Major);
-  });
-
-  test("Resolve roman numeral ♭VI in G major", () => {
-    verifyResolvedChord(constants.G_MAJOR, "♭VI", "Eb", ChordType.Major);
+  testCases.forEach((group) => {
+    describe(group.desc, () => {
+      group.cases.forEach((testCase) => {
+        test(`Resolve ${testCase.numeral}`, () => {
+          verifyResolvedChord(group.key, testCase.numeral, testCase.note, testCase.type);
+        });
+      });
+    });
   });
 });

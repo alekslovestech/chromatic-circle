@@ -9,69 +9,118 @@ function verifyGreekModeScaleNotes(musicalKey: MusicalKey, expectedNotes: string
 }
 
 describe("Greek Mode Index Arrays", () => {
-  let constants: GreekTestConstants;
+  const constants = GreekTestConstants.getInstance();
 
-  beforeEach(() => {
-    constants = GreekTestConstants.getInstance();
-  });
+  const testCases = [
+    {
+      mode: "Ionian (Major)",
+      tests: [
+        {
+          desc: "C Ionian mode - major scale pattern",
+          key: constants.C_IONIAN_KEY,
+          expected: ["C", "D", "E", "F", "G", "A", "B"],
+        },
+      ],
+    },
+    {
+      mode: "Dorian",
+      tests: [
+        {
+          desc: "D Dorian mode - traditional position",
+          key: constants.D_DORIAN_KEY,
+          expected: ["D", "E", "F", "G", "A", "B", "C"],
+        },
+        {
+          desc: "C Dorian mode - shows characteristic b3 and b7",
+          key: constants.C_DORIAN_KEY,
+          expected: ["C", "D", "Eb", "F", "G", "A", "Bb"],
+        },
+      ],
+    },
+    {
+      mode: "Phrygian",
+      tests: [
+        {
+          desc: "E Phrygian mode - traditional position",
+          key: constants.E_PHRYGIAN_KEY,
+          expected: ["E", "F", "G", "A", "B", "C", "D"],
+        },
+        {
+          desc: "C Phrygian mode - shows characteristic b2, b3, b6, b7",
+          key: constants.C_PHRYGIAN_KEY,
+          expected: ["C", "Db", "Eb", "F", "G", "Ab", "Bb"],
+        },
+      ],
+    },
+    {
+      mode: "Lydian",
+      tests: [
+        {
+          desc: "F Lydian mode - traditional position",
+          key: constants.F_LYDIAN_KEY,
+          expected: ["F", "G", "A", "B", "C", "D", "E"],
+        },
+        {
+          desc: "C Lydian mode - shows characteristic #4",
+          key: constants.C_LYDIAN_KEY,
+          expected: ["C", "D", "E", "F#", "G", "A", "B"],
+        },
+      ],
+    },
+    {
+      mode: "Mixolydian",
+      tests: [
+        {
+          desc: "G Mixolydian mode - traditional position",
+          key: constants.G_MIXOLYDIAN_KEY,
+          expected: ["G", "A", "B", "C", "D", "E", "F"],
+        },
+        {
+          desc: "C Mixolydian mode - shows characteristic b7",
+          key: constants.C_MIXOLYDIAN_KEY,
+          expected: ["C", "D", "E", "F", "G", "A", "Bb"],
+        },
+      ],
+    },
+    {
+      mode: "Aeolian (Natural Minor)",
+      tests: [
+        {
+          desc: "A Aeolian mode - traditional position",
+          key: constants.A_AEOLIAN_KEY,
+          expected: ["A", "B", "C", "D", "E", "F", "G"],
+        },
+        {
+          desc: "C Aeolian mode - shows characteristic b3, b6, b7",
+          key: constants.C_AEOLIAN_KEY,
+          expected: ["C", "D", "Eb", "F", "G", "Ab", "Bb"],
+        },
+      ],
+    },
+    {
+      mode: "Locrian",
+      tests: [
+        {
+          desc: "B Locrian mode - traditional position",
+          key: constants.B_LOCRIAN_KEY,
+          expected: ["B", "C", "D", "E", "F", "G", "A"],
+        },
+        {
+          desc: "C Locrian mode - shows characteristic b2, b3, b5, b6, b7",
+          key: constants.C_LOCRIAN_KEY,
+          expected: ["C", "Db", "Eb", "F", "Gb", "Ab", "Bb"],
+        },
+      ],
+    },
+  ];
 
-  describe("Ionian (Major) Mode", () => {
-    test("C Ionian mode - major scale pattern", () => {
-      verifyGreekModeScaleNotes(constants.C_IONIAN_KEY, ["C", "D", "E", "F", "G", "A", "B"]);
-    });
-  });
-
-  describe("Dorian Mode", () => {
-    test("D Dorian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.D_DORIAN_KEY, ["D", "E", "F", "G", "A", "B", "C"]);
-    });
-    test("C Dorian mode - shows characteristic b3 and b7", () => {
-      verifyGreekModeScaleNotes(constants.C_DORIAN_KEY, ["C", "D", "Eb", "F", "G", "A", "Bb"]);
-    });
-  });
-
-  describe("Phrygian Mode", () => {
-    test("E Phrygian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.E_PHRYGIAN_KEY, ["E", "F", "G", "A", "B", "C", "D"]);
-    });
-    test("C Phrygian mode - shows characteristic b2, b3, b6, b7", () => {
-      verifyGreekModeScaleNotes(constants.C_PHRYGIAN_KEY, ["C", "Db", "Eb", "F", "G", "Ab", "Bb"]);
-    });
-  });
-
-  describe("Lydian Mode", () => {
-    test("F Lydian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.F_LYDIAN_KEY, ["F", "G", "A", "B", "C", "D", "E"]);
-    });
-    test("C Lydian mode - shows characteristic #4", () => {
-      verifyGreekModeScaleNotes(constants.C_LYDIAN_KEY, ["C", "D", "E", "F#", "G", "A", "B"]);
-    });
-  });
-
-  describe("Mixolydian Mode", () => {
-    test("G Mixolydian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.G_MIXOLYDIAN_KEY, ["G", "A", "B", "C", "D", "E", "F"]);
-    });
-    test("C Mixolydian mode - shows characteristic b7", () => {
-      verifyGreekModeScaleNotes(constants.C_MIXOLYDIAN_KEY, ["C", "D", "E", "F", "G", "A", "Bb"]);
-    });
-  });
-
-  describe("Aeolian (Natural Minor) Mode", () => {
-    test("A Aeolian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.A_AEOLIAN_KEY, ["A", "B", "C", "D", "E", "F", "G"]);
-    });
-    test("C Aeolian mode - shows characteristic b3, b6, b7", () => {
-      verifyGreekModeScaleNotes(constants.C_AEOLIAN_KEY, ["C", "D", "Eb", "F", "G", "Ab", "Bb"]);
-    });
-  });
-
-  describe("Locrian Mode", () => {
-    test("B Locrian mode - traditional position", () => {
-      verifyGreekModeScaleNotes(constants.B_LOCRIAN_KEY, ["B", "C", "D", "E", "F", "G", "A"]);
-    });
-    test("C Locrian mode - shows characteristic b2, b3, b5, b6, b7", () => {
-      verifyGreekModeScaleNotes(constants.C_LOCRIAN_KEY, ["C", "Db", "Eb", "F", "Gb", "Ab", "Bb"]);
+  testCases.forEach(({ mode, tests }) => {
+    describe(mode + " Mode", () => {
+      tests.forEach(({ desc, key, expected }) => {
+        test(desc, () => {
+          verifyGreekModeScaleNotes(key, expected);
+        });
+      });
     });
   });
 });

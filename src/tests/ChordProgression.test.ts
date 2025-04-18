@@ -11,101 +11,111 @@ describe("Chord progression derives correct chords for C major key", () => {
   const gMajor = MusicalKey.fromClassicalMode("G", KeyType.Major);
   const aMajor = MusicalKey.fromClassicalMode("A", KeyType.Major);
 
-  const fiftiesProgression = new ChordProgression(["I", "vi", "IV", "V"], "50s progression");
-  const somethingProgression = new ChordProgression(["I", "Imaj7", "I7", "IV"], "Something");
-  const bluesProgression = new ChordProgression(["I", "IV", "V", "IV"], "Blues");
-  const creepProgression = new ChordProgression(["I", "III", "IV", "iv"], "Creep");
-  const axisOfAwesomeProgression = new ChordProgression(["I", "V", "vi", "IV"], "Axis of Awesome");
+  const testCases = [
+    {
+      desc: "50s progression for C major",
+      progression: new ChordProgression(["I", "vi", "IV", "V"], "50s progression"),
+      key: cMajor,
+      expected: [
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("A", ChordType.Minor),
+        new AbsoluteChord("F", ChordType.Major),
+        new AbsoluteChord("G", ChordType.Major),
+      ],
+    },
+    {
+      desc: "Something progression for C major",
+      progression: new ChordProgression(["I", "Imaj7", "I7", "IV"], "Something"),
+      key: cMajor,
+      expected: [
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("C", ChordType.Major7),
+        new AbsoluteChord("C", ChordType.Dominant7),
+        new AbsoluteChord("F", ChordType.Major),
+      ],
+    },
+    {
+      desc: "Something progression for F major",
+      progression: new ChordProgression(["I", "Imaj7", "I7", "IV"], "Something"),
+      key: fMajor,
+      expected: [
+        new AbsoluteChord("F", ChordType.Major),
+        new AbsoluteChord("F", ChordType.Major7),
+        new AbsoluteChord("F", ChordType.Dominant7),
+        new AbsoluteChord("Bb", ChordType.Major),
+      ],
+    },
+    {
+      desc: "Blues progression for C major",
+      progression: new ChordProgression(["I", "IV", "V", "IV"], "Blues"),
+      key: cMajor,
+      expected: [
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("F", ChordType.Major),
+        new AbsoluteChord("G", ChordType.Major),
+        new AbsoluteChord("F", ChordType.Major),
+      ],
+    },
+    {
+      desc: "Blues progression for A major",
+      progression: new ChordProgression(["I", "IV", "V", "IV"], "Blues"),
+      key: aMajor,
+      expected: [
+        new AbsoluteChord("A", ChordType.Major),
+        new AbsoluteChord("D", ChordType.Major),
+        new AbsoluteChord("E", ChordType.Major),
+        new AbsoluteChord("D", ChordType.Major),
+      ],
+    },
+    {
+      desc: "Creep progression for G major",
+      progression: new ChordProgression(["I", "III", "IV", "iv"], "Creep"),
+      key: gMajor,
+      expected: [
+        new AbsoluteChord("G", ChordType.Major),
+        new AbsoluteChord("B", ChordType.Major),
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("C", ChordType.Minor),
+      ],
+    },
+    {
+      desc: "Let it be: Axis of Awesome progression for C major",
+      progression: new ChordProgression(["I", "V", "vi", "IV"], "Axis of Awesome"),
+      key: cMajor,
+      expected: [
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("G", ChordType.Major),
+        new AbsoluteChord("A", ChordType.Minor),
+        new AbsoluteChord("F", ChordType.Major),
+      ],
+    },
+    {
+      desc: "With or without you: Axis of Awesome progression for D major",
+      progression: new ChordProgression(["I", "V", "vi", "IV"], "Axis of Awesome"),
+      key: dMajor,
+      expected: [
+        new AbsoluteChord("D", ChordType.Major),
+        new AbsoluteChord("A", ChordType.Major),
+        new AbsoluteChord("B", ChordType.Minor),
+        new AbsoluteChord("G", ChordType.Major),
+      ],
+    },
+    {
+      desc: "I → ♭VI → IV → I",
+      progression: new ChordProgression(["I", "♭VI", "IV", "I"], "Black Hole Sun"),
+      key: gMajor,
+      expected: [
+        new AbsoluteChord("G", ChordType.Major),
+        new AbsoluteChord("Eb", ChordType.Major),
+        new AbsoluteChord("C", ChordType.Major),
+        new AbsoluteChord("G", ChordType.Major),
+      ],
+    },
+  ];
 
-  it("50s progression for C major", () => {
-    const derivedChords = fiftiesProgression.resolvedChords(cMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("A", ChordType.Minor),
-      new AbsoluteChord("F", ChordType.Major),
-      new AbsoluteChord("G", ChordType.Major),
-    ]);
-  });
-
-  it("Something progression for C major", () => {
-    const derivedChords = somethingProgression.resolvedChords(cMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("C", ChordType.Major7),
-      new AbsoluteChord("C", ChordType.Dominant7),
-      new AbsoluteChord("F", ChordType.Major),
-    ]);
-  });
-
-  it("Something progression for F major", () => {
-    const derivedChords = somethingProgression.resolvedChords(fMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("F", ChordType.Major),
-      new AbsoluteChord("F", ChordType.Major7),
-      new AbsoluteChord("F", ChordType.Dominant7),
-      new AbsoluteChord("Bb", ChordType.Major),
-    ]);
-  });
-
-  it("Blues progression for C major", () => {
-    const derivedChords = bluesProgression.resolvedChords(cMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("F", ChordType.Major),
-      new AbsoluteChord("G", ChordType.Major),
-      new AbsoluteChord("F", ChordType.Major),
-    ]);
-  });
-
-  it("Blues progression for A major", () => {
-    const derivedChords = bluesProgression.resolvedChords(aMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("A", ChordType.Major),
-      new AbsoluteChord("D", ChordType.Major),
-      new AbsoluteChord("E", ChordType.Major),
-      new AbsoluteChord("D", ChordType.Major),
-    ]);
-  });
-
-  it("Creep progression for G major", () => {
-    const derivedChords = creepProgression.resolvedChords(gMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("G", ChordType.Major),
-      new AbsoluteChord("B", ChordType.Major),
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("C", ChordType.Minor),
-    ]);
-  });
-
-  it("Let it be: Axis of Awesome progression for C major", () => {
-    const derivedChords = axisOfAwesomeProgression.resolvedChords(cMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("G", ChordType.Major),
-      new AbsoluteChord("A", ChordType.Minor),
-      new AbsoluteChord("F", ChordType.Major),
-    ]);
-  });
-
-  it("With or without you: Axis of Awesome progression for D major", () => {
-    const derivedChords = axisOfAwesomeProgression.resolvedChords(dMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("D", ChordType.Major),
-      new AbsoluteChord("A", ChordType.Major),
-      new AbsoluteChord("B", ChordType.Minor),
-      new AbsoluteChord("G", ChordType.Major),
-    ]);
-  });
-
-  it("I → ♭VI → IV → I", () => {
-    const blackHoleSunProgression = new ChordProgression(["I", "♭VI", "IV", "I"], "Black Hole Sun");
-
-    const derivedChords = blackHoleSunProgression.resolvedChords(gMajor);
-    expect(derivedChords).toEqual([
-      new AbsoluteChord("G", ChordType.Major),
-      new AbsoluteChord("Eb", ChordType.Major),
-      new AbsoluteChord("C", ChordType.Major),
-      new AbsoluteChord("G", ChordType.Major),
-    ]);
+  testCases.forEach(({ desc, progression, key, expected }) => {
+    it(desc, () => {
+      expect(progression.resolvedChords(key)).toEqual(expected);
+    });
   });
 });

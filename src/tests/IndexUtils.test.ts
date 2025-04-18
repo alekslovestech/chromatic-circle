@@ -12,132 +12,130 @@ import { isBlackKey } from "../utils/KeyboardUtils";
 
 describe("IndexUtils", () => {
   describe("normalizeIndices", () => {
-    it("should normalize indices relative to root note", () => {
-      expect(IndexUtils.normalizeIndices([0, 4, 7])).toEqual([0, 4, 7]);
-      expect(IndexUtils.normalizeIndices([2, 6, 9])).toEqual([0, 4, 7]);
-      expect(IndexUtils.normalizeIndices([11, 2, 5])).toEqual([0, 3, 6]);
-    });
+    const cases = [
+      { desc: "relative to root note", input: [0, 4, 7], expected: [0, 4, 7] },
+      { desc: "different root note", input: [2, 6, 9], expected: [0, 4, 7] },
+      { desc: "another root note", input: [11, 2, 5], expected: [0, 3, 6] },
+      { desc: "negative indices", input: [-1, 3, 6], expected: [0, 4, 7] },
+      { desc: "negative octave", input: [-12, -8, -5], expected: [0, 4, 7] },
+      { desc: "higher octave", input: [12, 16, 19], expected: [0, 4, 7] },
+      { desc: "two octaves up", input: [24, 28, 31], expected: [0, 4, 7] },
+    ];
 
-    it("should handle negative indices", () => {
-      expect(IndexUtils.normalizeIndices([-1, 3, 6])).toEqual([0, 4, 7]);
-      expect(IndexUtils.normalizeIndices([-12, -8, -5])).toEqual([0, 4, 7]);
-    });
-
-    it("should handle indices greater than 11", () => {
-      expect(IndexUtils.normalizeIndices([12, 16, 19])).toEqual([0, 4, 7]);
-      expect(IndexUtils.normalizeIndices([24, 28, 31])).toEqual([0, 4, 7]);
+    cases.forEach(({ desc, input, expected }) => {
+      it(desc, () => {
+        expect(IndexUtils.normalizeIndices(input)).toEqual(expected);
+      });
     });
   });
 
   describe("rootNoteAtInversion", () => {
-    function verifyRootNoteAtInversion(
-      indices: number[],
-      inversionIndex: number,
-      expectedRootNote: number,
-    ) {
-      expect(
-        IndexUtils.rootNoteAtInversion(ixActualArray(indices), ixInversion(inversionIndex)),
-      ).toEqual(expectedRootNote);
-    }
+    const cases = [
+      { desc: "root position C", indices: [0, 4, 7], inv: 0, expected: 0 },
+      { desc: "root position D", indices: [2, 6, 9], inv: 0, expected: 2 },
+      { desc: "first inversion", indices: [0, 4, 7], inv: 1, expected: 7 },
+      { desc: "second inversion", indices: [0, 4, 7], inv: 2, expected: 4 },
+    ];
 
-    it("should return the root note when inversionIndex is undefined", () => {
-      verifyRootNoteAtInversion([0, 4, 7], 0, 0);
-      verifyRootNoteAtInversion([2, 6, 9], 0, 2);
-    });
-
-    it("should return the correct root note for different inversions", () => {
-      verifyRootNoteAtInversion([0, 4, 7], 0, 0);
-      verifyRootNoteAtInversion([0, 4, 7], 1, 7);
-      verifyRootNoteAtInversion([0, 4, 7], 2, 4);
+    cases.forEach(({ desc, indices, inv, expected }) => {
+      it(desc, () => {
+        expect(IndexUtils.rootNoteAtInversion(ixActualArray(indices), ixInversion(inv))).toEqual(
+          expected,
+        );
+      });
     });
   });
 
   describe("firstNoteToLast", () => {
-    it("should move the first note to the end and add TWELVE", () => {
-      expect(IndexUtils.firstNoteToLast([0, 4, 7])).toEqual([-8, -5, 0]);
-      expect(IndexUtils.firstNoteToLast([2, 6, 9])).toEqual([-6, -3, 2]);
-      expect(IndexUtils.firstNoteToLast([-1, 3, 6])).toEqual([3, 6, 11]);
+    const cases = [
+      { input: [0, 4, 7], expected: [-8, -5, 0] },
+      { input: [2, 6, 9], expected: [-6, -3, 2] },
+      { input: [-1, 3, 6], expected: [3, 6, 11] },
+    ];
+
+    cases.forEach(({ input, expected }) => {
+      it(`${input} -> ${expected}`, () => {
+        expect(IndexUtils.firstNoteToLast(input)).toEqual(expected);
+      });
     });
   });
 
   describe("areIndicesEqual", () => {
-    it("should return true for identical arrays", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 7])).toBeTruthy();
-      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 6, 9])).toBeTruthy();
-    });
+    const cases = [
+      { desc: "identical arrays", a: [0, 4, 7], b: [0, 4, 7], expected: true },
+      { desc: "different arrays", a: [2, 6, 9], b: [2, 6, 9], expected: true },
+      { desc: "different lengths 1", a: [0, 4, 7], b: [0, 4], expected: false },
+      { desc: "different lengths 2", a: [0, 4], b: [0, 4, 7], expected: false },
+      { desc: "different elements 1", a: [0, 4, 7], b: [0, 4, 8], expected: false },
+      { desc: "different elements 2", a: [2, 6, 9], b: [2, 5, 9], expected: false },
+    ];
 
-    it("should return false for arrays with different lengths", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4])).toBeFalsy();
-      expect(IndexUtils.areIndicesEqual([0, 4], [0, 4, 7])).toBeFalsy();
-    });
-
-    it("should return false for arrays with different elements", () => {
-      expect(IndexUtils.areIndicesEqual([0, 4, 7], [0, 4, 8])).toBeFalsy();
-      expect(IndexUtils.areIndicesEqual([2, 6, 9], [2, 5, 9])).toBeFalsy();
+    cases.forEach(({ desc, a, b, expected }) => {
+      it(desc, () => {
+        expect(IndexUtils.areIndicesEqual(a, b)).toBe(expected);
+      });
     });
   });
 
   describe("chromaticToActual", () => {
-    it("should convert chromatic index and octave offset to actual index", () => {
-      expect(chromaticToActual(ixChromatic(0), ixOctaveOffset(0))).toBe(0);
-      expect(chromaticToActual(ixChromatic(11), ixOctaveOffset(0))).toBe(11);
-      expect(chromaticToActual(ixChromatic(0), ixOctaveOffset(1))).toBe(12);
-      expect(chromaticToActual(ixChromatic(11), ixOctaveOffset(1))).toBe(23);
+    const cases = [
+      { chromatic: 0, octave: 0, expected: 0 },
+      { chromatic: 11, octave: 0, expected: 11 },
+      { chromatic: 0, octave: 1, expected: 12 },
+      { chromatic: 11, octave: 1, expected: 23 },
+    ];
+
+    cases.forEach(({ chromatic, octave, expected }) => {
+      it(`${chromatic},${octave} -> ${expected}`, () => {
+        expect(chromaticToActual(ixChromatic(chromatic), ixOctaveOffset(octave))).toBe(expected);
+      });
     });
   });
 
   describe("actualToChromatic", () => {
-    it("should convert actual index to chromatic index and octave offset", () => {
-      expect(actualIndexToChromaticAndOctave(ixActual(0))).toEqual({
-        chromaticIndex: 0,
-        octaveOffset: 0,
-      });
-      expect(actualIndexToChromaticAndOctave(ixActual(11))).toEqual({
-        chromaticIndex: 11,
-        octaveOffset: 0,
-      });
-      expect(actualIndexToChromaticAndOctave(ixActual(12))).toEqual({
-        chromaticIndex: 0,
-        octaveOffset: 1,
-      });
-      expect(actualIndexToChromaticAndOctave(ixActual(23))).toEqual({
-        chromaticIndex: 11,
-        octaveOffset: 1,
+    const cases = [
+      { actual: 0, expected: { chromaticIndex: 0, octaveOffset: 0 } },
+      { actual: 11, expected: { chromaticIndex: 11, octaveOffset: 0 } },
+      { actual: 12, expected: { chromaticIndex: 0, octaveOffset: 1 } },
+      { actual: 23, expected: { chromaticIndex: 11, octaveOffset: 1 } },
+    ];
+
+    cases.forEach(({ actual, expected }) => {
+      it(`${actual} -> chromatic:${expected.chromaticIndex},octave:${expected.octaveOffset}`, () => {
+        expect(actualIndexToChromaticAndOctave(ixActual(actual))).toEqual(expected);
       });
     });
   });
 
   describe("isBlackKey", () => {
-    it("should return true for black keys", () => {
-      expect(isBlackKey(ixActual(1))).toBeTruthy();
-      expect(isBlackKey(ixActual(3))).toBeTruthy();
-      expect(isBlackKey(ixActual(6))).toBeTruthy();
-      expect(isBlackKey(ixActual(8))).toBeTruthy();
-      expect(isBlackKey(ixActual(10))).toBeTruthy();
+    const blackKeys = [1, 3, 6, 8, 10];
+    const whiteKeys = [0, 2, 4, 5, 7, 9, 11];
+
+    blackKeys.forEach((key) => {
+      it(`${key} is black`, () => {
+        expect(isBlackKey(ixActual(key))).toBeTruthy();
+      });
     });
 
-    it("should return false for white keys", () => {
-      expect(isBlackKey(ixActual(0))).toBeFalsy();
-      expect(isBlackKey(ixActual(2))).toBeFalsy();
-      expect(isBlackKey(ixActual(4))).toBeFalsy();
-      expect(isBlackKey(ixActual(5))).toBeFalsy();
-      expect(isBlackKey(ixActual(7))).toBeFalsy();
-      expect(isBlackKey(ixActual(9))).toBeFalsy();
-      expect(isBlackKey(ixActual(11))).toBeFalsy();
+    whiteKeys.forEach((key) => {
+      it(`${key} is white`, () => {
+        expect(isBlackKey(ixActual(key))).toBeFalsy();
+      });
     });
   });
 
   describe("shiftIndices", () => {
-    it("should shift indices by a given amount", () => {
-      expect(IndexUtils.shiftIndices([0, 4, 7], 1)).toEqual([1, 5, 8]);
-      expect(IndexUtils.shiftIndices([0, 4, 7], -1)).toEqual([11, 15, 18]);
-    });
-    it("should handle shifting 0 down by -1", () => {
-      expect(IndexUtils.shiftIndices([0], -1)).toEqual([11]);
-    });
+    const cases = [
+      { desc: "shift up", input: [0, 4, 7], shift: 1, expected: [1, 5, 8] },
+      { desc: "shift down", input: [0, 4, 7], shift: -1, expected: [11, 15, 18] },
+      { desc: "shift 0 down", input: [0], shift: -1, expected: [11] },
+      { desc: "shift 23 up", input: [23], shift: 1, expected: [12] },
+    ];
 
-    it("should handle shifting 23 up by 1", () => {
-      expect(IndexUtils.shiftIndices([23], 1)).toEqual([12]);
+    cases.forEach(({ desc, input, shift, expected }) => {
+      it(desc, () => {
+        expect(IndexUtils.shiftIndices(input, shift)).toEqual(expected);
+      });
     });
   });
 });

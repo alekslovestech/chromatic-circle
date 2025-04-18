@@ -2,7 +2,6 @@ import { ChordType, IntervalType, SpecialType } from "../types/NoteGroupingTypes
 import { ixActualArray } from "../types/IndexTypes";
 import { IChordMatch } from "../types/ChordMatch";
 import { ChordUtils } from "../utils/ChordUtils";
-
 function verifyChordMatch(
   rootNote: number,
   type: ChordType | IntervalType | SpecialType,
@@ -16,67 +15,70 @@ function verifyChordMatch(
 }
 
 describe("ChordMatch tests", () => {
-  test("empty indices", () => {
-    verifyChordMatch(0, SpecialType.None, 0, []);
-  });
+  const testCases = [
+    { desc: "empty indices", root: 0, type: SpecialType.None, inv: 0, indices: [] },
+    { desc: "major chord", root: 0, type: ChordType.Major, inv: 0, indices: [0, 4, 7] },
+    { desc: "minor chord", root: 0, type: ChordType.Minor, inv: 0, indices: [0, 3, 7] },
+    {
+      desc: "minor chord with root note",
+      root: 2,
+      type: ChordType.Minor,
+      inv: 0,
+      indices: [2, 5, 9],
+    },
+    {
+      desc: "major chord with root note",
+      root: 1,
+      type: ChordType.Major,
+      inv: 0,
+      indices: [1, 5, 8],
+    },
+    {
+      desc: "major chord first inversion",
+      root: 0,
+      type: ChordType.Major,
+      inv: 1,
+      indices: [4, 7, 12],
+    },
+    {
+      desc: "major chord second inversion",
+      root: 0,
+      type: ChordType.Major,
+      inv: 2,
+      indices: [7, 12, 16],
+    },
+    {
+      desc: "dominant 7 chord",
+      root: 0,
+      type: ChordType.Dominant7,
+      inv: 0,
+      indices: [0, 4, 7, 10],
+    },
+    {
+      desc: "major 7 chord third inversion",
+      root: 0,
+      type: ChordType.Major7,
+      inv: 3,
+      indices: [11, 12, 16, 19],
+    },
+    { desc: "diminished chord", root: 0, type: ChordType.Diminished, inv: 0, indices: [0, 3, 6] },
+    { desc: "augmented chord", root: 0, type: ChordType.Augmented, inv: 0, indices: [0, 4, 8] },
+    { desc: "sus4 chord", root: 0, type: ChordType.Sus4, inv: 0, indices: [0, 5, 7] },
+    { desc: "single note", root: 0, type: SpecialType.Note, inv: 0, indices: [0] },
+    { desc: "fifth interval", root: 0, type: IntervalType.Fifth, inv: 0, indices: [0, 7] },
+    { desc: "unknown chord", root: 0, type: ChordType.Unknown, inv: 0, indices: [0, 1, 2] },
+    {
+      desc: "unknown chord with root note",
+      root: 0,
+      type: ChordType.Unknown,
+      inv: 0,
+      indices: [0, 2, 4],
+    },
+  ];
 
-  test("major chord", () => {
-    verifyChordMatch(0, ChordType.Major, 0, [0, 4, 7]);
-  });
-
-  test("minor chord", () => {
-    verifyChordMatch(0, ChordType.Minor, 0, [0, 3, 7]);
-  });
-
-  test("minor chord with root note", () => {
-    verifyChordMatch(2, ChordType.Minor, 0, [2, 5, 9]);
-  });
-
-  test("major chord with root note", () => {
-    verifyChordMatch(1, ChordType.Major, 0, [1, 5, 8]);
-  });
-
-  test("major chord first inversion", () => {
-    verifyChordMatch(0, ChordType.Major, 1, [4, 7, 12]);
-  });
-
-  test("major chord second inversion", () => {
-    verifyChordMatch(0, ChordType.Major, 2, [7, 12, 16]);
-  });
-
-  test("dominant 7 chord", () => {
-    verifyChordMatch(0, ChordType.Dominant7, 0, [0, 4, 7, 10]);
-  });
-
-  test("major 7 chord third inversion", () => {
-    verifyChordMatch(0, ChordType.Major7, 3, [11, 12, 16, 19]);
-  });
-
-  test("diminished chord", () => {
-    verifyChordMatch(0, ChordType.Diminished, 0, [0, 3, 6]);
-  });
-
-  test("augmented chord", () => {
-    verifyChordMatch(0, ChordType.Augmented, 0, [0, 4, 8]);
-  });
-
-  test("sus4 chord", () => {
-    verifyChordMatch(0, ChordType.Sus4, 0, [0, 5, 7]);
-  });
-
-  test("single note", () => {
-    verifyChordMatch(0, SpecialType.Note, 0, [0]);
-  });
-
-  test("fifth interval", () => {
-    verifyChordMatch(0, IntervalType.Fifth, 0, [0, 7]);
-  });
-
-  test("unknown chord", () => {
-    verifyChordMatch(0, ChordType.Unknown, 0, [0, 1, 2]);
-  });
-
-  test("unknown chord with root note", () => {
-    verifyChordMatch(0, ChordType.Unknown, 0, [0, 2, 4]);
+  testCases.forEach(({ desc, root, type, inv, indices }) => {
+    test(desc, () => {
+      verifyChordMatch(root, type, inv, indices);
+    });
   });
 });

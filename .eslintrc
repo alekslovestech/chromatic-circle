@@ -7,6 +7,11 @@
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-floating-promises": "off"
+  },
+  "ignorePatterns": ["node_modules/", "build/"],
+  "parserOptions": {
+    "warnOnUnsupportedTypeScriptVersion": false
   }
 } 

@@ -17,145 +17,94 @@ function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]
   const displayStrings = musicalKey.getDisplayStringArray(KeyTextMode.ScaleDegree);
   expect(displayStrings).toEqual(expectedArray);
 }
+describe("Scale Degree Display", () => {
+  describe("Greek Mode Patterns", () => {
+    const modePatternCases = [
+      {
+        mode: GreekModeType.Ionian,
+        expected: ["1", "2", "3", "4", "5", "6", "7"],
+      },
+      {
+        mode: GreekModeType.Dorian,
+        expected: ["1", "2", "♭3", "4", "5", "6", "♭7"],
+      },
+      {
+        mode: GreekModeType.Phrygian,
+        expected: ["1", "♭2", "♭3", "4", "5", "♭6", "♭7"],
+      },
+      {
+        mode: GreekModeType.Lydian,
+        expected: ["1", "2", "3", "♯4", "5", "6", "7"],
+      },
+      {
+        mode: GreekModeType.Mixolydian,
+        expected: ["1", "2", "3", "4", "5", "6", "♭7"],
+      },
+      {
+        mode: GreekModeType.Aeolian,
+        expected: ["1", "2", "♭3", "4", "5", "♭6", "♭7"],
+      },
+      {
+        mode: GreekModeType.Locrian,
+        expected: ["1", "♭2", "♭3", "4", "♭5", "♭6", "♭7"],
+      },
+    ];
 
-describe("Greek Mode Index Arrays", () => {
-  describe("verifyFromPattern", () => {
-    test("Ionian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Ionian, ["1", "2", "3", "4", "5", "6", "7"]);
-    });
-    test("Dorian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Dorian, ["1", "2", "♭3", "4", "5", "6", "♭7"]);
-    });
-    test("Phrygian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Phrygian, [
-        "1",
-        "♭2",
-        "♭3",
-        "4",
-        "5",
-        "♭6",
-        "♭7",
-      ]);
-    });
-
-    test("Lydian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Lydian, ["1", "2", "3", "♯4", "5", "6", "7"]);
-    });
-
-    test("Mixolydian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Mixolydian, [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "♭7",
-      ]);
-    });
-
-    test("Aeolian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Aeolian, [
-        "1",
-        "2",
-        "♭3",
-        "4",
-        "5",
-        "♭6",
-        "♭7",
-      ]);
-    });
-
-    test("Locrian mode pattern", () => {
-      verifyScaleDegreeDisplayStrings(GreekModeType.Locrian, [
-        "1",
-        "♭2",
-        "♭3",
-        "4",
-        "♭5",
-        "♭6",
-        "♭7",
-      ]);
-    });
-  });
-});
-
-describe("getScaleDegreeDisplayString", () => {
-  let constants: GreekTestConstants;
-
-  beforeEach(() => {
-    constants = GreekTestConstants.getInstance();
-  });
-
-  describe("Ionian (Major) Scale", () => {
-    it("should display correct scale degrees for C Ionian", () => {
-      verifyScaleDegreesArray(constants.C_IONIAN_KEY, [
-        "1",
-        "",
-        "2",
-        "",
-        "3",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-        "",
-        "7",
-      ]);
-    });
-
-    it("should display correct scale degrees for D Ionian", () => {
-      verifyScaleDegreesArray(constants.D_IONIAN_KEY, [
-        "",
-        "7",
-        "1",
-        "",
-        "2",
-        "",
-        "3",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-      ]);
+    modePatternCases.forEach(({ mode, expected }) => {
+      test(`${mode} mode pattern`, () => {
+        verifyScaleDegreeDisplayStrings(mode, expected);
+      });
     });
   });
 
-  describe("Dorian Mode", () => {
-    it("should display correct scale degrees for C Dorian", () => {
-      verifyScaleDegreesArray(constants.C_DORIAN_KEY, [
-        "1",
-        "",
-        "2",
-        "♭3",
-        "",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-        "♭7",
-        "",
-      ]);
+  describe("Scale Degree Arrays", () => {
+    let constants: GreekTestConstants;
+
+    beforeEach(() => {
+      constants = GreekTestConstants.getInstance();
     });
 
-    it("should display correct scale degrees for D Dorian", () => {
-      verifyScaleDegreesArray(constants.D_DORIAN_KEY, [
-        "♭7",
-        "",
-        "1",
-        "",
-        "2",
-        "♭3",
-        "",
-        "4",
-        "",
-        "5",
-        "",
-        "6",
-      ]);
+    const scaleCases = [
+      {
+        desc: "Ionian (Major) Scale",
+        cases: [
+          {
+            key: "C Ionian",
+            musicalKey: () => constants.C_IONIAN_KEY,
+            expected: ["1", "", "2", "", "3", "4", "", "5", "", "6", "", "7"],
+          },
+          {
+            key: "D Ionian",
+            musicalKey: () => constants.D_IONIAN_KEY,
+            expected: ["", "7", "1", "", "2", "", "3", "4", "", "5", "", "6"],
+          },
+        ],
+      },
+      {
+        desc: "Dorian Mode",
+        cases: [
+          {
+            key: "C Dorian",
+            musicalKey: () => constants.C_DORIAN_KEY,
+            expected: ["1", "", "2", "♭3", "", "4", "", "5", "", "6", "♭7", ""],
+          },
+          {
+            key: "D Dorian",
+            musicalKey: () => constants.D_DORIAN_KEY,
+            expected: ["♭7", "", "1", "", "2", "♭3", "", "4", "", "5", "", "6"],
+          },
+        ],
+      },
+    ];
+
+    scaleCases.forEach(({ desc, cases }) => {
+      describe(desc, () => {
+        cases.forEach(({ key, musicalKey, expected }) => {
+          it(`should display correct scale degrees for ${key}`, () => {
+            verifyScaleDegreesArray(musicalKey(), expected);
+          });
+        });
+      });
     });
   });
 });
