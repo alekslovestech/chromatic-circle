@@ -21,7 +21,7 @@ const AudioPlayer: React.FC = () => {
         // Create a polyphonic synth
         const synth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
-            type: "sine",
+            type: "fatsine2",
           },
           envelope: {
             attack: 0.02,
@@ -32,7 +32,7 @@ const AudioPlayer: React.FC = () => {
         }).toDestination();
 
         // Set initial volume
-        Tone.getDestination().volume.value = -12; // -12 dB (quieter)
+        Tone.getDestination().volume.value = -5; // -12 dB (quieter)
 
         if (isActive) {
           synthRef.current = synth;
@@ -59,7 +59,8 @@ const AudioPlayer: React.FC = () => {
   // Convert note index to frequency
   const getFrequencyFromIndex = useCallback((index: number): number => {
     // Convert index to MIDI note number (assuming index 0 is C4)
-    const midiNote = index + 60; // C4 is MIDI note 60
+
+    const midiNote = index + 60; //  C3 is MIDI note 48
     // Calculate frequency using the formula: f = 440 * 2^((midiNote - 69) / 12)
     return BASE_FREQUENCY * Math.pow(2, (midiNote - A4_MIDI_INDEX) / TWELVE);
   }, []);
@@ -71,7 +72,7 @@ const AudioPlayer: React.FC = () => {
 
       try {
         const frequency = getFrequencyFromIndex(index);
-        synthRef.current.triggerAttackRelease(frequency, "8n");
+        synthRef.current.triggerAttackRelease(frequency, "4n");
       } catch (error) {
         console.error("Failed to play note:", error);
       }
