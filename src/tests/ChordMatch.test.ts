@@ -2,6 +2,7 @@ import { ChordType, IntervalType, SpecialType } from "../types/NoteGroupingTypes
 import { ixActualArray } from "../types/IndexTypes";
 import { IChordMatch } from "../types/ChordMatch";
 import { ChordUtils } from "../utils/ChordUtils";
+
 function verifyChordMatch(
   rootNote: number,
   type: ChordType | IntervalType | SpecialType,
@@ -79,6 +80,18 @@ describe("ChordMatch tests", () => {
   testCases.forEach(({ desc, root, type, inv, indices }) => {
     test(desc, () => {
       verifyChordMatch(root, type, inv, indices);
+    });
+  });
+
+  const spreadTriadTestCases = [
+    [0, 7, 15],
+    [0, 12, 16],
+    [0, 13, 15],
+  ];
+
+  spreadTriadTestCases.forEach((indices) => {
+    test(`Spread triad ${indices} should not throw`, () => {
+      expect(() => ChordUtils.getMatchFromIndices(ixActualArray(indices))).not.toThrow();
     });
   });
 });

@@ -59,8 +59,7 @@ const AudioPlayer: React.FC = () => {
   // Convert note index to frequency
   const getFrequencyFromIndex = useCallback((index: number): number => {
     // Convert index to MIDI note number (assuming index 0 is C4)
-
-    const midiNote = index + 60; //  C3 is MIDI note 48
+    const midiNote = index + 60; //  C4 is MIDI note 60
     // Calculate frequency using the formula: f = 440 * 2^((midiNote - 69) / 12)
     return BASE_FREQUENCY * Math.pow(2, (midiNote - A4_MIDI_INDEX) / TWELVE);
   }, []);
