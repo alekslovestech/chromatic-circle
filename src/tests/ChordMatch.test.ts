@@ -2,6 +2,7 @@ import { ChordType, IntervalType, SpecialType } from "../types/NoteGroupingTypes
 import { ixActualArray } from "../types/IndexTypes";
 import { IChordMatch } from "../types/ChordMatch";
 import { ChordUtils } from "../utils/ChordUtils";
+import { TWELVE } from "../types/NoteConstants";
 
 function verifyChordMatch(
   rootNote: number,
@@ -75,6 +76,7 @@ describe("ChordMatch tests", () => {
       inv: 0,
       indices: [0, 2, 4],
     },
+    { desc: "spread triad major", root: 0, type: ChordType.Unknown, inv: 0, indices: [0, 7, 15] },
   ];
 
   testCases.forEach(({ desc, root, type, inv, indices }) => {
@@ -84,14 +86,23 @@ describe("ChordMatch tests", () => {
   });
 
   const spreadTriadTestCases = [
-    [0, 7, 15],
-    [0, 12, 16],
-    [0, 13, 15],
+    { input: [0, 7, 15], expected: [0, 3, 7] }, //spread triad minor
+    { input: [0, 7, 16], expected: [0, 4, 7] }, //spread triad major
+    { input: [0, 13, 15], expected: [0, 1, 3] },
   ];
 
-  spreadTriadTestCases.forEach((indices) => {
-    test(`Spread triad ${indices} should not throw`, () => {
-      expect(() => ChordUtils.getMatchFromIndices(ixActualArray(indices))).not.toThrow();
+  //TODO: add test cases to identify various spread triads correctly.
+
+  spreadTriadTestCases.forEach(({ input, expected }) => {
+    test(`Spread triad ${input} should wrap to ${expected}`, () => {
+      const chordMatch = ChordUtils.getMatchFromIndices(ixActualArray(input));
+      expect(chordMatch.definition.offsets).toEqual(expected);
+    });
+  });
+
+  spreadTriadTestCases.forEach(({ input }) => {
+    test(`Spread triad ${input} should not throw`, () => {
+      expect(() => ChordUtils.getMatchFromIndices(ixActualArray(input))).not.toThrow();
     });
   });
 });

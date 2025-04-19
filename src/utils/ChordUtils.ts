@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { addOffsetToActual, ixActualArray } from "../types/IndexTypes";
+import { addOffsetToActual, ixActualArray, ixOffsetArray } from "../types/IndexTypes";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { ChordType, NoteGroupingType, NoteGroupingId } from "../types/NoteGroupingTypes";
@@ -12,7 +12,6 @@ import {
   ActualIndex,
   OffsetIndex,
   ixActual,
-  ixOffset,
 } from "../types/IndexTypes";
 import { NoteGrouping } from "../types/NoteGrouping";
 import { TWELVE } from "../types/NoteConstants";
@@ -72,17 +71,17 @@ export class ChordUtils {
       }
     }
 
-    // If no match found, create unknown chord
-    if (indices.length === 0) {
-      return {
-        rootNote: ixActual(0),
-        definition: NoteGroupingLibrary.getGroupingById(SpecialType.None),
-        inversionIndex: ixInversion(0),
-      };
-    }
     const firstIndex = indices[0];
-    const offsets = indices.map((index) => ixOffset(index - firstIndex));
-    const noteGrouping = new NoteGrouping(ChordType.Unknown, "", "", "", -1, offsets, false);
+    const offsets = indices.map((index) => (index - firstIndex) % TWELVE).sort((a, b) => a - b);
+    const noteGrouping = new NoteGrouping(
+      ChordType.Unknown,
+      "",
+      "",
+      "",
+      -1,
+      ixOffsetArray(offsets),
+      false,
+    );
     return {
       rootNote: ixActual(firstIndex),
       definition: noteGrouping,
