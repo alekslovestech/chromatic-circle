@@ -11,6 +11,7 @@ import { TWELVE } from "../types/NoteConstants";
 
 import { IndexUtils } from "./IndexUtils";
 import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
+import { ChordUtils } from "./ChordUtils";
 
 export const isBlackKey = (actualIndex: ActualIndex | ChromaticIndex): boolean =>
   [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);
@@ -47,7 +48,7 @@ export const calculateUpdatedIndices = (
 ): ActualIndex[] => {
   if (inputMode === InputMode.Toggle)
     return IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex as ActualIndex);
-  return ChordAndIntervalManager.calculateChordNotesFromIndex(
+  return ChordUtils.calculateChordNotesFromIndex(
     newIndex,
     selectedChordType,
     selectedInversionIndex,

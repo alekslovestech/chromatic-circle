@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { addOffsetToActual } from "../types/IndexTypes";
+import { addOffsetToActual, ixActualArray } from "../types/IndexTypes";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { ChordType, NoteGroupingType, NoteGroupingId } from "../types/NoteGroupingTypes";
@@ -73,6 +73,13 @@ export class ChordUtils {
     }
 
     // If no match found, create unknown chord
+    if (indices.length === 0) {
+      return {
+        rootNote: ixActual(0),
+        definition: NoteGroupingLibrary.getGroupingById(SpecialType.None),
+        inversionIndex: ixInversion(0),
+      };
+    }
     const firstIndex = indices[0];
     const offsets = indices.map((index) => ixOffset(index - firstIndex));
     const noteGrouping = new NoteGrouping(ChordType.Unknown, "", "", "", -1, offsets, false);
@@ -109,6 +116,16 @@ export class ChordUtils {
       displayMode,
     );
   }
+
+  static calculateChordNotesFromIndex = (
+    rootIndex: ActualIndex,
+    chordType: NoteGroupingId,
+    inversionIndex: InversionIndex = ixInversion(0),
+  ): ActualIndex[] => {
+    const chordOffsets = ChordUtils.getOffsetsFromIdAndInversion(chordType, inversionIndex);
+    const newNotes = chordOffsets.map((offset: number) => (offset + rootIndex) as ActualIndex);
+    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(newNotes));
+  };
 
   private static getBassNoteIndex(chordMatch: IChordMatch, isUnknownChord: boolean): ActualIndex {
     if (isUnknownChord || chordMatch.definition.offsets.length === 0) {
