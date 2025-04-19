@@ -1,4 +1,4 @@
-import { ActualIndex, InversionIndex, ixActualArray, ixInversion } from "../types/IndexTypes";
+import { ActualIndex } from "../types/IndexTypes";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteGrouping } from "../types/NoteGrouping";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
