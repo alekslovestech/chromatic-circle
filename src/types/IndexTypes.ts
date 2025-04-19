@@ -24,7 +24,7 @@ export function ixActualArray(numbers: number[]): ActualIndex[] {
 }
 
 export function ixOffset(n: number): OffsetIndex {
-  if (n < -TWELVE || n > 14 || !Number.isInteger(n)) throw new Error("Invalid OffsetIndex");
+  if (n < -TWELVE || n > 14 || !Number.isInteger(n)) throw new Error("Invalid OffsetIndex=" + n);
   return n as OffsetIndex;
 }
 

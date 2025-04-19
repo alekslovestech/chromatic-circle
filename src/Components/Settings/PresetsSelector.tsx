@@ -6,7 +6,7 @@ import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
 
 import { IndexUtils } from "../../utils/IndexUtils";
-import { ChordAndIntervalManager } from "../../utils/ChordAndIntervalManager";
+import { ChordUtils } from "../../utils/ChordUtils";
 
 import { usePreset } from "../../contexts/PresetContext";
 import { useMusical } from "../../contexts/MusicalContext";
@@ -30,7 +30,7 @@ export const PresetsSelector: React.FC = () => {
     setSelectedChordType(newPresetId);
     setSelectedInversionIndex(ixInversion(0));
     const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
-    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+    const updatedIndices = ChordUtils.calculateChordNotesFromIndex(
       rootNote,
       newPresetId,
       ixInversion(0),
@@ -44,7 +44,7 @@ export const PresetsSelector: React.FC = () => {
       selectedInversionIndex,
     );
     setSelectedInversionIndex(newInversionIndex);
-    const updatedIndices = ChordAndIntervalManager.calculateChordNotesFromIndex(
+    const updatedIndices = ChordUtils.calculateChordNotesFromIndex(
       originalRootIndex,
       selectedChordType,
       newInversionIndex,
