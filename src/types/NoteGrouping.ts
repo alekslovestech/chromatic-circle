@@ -84,10 +84,4 @@ export class NoteGrouping {
       isVisiblePreset,
     );
   }
-
-  public static createUnknownChord(indices: ActualIndex[]): NoteGrouping {
-    const firstIndex = indices.length > 0 ? indices[0] : 0;
-    const offsets = indices.map((index) => ixOffset(index - firstIndex));
-    return new NoteGrouping(ChordType.Unknown, "", "", "", -1, offsets, false);
-  }
 }
