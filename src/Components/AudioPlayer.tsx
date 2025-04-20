@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
 import * as Tone from "tone";
 import { useMusical } from "../contexts/MusicalContext";
+import { useAudio } from "../contexts/AudioContext";
 
 // Base frequency for A4 (440Hz)
 const BASE_FREQUENCY = 440;
@@ -11,6 +12,7 @@ const A4_MIDI_INDEX = 69;
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const { selectedNoteIndices } = useMusical();
+  const { isAudioInitialized } = useAudio();
 
   // Initialize Tone.js synth
   useEffect(() => {
@@ -96,29 +98,13 @@ const AudioPlayer: React.FC = () => {
 
   // Play notes when selection changes
   useEffect(() => {
-    if (synthRef.current) {
+    if (synthRef.current && isAudioInitialized) {
       playSelectedNotes();
     }
-  }, [selectedNoteIndices, playSelectedNotes]);
+  }, [selectedNoteIndices, playSelectedNotes, isAudioInitialized]);
 
-  // Initialize Tone.js context on user interaction
-  const initializeTone = useCallback(async () => {
-    try {
-      if (Tone.getContext().state !== "running") {
-        await Tone.start();
-        console.log("Tone.js context started");
-      }
-    } catch (error) {
-      console.error("Failed to start Tone.js context:", error);
-    }
-  }, []);
-
-  // Add a button to initialize Tone.js (required by browsers)
-  return (
-    <div>
-      <button onClick={initializeTone}>Initialize Audio</button>
-    </div>
-  );
+  // Return null since we don't need to render anything
+  return null;
 };
 
 export default AudioPlayer;
