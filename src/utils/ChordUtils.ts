@@ -1,5 +1,5 @@
 import { AccidentalType } from "../types/AccidentalType";
-import { addOffsetToActual, ixActualArray, ixOffset, ixOffsetArray } from "../types/IndexTypes";
+import { addOffsetToActual, ixActualArray, ixOffset } from "../types/IndexTypes";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { NoteGroupingLibrary } from "../types/NoteGroupingLibrary";
 import { ChordType, NoteGroupingType, NoteGroupingId } from "../types/NoteGroupingTypes";
