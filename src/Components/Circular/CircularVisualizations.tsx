@@ -12,6 +12,7 @@ export class CircularVisualizations {
     selectedNoteIndices: ActualIndex[],
     circularVisMode: CircularVisMode,
     innerRadius: number,
+    color: string,
   ): JSX.Element[] {
     if (selectedNoteIndices.length <= 1) return [];
 
@@ -28,6 +29,7 @@ export class CircularVisualizations {
       <polygon
         className="selected-notes-polygon"
         key="circularVis"
+        stroke={color}
         points={polyPoints.map((p) => `${p.x},${p.y}`).join(" ")}
       />,
       baseNoteDot,
