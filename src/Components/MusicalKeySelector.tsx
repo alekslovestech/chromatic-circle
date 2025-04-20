@@ -17,12 +17,13 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
+import { useAudio } from "../contexts/AudioContext";
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
   const { scalePreviewMode, keyTextMode } = useDisplay();
-
+  const { isAudioInitialized } = useAudio();
   useEffect(() => {
-    if (!scalePreviewMode) return;
+    if (!scalePreviewMode || !isAudioInitialized) return;
 
     let scaleDegreeIndex = 0;
     const isRomanMode = keyTextMode === KeyTextMode.Roman;

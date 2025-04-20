@@ -69,7 +69,7 @@ const AudioPlayer: React.FC = () => {
   // Play a single note
   const playNote = useCallback(
     (index: number) => {
-      if (!synthRef.current) return;
+      if (!synthRef.current || !isAudioInitialized) return;
 
       try {
         const frequency = getFrequencyFromIndex(index);
@@ -78,12 +78,12 @@ const AudioPlayer: React.FC = () => {
         console.error("Failed to play note:", error);
       }
     },
-    [getFrequencyFromIndex],
+    [getFrequencyFromIndex, isAudioInitialized],
   );
 
   // Play all selected notes
   const playSelectedNotes = useCallback(() => {
-    if (!synthRef.current) return;
+    if (!synthRef.current || !isAudioInitialized) return;
 
     try {
       // Stop any currently playing notes
@@ -94,7 +94,7 @@ const AudioPlayer: React.FC = () => {
     } catch (error) {
       console.error("Failed to play selected notes:", error);
     }
-  }, [selectedNoteIndices, playNote]);
+  }, [selectedNoteIndices, playNote, isAudioInitialized]);
 
   // Play notes when selection changes
   useEffect(() => {
