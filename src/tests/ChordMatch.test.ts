@@ -2,7 +2,6 @@ import { ChordType, IntervalType, SpecialType } from "../types/NoteGroupingTypes
 import { ixActualArray } from "../types/IndexTypes";
 import { IChordMatch } from "../types/ChordMatch";
 import { ChordUtils } from "../utils/ChordUtils";
-import { TWELVE } from "../types/NoteConstants";
 
 function verifyChordMatch(
   rootNote: number,
@@ -70,9 +69,9 @@ describe("ChordMatch tests", () => {
     { desc: "fifth interval", root: 0, type: IntervalType.Fifth, inv: 0, indices: [0, 7] },
     { desc: "unknown chord", root: 0, type: ChordType.Unknown, inv: 0, indices: [0, 1, 2] },
     {
-      desc: "unknown chord with root note",
+      desc: "Narrow 23 chord",
       root: 0,
-      type: ChordType.Unknown,
+      type: ChordType.Narrow23,
       inv: 0,
       indices: [0, 2, 4],
     },
