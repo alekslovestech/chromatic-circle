@@ -163,7 +163,112 @@ class NoteGroupingLibrarySingleton {
       "Dominant 7th Add 13th Chord",
       [0, 4, 7, 10, 13],
     ),
-    // ... other chords follow the same pattern
+
+    //"hidden" chords (not visible in the presets list, but can be detected by the app)
+    NoteGrouping.createChord(
+      ChordType.SpreadMajor,
+      23,
+      "maj",
+      "",
+      "Spread Major Chord",
+      [0, 7, 16],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadMinor,
+      26,
+      "min",
+      "m",
+      "Spread Minor Chord",
+      [0, 7, 15],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadAugmented,
+      27,
+      "aug",
+      "+",
+      "Spread Augmented Chord",
+      [0, 8, 16],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadDiminished,
+      28,
+      "dim",
+      "°",
+      "Spread Diminished Chord",
+      [0, 6, 15],
+      false,
+      false,
+    ),
+
+    //Narrow Chords
+
+    NoteGrouping.createChord(
+      ChordType.Narrow23,
+      29,
+      "23",
+      "23",
+      "Narrow 23 Chord",
+      [0, 2, 4], //C D E
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Narrow24,
+      30,
+      "24",
+      "24",
+      "Narrow 24 Chord",
+      [0, 2, 5], //C D F
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Narrow34,
+      31,
+      "34",
+      "34",
+      "Narrow 34 Chord",
+      [0, 4, 5], //C E F
+      false,
+      false,
+    ),
+
+    NoteGrouping.createChord(
+      ChordType.Narrow24sharp,
+      32,
+      "2♯4",
+      "2♯4",
+      "Narrow 24 Sharp Chord",
+      [0, 2, 6], //C D F#
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Narrow34sharp,
+      33,
+      "3♯4",
+      "3♯4",
+      "Narrow 34 Sharp Chord",
+      [0, 4, 6], //C E F#
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.Narrow3flat4,
+      34,
+      "♭34",
+      "♭34",
+      "Narrow 3 Flat 4 Chord",
+      [0, 3, 5], //C Eb F
+      false,
+      false,
+    ),
   ];
 
   public static getInstance(): NoteGroupingLibrarySingleton {

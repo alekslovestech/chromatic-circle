@@ -60,6 +60,11 @@ describe("ChordUtils", () => {
       { expected: "C7", indices: [0, 4, 7, 10], mode: ChordDisplayMode.Symbols },
       { expected: "Csus4", indices: [0, 5, 7] },
       { expected: "C-", indices: [0, 1, 2] },
+      { expected: "C24", indices: [0, 2, 5] },
+      { expected: "C♭34", indices: [0, 3, 5] },
+      { expected: "C34", indices: [0, 4, 5] },
+      { expected: "C2♯4", indices: [0, 2, 6] },
+      { expected: "C3♯4", indices: [0, 4, 6] },
     ];
 
     testCases.forEach(({ expected, indices, mode, key }) => {
