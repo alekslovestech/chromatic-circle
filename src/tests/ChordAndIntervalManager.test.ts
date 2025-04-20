@@ -28,10 +28,10 @@ describe("getDisplayPropertiesFromIndices", () => {
     { noteGrouping: "Chord", chordName: "C23", indices: [0, 2, 4] },
     { noteGrouping: "Chord", chordName: "G23", indices: [7, 9, 11] },
     { noteGrouping: "Chord", chordName: "B23", indices: [11, 13, 15] },
-    { noteGrouping: "Chord", chordName: "A♯24♯", indices: [10, 12, 16] },
+    { noteGrouping: "Chord", chordName: "A♯2♯4", indices: [10, 12, 16] },
     {
       noteGrouping: "Chord",
-      chordName: "B♭24♯",
+      chordName: "B♭2♯4",
       indices: [10, 12, 16],
       key: MusicalKey.fromGreekMode("C", GreekModeType.Dorian),
     },

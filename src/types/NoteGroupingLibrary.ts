@@ -242,8 +242,8 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Narrow24sharp,
       32,
-      "24♯",
-      "24♯",
+      "2♯4",
+      "2♯4",
       "Narrow 24 Sharp Chord",
       [0, 2, 6], //C D F#
       false,
@@ -252,8 +252,8 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Narrow34sharp,
       33,
-      "34♯",
-      "34♯",
+      "3♯4",
+      "3♯4",
       "Narrow 34 Sharp Chord",
       [0, 4, 6], //C E F#
       false,
@@ -262,8 +262,8 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Narrow3flat4,
       34,
-      "3♭4",
-      "3♭4",
+      "♭34",
+      "♭34",
       "Narrow 3 Flat 4 Chord",
       [0, 3, 5], //C Eb F
       false,
