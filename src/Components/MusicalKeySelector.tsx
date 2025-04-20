@@ -50,7 +50,13 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     );
 
     return () => clearInterval(interval);
-  }, [selectedMusicalKey, keyTextMode, scalePreviewMode, setSelectedNoteIndices]);
+  }, [
+    selectedMusicalKey,
+    keyTextMode,
+    scalePreviewMode,
+    setSelectedNoteIndices,
+    isAudioInitialized,
+  ]);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
