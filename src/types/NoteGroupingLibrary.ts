@@ -163,7 +163,48 @@ class NoteGroupingLibrarySingleton {
       "Dominant 7th Add 13th Chord",
       [0, 4, 7, 10, 13],
     ),
-    // ... other chords follow the same pattern
+
+    //"hidden" chords (not visible in the presets list, but can be detected by the app)
+    NoteGrouping.createChord(
+      ChordType.SpreadMajor,
+      23,
+      "maj",
+      "",
+      "Spread Major Chord",
+      [0, 7, 16],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadMinor,
+      26,
+      "min",
+      "m",
+      "Spread Minor Chord",
+      [0, 7, 15],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadAugmented,
+      27,
+      "aug",
+      "+",
+      "Spread Augmented Chord",
+      [0, 8, 16],
+      false,
+      false,
+    ),
+    NoteGrouping.createChord(
+      ChordType.SpreadDiminished,
+      28,
+      "dim",
+      "°",
+      "Spread Diminished Chord",
+      [0, 6, 15],
+      false,
+      false,
+    ),
   ];
 
   public static getInstance(): NoteGroupingLibrarySingleton {

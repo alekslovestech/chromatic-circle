@@ -48,6 +48,12 @@ export enum ChordType {
   Six = "Chord_Six",
   Minor6 = "Chord_Min6",
   Seven13 = "Chord_7Add13",
+
+  //Spread triads
+  SpreadMajor = "Chord_Spread_Maj",
+  SpreadMinor = "Chord_Spread_Min",
+  SpreadAugmented = "Chord_Spread_Aug",
+  SpreadDiminished = "Chord_Spread_Dim",
 }
 
 export type NoteGroupingId = IntervalType | ChordType | SpecialType;

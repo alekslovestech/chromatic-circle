@@ -76,33 +76,39 @@ describe("ChordMatch tests", () => {
       inv: 0,
       indices: [0, 2, 4],
     },
-    { desc: "spread triad major", root: 0, type: ChordType.Unknown, inv: 0, indices: [0, 7, 15] },
+    {
+      desc: "spread triad major",
+      root: 0,
+      type: ChordType.SpreadMajor,
+      inv: 0,
+      indices: [0, 7, 16],
+    },
+    {
+      desc: "spread triad minor",
+      root: 0,
+      type: ChordType.SpreadMinor,
+      inv: 0,
+      indices: [0, 7, 15],
+    },
+    {
+      desc: "spread triad augmented",
+      root: 0,
+      type: ChordType.SpreadAugmented,
+      inv: 0,
+      indices: [0, 8, 16],
+    },
+    {
+      desc: "spread triad diminished",
+      root: 0,
+      type: ChordType.SpreadDiminished,
+      inv: 0,
+      indices: [0, 6, 15],
+    },
   ];
 
   testCases.forEach(({ desc, root, type, inv, indices }) => {
     test(desc, () => {
       verifyChordMatch(root, type, inv, indices);
-    });
-  });
-
-  const spreadTriadTestCases = [
-    { input: [0, 7, 15], expected: [0, 3, 7] }, //spread triad minor
-    { input: [0, 7, 16], expected: [0, 4, 7] }, //spread triad major
-    { input: [0, 13, 15], expected: [0, 1, 3] },
-  ];
-
-  //TODO: add test cases to identify various spread triads correctly.
-
-  spreadTriadTestCases.forEach(({ input, expected }) => {
-    test(`Spread triad ${input} should wrap to ${expected}`, () => {
-      const chordMatch = ChordUtils.getMatchFromIndices(ixActualArray(input));
-      expect(chordMatch.definition.offsets).toEqual(expected);
-    });
-  });
-
-  spreadTriadTestCases.forEach(({ input }) => {
-    test(`Spread triad ${input} should not throw`, () => {
-      expect(() => ChordUtils.getMatchFromIndices(ixActualArray(input))).not.toThrow();
     });
   });
 });

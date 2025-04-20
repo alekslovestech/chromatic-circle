@@ -13,6 +13,7 @@ export class NoteGrouping {
     public readonly orderId: number,
     public readonly offsets: OffsetIndex[],
     public readonly hasInversions: boolean = false,
+    public readonly isVisiblePreset: boolean = true, //is this in the presets list?
   ) {
     // Calculate all possible inversions if this grouping supports them
     this.inversions = this.calculateInversions();
@@ -69,6 +70,8 @@ export class NoteGrouping {
     symbolsId: string,
     displayName: string,
     offsets: number[],
+    hasInversions: boolean = true,
+    isVisiblePreset: boolean = true,
   ): NoteGrouping {
     return new NoteGrouping(
       id,
@@ -77,7 +80,8 @@ export class NoteGrouping {
       displayName,
       orderId,
       ixOffsetArray(offsets),
-      true,
+      hasInversions,
+      isVisiblePreset,
     );
   }
 
