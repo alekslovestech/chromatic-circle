@@ -10,6 +10,7 @@ import StaffRenderer from "./Components/StaffRenderer";
 
 import { GlobalMode } from "./types/SettingModes";
 import { useDisplay } from "./contexts/DisplayContext";
+import { useAudio } from "./contexts/AudioContext";
 import { RootProvider } from "./contexts/RootContext";
 
 import "./styles/App.css";
@@ -17,6 +18,7 @@ import "./styles/App.css";
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
   const { globalMode, setGlobalMode } = useDisplay();
+  const { initializeAudio } = useAudio();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
@@ -30,8 +32,12 @@ const AppContent: React.FC = () => {
     }
   }, [mode, setGlobalMode]);
 
+  const handleClick = () => {
+    initializeAudio();
+  };
+
   return (
-    <div className="grid-container" /* style={borderStyle} */>
+    <div className="grid-container" onClick={handleClick} /* style={borderStyle} */>
       <div className="keyboardlinear-container" style={borderStyle}>
         <KeyboardLinear />
       </div>

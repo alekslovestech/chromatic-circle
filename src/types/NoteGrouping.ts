@@ -1,6 +1,6 @@
 import { IndexUtils } from "../utils/IndexUtils";
-import { ActualIndex, ixOffset, ixOffsetArray, OffsetIndex } from "./IndexTypes";
-import { ChordType, NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
+import { ixOffsetArray, OffsetIndex } from "./IndexTypes";
+import { NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
 
 export class NoteGrouping {
   public readonly inversions: OffsetIndex[][];
@@ -83,11 +83,5 @@ export class NoteGrouping {
       hasInversions,
       isVisiblePreset,
     );
-  }
-
-  public static createUnknownChord(indices: ActualIndex[]): NoteGrouping {
-    const firstIndex = indices.length > 0 ? indices[0] : 0;
-    const offsets = indices.map((index) => ixOffset(index - firstIndex));
-    return new NoteGrouping(ChordType.Unknown, "", "", "", -1, offsets, false);
   }
 }

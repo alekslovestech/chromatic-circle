@@ -10,7 +10,6 @@ import { InputMode } from "../types/SettingModes";
 import { TWELVE } from "../types/NoteConstants";
 
 import { IndexUtils } from "./IndexUtils";
-import { ChordAndIntervalManager } from "./ChordAndIntervalManager";
 import { ChordUtils } from "./ChordUtils";
 
 export const isBlackKey = (actualIndex: ActualIndex | ChromaticIndex): boolean =>
@@ -32,25 +31,9 @@ export const isRootNote = (
   inputMode: InputMode,
   selectedChordType: NoteGroupingId,
 ): boolean => {
-  if (inputMode === InputMode.Toggle || !ChordAndIntervalManager.hasInversions(selectedChordType)) {
+  if (inputMode === InputMode.Toggle || !ChordUtils.hasInversions(selectedChordType)) {
     return false;
   }
   const rootNote = IndexUtils.rootNoteAtInversion(selectedNoteIndices, selectedInversionIndex);
   return index === rootNote;
-};
-
-export const calculateUpdatedIndices = (
-  newIndex: ActualIndex,
-  inputMode: InputMode,
-  selectedNoteIndices: ActualIndex[],
-  selectedChordType: NoteGroupingId,
-  selectedInversionIndex: InversionIndex,
-): ActualIndex[] => {
-  if (inputMode === InputMode.Toggle)
-    return IndexUtils.ToggleNewIndex(selectedNoteIndices, newIndex as ActualIndex);
-  return ChordUtils.calculateChordNotesFromIndex(
-    newIndex,
-    selectedChordType,
-    selectedInversionIndex,
-  );
 };

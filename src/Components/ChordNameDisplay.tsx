@@ -1,11 +1,11 @@
 import React from "react";
-import { ChordAndIntervalManager } from "../utils/ChordAndIntervalManager";
 import { ChordDisplayMode } from "../types/SettingModes";
 
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/ChordNameDisplay.css";
+import { ChordUtils } from "../utils/ChordUtils";
 
 export const ChordNameDisplay: React.FC = () => {
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
@@ -22,7 +22,7 @@ export const ChordNameDisplay: React.FC = () => {
   }
 
   const renderNoteGrouping = () => {
-    const { noteGroupingString, chordName } = ChordAndIntervalManager.getDisplayInfoFromIndices(
+    const { noteGroupingString, chordName } = ChordUtils.getDisplayInfoFromIndices(
       selectedNoteIndices,
       chordDisplayMode,
       selectedMusicalKey,

@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { InversionIndex, ixInversion } from "../types/IndexTypes";
 import { NoteGroupingId } from "../types/NoteGroupingTypes";
 import { InputMode } from "../types/SettingModes";
-import { calculateUpdatedIndices } from "../utils/KeyboardUtils";
+import { ChordUtils } from "../utils/ChordUtils";
 
 import { useMusical } from "./MusicalContext";
 
@@ -47,9 +47,9 @@ export const PresetProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setSelectedInversionIndex(ixInversion(0));
 
     if (newMode !== InputMode.Toggle) {
-      const updatedIndices = calculateUpdatedIndices(
+      const updatedIndices = ChordUtils.calculateUpdatedIndices(
         rootNoteIndex!,
-        newMode,
+        false,
         selectedNoteIndices,
         newChordType,
         ixInversion(0),

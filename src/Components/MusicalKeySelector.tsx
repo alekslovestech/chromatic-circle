@@ -17,12 +17,13 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
 import "../styles/CircularSettings.css";
+import { useAudio } from "../contexts/AudioContext";
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
   const { scalePreviewMode, keyTextMode } = useDisplay();
-
+  const { isAudioInitialized } = useAudio();
   useEffect(() => {
-    if (!scalePreviewMode) return;
+    if (!scalePreviewMode || !isAudioInitialized) return;
 
     let scaleDegreeIndex = 0;
     const isRomanMode = keyTextMode === KeyTextMode.Roman;
@@ -49,7 +50,13 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     );
 
     return () => clearInterval(interval);
-  }, [selectedMusicalKey, keyTextMode, scalePreviewMode, setSelectedNoteIndices]);
+  }, [
+    selectedMusicalKey,
+    keyTextMode,
+    scalePreviewMode,
+    setSelectedNoteIndices,
+    isAudioInitialized,
+  ]);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
