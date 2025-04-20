@@ -1,6 +1,6 @@
 import { IndexUtils } from "../utils/IndexUtils";
-import { ActualIndex, ixOffset, ixOffsetArray, OffsetIndex } from "./IndexTypes";
-import { ChordType, NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
+import { ixOffsetArray, OffsetIndex } from "./IndexTypes";
+import { NoteGroupingId, NoteGroupingType } from "./NoteGroupingTypes";
 
 export class NoteGrouping {
   public readonly inversions: OffsetIndex[][];
