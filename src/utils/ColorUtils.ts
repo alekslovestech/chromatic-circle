@@ -1,4 +1,4 @@
-import { ActualIndex, ixActualArray } from "../types/IndexTypes";
+import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { isBlackKey } from "./KeyboardUtils";
 import { ChromaticIndex } from "../types/ChromaticIndex";
