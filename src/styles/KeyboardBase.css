@@ -3,7 +3,6 @@
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: bold;
-  transition: all 0.1s ease;
   border-width: 1.0px;
   border-style: solid;
   border-color: var(--serenity-key-border-color);
