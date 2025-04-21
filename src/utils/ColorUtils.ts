@@ -1,4 +1,4 @@
-import { ActualIndex } from "../types/IndexTypes";
+import { ActualIndex, ixActualArray } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
 import { isBlackKey } from "./KeyboardUtils";
 import { ChromaticIndex } from "../types/ChromaticIndex";
@@ -11,37 +11,52 @@ export function getComputedColor(cssVariable: string): string {
 export const getBlackWhiteString = (index: ActualIndex | ChromaticIndex): string =>
   isBlackKey(index) ? "black" : "white";
 
-type RGB = [number, number, number];
+export type RGB = [number, number, number];
 
 export class ColorUtils {
   static getChordColor(indices: ActualIndex[]): string {
-    const normalizedIndices = this.getNormalizedIndices(indices);
-    const cyclicIntervals = this.cyclicIntervals(normalizedIndices);
+    const cyclicIntervals = this.cyclicIntervalsFromActualIndices(indices);
     const mixcolor = this.mixChordColor(cyclicIntervals);
-    return `rgb(${Math.round(mixcolor[0])}, ${Math.round(mixcolor[1])}, ${Math.round(
-      mixcolor[2],
-    )})`;
+    const mixColorRounded = mixcolor.map((color) => Math.round(color));
+    return `rgb(${mixColorRounded[0]}, ${mixColorRounded[1]}, ${mixColorRounded[2]})`;
   }
 
-  private static getNormalizedIndices(indices: ActualIndex[]): number[] {
-    return indices.map((index) => index % TWELVE).sort((a, b) => a - b);
+  static cyclicIntervalsFromActualIndices(indices: number[]): number[] {
+    const pcs = indices.map((index) => (index + TWELVE) % TWELVE);
+    const sortedPcs = pcs.sort((a, b) => a - b);
+    return this.cyclicIntervals(sortedPcs);
   }
 
   private static cyclicIntervals(sortedPcs: number[]): number[] {
+    if (sortedPcs.length <= 1) return [];
+
     const intervals: number[] = [];
     const len = sortedPcs.length;
 
+    // Calculate all intervals first
     for (let i = 0; i < len; i++) {
       const current = sortedPcs[i];
       const next = sortedPcs[(i + 1) % len];
-      const diff = (next - current + 12) % 12;
+      const diff = (next - current + TWELVE) % TWELVE;
       intervals.push(diff);
     }
 
-    return intervals;
+    // Find the smallest interval and its index
+    let minInterval = Math.min(...intervals);
+    let startIndex = intervals.indexOf(minInterval);
+
+    // Reorder intervals starting from the smallest, maintaining cyclic order
+    const reordered: number[] = [];
+    for (let i = 0; i < len; i++) {
+      reordered.push(intervals[(startIndex + i) % len]);
+    }
+
+    return reordered;
   }
 
   private static mixChordColor(intervals: number[]): RGB {
+    if (intervals.length === 0) return [222, 222, 222]; // Return unison color for empty intervals
+
     let rgbSum: RGB = [0, 0, 0];
     let totalWeight = 0;
 
