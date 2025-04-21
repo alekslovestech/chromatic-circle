@@ -18,6 +18,11 @@ export class GreekModeDictionary {
         GREEK_MODE_PATTERNS.DORIAN,
         2,
       ), // Minor with raised 6th
+      [GreekModeType.UkrainianDorian]: new GreekModeInfo(
+        GreekModeType.UkrainianDorian,
+        GREEK_MODE_PATTERNS.UKRAINIAN_DORIAN,
+        2,
+      ), // Dorian with #4
       [GreekModeType.Phrygian]: new GreekModeInfo(
         GreekModeType.Phrygian,
         GREEK_MODE_PATTERNS.PHRYGIAN,
@@ -48,6 +53,16 @@ export class GreekModeDictionary {
         GREEK_MODE_PATTERNS.AEOLIAN,
         6,
       ), // Natural minor scale
+      [GreekModeType.HarmonicMinor]: new GreekModeInfo(
+        GreekModeType.HarmonicMinor,
+        GREEK_MODE_PATTERNS.HARMONIC_MINOR,
+        6,
+      ), // Harmonic minor scale
+      [GreekModeType.HungarianMinor]: new GreekModeInfo(
+        GreekModeType.HungarianMinor,
+        GREEK_MODE_PATTERNS.HUNGARIAN_MINOR,
+        6,
+      ), // Hungarian minor scale
       [GreekModeType.Locrian]: new GreekModeInfo(
         GreekModeType.Locrian,
         GREEK_MODE_PATTERNS.LOCRIAN,
