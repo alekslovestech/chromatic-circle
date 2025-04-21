@@ -3,6 +3,8 @@ import { ActualIndex } from "../../types/IndexTypes";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import { GlobalMode } from "../../types/SettingModes";
 
+import { ColorUtils } from "../../utils/ColorUtils";
+
 import { useKeyboardHandlers } from "../useKeyboardHandlers";
 
 import { useDisplay } from "../../contexts/DisplayContext";
@@ -26,6 +28,7 @@ export const KeyboardCircular = () => {
   const isLogo = globalMode === GlobalMode.Logo;
   const isAdvanced = globalMode === GlobalMode.Advanced;
   const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
+  const color = ColorUtils.getChordColor(selectedNoteIndices);
   return (
     <svg viewBox={coords.join(" ")} className="svg-container">
       {Array.from({ length: TWELVE }).map((_, index) => (
@@ -37,7 +40,7 @@ export const KeyboardCircular = () => {
           innerRadius={INNER_RADIUS}
         />
       ))}
-      {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS)}
+      {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS, color)}
       {isAdvanced && ScaleBoundrary.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
     </svg>
   );

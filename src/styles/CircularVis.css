@@ -46,7 +46,7 @@
 
 .selected-notes-polygon {
     fill: none;
-    stroke: var(--serenity-polygon-stroke);
+    /*stroke: var(--serenity-polygon-stroke); */
     stroke-width: 4px;
     stroke-linecap: round;
 }
