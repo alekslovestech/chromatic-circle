@@ -1,27 +1,29 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { WHITE_KEYS_PER_OCTAVE, WHITE_KEYS_PER_2OCTAVES } from "../../types/NoteConstants";
-import "../../styles/KeyboardLinear.css";
+import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
+import { isBlackKey } from "../../utils/KeyboardUtils";
+
+import "../../styles/KeyboardBase.css";
 
 export class ScaleBoundraryLinear {
   static draw(tonicIndex: ChromaticIndex): JSX.Element[] {
-    // Map chromatic indices to white key positions (0-6)
-    const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
+    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPositions(tonicIndex);
 
-    // Calculate the x position as a percentage of the container width
-    const position = whiteKeyPositions[tonicIndex];
-    const xPercent1 = (position / WHITE_KEYS_PER_2OCTAVES) * 100;
-    const xPercent2 = ((position + WHITE_KEYS_PER_OCTAVE) / WHITE_KEYS_PER_2OCTAVES) * 100;
-
+    const isShortKey = isBlackKey(tonicIndex);
+    // Adjust line heights based on whether it's a black (short) or white (long) key
+    const { startY, endY } = isShortKey
+      ? { startY: "-10%", endY: "10%" }
+      : { startY: "60%", endY: "120%" };
+    // Apply the heights to both boundary lines
+    const line1_start = { x: `${x1}%`, y: startY };
+    const line1_end = { x: `${x1}%`, y: endY };
+    const line2_start = { x: `${x2}%`, y: startY };
+    const line2_end = { x: `${x2}%`, y: endY };
     // Create a vertical line at the tonic position - in both scales
-    const line1_start = { x: `${xPercent1}%`, y: "0%" };
-    const line1_end = { x: `${xPercent1}%`, y: "100%" };
-    const line2_start = { x: `${xPercent2}%`, y: "0%" };
-    const line2_end = { x: `${xPercent2}%`, y: "100%" };
 
     return [
       <line
-        className="scale-boundary-line"
+        className="scale-boundary linear"
         key="scale-boundrary-left"
         x1={line1_start.x}
         y1={line1_start.y}
@@ -29,7 +31,7 @@ export class ScaleBoundraryLinear {
         y2={line1_end.y}
       />,
       <line
-        className="scale-boundary-line"
+        className="scale-boundary linear"
         key="scale-boundrary-right"
         x1={line2_start.x}
         y1={line2_start.y}

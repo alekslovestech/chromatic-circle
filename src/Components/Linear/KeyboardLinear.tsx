@@ -2,17 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { TWENTY4 } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
-import { useKeyboardHandlers } from "../useKeyboardHandlers";
+import { GlobalMode } from "../../types/SettingModes";
 
 import { useMusical } from "../../contexts/MusicalContext";
 
+import { useDisplay } from "../../contexts/DisplayContext";
+
+import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 import { ScaleBoundraryLinear } from "./ScaleBoundraryLinear";
 
 import "../../styles/KeyboardBase.css";
 import "../../styles/KeyboardLinear.css";
-
 export const KeyboardLinear: React.FC = () => {
+  const { globalMode } = useDisplay();
+  const isAdvanced = globalMode === GlobalMode.Advanced;
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -48,10 +52,10 @@ export const KeyboardLinear: React.FC = () => {
 
   return (
     <div ref={containerRef} className="keyboardlinear">
-      {keys}
-      <svg className="scale-boundary-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {ScaleBoundraryLinear.draw(selectedMusicalKey.tonicIndex)}
+      <svg className="scale-boundary-svg" viewBox="0 -10 100 110" preserveAspectRatio="none">
+        {isAdvanced && ScaleBoundraryLinear.draw(selectedMusicalKey.tonicIndex)}
       </svg>
+      {keys}
     </div>
   );
 };

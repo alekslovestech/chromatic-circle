@@ -1,7 +1,8 @@
 import React from "react";
 import { CartesianPoint, PolarMath } from "../../utils/Circular/PolarMath";
 import { MusicalKey } from "../../types/Keys/MusicalKey";
-import "../../styles/CircularVis.css";
+
+import "../../styles/KeyboardBase.css";
 
 export class ScaleBoundraryCircular {
   static draw(
@@ -17,14 +18,12 @@ export class ScaleBoundraryCircular {
 
     return [
       <line
-        className="scale-boundary-line"
-        key="scale-boundrary"
+        className="scale-boundary circular"
+        key="scale-boundrary-circular"
         x1={point_start.x}
         y1={point_start.y}
         x2={point_end.x}
         y2={point_end.y}
-        stroke="currentColor"
-        strokeWidth="2"
       />,
     ];
   }

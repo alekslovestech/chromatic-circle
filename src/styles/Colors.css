@@ -2,6 +2,7 @@
 :root {
   --root-note-highlight: rgb(59, 97, 222);
 
+  --serenity-scale-boundary-color: rgb(60, 60, 60);
   --serenity-bglight: #f7f8fa;
   --serenity-softgrey: #E1E3E6;
   --serenity-darkgrey: #333333;
