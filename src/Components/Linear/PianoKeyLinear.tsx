@@ -1,6 +1,6 @@
 import React from "react";
 
-import { WHITE_KEYS_PER_OCTAVE } from "../../types/NoteConstants";
+import { WHITE_KEYS_PER_2OCTAVES, WHITE_KEYS_PER_OCTAVE } from "../../types/NoteConstants";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
 import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
@@ -33,7 +33,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
   const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6]; // Map chromatic indices to white key positions (0-6)
 
-  const longKeyWidth = containerWidth / (2 * WHITE_KEYS_PER_OCTAVE);
+  const longKeyWidth = containerWidth / WHITE_KEYS_PER_2OCTAVES;
 
   const position = whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
   const left = position * longKeyWidth;

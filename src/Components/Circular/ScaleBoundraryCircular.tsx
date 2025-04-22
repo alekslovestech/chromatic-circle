@@ -3,7 +3,7 @@ import { CartesianPoint, PolarMath } from "../../utils/Circular/PolarMath";
 import { MusicalKey } from "../../types/Keys/MusicalKey";
 import "../../styles/CircularVis.css";
 
-export class ScaleBoundrary {
+export class ScaleBoundraryCircular {
   static draw(
     selectedMusicalKey: MusicalKey,
     innerRadius: number,
