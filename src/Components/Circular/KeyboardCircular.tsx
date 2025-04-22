@@ -10,7 +10,7 @@ import { useKeyboardHandlers } from "../useKeyboardHandlers";
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
 
-import { ScaleBoundrary } from "./ScaleBoundrary";
+import { ScaleBoundraryCircular } from "./ScaleBoundraryCircular";
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";
 
@@ -41,7 +41,7 @@ export const KeyboardCircular = () => {
         />
       ))}
       {CircularVisualizations.draw(selectedNoteIndices, circularVisMode, INNER_RADIUS, color)}
-      {isAdvanced && ScaleBoundrary.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
+      {isAdvanced && ScaleBoundraryCircular.draw(selectedMusicalKey, INNER_RADIUS, OUTER_RADIUS)}
     </svg>
   );
 };

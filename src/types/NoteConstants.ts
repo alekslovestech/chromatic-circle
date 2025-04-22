@@ -5,6 +5,7 @@ export const TWELVE = 12; //the magic number
 export const TWENTY4 = 2 * TWELVE;
 
 export const WHITE_KEYS_PER_OCTAVE = 7;
+export const WHITE_KEYS_PER_2OCTAVES = 2 * WHITE_KEYS_PER_OCTAVE;
 
 export const NOTES_WITH_SHARP: NoteInfo[] = [
   new NoteInfo("C", AccidentalType.None),

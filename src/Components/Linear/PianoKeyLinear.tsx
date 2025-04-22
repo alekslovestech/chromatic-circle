@@ -1,6 +1,5 @@
 import React from "react";
 
-import { WHITE_KEYS_PER_OCTAVE } from "../../types/NoteConstants";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
 import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
 
@@ -11,6 +10,8 @@ import { VisualStateUtils } from "../../utils/VisualStateUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
 import { useDisplay } from "../../contexts/DisplayContext";
+
+import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
 
 interface PianoKeyProps {
   actualIndex: ActualIndex;
@@ -30,13 +31,9 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
 
   const isShortKey = isBlackKey(actualIndex);
 
-  const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-  const whiteKeyPositions = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6]; // Map chromatic indices to white key positions (0-6)
+  const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
 
-  const longKeyWidth = containerWidth / (2 * WHITE_KEYS_PER_OCTAVE);
-
-  const position = whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
-  const left = position * longKeyWidth;
+  const left = LinearKeyboardUtils.calculateKeyLeftPosition(actualIndex, containerWidth);
 
   const classNames = ["key-base", "piano-key"];
   const isSelected = selectedNoteIndices.includes(actualIndex);

@@ -29,6 +29,10 @@ describe("Scale Degree Display", () => {
         expected: ["1", "2", "♭3", "4", "5", "6", "♭7"],
       },
       {
+        mode: GreekModeType.UkrainianDorian,
+        expected: ["1", "2", "♭3", "♯4", "5", "6", "♭7"],
+      },
+      {
         mode: GreekModeType.Phrygian,
         expected: ["1", "♭2", "♭3", "4", "5", "♭6", "♭7"],
       },
@@ -43,6 +47,14 @@ describe("Scale Degree Display", () => {
       {
         mode: GreekModeType.Aeolian,
         expected: ["1", "2", "♭3", "4", "5", "♭6", "♭7"],
+      },
+      {
+        mode: GreekModeType.HarmonicMinor,
+        expected: ["1", "2", "♭3", "4", "5", "♭6", "7"],
+      },
+      {
+        mode: GreekModeType.HungarianMinor,
+        expected: ["1", "2", "♭3", "♯4", "5", "♭6", "7"],
       },
       {
         mode: GreekModeType.Locrian,
