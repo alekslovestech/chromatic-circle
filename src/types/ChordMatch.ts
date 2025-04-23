@@ -1,4 +1,4 @@
-import { ActualIndex, InversionIndex, ixInversion } from "./IndexTypes";
+import { ActualIndex, InversionIndex } from "./IndexTypes";
 import { NoteGrouping } from "./NoteGrouping";
 
 export interface IChordMatch {
