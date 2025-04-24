@@ -6,7 +6,7 @@ import "../../styles/KeyboardBase.css";
 
 export class ScaleBoundraryLinear {
   static draw(tonicIndex: ChromaticIndex): JSX.Element[] {
-    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPositions(tonicIndex);
+    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPercentages(tonicIndex);
 
     const startY = "85%";
     const endY = "100%";

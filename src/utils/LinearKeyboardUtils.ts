@@ -12,7 +12,7 @@ export class LinearKeyboardUtils {
     return position * longKeyWidth;
   }
 
-  static calculateScaleBoundaryPositions(tonicIndex: ChromaticIndex): { x1: number; x2: number } {
+  static calculateScaleBoundaryPercentages(tonicIndex: ChromaticIndex): { x1: number; x2: number } {
     const position = this.whiteKeyPositions[tonicIndex];
     const x1 = (position / WHITE_KEYS_PER_2OCTAVES) * 100;
     const x2 = ((position + WHITE_KEYS_PER_OCTAVE) / WHITE_KEYS_PER_2OCTAVES) * 100;
