@@ -38,7 +38,7 @@
 
 
 
-.clear-button {
+.clear-button, .play-scale-button {
   font-size: var(--settings-description-font-size);  
   min-width: 50px;
   max-width: 100px;

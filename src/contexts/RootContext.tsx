@@ -6,11 +6,11 @@ import { PresetProvider } from "./PresetContext";
 import { AudioProvider } from "./AudioContext";
 
 export const RootProvider: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <AudioProvider>
-    <DisplayProvider>
-      <MusicalProvider>
+  <MusicalProvider>
+    <AudioProvider>
+      <DisplayProvider>
         <PresetProvider>{children}</PresetProvider>
-      </MusicalProvider>
-    </DisplayProvider>
-  </AudioProvider>
+      </DisplayProvider>
+    </AudioProvider>
+  </MusicalProvider>
 );

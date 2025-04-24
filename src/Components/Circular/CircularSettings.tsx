@@ -16,6 +16,7 @@ import "../../styles/CircularSettings.css";
 import { useDisplay } from "../../contexts/DisplayContext";
 import { GlobalMode } from "../../types/SettingModes";
 import { ScalePreviewToggle } from "./ScalePreviewToggle";
+import { PlayScaleButton } from "./PlayScaleButton";
 
 export const CircularSettings = () => {
   const { globalMode } = useDisplay();
@@ -31,6 +32,7 @@ export const CircularSettings = () => {
         {!isAdvanced && <MonochromeModeToggle />}
         {isAdvanced && <ScalePreviewToggle />}
         {isAdvanced && <KeyTextModeSelect />}
+        {isAdvanced && <PlayScaleButton />}
         <ClearButton />
         <ChordNameDisplay />
       </div>
