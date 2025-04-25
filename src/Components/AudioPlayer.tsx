@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
+import { KeyDisplayMode } from "../types/SettingModes";
+import { ActualIndex } from "../types/IndexTypes";
+
 import * as Tone from "tone";
-import { useMusical } from "../contexts/MusicalContext";
 import { useAudio } from "../contexts/AudioContext";
+import { useDisplay } from "../contexts/DisplayContext";
 
 // Base frequency for A4 (440Hz)
 const BASE_FREQUENCY = 440;
@@ -11,8 +14,9 @@ const A4_MIDI_INDEX = 69;
 
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
-  const { selectedNoteIndices } = useMusical();
-  const { isAudioInitialized } = useAudio();
+  const { isAudioInitialized, currentPlayingScaleDegree } = useAudio();
+  const { keyTextMode } = useDisplay();
+  const isRomanMode = keyTextMode === KeyDisplayMode.Roman;
 
   // Initialize Tone.js synth
   useEffect(() => {
@@ -59,7 +63,7 @@ const AudioPlayer: React.FC = () => {
   }, []);
 
   // Convert note index to frequency
-  const getFrequencyFromIndex = useCallback((index: number): number => {
+  const getFrequencyFromIndex = useCallback((index: ActualIndex): number => {
     // Convert index to MIDI note number (assuming index 0 is C4)
     const midiNote = index + 60; //  C4 is MIDI note 60
     // Calculate frequency using the formula: f = 440 * 2^((midiNote - 69) / 12)
@@ -68,7 +72,7 @@ const AudioPlayer: React.FC = () => {
 
   // Play a single note
   const playNote = useCallback(
-    (index: number) => {
+    (index: ActualIndex) => {
       if (!synthRef.current || !isAudioInitialized) return;
 
       try {
@@ -81,29 +85,31 @@ const AudioPlayer: React.FC = () => {
     [getFrequencyFromIndex, isAudioInitialized],
   );
 
-  // Play all selected notes
-  const playSelectedNotes = useCallback(() => {
+  // Handle note changes
+  useEffect(() => {
     if (!synthRef.current || !isAudioInitialized) return;
 
-    try {
-      // Stop any currently playing notes
+    if (currentPlayingScaleDegree !== null) {
+      // Only release all notes if we're not in Roman mode
+      if (!isRomanMode) {
+        synthRef.current.releaseAll();
+      }
+
+      //playNote(currentPlayingIndex);
+    } else {
       synthRef.current.releaseAll();
-
-      // Play each selected note
-      selectedNoteIndices.forEach((index) => playNote(index));
-    } catch (error) {
-      console.error("Failed to play selected notes:", error);
     }
-  }, [selectedNoteIndices, playNote, isAudioInitialized]);
+  }, [currentPlayingScaleDegree, playNote, isAudioInitialized, isRomanMode]);
 
-  // Play notes when selection changes
+  // Clean up on unmount
   useEffect(() => {
-    if (synthRef.current && isAudioInitialized) {
-      playSelectedNotes();
-    }
-  }, [selectedNoteIndices, playSelectedNotes, isAudioInitialized]);
+    return () => {
+      if (synthRef.current) {
+        synthRef.current.releaseAll();
+      }
+    };
+  }, []);
 
-  // Return null since we don't need to render anything
   return null;
 };
 

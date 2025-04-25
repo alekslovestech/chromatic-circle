@@ -1,5 +1,4 @@
 import { TWELVE } from "../../types/NoteConstants";
-import { ActualIndex } from "../../types/IndexTypes";
 import { ixChromatic } from "../../types/ChromaticIndex";
 import { GlobalMode } from "../../types/SettingModes";
 
@@ -35,7 +34,7 @@ export const KeyboardCircular = () => {
         <PianoKeyCircular
           key={index}
           chromaticIndex={ixChromatic(index)}
-          onClick={() => (isLogo ? () => {} : handleKeyClick(index as ActualIndex))}
+          onClick={isLogo ? () => {} : handleKeyClick}
           outerRadius={OUTER_RADIUS}
           innerRadius={INNER_RADIUS}
         />

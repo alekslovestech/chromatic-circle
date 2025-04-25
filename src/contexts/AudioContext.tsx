@@ -1,33 +1,29 @@
-import React, {
-  createContext,
-  useContext,
-  useCallback,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import * as Tone from "tone";
-import { ActualIndex } from "../types/IndexTypes";
+import React, { createContext, useContext, useState, useRef, useEffect, useCallback } from "react";
+import { KeyDisplayMode } from "../types/SettingModes";
 import { useMusical } from "./MusicalContext";
-import { ixScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
-import { ixActualArray } from "../types/IndexTypes";
-import { KeyTextMode } from "../types/SettingModes";
-import { IndexUtils } from "../utils/IndexUtils";
+import { ActualIndex } from "../types/IndexTypes";
+import { ixScaleDegreeIndex, ScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
+import * as Tone from "tone";
+
+export enum PlaybackState {
+  Stopped,
+  PlayingScale,
+}
 
 interface AudioContextType {
   initializeAudio: () => Promise<void>;
   isAudioInitialized: boolean;
-  // Scale preview functionality
-  isPlaying: boolean;
-  currentPlayingIndex: ActualIndex | null;
-  startPreview: (keyTextMode: KeyTextMode) => void;
-  stopPreview: () => void;
-  togglePreview: (keyTextMode: KeyTextMode) => void;
+  playbackState: PlaybackState;
+  currentPlayingScaleDegree: ScaleDegreeIndex | null;
+  startScalePlayback: (keyTextMode: KeyDisplayMode) => void;
+  stopScalePlayback: () => void;
+  playNote: (index: ActualIndex) => void;
+  stopAllNotes: () => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
-export const useAudio = (): AudioContextType => {
+export const useAudio = () => {
   const context = useContext(AudioContext);
   if (!context) {
     throw new Error("useAudio must be used within an AudioProvider");
@@ -35,21 +31,14 @@ export const useAudio = (): AudioContextType => {
   return context;
 };
 
-export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAudioInitialized, setIsAudioInitialized] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPlayingIndex, setCurrentPlayingIndex] = useState<ActualIndex | null>(null);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-
-  // Get the current musical key and setSelectedNoteIndices from the MusicalContext
-  const { selectedMusicalKey, setSelectedNoteIndices } = useMusical();
-
-  // Update selectedNoteIndices when currentPlayingIndex changes
-  useEffect(() => {
-    if (currentPlayingIndex !== null) {
-      setSelectedNoteIndices(ixActualArray([currentPlayingIndex]));
-    }
-  }, [currentPlayingIndex, setSelectedNoteIndices]);
+  const [playbackState, setPlaybackState] = useState<PlaybackState>(PlaybackState.Stopped);
+  const [currentPlayingScaleDegree, setCurrentPlayingScaleDegree] =
+    useState<ScaleDegreeIndex | null>(null);
+  const { selectedMusicalKey } = useMusical();
+  const scaleDegreeIndexRef = useRef<ScaleDegreeIndex>(ixScaleDegreeIndex(0));
+  const automaticPlaybackIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const initializeAudio = useCallback(async () => {
     if (isAudioInitialized) return;
@@ -67,72 +56,86 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [isAudioInitialized]);
 
-  // Clean up interval on unmount
+  // Initialize audio context
   useEffect(() => {
-    return () => {
-      if (intervalId) clearInterval(intervalId);
+    const initAudio = async () => {
+      try {
+        setIsAudioInitialized(true);
+      } catch (error) {
+        console.error("Failed to initialize audio:", error);
+      }
     };
-  }, [intervalId]);
 
-  const startPreview = (keyTextMode: KeyTextMode) => {
-    if (isPlaying) return;
+    initAudio();
 
-    setIsPlaying(true);
-    let scaleDegreeIndex = 0;
-    const isRomanMode = keyTextMode === KeyTextMode.Roman;
+    return () => {
+      if (automaticPlaybackIdRef.current) {
+        clearInterval(automaticPlaybackIdRef.current);
+      }
+    };
+  }, []);
 
-    const id = setInterval(
-      () => {
-        if (scaleDegreeIndex < selectedMusicalKey.scalePatternLength) {
-          const playedOffsets = selectedMusicalKey.getOffsets(
-            ixScaleDegreeIndex(scaleDegreeIndex),
-            isRomanMode,
-          );
-          const noteIndices = playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset);
-          const sanitizedNoteIndices = ixActualArray(
-            IndexUtils.fitChordToAbsoluteRange(noteIndices),
-          );
-          setSelectedNoteIndices(sanitizedNoteIndices);
-          scaleDegreeIndex++;
-        } else {
-          setSelectedNoteIndices(ixActualArray([selectedMusicalKey.tonicIndex]));
-          stopPreview();
-        }
-      },
-      keyTextMode === KeyTextMode.Roman ? 500 : 250,
-    );
+  const playScaleStep = (keyTextMode: KeyDisplayMode): void => {
+    return;
+    if (!selectedMusicalKey) return;
 
-    setIntervalId(id);
-  };
+    const isRoman = keyTextMode === KeyDisplayMode.Roman;
+    const currentIndex = scaleDegreeIndexRef.current;
+    const noteIndices = selectedMusicalKey.getOffsets(currentIndex, isRoman);
 
-  const stopPreview = () => {
-    if (intervalId) clearInterval(intervalId);
-    setIntervalId(null);
-    setIsPlaying(false);
-    setCurrentPlayingIndex(null);
-  };
-
-  const togglePreview = (keyTextMode: KeyTextMode) => {
-    if (isPlaying) {
-      stopPreview();
-    } else {
-      startPreview(keyTextMode);
+    if (currentIndex >= selectedMusicalKey.scalePatternLength) {
+      scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);
+      setCurrentPlayingScaleDegree(null);
+      return;
     }
+
+    setCurrentPlayingScaleDegree(currentIndex);
+    scaleDegreeIndexRef.current = ixScaleDegreeIndex(currentIndex + 1);
   };
 
-  return (
-    <AudioContext.Provider
-      value={{
-        initializeAudio,
-        isAudioInitialized,
-        isPlaying,
-        currentPlayingIndex,
-        startPreview,
-        stopPreview,
-        togglePreview,
-      }}
-    >
-      {children}
-    </AudioContext.Provider>
-  );
+  const startAutomaticPlayback = (keyTextMode: KeyDisplayMode) => {
+    if (automaticPlaybackIdRef.current) {
+      clearInterval(automaticPlaybackIdRef.current);
+    }
+
+    const interval = keyTextMode === KeyDisplayMode.Roman ? 500 : 200;
+    automaticPlaybackIdRef.current = setInterval(() => playScaleStep(keyTextMode), interval);
+    setPlaybackState(PlaybackState.PlayingScale);
+  };
+
+  const stopScalePlayback = () => {
+    if (automaticPlaybackIdRef.current) {
+      clearInterval(automaticPlaybackIdRef.current);
+      automaticPlaybackIdRef.current = null;
+    }
+    setPlaybackState(PlaybackState.Stopped);
+    setCurrentPlayingScaleDegree(null);
+    scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);
+  };
+
+  const startScalePlayback = (keyTextMode: KeyDisplayMode) => {
+    if (!selectedMusicalKey) return;
+    startAutomaticPlayback(keyTextMode);
+  };
+
+  const playNote = (index: ActualIndex) => {
+    setCurrentPlayingScaleDegree(ixScaleDegreeIndex(index));
+  };
+
+  const stopAllNotes = () => {
+    setCurrentPlayingScaleDegree(null);
+  };
+
+  const value = {
+    initializeAudio,
+    isAudioInitialized,
+    playbackState,
+    currentPlayingScaleDegree,
+    startScalePlayback,
+    stopScalePlayback,
+    playNote,
+    stopAllNotes,
+  };
+
+  return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;
 };

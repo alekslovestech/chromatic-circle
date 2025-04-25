@@ -8,7 +8,7 @@ import { ScaleDegreeInfo } from "./ScaleDegreeInfo";
 import { ScaleDegreeIndex } from "./ScaleDegreeType";
 import { ixScaleDegreeIndex } from "./ScaleDegreeType";
 import { IScalePatternForRomanChords } from "../IScalePatternForRomanChords";
-import { KeyTextMode } from "../SettingModes";
+import { KeyDisplayMode } from "../SettingModes";
 
 export class GreekModeInfo implements IScalePatternForRomanChords {
   /**
@@ -54,7 +54,7 @@ export class GreekModeInfo implements IScalePatternForRomanChords {
     return this.scalePattern.addOffsetsChromatic(tonicIndex);
   }
 
-  public getDisplayStrings(keyTextMode: KeyTextMode): string[] {
+  public getDisplayStrings(keyTextMode: KeyDisplayMode): string[] {
     return Array.from({ length: this.scalePattern.getLength() }, (_, i) => {
       const scaleDegreeInfo = this.scalePattern.getScaleDegreeInfoFromPosition(
         ixScaleDegreeIndex(i),
@@ -80,11 +80,11 @@ export class GreekModeInfo implements IScalePatternForRomanChords {
     return scaleNotes.includes(chromaticIndex);
   }
 
-  public getDisplayString(scaleDegreeInfo: ScaleDegreeInfo, keyTextMode: KeyTextMode): string {
-    if (keyTextMode === KeyTextMode.ScaleDegree) {
+  public getDisplayString(scaleDegreeInfo: ScaleDegreeInfo, keyTextMode: KeyDisplayMode): string {
+    if (keyTextMode === KeyDisplayMode.ScaleDegree) {
       return scaleDegreeInfo.getDisplayString();
     }
-    if (keyTextMode === KeyTextMode.Roman) {
+    if (keyTextMode === KeyDisplayMode.Roman) {
       const romanChord = RomanChord.fromScaleDegreeInfo(scaleDegreeInfo, this);
       return romanChord.getString();
     }

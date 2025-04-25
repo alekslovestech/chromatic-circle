@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
+import { GlobalMode, KeyDisplayMode } from "../../types/SettingModes";
 
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isBlackKey } from "../../utils/KeyboardUtils";
@@ -52,7 +52,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
 
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
-  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyTextMode.NoteNames);
+  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyDisplayMode.NoteNames);
 
   return (
     <div
@@ -61,7 +61,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
       style={{
         left: `${left}px`,
       }}
-      onClick={() => onClick(actualIndex)}
+      onClick={() => (!isAdvanced ? onClick(actualIndex) : null)}
     >
       {noteText}
     </div>

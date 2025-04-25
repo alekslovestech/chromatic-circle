@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalMode } from "../../types/SettingModes";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
+import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
 
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
@@ -17,7 +18,7 @@ interface CircularKeyProps {
   chromaticIndex: ChromaticIndex;
   outerRadius: number;
   innerRadius: number;
-  onClick: () => void;
+  onClick: (index: ActualIndex) => void;
 }
 
 export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
@@ -52,9 +53,14 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode);
-
   return (
-    <g id={id} className={classNames.join(" ")} onClick={onClick}>
+    <g
+      id={id}
+      className={classNames.join(" ")}
+      onClick={
+        isAdvanced ? undefined : () => onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)))
+      }
+    >
       {pathElement}
       {showText && (
         <text x={textPoint.x} y={textPoint.y}>

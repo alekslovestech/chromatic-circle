@@ -9,7 +9,7 @@ import { KeySignature } from "../Keys/KeySignature";
 import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
 import { NoteInfo } from "../NoteInfo";
 import { KeyNoteResolver } from "./KeyNoteResolver";
-import { KeyTextMode } from "../SettingModes";
+import { KeyDisplayMode } from "../SettingModes";
 import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
 
@@ -106,9 +106,9 @@ export class MusicalKey {
     return tonicAsString!;
   }
 
-  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
+  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyDisplayMode): string {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
-    if (keyTextMode === KeyTextMode.NoteNames) {
+    if (keyTextMode === KeyDisplayMode.NoteNames) {
       const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
         chromaticIndex,
         this.getDefaultAccidental(),
@@ -120,7 +120,7 @@ export class MusicalKey {
     return this.greekModeInfo.getDisplayString(scaleDegreeInfo, keyTextMode);
   }
 
-  getDisplayStringArray(keyTextMode: KeyTextMode): string[] {
+  getDisplayStringArray(keyTextMode: KeyDisplayMode): string[] {
     return Array.from({ length: TWELVE }, (_, i) =>
       this.getDisplayString(ixChromatic(i), keyTextMode),
     );

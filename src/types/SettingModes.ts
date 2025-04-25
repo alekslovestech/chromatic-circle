@@ -20,7 +20,7 @@ export enum CircularVisMode {
   Polygon = "Polygon",
 }
 
-export enum KeyTextMode {
+export enum KeyDisplayMode {
   NoteNames = "Note Names",
   ScaleDegree = "Scale Degree",
   Roman = "Roman",

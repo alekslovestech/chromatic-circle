@@ -1,62 +1,33 @@
 import React, { useEffect } from "react";
 
 import { MusicalKey } from "../types/Keys/MusicalKey";
-
-import { ixActualArray } from "../types/IndexTypes";
-import { KeyTextMode } from "../types/SettingModes";
-
-import { ixScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
-
 import { KeyType } from "../types/Keys/KeyType";
 import { KeySignature } from "../types/Keys/KeySignature";
 
-import { IndexUtils } from "../utils/IndexUtils";
-
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
+import { useAudio } from "../contexts/AudioContext";
 
 import "../styles/CircularSettings.css";
-import { useAudio } from "../contexts/AudioContext";
+
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
-  const { selectedMusicalKey, setSelectedMusicalKey, setSelectedNoteIndices } = useMusical();
+  const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
   const { scalePreviewMode, keyTextMode } = useDisplay();
-  const { isAudioInitialized } = useAudio();
+  const { isAudioInitialized, startScalePlayback, stopScalePlayback } = useAudio();
+
   useEffect(() => {
-    if (!scalePreviewMode || !isAudioInitialized) return;
+    if (!scalePreviewMode || !isAudioInitialized) {
+      stopScalePlayback();
+      return;
+    }
 
-    let scaleDegreeIndex = 0;
-    const isRomanMode = keyTextMode === KeyTextMode.Roman;
-    const interval = setInterval(
-      () => {
-        if (scaleDegreeIndex < selectedMusicalKey.scalePatternLength) {
-          const playedOffsets = selectedMusicalKey.getOffsets(
-            ixScaleDegreeIndex(scaleDegreeIndex),
-            isRomanMode,
-          );
-          const noteIndices = playedOffsets.map((offset) => selectedMusicalKey.tonicIndex + offset);
-          const sanitizedNoteIndices = ixActualArray(
-            IndexUtils.fitChordToAbsoluteRange(noteIndices),
-          );
-          setSelectedNoteIndices(sanitizedNoteIndices);
-          scaleDegreeIndex++;
-        } else {
-          setSelectedNoteIndices(ixActualArray([selectedMusicalKey.tonicIndex]));
-          clearInterval(interval);
-        }
-      },
-      // Use slower interval for triads, faster for single notes
-      keyTextMode === KeyTextMode.Roman ? 500 : 250,
-    );
+    startScalePlayback(keyTextMode);
 
-    return () => clearInterval(interval);
-  }, [
-    selectedMusicalKey,
-    keyTextMode,
-    scalePreviewMode,
-    setSelectedNoteIndices,
-    isAudioInitialized,
-  ]);
+    return () => {
+      stopScalePlayback();
+    };
+  }, [scalePreviewMode, isAudioInitialized, keyTextMode]);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

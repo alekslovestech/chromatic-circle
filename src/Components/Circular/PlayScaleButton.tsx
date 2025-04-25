@@ -1,25 +1,27 @@
 import { useDisplay } from "../../contexts/DisplayContext";
-import { useAudio } from "../../contexts/AudioContext";
+import { PlaybackState, useAudio } from "../../contexts/AudioContext";
 
 import "../../styles/CircularSettings.css";
 
 export const PlayScaleButton: React.FC = () => {
-  const { scalePreviewMode, setScalePreviewMode, keyTextMode } = useDisplay();
-  const { isPlaying, startPreview, stopPreview } = useAudio();
+  const { scalePreviewMode, keyTextMode } = useDisplay();
+  const { playbackState, startScalePlayback, stopScalePlayback } = useAudio();
 
   const handleClick = () => {
-    if (scalePreviewMode && isPlaying) {
-      stopPreview();
-      setScalePreviewMode(false);
+    if (scalePreviewMode && playbackState === PlaybackState.PlayingScale) {
+      stopScalePlayback();
+      //setScalePreviewMode(false);
     } else {
-      setScalePreviewMode(true);
-      startPreview(keyTextMode);
+      //setScalePreviewMode(true);
+      startScalePlayback(keyTextMode);
     }
   };
 
   return (
     <button className="play-scale-button" onClick={handleClick}>
-      {scalePreviewMode && isPlaying ? "Stop Scale" : "Play Scale"}
+      {scalePreviewMode && playbackState === PlaybackState.PlayingScale
+        ? "Stop Scale"
+        : "Play Scale"}
     </button>
   );
 };
