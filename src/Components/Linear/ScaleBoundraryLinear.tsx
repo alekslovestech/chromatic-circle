@@ -1,19 +1,15 @@
 import React from "react";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
-import { isBlackKey } from "../../utils/KeyboardUtils";
 
 import "../../styles/KeyboardBase.css";
 
 export class ScaleBoundraryLinear {
   static draw(tonicIndex: ChromaticIndex): JSX.Element[] {
-    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPositions(tonicIndex);
+    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPercentages(tonicIndex);
 
-    const isShortKey = isBlackKey(tonicIndex);
-    // Adjust line heights based on whether it's a black (short) or white (long) key
-    const { startY, endY } = isShortKey
-      ? { startY: "-10%", endY: "10%" }
-      : { startY: "60%", endY: "120%" };
+    const startY = "85%";
+    const endY = "100%";
     // Apply the heights to both boundary lines
     const line1_start = { x: `${x1}%`, y: startY };
     const line1_end = { x: `${x1}%`, y: endY };
