@@ -1,18 +1,14 @@
 import { ixActualArray } from "../types/IndexTypes";
-
-import { GlobalMode } from "../types/SettingModes";
 import { IndexUtils } from "../utils/IndexUtils";
-
 import { useMusical } from "../contexts/MusicalContext";
-import { useDisplay } from "../contexts/DisplayContext";
-
 import "../styles/CircularSettings.css";
 
-export const TransposeWidget: React.FC = () => {
+// This component is used to transpose the selected notes OR the musical key.
+export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({
+  showKeyTranspose = false,
+}) => {
   const { selectedNoteIndices, setSelectedNoteIndices, selectedMusicalKey, setSelectedMusicalKey } =
     useMusical();
-  const { globalMode } = useDisplay();
-  const isAdvanced = globalMode === GlobalMode.Advanced;
 
   const handleSelectedNotesTranspose = (amount: number) => {
     const transposedIndices = ixActualArray(IndexUtils.shiftIndices(selectedNoteIndices, amount));
@@ -27,7 +23,7 @@ export const TransposeWidget: React.FC = () => {
   return (
     <div>
       <div className="transpose-buttons-container">
-        {!isAdvanced && (
+        {!showKeyTranspose && (
           <>
             <button className="transpose-up-button" onClick={() => handleSelectedNotesTranspose(1)}>
               ↑♫↑
@@ -41,7 +37,7 @@ export const TransposeWidget: React.FC = () => {
           </>
         )}
 
-        {isAdvanced && (
+        {showKeyTranspose && (
           <>
             <button className="musicalkey-up-button" onClick={() => handleMusicalKeyTranspose(1)}>
               ↑𝄞↑
