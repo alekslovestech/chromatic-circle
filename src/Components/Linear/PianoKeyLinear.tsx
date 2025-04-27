@@ -1,18 +1,16 @@
 import React from "react";
 
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { GlobalMode, KeyDisplayMode } from "../../types/SettingModes";
+import { KeyDisplayMode } from "../../types/SettingModes";
 
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isBlackKey } from "../../utils/KeyboardUtils";
-
 import { VisualStateUtils } from "../../utils/VisualStateUtils";
+import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
 
 import { useMusical } from "../../contexts/MusicalContext";
 import { useDisplay } from "../../contexts/DisplayContext";
-
-import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
-
+import { useGlobal, GlobalMode } from "../../contexts/GlobalContext";
 interface PianoKeyProps {
   actualIndex: ActualIndex;
   isRootNote: boolean;
@@ -26,8 +24,9 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   containerWidth,
   onClick,
 }) => {
+  const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { globalMode, monochromeMode } = useDisplay();
+  const { monochromeMode } = useDisplay();
 
   const isShortKey = isBlackKey(actualIndex);
 
@@ -50,6 +49,9 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   if (isRootNote) classNames.push("root-note");
   if (isShortKey) classNames.push("short");
 
+  //we need to use classNames to make the key disabled, instead of the default 'disabled' attribute, because this is not a default button
+  if (isAdvanced) classNames.push("disabled");
+
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyDisplayMode.NoteNames);
@@ -61,7 +63,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
       style={{
         left: `${left}px`,
       }}
-      onClick={() => (!isAdvanced ? onClick(actualIndex) : null)}
+      onClick={() => onClick(actualIndex)}
     >
       {noteText}
     </div>

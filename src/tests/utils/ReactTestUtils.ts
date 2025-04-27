@@ -10,6 +10,14 @@ export const ReactTestUtils = {
     expect(element).toHaveClass("selected");
   },
 
+  expectElementToBeEnabled: (element: Element) => {
+    expect(element).not.toHaveClass("disabled");
+  },
+
+  expectElementToBeDisabled: (element: Element) => {
+    expect(element).toHaveClass("disabled");
+  },
+
   expectElementToBeUnselected: (element: Element) => {
     expect(element).not.toHaveClass("selected");
   },
@@ -32,13 +40,5 @@ export const ReactTestUtils = {
   expectElementByIdNotToBeInTheDocument: (id: string) => {
     const element = document.getElementById(id);
     expect(element).not.toBeInTheDocument();
-  },
-
-  expectElementToBeEnabled: (element: Element) => {
-    expect(element).toBeEnabled();
-  },
-
-  expectElementToBeDisabled: (element: Element) => {
-    expect(element).toBeDisabled();
   },
 };

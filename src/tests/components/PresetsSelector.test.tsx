@@ -4,6 +4,7 @@ import { render } from "@testing-library/react";
 import { ReactTestUtils } from "../utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
+import { GlobalMode } from "../../contexts/GlobalContext";
 
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
@@ -11,7 +12,7 @@ import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 describe("ChordPresetsSelector", () => {
   const renderComponent = () =>
     render(
-      <RootProvider>
+      <RootProvider globalMode={GlobalMode.Default}>
         <InputModeSelector />
         <PresetsSelector />
       </RootProvider>,

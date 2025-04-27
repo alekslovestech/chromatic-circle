@@ -76,12 +76,12 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const playScaleStep = (keyTextMode: KeyDisplayMode): void => {
-    return;
     if (!selectedMusicalKey) return;
 
-    const isRoman = keyTextMode === KeyDisplayMode.Roman;
+    console.log("keyTextMode", keyTextMode);
+    //const isRoman = keyTextMode === KeyDisplayMode.Roman;
     const currentIndex = scaleDegreeIndexRef.current;
-    const noteIndices = selectedMusicalKey.getOffsets(currentIndex, isRoman);
+    //const noteIndices = selectedMusicalKey.getOffsets(currentIndex, isRoman);
 
     if (currentIndex >= selectedMusicalKey.scalePatternLength) {
       scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);

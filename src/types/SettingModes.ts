@@ -25,9 +25,3 @@ export enum KeyDisplayMode {
   ScaleDegree = "Scale Degree",
   Roman = "Roman",
 }
-
-export enum GlobalMode {
-  Default = "Default",
-  Logo = "Logo",
-  Advanced = "Advanced",
-}

@@ -4,6 +4,7 @@ import { ReactTestUtils } from "../utils/ReactTestUtils";
 import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
+import { GlobalMode } from "../../contexts/GlobalContext";
 
 import { KeyboardLinear } from "../../Components/Linear/KeyboardLinear";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
@@ -13,7 +14,7 @@ import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
 describe("KeyboardLinear", () => {
   const renderComponent = () =>
     render(
-      <RootProvider>
+      <RootProvider globalMode={GlobalMode.Default}>
         <KeyboardLinear />
         <InputModeSelector />
         <PresetsSelector />

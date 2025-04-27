@@ -27,7 +27,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     return () => {
       stopScalePlayback();
     };
-  }, [scalePreviewMode, isAudioInitialized, keyTextMode]);
+  }, [scalePreviewMode, isAudioInitialized, keyTextMode, stopScalePlayback, startScalePlayback]);
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -1,10 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
-import {
-  CircularVisMode,
-  ChordDisplayMode,
-  KeyDisplayMode,
-  GlobalMode,
-} from "../types/SettingModes";
+import { CircularVisMode, ChordDisplayMode, KeyDisplayMode } from "../types/SettingModes";
+import { GlobalMode, useGlobal } from "./GlobalContext";
 
 export interface DisplaySettings {
   circularVisMode: CircularVisMode;
@@ -12,13 +8,11 @@ export interface DisplaySettings {
   scalePreviewMode: boolean;
   keyTextMode: KeyDisplayMode;
   chordDisplayMode: ChordDisplayMode;
-  globalMode: GlobalMode;
   setCircularVisMode: (mode: CircularVisMode) => void;
   setMonochromeMode: (mode: boolean) => void;
   setScalePreviewMode: (mode: boolean) => void;
   setKeyTextMode: (mode: KeyDisplayMode) => void;
   setChordDisplayMode: (mode: ChordDisplayMode) => void;
-  setGlobalMode: (mode: GlobalMode) => void;
 }
 
 const DisplayContext = createContext<DisplaySettings | null>(null);
@@ -31,9 +25,11 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [chordDisplayMode, setChordDisplayMode] = useState<ChordDisplayMode>(
     ChordDisplayMode.Letters_Short,
   );
-  const [globalMode, setGlobalMode] = useState<GlobalMode>(GlobalMode.Default);
 
-  // Set monochromeMode to true when in Advanced mode
+  // Get globalMode from context
+  const { globalMode } = useGlobal();
+
+  // Use useEffect to update display settings when globalMode changes
   useEffect(() => {
     if (globalMode === GlobalMode.Advanced) {
       setMonochromeMode(true);
@@ -49,13 +45,11 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
     scalePreviewMode,
     keyTextMode,
     chordDisplayMode,
-    globalMode,
     setCircularVisMode,
     setMonochromeMode,
     setScalePreviewMode,
     setKeyTextMode,
     setChordDisplayMode,
-    setGlobalMode,
   };
 
   return <DisplayContext.Provider value={value}>{children}</DisplayContext.Provider>;

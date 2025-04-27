@@ -2,25 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { TWENTY4 } from "../../types/NoteConstants";
 import { ActualIndex } from "../../types/IndexTypes";
-import { GlobalMode } from "../../types/SettingModes";
 
 import { useMusical } from "../../contexts/MusicalContext";
+import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 
-import { useDisplay } from "../../contexts/DisplayContext";
-
-import { useKeyboardHandlers } from "../useKeyboardHandlers";
+import { useKeyboardHandlers } from "../Keyboard/useKeyboardHandlers";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 import { ScaleBoundraryLinear } from "./ScaleBoundraryLinear";
 
 import "../../styles/KeyboardBase.css";
 import "../../styles/KeyboardLinear.css";
-export const KeyboardLinear: React.FC = () => {
-  const { globalMode } = useDisplay();
-  const isAdvanced = globalMode === GlobalMode.Advanced;
+
+export const KeyboardLinear = () => {
+  const { globalMode } = useGlobal();
+  const { selectedMusicalKey } = useMusical();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
-  const { selectedMusicalKey } = useMusical();
+
+  const isAdvanced = globalMode === GlobalMode.Advanced;
+
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
@@ -35,6 +36,7 @@ export const KeyboardLinear: React.FC = () => {
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, [containerRef]);
+
   const keys = [];
   for (let actualIndex = 0 as ActualIndex; actualIndex < TWENTY4; actualIndex++) {
     const isRootNote = checkIsRootNote(actualIndex);

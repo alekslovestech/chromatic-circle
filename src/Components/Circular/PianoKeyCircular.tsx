@@ -1,14 +1,13 @@
 import React from "react";
-import { GlobalMode } from "../../types/SettingModes";
 import { ChromaticIndex } from "../../types/ChromaticIndex";
 import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
-
+import { useGlobal, GlobalMode } from "../../contexts/GlobalContext";
+import { useMusical } from "../../contexts/MusicalContext";
 import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../utils/IndexUtils";
 import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
 import { VisualStateUtils } from "../../utils/VisualStateUtils";
 
-import { useMusical } from "../../contexts/MusicalContext";
 import { useDisplay } from "../../contexts/DisplayContext";
 
 import "../../styles/KeyboardBase.css";
@@ -27,8 +26,9 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   innerRadius,
   onClick,
 }) => {
+  const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { keyTextMode, globalMode, monochromeMode } = useDisplay();
+  const { keyTextMode, monochromeMode } = useDisplay();
   const pathElement = ArcPathVisualizer.getArcPathFromIndex(
     chromaticIndex,
     outerRadius,
@@ -49,6 +49,7 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   classNames.push(visualState);
 
   if (isSelected) classNames.push("selected");
+  if (isAdvanced) classNames.push("disabled");
 
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
@@ -57,9 +58,7 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
     <g
       id={id}
       className={classNames.join(" ")}
-      onClick={
-        isAdvanced ? undefined : () => onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)))
-      }
+      onClick={() => onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)))}
     >
       {pathElement}
       {showText && (

@@ -6,20 +6,19 @@ import { TransposeWidget } from "../TransposeWidget";
 import { ChordNameDisplay } from "../ChordNameDisplay";
 
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
-import { MonochromeModeToggle } from "./MonochromeModeToggle";
-import { ClearButton } from "./ClearButton";
-import { KeyTextModeSelect } from "./NoteDisplayModeSelect";
+import { MonochromeModeToggle } from "../Settings/MonochromeModeToggle";
+import { ClearButton } from "../Settings/ClearButton";
+import { KeyTextModeSelect } from "../Settings/NoteDisplayModeSelect";
 
 // Styles
 import "../../styles/CircularSettings.css";
 
-import { useDisplay } from "../../contexts/DisplayContext";
-import { GlobalMode } from "../../types/SettingModes";
-import { ScalePreviewToggle } from "./ScalePreviewToggle";
-import { PlayScaleButton } from "./PlayScaleButton";
+import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
+import { ScalePreviewToggle } from "../Settings/ScalePreviewToggle";
+import { PlayScaleButton } from "../Settings/PlayScaleButton";
 
 export const CircularSettings = () => {
-  const { globalMode } = useDisplay();
+  const { globalMode } = useGlobal();
   const isAdvanced = globalMode === GlobalMode.Advanced;
   return (
     <div id="keyboardcircular-settings">

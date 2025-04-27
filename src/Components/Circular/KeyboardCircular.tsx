@@ -1,10 +1,9 @@
 import { TWELVE } from "../../types/NoteConstants";
 import { ixChromatic } from "../../types/ChromaticIndex";
-import { GlobalMode } from "../../types/SettingModes";
 
 import { ColorUtils } from "../../utils/ColorUtils";
 
-import { useKeyboardHandlers } from "../useKeyboardHandlers";
+import { useKeyboardHandlers } from "../Keyboard/useKeyboardHandlers";
 
 import { useDisplay } from "../../contexts/DisplayContext";
 import { useMusical } from "../../contexts/MusicalContext";
@@ -14,13 +13,14 @@ import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";
 
 import "../../styles/KeyboardCircular.css";
+import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 
 const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;
 
 export const KeyboardCircular = () => {
-  const { globalMode } = useDisplay();
+  const { globalMode } = useGlobal();
   const { handleKeyClick } = useKeyboardHandlers();
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   const { circularVisMode } = useDisplay();
