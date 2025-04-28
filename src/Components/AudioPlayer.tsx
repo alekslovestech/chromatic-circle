@@ -6,6 +6,8 @@ import { ActualIndex } from "../types/IndexTypes";
 import * as Tone from "tone";
 import { useAudio } from "../contexts/AudioContext";
 import { useDisplay } from "../contexts/DisplayContext";
+import { useMusical } from "../contexts/MusicalContext";
+import { useGlobal } from "../contexts/GlobalContext";
 
 // Base frequency for A4 (440Hz)
 const BASE_FREQUENCY = 440;
@@ -16,14 +18,22 @@ const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const { isAudioInitialized, currentPlayingScaleDegree } = useAudio();
   const { keyTextMode } = useDisplay();
+  const { selectedMusicalKey, selectedNoteIndices } = useMusical();
+  const { globalMode } = useGlobal();
   const isRomanMode = keyTextMode === KeyDisplayMode.Roman;
 
-  // Initialize Tone.js synth
+  // Initialize Tone.js synth and context
   useEffect(() => {
     let isActive = true;
 
     const initSynth = async () => {
       try {
+        // Start Tone.js context
+        if (Tone.getContext().state !== "running") {
+          await Tone.start();
+          console.log("Tone.js context started");
+        }
+
         // Create a polyphonic synth
         const synth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
@@ -85,21 +95,39 @@ const AudioPlayer: React.FC = () => {
     [getFrequencyFromIndex, isAudioInitialized],
   );
 
-  // Handle note changes
+  // Handle note changes based on mode
   useEffect(() => {
-    if (!synthRef.current || !isAudioInitialized) return;
+    if (!synthRef.current || !isAudioInitialized || !selectedMusicalKey) return;
 
-    if (currentPlayingScaleDegree !== null) {
-      // Only release all notes if we're not in Roman mode
-      if (!isRomanMode) {
-        synthRef.current.releaseAll();
-      }
-
-      //playNote(currentPlayingIndex);
-    } else {
+    // Only release all notes if we're not in Roman mode
+    if (!isRomanMode) {
       synthRef.current.releaseAll();
     }
-  }, [currentPlayingScaleDegree, playNote, isAudioInitialized, isRomanMode]);
+
+    if (globalMode === "Advanced") {
+      // In Advanced mode, use the scale degree to get the actual note
+      if (currentPlayingScaleDegree !== null) {
+        const offsets = selectedMusicalKey.getOffsets(currentPlayingScaleDegree, false);
+        if (offsets.length > 0) {
+          const actualIndex = offsets[0] as ActualIndex;
+          playNote(actualIndex);
+        }
+      }
+    } else {
+      // In non-Advanced mode, play all selected notes
+      selectedNoteIndices.forEach((index) => {
+        playNote(index);
+      });
+    }
+  }, [
+    currentPlayingScaleDegree,
+    selectedNoteIndices,
+    playNote,
+    isAudioInitialized,
+    isRomanMode,
+    selectedMusicalKey,
+    globalMode,
+  ]);
 
   // Clean up on unmount
   useEffect(() => {

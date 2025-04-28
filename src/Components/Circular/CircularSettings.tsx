@@ -10,7 +10,6 @@ import { MonochromeModeToggle } from "../Settings/MonochromeModeToggle";
 import { ClearButton } from "../Settings/ClearButton";
 import { KeyTextModeSelect } from "../Settings/NoteDisplayModeSelect";
 
-// Styles
 import "../../styles/CircularSettings.css";
 
 import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";

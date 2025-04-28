@@ -3,7 +3,7 @@ import { KeyDisplayMode } from "../types/SettingModes";
 import { useMusical } from "./MusicalContext";
 import { ActualIndex } from "../types/IndexTypes";
 import { ixScaleDegreeIndex, ScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
-import * as Tone from "tone";
+import { useGlobal } from "./GlobalContext";
 
 export enum PlaybackState {
   Stopped,
@@ -11,7 +11,6 @@ export enum PlaybackState {
 }
 
 interface AudioContextType {
-  initializeAudio: () => Promise<void>;
   isAudioInitialized: boolean;
   playbackState: PlaybackState;
   currentPlayingScaleDegree: ScaleDegreeIndex | null;
@@ -36,38 +35,14 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [playbackState, setPlaybackState] = useState<PlaybackState>(PlaybackState.Stopped);
   const [currentPlayingScaleDegree, setCurrentPlayingScaleDegree] =
     useState<ScaleDegreeIndex | null>(null);
-  const { selectedMusicalKey } = useMusical();
+  const { selectedMusicalKey, selectedNoteIndices } = useMusical();
+  const { globalMode } = useGlobal();
   const scaleDegreeIndexRef = useRef<ScaleDegreeIndex>(ixScaleDegreeIndex(0));
   const automaticPlaybackIdRef = useRef<NodeJS.Timeout | null>(null);
 
-  const initializeAudio = useCallback(async () => {
-    if (isAudioInitialized) return;
-
-    try {
-      if (Tone.getContext().state !== "running") {
-        await Tone.start();
-        console.log("Tone.js context started");
-        setIsAudioInitialized(true);
-      } else {
-        setIsAudioInitialized(true);
-      }
-    } catch (error) {
-      console.error("Failed to start Tone.js context:", error);
-    }
-  }, [isAudioInitialized]);
-
-  // Initialize audio context
+  // Initialize audio state
   useEffect(() => {
-    const initAudio = async () => {
-      try {
-        setIsAudioInitialized(true);
-      } catch (error) {
-        console.error("Failed to initialize audio:", error);
-      }
-    };
-
-    initAudio();
-
+    setIsAudioInitialized(true);
     return () => {
       if (automaticPlaybackIdRef.current) {
         clearInterval(automaticPlaybackIdRef.current);
@@ -78,10 +53,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const playScaleStep = (keyTextMode: KeyDisplayMode): void => {
     if (!selectedMusicalKey) return;
 
-    console.log("keyTextMode", keyTextMode);
-    //const isRoman = keyTextMode === KeyDisplayMode.Roman;
     const currentIndex = scaleDegreeIndexRef.current;
-    //const noteIndices = selectedMusicalKey.getOffsets(currentIndex, isRoman);
 
     if (currentIndex >= selectedMusicalKey.scalePatternLength) {
       scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);
@@ -119,7 +91,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const playNote = (index: ActualIndex) => {
-    setCurrentPlayingScaleDegree(ixScaleDegreeIndex(index));
+    if (globalMode === "Advanced") {
+      setCurrentPlayingScaleDegree(ixScaleDegreeIndex(index));
+    }
   };
 
   const stopAllNotes = () => {
@@ -127,7 +101,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const value = {
-    initializeAudio,
     isAudioInitialized,
     playbackState,
     currentPlayingScaleDegree,

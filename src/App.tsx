@@ -8,7 +8,6 @@ import { KeyboardLinear } from "./Components/Linear/KeyboardLinear";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 
-import { useAudio } from "./contexts/AudioContext";
 import { RootProvider } from "./contexts/RootContext";
 import { GlobalMode, useGlobal } from "./contexts/GlobalContext";
 
@@ -17,7 +16,6 @@ import "./styles/App.css";
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
   const { globalMode, setGlobalMode } = useGlobal();
-  const { initializeAudio } = useAudio();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
@@ -31,12 +29,8 @@ const AppContent: React.FC = () => {
     }
   }, [mode, setGlobalMode]);
 
-  const handleClick = () => {
-    initializeAudio();
-  };
-
   return (
-    <div className="grid-container" onClick={handleClick} /* style={borderStyle} */>
+    <div className="grid-container" /* style={borderStyle} */>
       <div className="keyboardlinear-container" style={borderStyle}>
         <KeyboardLinear />
       </div>
