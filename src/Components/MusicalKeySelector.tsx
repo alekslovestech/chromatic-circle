@@ -17,17 +17,16 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
   const { isAudioInitialized, startScalePlayback, stopScalePlayback } = useAudio();
 
   useEffect(() => {
-    if (!scalePreviewMode || !isAudioInitialized) {
+    if (scalePreviewMode && isAudioInitialized) {
+      startScalePlayback(keyTextMode);
+    } else {
       stopScalePlayback();
-      return;
     }
-
-    startScalePlayback(keyTextMode);
 
     return () => {
       stopScalePlayback();
     };
-  }, [scalePreviewMode, isAudioInitialized, keyTextMode, stopScalePlayback, startScalePlayback]);
+  }, [scalePreviewMode, isAudioInitialized]); // eslint-disable-line react-hooks/exhaustive-deps
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

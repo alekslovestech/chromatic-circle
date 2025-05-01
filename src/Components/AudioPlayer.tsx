@@ -16,7 +16,7 @@ const A4_MIDI_INDEX = 69;
 
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
-  const { isAudioInitialized, currentPlayingScaleDegree } = useAudio();
+  const { isAudioInitialized } = useAudio();
   const { keyTextMode } = useDisplay();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
   const { globalMode } = useGlobal();
@@ -99,28 +99,10 @@ const AudioPlayer: React.FC = () => {
   useEffect(() => {
     if (!synthRef.current || !isAudioInitialized || !selectedMusicalKey) return;
 
-    // Only release all notes if we're not in Roman mode
-    if (!isRomanMode) {
-      synthRef.current.releaseAll();
-    }
-
-    if (globalMode === "Advanced") {
-      // In Advanced mode, use the scale degree to get the actual note
-      if (currentPlayingScaleDegree !== null) {
-        const offsets = selectedMusicalKey.getOffsets(currentPlayingScaleDegree, false);
-        if (offsets.length > 0) {
-          const actualIndex = offsets[0] as ActualIndex;
-          playNote(actualIndex);
-        }
-      }
-    } else {
-      // In non-Advanced mode, play all selected notes
-      selectedNoteIndices.forEach((index) => {
-        playNote(index);
-      });
-    }
+    selectedNoteIndices.forEach((index) => {
+      playNote(index);
+    });
   }, [
-    currentPlayingScaleDegree,
     selectedNoteIndices,
     playNote,
     isAudioInitialized,

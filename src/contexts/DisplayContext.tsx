@@ -35,7 +35,7 @@ export const DisplayProvider: React.FC<{ children: ReactNode }> = ({ children })
       setMonochromeMode(true);
       setKeyTextMode(KeyDisplayMode.ScaleDegree);
       setCircularVisMode(CircularVisMode.Polygon);
-      setScalePreviewMode(true);
+      //setScalePreviewMode(true);
     }
   }, [globalMode]);
 

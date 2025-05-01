@@ -12,6 +12,7 @@ import { KeyNoteResolver } from "./KeyNoteResolver";
 import { KeyDisplayMode } from "../SettingModes";
 import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
+import { ActualIndex, ixActual } from "../IndexTypes";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -37,16 +38,18 @@ export class MusicalKey {
   /**
    * Gets the offsets for a given scale degree.
    * @param scaleDegreeIndex The index in the scale pattern (0-6)
-   * @param isRoman If true, returns offsets for root, third and fifth (for roman numeral triads)
+   * @param isTriad If true, returns offsets for root, third and fifth (for roman numeral triads)
    *               If false, returns just the root offset (for single note scale degrees)
-   * @returns Array of semitone offsets from the tonic
-   *         For isRoman=true: [root, third, fifth] offsets
-   *         For isRoman=false: [root] offset only
    */
-  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isRoman: boolean): number[] {
-    return isRoman
+  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isTriad: boolean): number[] {
+    return isTriad
       ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
       : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
+  }
+
+  public getNoteIndicesForScaleDegree(degree: ScaleDegreeIndex, isTriad: boolean): ActualIndex[] {
+    const offsets = this.getOffsets(degree, isTriad);
+    return offsets.map((offset) => ixActual(offset + this.tonicIndex));
   }
 
   toString(): string {
