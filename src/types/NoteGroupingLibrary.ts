@@ -128,7 +128,7 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(ChordType.Minor7, 22, "min7", "m7", "Minor 7th Chord", [0, 3, 7, 10]),
     NoteGrouping.createChord(
       ChordType.MinorMajor7,
-      23,
+      24,
       "mMaj7",
       "mΔ7",
       "Minor Major 7th Chord",
@@ -136,7 +136,7 @@ class NoteGroupingLibrarySingleton {
     ),
     NoteGrouping.createChord(
       ChordType.HalfDiminished,
-      24,
+      23,
       "m7♭5",
       "ø7",
       "Half Diminished Chord",
