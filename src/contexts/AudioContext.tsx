@@ -3,6 +3,7 @@ import { KeyDisplayMode } from "../types/SettingModes";
 import { useMusical } from "./MusicalContext";
 import { ixScaleDegreeIndex, ScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
 import { useGlobal } from "./GlobalContext";
+import { chromaticToActual, ixOctaveOffset } from "../types/IndexTypes";
 
 export enum PlaybackState {
   Stopped,
@@ -36,7 +37,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const scaleDegreeIndexRef = useRef<ScaleDegreeIndex>(ixScaleDegreeIndex(0));
   const playbackTimerIdRef = useRef<NodeJS.Timeout | null>(null);
-
+  const lastNoteRef = useRef(false);
   // Initialize audio state
   useEffect(() => {
     setIsAudioInitialized(true);
@@ -51,39 +52,36 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     console.log(`playScaleStep, keyTextMode = ${keyTextMode}`);
     if (!selectedMusicalKey) return;
 
-    const currentScaleDegree = scaleDegreeIndexRef.current;
-    console.log(`Playing scale step, scaleDegree = ${currentScaleDegree}`);
+    const currentScaleDegreeIndex = scaleDegreeIndexRef.current;
+    console.log(`Playing scale step, scaleDegreeIndex = ${currentScaleDegreeIndex}`);
 
     const isRoman = keyTextMode === KeyDisplayMode.Roman;
-    // Get note indices from MusicalContext and play the current note
-    const noteIndices = selectedMusicalKey.getNoteIndicesForScaleDegree(
-      currentScaleDegree,
-      isRoman,
-    );
-    console.log(`Playing scale step, noteIndices = ${noteIndices}`);
-    setSelectedNoteIndices(noteIndices);
 
-    // Check if next degree would exceed pattern length
-    const nextDegree = currentScaleDegree + 1;
-    if (nextDegree >= selectedMusicalKey.scalePatternLength) {
-      console.log(
-        "PlayScaleStep: nextDegree >= selectedMusicalKey.scalePatternLength",
-        nextDegree,
-        selectedMusicalKey.scalePatternLength,
-      );
-
-      // Schedule the stop for after the current note plays
-      setTimeout(
-        () => {
-          stopScalePlayback();
-        },
-        keyTextMode === KeyDisplayMode.Roman ? PLAYBACK_INTERVAL_ROMAN : PLAYBACK_INTERVAL,
-      );
-
+    if (lastNoteRef.current) {
+      console.log("PlayScaleStep: landing on the tonic");
+      const actualTonicIndex = chromaticToActual(selectedMusicalKey.tonicIndex, ixOctaveOffset(0));
+      setSelectedNoteIndices([actualTonicIndex]);
+      if (playbackTimerIdRef.current) {
+        clearInterval(playbackTimerIdRef.current);
+        playbackTimerIdRef.current = null;
+      }
+      lastNoteRef.current = false;
       return;
     }
 
-    scaleDegreeIndexRef.current = ixScaleDegreeIndex(nextDegree);
+    const noteIndices = selectedMusicalKey.getNoteIndicesForScaleDegree(
+      currentScaleDegreeIndex,
+      isRoman,
+    );
+    setSelectedNoteIndices(noteIndices);
+
+    if (currentScaleDegreeIndex === selectedMusicalKey.scalePatternLength - 1) {
+      lastNoteRef.current = true;
+      return;
+    }
+
+    // Move to next degree
+    scaleDegreeIndexRef.current = ixScaleDegreeIndex(currentScaleDegreeIndex + 1);
     console.log(`Next scale degree = ${scaleDegreeIndexRef.current}`);
   };
 
@@ -108,7 +106,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       playbackTimerIdRef.current = null;
     }
     setPlaybackState(PlaybackState.Stopped);
-    setSelectedNoteIndices([]);
     scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);
   };
 
