@@ -38,7 +38,7 @@ function verifyOffsetsFromIdAndInversion(
 }
 
 describe("ChordUtils", () => {
-  describe("getChordNameFromIndices", () => {
+  describe("deriveChordName", () => {
     const testCases = [
       { expected: "Ø", indices: [] },
       { expected: "M3", indices: [0, 4] },

@@ -21,7 +21,12 @@ class NoteGroupingLibrarySingleton {
         return grouping.symbolsId;
       case ChordDisplayMode.Letters_Short:
         const lettersId = grouping.lettersId;
-        const displayId = lettersId === "min" ? "m" : lettersId === "maj" ? "" : lettersId;
+        const displayId =
+          lettersId.toLowerCase() === "min"
+            ? "m"
+            : lettersId.toLowerCase() === "maj"
+            ? ""
+            : lettersId;
         return displayId;
       case ChordDisplayMode.DisplayName:
         return grouping.displayName;
@@ -69,7 +74,7 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Major,
       14,
-      "maj",
+      "Maj",
       "",
       "Major Chord",
       CHORD_OFFSET_PATTERNS.MAJOR,
@@ -93,7 +98,7 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Augmented,
       17,
-      "aug",
+      "Aug",
       "+",
       "Augmented Chord",
       CHORD_OFFSET_PATTERNS.AUGMENTED,
@@ -124,7 +129,7 @@ class NoteGroupingLibrarySingleton {
       "7th (Dominant) Chord",
       [0, 4, 7, 10],
     ),
-    NoteGrouping.createChord(ChordType.Major7, 21, "maj7", "Δ7", "Major 7th Chord", [0, 4, 7, 11]),
+    NoteGrouping.createChord(ChordType.Major7, 21, "Maj7", "Δ7", "Major 7th Chord", [0, 4, 7, 11]),
     NoteGrouping.createChord(ChordType.Minor7, 22, "min7", "m7", "Minor 7th Chord", [0, 3, 7, 10]),
     NoteGrouping.createChord(
       ChordType.HalfDiminished,
