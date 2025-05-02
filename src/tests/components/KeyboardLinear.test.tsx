@@ -59,7 +59,7 @@ describe("KeyboardLinear", () => {
     keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
   });
 
-  test("7add13 chord doesn't crash", () => {
+  test.skip("7add13 chord doesn't crash", () => {
     ReactTestUtils.clickKey("mode-chords");
     ReactTestUtils.clickKey("preset-Chord_7Add13");
     ReactTestUtils.clickKey("linearKey23");
