@@ -43,6 +43,13 @@ export class ScalePattern {
     return [rootOffset, thirdOffset, fifthOffset];
   }
 
+  public getOffsets1357(scaleDegreeIndex: ScaleDegreeIndex): [number, number, number, number] {
+    const [rootOffset, thirdOffset, fifthOffset] = this.getOffsets135(scaleDegreeIndex);
+    let seventhOffset = this.pattern[(scaleDegreeIndex + 6) % this.SCALE_LENGTH];
+    seventhOffset += seventhOffset < rootOffset ? TWELVE : 0;
+    return [rootOffset, thirdOffset, fifthOffset, seventhOffset];
+  }
+
   public getLength(): number {
     return this.SCALE_LENGTH;
   }
