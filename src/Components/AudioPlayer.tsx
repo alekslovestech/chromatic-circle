@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
-import { KeyDisplayMode } from "../types/SettingModes";
 import { ActualIndex } from "../types/IndexTypes";
 
 import * as Tone from "tone";
 import { useAudio } from "../contexts/AudioContext";
-import { useDisplay } from "../contexts/DisplayContext";
 import { useMusical } from "../contexts/MusicalContext";
 import { useGlobal } from "../contexts/GlobalContext";
 
@@ -17,10 +15,8 @@ const A4_MIDI_INDEX = 69;
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
   const { isAudioInitialized } = useAudio();
-  const { keyTextMode } = useDisplay();
-  const { selectedMusicalKey, selectedNoteIndices } = useMusical();
+  const { selectedNoteIndices } = useMusical();
   const { globalMode } = useGlobal();
-  const isRomanMode = keyTextMode === KeyDisplayMode.Roman;
 
   // Initialize Tone.js synth and context
   useEffect(() => {
@@ -97,19 +93,12 @@ const AudioPlayer: React.FC = () => {
 
   // Handle note changes based on mode
   useEffect(() => {
-    if (!synthRef.current || !isAudioInitialized || !selectedMusicalKey) return;
+    if (!synthRef.current || !isAudioInitialized) return;
 
     selectedNoteIndices.forEach((index) => {
       playNote(index);
     });
-  }, [
-    selectedNoteIndices,
-    playNote,
-    isAudioInitialized,
-    isRomanMode,
-    selectedMusicalKey,
-    globalMode,
-  ]);
+  }, [selectedNoteIndices, playNote, isAudioInitialized, globalMode]);
 
   // Clean up on unmount
   useEffect(() => {
