@@ -2,16 +2,21 @@ import React, { createContext, useContext, useState, useRef, useEffect } from "r
 import { KeyDisplayMode } from "../types/SettingModes";
 import { useMusical } from "./MusicalContext";
 import { ixScaleDegreeIndex, ScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
-import { useGlobal } from "./GlobalContext";
 import { chromaticToActual, ixOctaveOffset } from "../types/IndexTypes";
 
 export enum PlaybackState {
-  Stopped,
-  Playing,
+  ScaleComplete, //sound does not necessarily stop, but we're not playing a scale
+  ScalePlaying, //sound is playing
 }
 
-const PLAYBACK_INTERVAL = 300;
-const PLAYBACK_INTERVAL_ROMAN = 500;
+export enum ScalePlaybackMode {
+  SingleNote = "Single Note",
+  Triad = "Triad",
+  Seventh = "Seventh",
+}
+
+const PLAYBACK_INTERVAL_SINGLE_NOTE = 300;
+const PLAYBACK_INTERVAL_CHORD = 500;
 interface AudioContextType {
   isAudioInitialized: boolean;
   playbackState: PlaybackState;
@@ -30,14 +35,15 @@ export const useAudio = () => {
 };
 
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { globalMode } = useGlobal();
   const [isAudioInitialized, setIsAudioInitialized] = useState(false);
-  const [playbackState, setPlaybackState] = useState<PlaybackState>(PlaybackState.Stopped);
+  const [playbackState, setPlaybackState] = useState<PlaybackState>(PlaybackState.ScaleComplete);
   const { selectedMusicalKey, setSelectedNoteIndices } = useMusical();
 
   const scaleDegreeIndexRef = useRef<ScaleDegreeIndex>(ixScaleDegreeIndex(0));
   const playbackTimerIdRef = useRef<NodeJS.Timeout | null>(null);
-  const lastNoteRef = useRef(false);
+  const landingNoteRef = useRef(false);
+  const scalePlaybackModeRef = useRef<ScalePlaybackMode>(ScalePlaybackMode.SingleNote);
+
   // Initialize audio state
   useEffect(() => {
     setIsAudioInitialized(true);
@@ -48,41 +54,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
   }, []);
 
-  const playScaleStep = (keyTextMode: KeyDisplayMode): void => {
-    console.log(`playScaleStep, keyTextMode = ${keyTextMode}`);
-    if (!selectedMusicalKey) return;
-
-    const currentScaleDegreeIndex = scaleDegreeIndexRef.current;
-    console.log(`Playing scale step, scaleDegreeIndex = ${currentScaleDegreeIndex}`);
-
-    const isRoman = keyTextMode === KeyDisplayMode.Roman;
-
-    if (lastNoteRef.current) {
-      console.log("PlayScaleStep: landing on the tonic");
-      const actualTonicIndex = chromaticToActual(selectedMusicalKey.tonicIndex, ixOctaveOffset(0));
-      setSelectedNoteIndices([actualTonicIndex]);
-      if (playbackTimerIdRef.current) {
-        clearInterval(playbackTimerIdRef.current);
-        playbackTimerIdRef.current = null;
-      }
-      lastNoteRef.current = false;
-      return;
+  const getScalePlaybackMode = (keyDisplayMode: KeyDisplayMode) => {
+    if (keyDisplayMode === KeyDisplayMode.Roman) {
+      return ScalePlaybackMode.Triad;
     }
-
-    const noteIndices = selectedMusicalKey.getNoteIndicesForScaleDegree(
-      currentScaleDegreeIndex,
-      isRoman,
-    );
-    setSelectedNoteIndices(noteIndices);
-
-    if (currentScaleDegreeIndex === selectedMusicalKey.scalePatternLength - 1) {
-      lastNoteRef.current = true;
-      return;
-    }
-
-    // Move to next degree
-    scaleDegreeIndexRef.current = ixScaleDegreeIndex(currentScaleDegreeIndex + 1);
-    console.log(`Next scale degree = ${scaleDegreeIndexRef.current}`);
+    return ScalePlaybackMode.SingleNote;
   };
 
   const startScalePlayback = (keyTextMode: KeyDisplayMode) => {
@@ -93,10 +69,46 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       clearInterval(playbackTimerIdRef.current);
     }
 
-    const interval =
-      keyTextMode === KeyDisplayMode.Roman ? PLAYBACK_INTERVAL_ROMAN : PLAYBACK_INTERVAL;
-    playbackTimerIdRef.current = setInterval(() => playScaleStep(keyTextMode), interval);
-    setPlaybackState(PlaybackState.Playing);
+    scalePlaybackModeRef.current = getScalePlaybackMode(keyTextMode);
+    const intervalDuration =
+      scalePlaybackModeRef.current === ScalePlaybackMode.SingleNote
+        ? PLAYBACK_INTERVAL_SINGLE_NOTE
+        : PLAYBACK_INTERVAL_CHORD;
+    playbackTimerIdRef.current = setInterval(() => playScaleStep(), intervalDuration);
+    setPlaybackState(PlaybackState.ScalePlaying);
+  };
+
+  const playScaleStep = () => {
+    //final step - land on the tonic
+    if (landingNoteRef.current) {
+      console.assert(selectedMusicalKey, "selectedMusicalKey should always be defined");
+      console.log("PlayScaleStep: landing on the tonic");
+      const actualTonicIndex = chromaticToActual(selectedMusicalKey!.tonicIndex, ixOctaveOffset(0));
+      setSelectedNoteIndices([actualTonicIndex]);
+      stopScalePlayback();
+      landingNoteRef.current = false;
+      return;
+    }
+
+    //play the note(s) for the current scale degree
+    const currentScaleDegreeIndex = scaleDegreeIndexRef.current;
+    console.log(`Playing scale step, scaleDegreeIndex = ${currentScaleDegreeIndex}`);
+
+    // const isTriad = scalePlaybackModeRef.current === ScalePlaybackMode.Triad;
+    const noteIndices = selectedMusicalKey.getNoteIndicesForScaleDegree(
+      currentScaleDegreeIndex,
+      scalePlaybackModeRef.current,
+    );
+    setSelectedNoteIndices(noteIndices);
+
+    //if we've played the last note (e.g. 7th degree), prepare to land on the tonic
+    if (currentScaleDegreeIndex === selectedMusicalKey.scalePatternLength - 1) {
+      landingNoteRef.current = true;
+      return;
+    }
+
+    // Move to next degree
+    scaleDegreeIndexRef.current = ixScaleDegreeIndex(currentScaleDegreeIndex + 1);
   };
 
   const stopScalePlayback = () => {
@@ -105,7 +117,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       clearInterval(playbackTimerIdRef.current);
       playbackTimerIdRef.current = null;
     }
-    setPlaybackState(PlaybackState.Stopped);
+    setPlaybackState(PlaybackState.ScaleComplete);
     scaleDegreeIndexRef.current = ixScaleDegreeIndex(0);
   };
 

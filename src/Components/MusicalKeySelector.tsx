@@ -26,7 +26,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
     return () => {
       stopScalePlayback();
     };
-  }, [scalePreviewMode, isAudioInitialized]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [scalePreviewMode, isAudioInitialized, selectedMusicalKey, keyTextMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
   const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,6 +57,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
       <select
         id="tonic-select"
         onChange={handleTonicNameChange}
+        title="Select tonic note (scale start)"
         value={selectedMusicalKey.tonicString}
       >
         {KeySignature.getKeyList(selectedMusicalKey.classicalMode).map((note) => (
@@ -66,7 +67,7 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
         ))}
       </select>
       {useDropdownSelector ? (
-        <select id="greek-mode-select" onChange={handleGreekModeChange}>
+        <select id="greek-mode-select" onChange={handleGreekModeChange} title="Select musical mode">
           {Object.values(GreekModeType).map((mode) => (
             <option id={`greek-mode-option-${mode}`} key={mode} value={mode}>
               {mode}
@@ -74,7 +75,11 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
           ))}
         </select>
       ) : (
-        <button id="major-minor-toggle" onClick={handleMajorMinorToggle}>
+        <button
+          id="major-minor-toggle"
+          title="Toggle between major and minor"
+          onClick={handleMajorMinorToggle}
+        >
           {selectedMusicalKey.classicalMode === KeyType.Major ? "Major" : "Minor"}
         </button>
       )}

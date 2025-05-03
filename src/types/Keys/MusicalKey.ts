@@ -13,6 +13,7 @@ import { KeyDisplayMode } from "../SettingModes";
 import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
 import { ActualIndex, ixActual } from "../IndexTypes";
+import { ScalePlaybackMode } from "../../contexts/AudioContext";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -41,14 +42,25 @@ export class MusicalKey {
    * @param isTriad If true, returns offsets for root, third and fifth (for roman numeral triads)
    *               If false, returns just the root offset (for single note scale degrees)
    */
-  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isTriad: boolean): number[] {
-    return isTriad
-      ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
-      : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
+  public getOffsets(
+    scaleDegreeIndex: ScaleDegreeIndex,
+    scalePlaybackMode: ScalePlaybackMode,
+  ): number[] {
+    switch (scalePlaybackMode) {
+      case ScalePlaybackMode.Triad:
+        return this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex);
+      case ScalePlaybackMode.Seventh:
+        return this.greekModeInfo.scalePattern.getOffsets1357(scaleDegreeIndex);
+      default:
+        return this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
+    }
   }
 
-  public getNoteIndicesForScaleDegree(degree: ScaleDegreeIndex, isTriad: boolean): ActualIndex[] {
-    const offsets = this.getOffsets(degree, isTriad);
+  public getNoteIndicesForScaleDegree(
+    scaleDegreeIndex: ScaleDegreeIndex,
+    scalePlaybackMode: ScalePlaybackMode,
+  ): ActualIndex[] {
+    const offsets = this.getOffsets(scaleDegreeIndex, scalePlaybackMode);
     return offsets.map((offset) => ixActual(offset + this.tonicIndex));
   }
 

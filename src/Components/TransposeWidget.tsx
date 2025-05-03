@@ -25,12 +25,17 @@ export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({
       <div className="transpose-buttons-container">
         {!showKeyTranspose && (
           <>
-            <button className="transpose-up-button" onClick={() => handleSelectedNotesTranspose(1)}>
+            <button
+              className="transpose-up-button"
+              onClick={() => handleSelectedNotesTranspose(1)}
+              title="Transpose selected notes up"
+            >
               ↑♫↑
             </button>
             <button
               className="transpose-down-button"
               onClick={() => handleSelectedNotesTranspose(-1)}
+              title="Transpose selected notes down"
             >
               ↓♫↓
             </button>
@@ -39,12 +44,17 @@ export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({
 
         {showKeyTranspose && (
           <>
-            <button className="musicalkey-up-button" onClick={() => handleMusicalKeyTranspose(1)}>
+            <button
+              className="musicalkey-up-button"
+              onClick={() => handleMusicalKeyTranspose(1)}
+              title="Transpose musical key up"
+            >
               ↑𝄞↑
             </button>
             <button
               className="musicalkey-down-button"
               onClick={() => handleMusicalKeyTranspose(-1)}
+              title="Transpose musical key down"
             >
               ↓𝄞↓
             </button>

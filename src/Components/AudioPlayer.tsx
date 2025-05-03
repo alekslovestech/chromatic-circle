@@ -83,7 +83,7 @@ const AudioPlayer: React.FC = () => {
 
       try {
         const frequency = getFrequencyFromIndex(index);
-        synthRef.current.triggerAttackRelease(frequency, "8n");
+        synthRef.current.triggerAttackRelease(frequency, "8n.");
       } catch (error) {
         console.error("Failed to play note:", error);
       }
