@@ -15,6 +15,7 @@ export const KeyTextModeSelect: React.FC = () => {
           type="radio"
           id="key-text-note-names"
           name="key-text-mode"
+          title="Note Names"
           checked={keyTextMode === KeyDisplayMode.NoteNames}
           onChange={() => setKeyTextMode(KeyDisplayMode.NoteNames)}
         />
@@ -26,6 +27,7 @@ export const KeyTextModeSelect: React.FC = () => {
           type="radio"
           id="key-text-numbers"
           name="key-text-mode"
+          title="Scale Degree"
           checked={keyTextMode === KeyDisplayMode.ScaleDegree}
           onChange={() => setKeyTextMode(KeyDisplayMode.ScaleDegree)}
         />
@@ -37,6 +39,7 @@ export const KeyTextModeSelect: React.FC = () => {
           type="radio"
           id="key-text-roman"
           name="key-text-mode"
+          title="Roman Numerals"
           checked={keyTextMode === KeyDisplayMode.Roman}
           onChange={() => setKeyTextMode(KeyDisplayMode.Roman)}
         />
