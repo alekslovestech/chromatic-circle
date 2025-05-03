@@ -1,18 +1,21 @@
+import { IndexUtils } from "../../utils/IndexUtils";
+
 import { AccidentalType } from "../AccidentalType";
 import { addChromatic, ChromaticIndex, ixChromatic } from "../ChromaticIndex";
 import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
-import { GreekModeType } from "../GreekModes/GreekModeType";
-import { NoteConverter } from "../NoteConverter";
-import { KeyType } from "../Keys/KeyType";
-import { KeySignature } from "../Keys/KeySignature";
-import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
-import { NoteInfo } from "../NoteInfo";
-import { KeyNoteResolver } from "./KeyNoteResolver";
-import { KeyDisplayMode } from "../SettingModes";
-import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
-import { ActualIndex, ixActual } from "../IndexTypes";
+import { GreekModeType } from "../GreekModes/GreekModeType";
+import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
+import { ActualIndex, ixActualArray } from "../IndexTypes";
+import { KeySignature } from "../Keys/KeySignature";
+import { KeyType } from "../Keys/KeyType";
+import { KeyNoteResolver } from "./KeyNoteResolver";
+import { TWELVE } from "../NoteConstants";
+import { NoteConverter } from "../NoteConverter";
+import { NoteInfo } from "../NoteInfo";
+import { KeyDisplayMode } from "../SettingModes";
+
 import { ScalePlaybackMode } from "../../contexts/AudioContext";
 
 export class MusicalKey {
@@ -61,7 +64,8 @@ export class MusicalKey {
     scalePlaybackMode: ScalePlaybackMode,
   ): ActualIndex[] {
     const offsets = this.getOffsets(scaleDegreeIndex, scalePlaybackMode);
-    return offsets.map((offset) => ixActual(offset + this.tonicIndex));
+    const noteIndices = offsets.map((offset) => offset + this.tonicIndex);
+    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(noteIndices));
   }
 
   toString(): string {
