@@ -27,11 +27,19 @@ export const CircularSettings = () => {
           <MusicalKeySelector useDropdownSelector={isAdvanced} />
           <TransposeWidget showKeyTranspose={isAdvanced} />
         </div>
-        {!isAdvanced && <MonochromeModeToggle />}
-        {isAdvanced && <ScalePreviewToggle />}
-        {isAdvanced && <KeyTextModeSelect />}
-        {isAdvanced && <PlayScaleButton />}
-        <ClearButton />
+
+        {isAdvanced ? (
+          <>
+            <ScalePreviewToggle />
+            <KeyTextModeSelect />
+            <PlayScaleButton />
+          </>
+        ) : (
+          <>
+            <MonochromeModeToggle />
+            <ClearButton />
+          </>
+        )}
         <ChordNameDisplay />
       </div>
     </div>
