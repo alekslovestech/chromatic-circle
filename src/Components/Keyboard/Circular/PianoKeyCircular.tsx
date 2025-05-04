@@ -5,7 +5,6 @@ import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
 import { useMusical } from "../../../contexts/MusicalContext";
 import { ArcPathVisualizer } from "../../../utils/Keyboard/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../../utils/IndexUtils";
-import { isSelectedEitherOctave } from "../../../utils/Keyboard/KeyboardUtils";
 import { VisualStateUtils } from "../../../utils/VisualStateUtils";
 
 import { useDisplay } from "../../../contexts/DisplayContext";
@@ -26,6 +25,15 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   innerRadius,
   onClick,
 }) => {
+  const isSelectedEitherOctave = (
+    chromaticIndex: ChromaticIndex,
+    selectedNoteIndices: ActualIndex[],
+  ): boolean => {
+    const actualIndex0 = chromaticToActual(chromaticIndex, ixOctaveOffset(0));
+    const actualIndex1 = chromaticToActual(chromaticIndex, ixOctaveOffset(1));
+    return selectedNoteIndices.includes(actualIndex0) || selectedNoteIndices.includes(actualIndex1);
+  };
+
   const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
   const { keyTextMode, monochromeMode } = useDisplay();
@@ -54,6 +62,7 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   const id = IndexUtils.StringWithPaddedIndex("circularKey", chromaticIndex);
   const showText = globalMode !== GlobalMode.Logo;
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, keyTextMode);
+
   return (
     <g
       id={id}
