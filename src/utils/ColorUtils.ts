@@ -1,6 +1,6 @@
 import { ActualIndex } from "../types/IndexTypes";
 import { TWELVE } from "../types/NoteConstants";
-import { isBlackKey } from "./KeyboardUtils";
+import { isBlackKey } from "./Keyboard/KeyboardUtils";
 import { ChromaticIndex } from "../types/ChromaticIndex";
 
 export function getComputedColor(cssVariable: string): string {

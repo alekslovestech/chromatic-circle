@@ -1,16 +1,16 @@
-import { ChromaticIndex } from "../types/ChromaticIndex";
+import { ChromaticIndex } from "../../types/ChromaticIndex";
 import {
   ActualIndex,
   ixOctaveOffset,
   chromaticToActual,
   InversionIndex,
-} from "../types/IndexTypes";
-import { NoteGroupingId } from "../types/NoteGroupingTypes";
-import { InputMode } from "../types/SettingModes";
-import { TWELVE } from "../types/NoteConstants";
+} from "../../types/IndexTypes";
+import { NoteGroupingId } from "../../types/NoteGroupingTypes";
+import { InputMode } from "../../types/SettingModes";
+import { TWELVE } from "../../types/NoteConstants";
 
-import { IndexUtils } from "./IndexUtils";
-import { ChordUtils } from "./ChordUtils";
+import { IndexUtils } from "../IndexUtils";
+import { ChordUtils } from "../ChordUtils";
 
 export const isBlackKey = (actualIndex: ActualIndex | ChromaticIndex): boolean =>
   [1, 3, 6, 8, 10].includes(actualIndex % TWELVE);

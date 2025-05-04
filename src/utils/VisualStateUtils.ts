@@ -1,6 +1,6 @@
 import { ChromaticIndex } from "../types/ChromaticIndex";
 
-import { isBlackKey } from "./KeyboardUtils";
+import { isBlackKey } from "./Keyboard/KeyboardUtils";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 
 export class VisualStateUtils {

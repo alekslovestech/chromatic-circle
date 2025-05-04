@@ -4,9 +4,9 @@ import { ActualIndex, actualIndexToChromaticAndOctave } from "../../../types/Ind
 import { KeyDisplayMode } from "../../../types/SettingModes";
 
 import { IndexUtils } from "../../../utils/IndexUtils";
-import { isBlackKey } from "../../../utils/KeyboardUtils";
+import { isBlackKey } from "../../../utils/Keyboard/KeyboardUtils";
 import { VisualStateUtils } from "../../../utils/VisualStateUtils";
-import { LinearKeyboardUtils } from "../../../utils/LinearKeyboardUtils";
+import { LinearKeyboardUtils } from "../../../utils/Keyboard/Linear/LinearKeyboardUtils";
 
 import { useMusical } from "../../../contexts/MusicalContext";
 import { useDisplay } from "../../../contexts/DisplayContext";

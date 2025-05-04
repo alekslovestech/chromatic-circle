@@ -1,7 +1,7 @@
-import { ChromaticIndex } from "../types/ChromaticIndex";
-import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
-import { WHITE_KEYS_PER_OCTAVE, WHITE_KEYS_PER_2OCTAVES } from "../types/NoteConstants";
-import { isBlackKey } from "./KeyboardUtils";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../../../types/IndexTypes";
+import { WHITE_KEYS_PER_OCTAVE, WHITE_KEYS_PER_2OCTAVES } from "../../../types/NoteConstants";
+import { isBlackKey } from "../KeyboardUtils";
 
 //utils for calculating the linear keyboard geometry
 export class LinearKeyboardUtils {

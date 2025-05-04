@@ -1,8 +1,8 @@
 import React from "react";
 import { ActualIndex } from "../../../types/IndexTypes";
 import { CircularVisMode } from "../../../types/SettingModes";
-import { PolarMath } from "../../../utils/Circular/PolarMath";
-import { NoteIndexVisualizer } from "../../../utils/Circular/NoteIndexVisualizer";
+import { PolarMath } from "../../../utils/Keyboard/Circular/PolarMath";
+import { NoteIndexVisualizer } from "../../../utils/Keyboard/Circular/NoteIndexVisualizer";
 
 import "../../../styles/CircularVis.css";
 

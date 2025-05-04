@@ -1,6 +1,6 @@
-import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { ActualIndex } from "../../types/IndexTypes";
-import { TWELVE } from "../../types/NoteConstants";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex } from "../../../types/IndexTypes";
+import { TWELVE } from "../../../types/NoteConstants";
 
 const TWO_PI = 2 * Math.PI;
 const INIT_ANGLE = -Math.PI / 2; //vertical up
