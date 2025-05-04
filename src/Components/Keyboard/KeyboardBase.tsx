@@ -6,6 +6,7 @@ import { ChordUtils } from "../../utils/ChordUtils";
 import { InputMode } from "../../types/SettingModes";
 import { IndexUtils } from "../../utils/IndexUtils";
 
+export const CIRCLE_RADIUS = 5;
 export const useKeyboardHandlers = () => {
   const { selectedInversionIndex, selectedChordType, inputMode } = usePreset();
   const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
