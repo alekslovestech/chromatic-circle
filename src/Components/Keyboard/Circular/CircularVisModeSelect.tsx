@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode, InputMode } from "../../types/SettingModes";
+import { CircularVisMode, InputMode } from "../../../types/SettingModes";
 
-import { useDisplay } from "../../contexts/DisplayContext";
-import { usePreset } from "../../contexts/PresetContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { usePreset } from "../../../contexts/PresetContext";
 
-import "../../styles/CircularSettings.css";
+import "../../../styles/CircularSettings.css";
 
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode; //vis mode this button represents

@@ -6,10 +6,10 @@ import { ReactTestUtils } from "../utils/ReactTestUtils";
 import { RootProvider } from "../../contexts/RootContext";
 import { GlobalMode } from "../../contexts/GlobalContext";
 
-import { KeyboardLinear } from "../../Components/Linear/KeyboardLinear";
+import { KeyboardLinear } from "../../Components/Keyboard/Linear/KeyboardLinear";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
-import { KeyboardCircular } from "../../Components/Circular/KeyboardCircular";
+import { KeyboardCircular } from "../../Components/Keyboard/Circular/KeyboardCircular";
 
 //scenarios where setup is the same for both linear and circular keyboards
 describe("KeyboardGeneral", () => {

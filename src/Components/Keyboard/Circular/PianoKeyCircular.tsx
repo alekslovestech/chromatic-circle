@@ -1,17 +1,17 @@
 import React from "react";
-import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../types/IndexTypes";
-import { useGlobal, GlobalMode } from "../../contexts/GlobalContext";
-import { useMusical } from "../../contexts/MusicalContext";
-import { ArcPathVisualizer } from "../../utils/Circular/ArcPathVisualizer";
-import { IndexUtils } from "../../utils/IndexUtils";
-import { isSelectedEitherOctave } from "../../utils/KeyboardUtils";
-import { VisualStateUtils } from "../../utils/VisualStateUtils";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../../types/IndexTypes";
+import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
+import { useMusical } from "../../../contexts/MusicalContext";
+import { ArcPathVisualizer } from "../../../utils/Circular/ArcPathVisualizer";
+import { IndexUtils } from "../../../utils/IndexUtils";
+import { isSelectedEitherOctave } from "../../../utils/KeyboardUtils";
+import { VisualStateUtils } from "../../../utils/VisualStateUtils";
 
-import { useDisplay } from "../../contexts/DisplayContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
 
-import "../../styles/KeyboardBase.css";
-import "../../styles/KeyboardCircular.css";
+import "../../../styles/KeyboardBase.css";
+import "../../../styles/KeyboardCircular.css";
 
 interface CircularKeyProps {
   chromaticIndex: ChromaticIndex;

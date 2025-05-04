@@ -1,10 +1,10 @@
 import React from "react";
-import { ActualIndex } from "../../types/IndexTypes";
-import { CircularVisMode } from "../../types/SettingModes";
-import { PolarMath } from "../../utils/Circular/PolarMath";
-import { NoteIndexVisualizer } from "../../utils/Circular/NoteIndexVisualizer";
+import { ActualIndex } from "../../../types/IndexTypes";
+import { CircularVisMode } from "../../../types/SettingModes";
+import { PolarMath } from "../../../utils/Circular/PolarMath";
+import { NoteIndexVisualizer } from "../../../utils/Circular/NoteIndexVisualizer";
 
-import "../../styles/CircularVis.css";
+import "../../../styles/CircularVis.css";
 
 const DOT_RADIUS = 6;
 export class CircularVisualizations {

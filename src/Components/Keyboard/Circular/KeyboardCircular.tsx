@@ -1,19 +1,20 @@
-import { TWELVE } from "../../types/NoteConstants";
-import { ixChromatic } from "../../types/ChromaticIndex";
+import { TWELVE } from "../../../types/NoteConstants";
+import { ixChromatic } from "../../../types/ChromaticIndex";
 
-import { ColorUtils } from "../../utils/ColorUtils";
+import { ColorUtils } from "../../../utils/ColorUtils";
 
-import { useKeyboardHandlers } from "../Keyboard/useKeyboardHandlers";
+import { useKeyboardHandlers } from "../Base/useKeyboardHandlers";
 
-import { useDisplay } from "../../contexts/DisplayContext";
-import { useMusical } from "../../contexts/MusicalContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { useMusical } from "../../../contexts/MusicalContext";
 
 import { ScaleBoundraryCircular } from "./ScaleBoundraryCircular";
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";
 
-import "../../styles/KeyboardCircular.css";
-import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
+
+import "../../../styles/KeyboardCircular.css";
 
 const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
@@ -28,6 +29,7 @@ export const KeyboardCircular = () => {
   const isAdvanced = globalMode === GlobalMode.Advanced;
   const coords = [-MAX_RADIUS, -MAX_RADIUS, MAX_RADIUS * 2, MAX_RADIUS * 2];
   const color = ColorUtils.getChordColor(selectedNoteIndices);
+
   return (
     <svg viewBox={coords.join(" ")} className="svg-container">
       {Array.from({ length: TWELVE }).map((_, index) => (

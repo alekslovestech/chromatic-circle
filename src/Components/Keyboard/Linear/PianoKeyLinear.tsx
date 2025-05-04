@@ -1,16 +1,17 @@
 import React from "react";
 
-import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { KeyDisplayMode } from "../../types/SettingModes";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../../../types/IndexTypes";
+import { KeyDisplayMode } from "../../../types/SettingModes";
 
-import { IndexUtils } from "../../utils/IndexUtils";
-import { isBlackKey } from "../../utils/KeyboardUtils";
-import { VisualStateUtils } from "../../utils/VisualStateUtils";
-import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
+import { IndexUtils } from "../../../utils/IndexUtils";
+import { isBlackKey } from "../../../utils/KeyboardUtils";
+import { VisualStateUtils } from "../../../utils/VisualStateUtils";
+import { LinearKeyboardUtils } from "../../../utils/LinearKeyboardUtils";
 
-import { useMusical } from "../../contexts/MusicalContext";
-import { useDisplay } from "../../contexts/DisplayContext";
-import { useGlobal, GlobalMode } from "../../contexts/GlobalContext";
+import { useMusical } from "../../../contexts/MusicalContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
+
 interface PianoKeyProps {
   actualIndex: ActualIndex;
   isRootNote: boolean;

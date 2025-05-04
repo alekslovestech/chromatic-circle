@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { TWENTY4 } from "../../types/NoteConstants";
-import { ActualIndex } from "../../types/IndexTypes";
+import { TWENTY4 } from "../../../types/NoteConstants";
+import { ActualIndex } from "../../../types/IndexTypes";
 
-import { useMusical } from "../../contexts/MusicalContext";
-import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
+import { useMusical } from "../../../contexts/MusicalContext";
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 
-import { useKeyboardHandlers } from "../Keyboard/useKeyboardHandlers";
+import { useKeyboardHandlers } from "../Base/useKeyboardHandlers";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 import { ScaleBoundraryLinear } from "./ScaleBoundraryLinear";
 
-import "../../styles/KeyboardBase.css";
-import "../../styles/KeyboardLinear.css";
+import "../../../styles/KeyboardBase.css";
+import "../../../styles/KeyboardLinear.css";
 
 export const KeyboardLinear = () => {
   const { globalMode } = useGlobal();

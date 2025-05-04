@@ -1,20 +1,20 @@
 import React from "react";
 
 // Components
-import { MusicalKeySelector } from "../MusicalKeySelector";
-import { TransposeWidget } from "../TransposeWidget";
-import { ChordNameDisplay } from "../ChordNameDisplay";
+import { MusicalKeySelector } from "../../MusicalKeySelector";
+import { TransposeWidget } from "../../TransposeWidget";
+import { ChordNameDisplay } from "../../ChordNameDisplay";
 
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
-import { MonochromeModeToggle } from "../Settings/MonochromeModeToggle";
-import { ClearButton } from "../Settings/ClearButton";
-import { KeyTextModeSelect } from "../Settings/NoteDisplayModeSelect";
+import { MonochromeModeToggle } from "../../Settings/MonochromeModeToggle";
+import { ClearButton } from "../../Settings/ClearButton";
+import { KeyTextModeSelect } from "../../Settings/NoteDisplayModeSelect";
 
-import "../../styles/CircularSettings.css";
+import "../../../styles/CircularSettings.css";
 
-import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
-import { ScalePreviewToggle } from "../Settings/ScalePreviewToggle";
-import { PlayScaleButton } from "../Settings/PlayScaleButton";
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
+import { ScalePreviewToggle } from "../../Settings/ScalePreviewToggle";
+import { PlayScaleButton } from "../../Settings/PlayScaleButton";
 
 export const CircularSettings = () => {
   const { globalMode } = useGlobal();

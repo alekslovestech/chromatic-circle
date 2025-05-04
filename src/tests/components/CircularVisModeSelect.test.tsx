@@ -6,7 +6,7 @@ import { GlobalMode } from "../../contexts/GlobalContext";
 import { RootProvider } from "../../contexts/RootContext";
 
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
-import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
+import { CircularVisModeSelect } from "../../Components/Keyboard/Circular/CircularVisModeSelect";
 
 import { ReactTestUtils } from "../utils/ReactTestUtils";
 import { CircularVisModeUtils } from "../utils/CircularVisModeUtils";
