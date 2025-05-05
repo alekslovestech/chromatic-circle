@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { TWENTY4 } from "../../../types/NoteConstants";
 import { ActualIndex } from "../../../types/IndexTypes";
@@ -6,20 +6,15 @@ import { ActualIndex } from "../../../types/IndexTypes";
 import { useKeyboardHandlers } from "../KeyboardBase";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 
-import { useMusical } from "../../../contexts/MusicalContext";
-import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
-
 import "../../../styles/KeyboardBase.css";
 import "../../../styles/KeyboardLinear.css";
 
 export const KeyboardLinear = () => {
-  const { globalMode } = useGlobal();
-  const { selectedMusicalKey } = useMusical();
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
 
-  const isAdvanced = globalMode === GlobalMode.Advanced;
+  //const isAdvanced = globalMode === GlobalMode.Advanced;
   /* disabled for now, TODO: make sure the circle has a correct aspect ratio
   const renderScaleBoundary = () => {
     if (!isAdvanced) return null;

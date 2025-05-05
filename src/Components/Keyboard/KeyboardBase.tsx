@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useMusical } from "../../contexts/MusicalContext";
 import { usePreset } from "../../contexts/PresetContext";
 import { ActualIndex } from "../../types/IndexTypes";
