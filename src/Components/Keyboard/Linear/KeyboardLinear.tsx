@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { TWENTY4 } from "../../../types/NoteConstants";
-import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../../types/IndexTypes";
+import { ActualIndex } from "../../../types/IndexTypes";
 import { LinearKeyboardUtils } from "../../../utils/Keyboard/Linear/LinearKeyboardUtils";
+
+import { useKeyboardHandlers } from "../KeyboardBase";
+import { PianoKeyLinear } from "./PianoKeyLinear";
 
 import { useMusical } from "../../../contexts/MusicalContext";
 import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
-
-import { CIRCLE_RADIUS, useKeyboardHandlers } from "../KeyboardBase";
-import { PianoKeyLinear } from "./PianoKeyLinear";
 
 import "../../../styles/KeyboardBase.css";
 import "../../../styles/KeyboardLinear.css";
@@ -26,16 +26,17 @@ export const KeyboardLinear = () => {
   const renderScaleBoundary = () => {
     if (!isAdvanced) return null;
 
-    const pos1 = chromaticToActual(selectedMusicalKey.tonicIndex, ixOctaveOffset(0));
-    const pos2 = chromaticToActual(selectedMusicalKey.tonicIndex, ixOctaveOffset(1));
-    const x1 = LinearKeyboardUtils.calculateKeyLeftPosition(pos1, containerWidth);
-    const x2 = LinearKeyboardUtils.calculateKeyLeftPosition(pos2, containerWidth);
+    const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPercentages(
+      selectedMusicalKey.tonicIndex,
+    );
 
-    const containerHeight = containerWidth * H2W_RATIO;
-    console.log("containerHeight", containerHeight);
-    const startY = Math.round(containerHeight * 0.8);
-    const endY = Math.round(containerHeight * 0.87);
-    const circleCenterY = Math.round(containerHeight * 0.9);
+    console.log(`Tonic index: ${selectedMusicalKey.tonicIndex}`);
+    console.log(`Scale boundary positions: x1=${x1}, x2=${x2}`);
+    console.log(`ViewBox: 0 -10 100 110`);
+    console.log(`SVG dimensions: width=${containerWidth}, height=${containerWidth * H2W_RATIO}`);
+    const startY = 90;
+    const endY = 100;
+    const circleCenterY = 105;
     // Create a vertical line at the tonic position - in both scales
     return [
       <line
@@ -45,14 +46,7 @@ export const KeyboardLinear = () => {
         y1={startY}
         x2={x1}
         y2={endY}
-      />,
-      <circle
-        key="scale-boundrary-left-circle"
-        cx={x1}
-        cy={circleCenterY}
-        r={CIRCLE_RADIUS}
-        fill="none"
-        stroke="black"
+        vectorEffect="non-scaling-stroke"
       />,
       <line
         className="scale-boundary linear"
@@ -61,14 +55,25 @@ export const KeyboardLinear = () => {
         y1={startY}
         x2={x2}
         y2={endY}
+        vectorEffect="non-scaling-stroke"
+      />,
+      <circle
+        key="scale-boundrary-left-circle"
+        cx={x1}
+        cy={circleCenterY}
+        r={3}
+        fill="none"
+        stroke="black"
+        vectorEffect="non-scaling-stroke"
       />,
       <circle
         key="scale-boundrary-right-circle"
         cx={x2}
         cy={circleCenterY}
-        r={CIRCLE_RADIUS}
+        r={3}
         fill="none"
         stroke="black"
+        vectorEffect="non-scaling-stroke"
       />,
     ];
   };
@@ -105,13 +110,9 @@ export const KeyboardLinear = () => {
 
   return (
     <div ref={containerRef} className="keyboardlinear">
-      <svg
-        className="scale-boundary-svg"
-        viewBox={`0 -10 ${containerWidth} 110`}
-        preserveAspectRatio="xMidYMid meet"
-      >
+      {/*<svg className="scale-boundary-svg" viewBox={`0 -10 100 110`} preserveAspectRatio="none">
         {renderScaleBoundary()}
-      </svg>
+      </svg>*/}
       {keys}
     </div>
   );
