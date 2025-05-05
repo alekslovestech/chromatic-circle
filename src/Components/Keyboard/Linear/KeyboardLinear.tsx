@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { TWENTY4 } from "../../../types/NoteConstants";
 import { ActualIndex } from "../../../types/IndexTypes";
-import { LinearKeyboardUtils } from "../../../utils/Keyboard/Linear/LinearKeyboardUtils";
 
 import { useKeyboardHandlers } from "../KeyboardBase";
 import { PianoKeyLinear } from "./PianoKeyLinear";
@@ -13,7 +12,6 @@ import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 import "../../../styles/KeyboardBase.css";
 import "../../../styles/KeyboardLinear.css";
 
-const H2W_RATIO = 0.25; //
 export const KeyboardLinear = () => {
   const { globalMode } = useGlobal();
   const { selectedMusicalKey } = useMusical();
@@ -22,7 +20,7 @@ export const KeyboardLinear = () => {
   const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const isAdvanced = globalMode === GlobalMode.Advanced;
-
+  /* disabled for now, TODO: make sure the circle has a correct aspect ratio
   const renderScaleBoundary = () => {
     if (!isAdvanced) return null;
 
@@ -77,7 +75,7 @@ export const KeyboardLinear = () => {
       />,
     ];
   };
-
+*/
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
