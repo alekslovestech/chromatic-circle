@@ -6,15 +6,17 @@ import { TransposeWidget } from "../../TransposeWidget";
 import { ChordNameDisplay } from "../../ChordNameDisplay";
 
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
+
 import { MonochromeModeToggle } from "../../Settings/MonochromeModeToggle";
 import { ClearButton } from "../../Settings/ClearButton";
 import { KeyTextModeSelect } from "../../Settings/NoteDisplayModeSelect";
-
-import "../../../styles/CircularSettings.css";
-
-import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 import { ScalePreviewToggle } from "../../Settings/ScalePreviewToggle";
 import { PlayScaleButton } from "../../Settings/PlayScaleButton";
+import { GlobalModeButton } from "../../Settings/GlobalModeButton";
+
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
+
+import "../../../styles/CircularSettings.css";
 
 export const CircularSettings = () => {
   const { globalMode } = useGlobal();
@@ -41,6 +43,7 @@ export const CircularSettings = () => {
           </>
         )}
         <ChordNameDisplay />
+        <GlobalModeButton />
       </div>
     </div>
   );
