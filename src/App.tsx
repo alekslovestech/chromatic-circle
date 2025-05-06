@@ -2,23 +2,20 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import AudioPlayer from "./Components/AudioPlayer";
-import { KeyboardCircular } from "./Components/Circular/KeyboardCircular";
-import { CircularSettings } from "./Components/Circular/CircularSettings";
-import { KeyboardLinear } from "./Components/Linear/KeyboardLinear";
+import { KeyboardCircular } from "./Components/Keyboard/Circular/KeyboardCircular";
+import { CircularSettings } from "./Components/Keyboard/Circular/CircularSettings";
+import { KeyboardLinear } from "./Components/Keyboard/Linear/KeyboardLinear";
 import SettingsContainer from "./Components/Settings/SettingsContainer";
 import StaffRenderer from "./Components/StaffRenderer";
 
-import { GlobalMode } from "./types/SettingModes";
-import { useDisplay } from "./contexts/DisplayContext";
-import { useAudio } from "./contexts/AudioContext";
 import { RootProvider } from "./contexts/RootContext";
+import { GlobalMode, useGlobal } from "./contexts/GlobalContext";
 
 import "./styles/App.css";
 
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
-  const { globalMode, setGlobalMode } = useDisplay();
-  const { initializeAudio } = useAudio();
+  const { globalMode, setGlobalMode } = useGlobal();
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
 
@@ -32,12 +29,8 @@ const AppContent: React.FC = () => {
     }
   }, [mode, setGlobalMode]);
 
-  const handleClick = () => {
-    initializeAudio();
-  };
-
   return (
-    <div className="grid-container" onClick={handleClick} /* style={borderStyle} */>
+    <div className="grid-container" /* style={borderStyle} */>
       <div className="keyboardlinear-container" style={borderStyle}>
         <KeyboardLinear />
       </div>
@@ -55,7 +48,7 @@ const App: React.FC = () => {
   return (
     <div className="ChromaticCircle">
       <header className="App-header">
-        <RootProvider>
+        <RootProvider globalMode={GlobalMode.Default}>
           <AppContent />
           <AudioPlayer />
         </RootProvider>

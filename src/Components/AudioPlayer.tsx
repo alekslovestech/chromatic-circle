@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { TWELVE } from "../types/NoteConstants";
+import { ActualIndex } from "../types/IndexTypes";
+
 import * as Tone from "tone";
-import { useMusical } from "../contexts/MusicalContext";
 import { useAudio } from "../contexts/AudioContext";
+import { useMusical } from "../contexts/MusicalContext";
+import { useGlobal } from "../contexts/GlobalContext";
 
 // Base frequency for A4 (440Hz)
 const BASE_FREQUENCY = 440;
@@ -11,15 +14,22 @@ const A4_MIDI_INDEX = 69;
 
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
-  const { selectedNoteIndices } = useMusical();
   const { isAudioInitialized } = useAudio();
+  const { selectedNoteIndices } = useMusical();
+  const { globalMode } = useGlobal();
 
-  // Initialize Tone.js synth
+  // Initialize Tone.js synth and context
   useEffect(() => {
     let isActive = true;
 
     const initSynth = async () => {
       try {
+        // Start Tone.js context
+        if (Tone.getContext().state !== "running") {
+          await Tone.start();
+          console.log("Tone.js context started");
+        }
+
         // Create a polyphonic synth
         const synth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
@@ -59,7 +69,7 @@ const AudioPlayer: React.FC = () => {
   }, []);
 
   // Convert note index to frequency
-  const getFrequencyFromIndex = useCallback((index: number): number => {
+  const getFrequencyFromIndex = useCallback((index: ActualIndex): number => {
     // Convert index to MIDI note number (assuming index 0 is C4)
     const midiNote = index + 60; //  C4 is MIDI note 60
     // Calculate frequency using the formula: f = 440 * 2^((midiNote - 69) / 12)
@@ -68,12 +78,12 @@ const AudioPlayer: React.FC = () => {
 
   // Play a single note
   const playNote = useCallback(
-    (index: number) => {
+    (index: ActualIndex) => {
       if (!synthRef.current || !isAudioInitialized) return;
 
       try {
         const frequency = getFrequencyFromIndex(index);
-        synthRef.current.triggerAttackRelease(frequency, "4n");
+        synthRef.current.triggerAttackRelease(frequency, "8n.");
       } catch (error) {
         console.error("Failed to play note:", error);
       }
@@ -81,29 +91,24 @@ const AudioPlayer: React.FC = () => {
     [getFrequencyFromIndex, isAudioInitialized],
   );
 
-  // Play all selected notes
-  const playSelectedNotes = useCallback(() => {
+  // Handle note changes based on mode
+  useEffect(() => {
     if (!synthRef.current || !isAudioInitialized) return;
 
-    try {
-      // Stop any currently playing notes
-      synthRef.current.releaseAll();
+    selectedNoteIndices.forEach((index) => {
+      playNote(index);
+    });
+  }, [selectedNoteIndices, playNote, isAudioInitialized, globalMode]);
 
-      // Play each selected note
-      selectedNoteIndices.forEach((index) => playNote(index));
-    } catch (error) {
-      console.error("Failed to play selected notes:", error);
-    }
-  }, [selectedNoteIndices, playNote, isAudioInitialized]);
-
-  // Play notes when selection changes
+  // Clean up on unmount
   useEffect(() => {
-    if (synthRef.current && isAudioInitialized) {
-      playSelectedNotes();
-    }
-  }, [selectedNoteIndices, playSelectedNotes, isAudioInitialized]);
+    return () => {
+      if (synthRef.current) {
+        synthRef.current.releaseAll();
+      }
+    };
+  }, []);
 
-  // Return null since we don't need to render anything
   return null;
 };
 

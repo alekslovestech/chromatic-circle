@@ -3,8 +3,16 @@ import { TWENTY4 } from "../../types/NoteConstants";
 import { ReactTestUtils } from "./ReactTestUtils";
 
 export const keyVerificationUtils = {
+  getAllLinearKeys: () => {
+    return document.querySelectorAll("[id^='linearKey']");
+  },
+
+  getAllCircularKeys: () => {
+    return document.querySelectorAll("[id^='circularKey']");
+  },
+
   verifySelectedLinearKeys: (selectedIndices: number[]) => {
-    const pianoKeys = document.querySelectorAll("[id^='linearKey']");
+    const pianoKeys = keyVerificationUtils.getAllLinearKeys();
     selectedIndices.forEach((index) => ReactTestUtils.expectElementToBeSelected(pianoKeys[index]));
     const unselectedIndices = Array.from({ length: TWENTY4 }, (_, i) => i).filter(
       (index) => !selectedIndices.includes(index),
@@ -14,8 +22,18 @@ export const keyVerificationUtils = {
     );
   },
 
+  verifyLinearKeysDisabled: () => {
+    const pianoKeys = keyVerificationUtils.getAllLinearKeys();
+    pianoKeys.forEach((key) => ReactTestUtils.expectElementToBeDisabled(key));
+  },
+
+  verifyCircularKeysDisabled: () => {
+    const circularKeys = keyVerificationUtils.getAllCircularKeys();
+    circularKeys.forEach((key) => ReactTestUtils.expectElementToBeDisabled(key));
+  },
+
   verifySelectedCircularKeys: (selectedIndices: number[]) => {
-    const circularKeys = document.querySelectorAll("[id^='circularKey']");
+    const circularKeys = keyVerificationUtils.getAllCircularKeys();
     selectedIndices.forEach((index) =>
       ReactTestUtils.expectElementToBeSelected(circularKeys[index]),
     );

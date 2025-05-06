@@ -8,7 +8,7 @@ import {
   ixOctaveOffset,
 } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
-import { isBlackKey } from "../utils/KeyboardUtils";
+import { isBlackKey } from "../utils/Keyboard/KeyboardUtils";
 
 describe("IndexUtils", () => {
   describe("normalizeIndices", () => {

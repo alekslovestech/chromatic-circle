@@ -1,6 +1,6 @@
-import { ChromaticIndex } from "../../types/ChromaticIndex";
-import { ActualIndex } from "../../types/IndexTypes";
-import { CircularVisMode } from "../../types/SettingModes";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex } from "../../../types/IndexTypes";
+import { CircularVisMode } from "../../../types/SettingModes";
 import { CartesianPoint } from "./PolarMath";
 import { PolarMath } from "./PolarMath";
 

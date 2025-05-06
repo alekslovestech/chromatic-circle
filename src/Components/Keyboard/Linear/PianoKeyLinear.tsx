@@ -1,17 +1,16 @@
 import React from "react";
 
-import { ActualIndex, actualIndexToChromaticAndOctave } from "../../types/IndexTypes";
-import { GlobalMode, KeyTextMode } from "../../types/SettingModes";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../../../types/IndexTypes";
+import { KeyDisplayMode } from "../../../types/SettingModes";
 
-import { IndexUtils } from "../../utils/IndexUtils";
-import { isBlackKey } from "../../utils/KeyboardUtils";
+import { IndexUtils } from "../../../utils/IndexUtils";
+import { isBlackKey } from "../../../utils/Keyboard/KeyboardUtils";
+import { VisualStateUtils } from "../../../utils/VisualStateUtils";
+import { LinearKeyboardUtils } from "../../../utils/Keyboard/Linear/LinearKeyboardUtils";
 
-import { VisualStateUtils } from "../../utils/VisualStateUtils";
-
-import { useMusical } from "../../contexts/MusicalContext";
-import { useDisplay } from "../../contexts/DisplayContext";
-
-import { LinearKeyboardUtils } from "../../utils/LinearKeyboardUtils";
+import { useMusical } from "../../../contexts/MusicalContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
 
 interface PianoKeyProps {
   actualIndex: ActualIndex;
@@ -26,8 +25,9 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   containerWidth,
   onClick,
 }) => {
+  const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
-  const { globalMode, monochromeMode } = useDisplay();
+  const { monochromeMode } = useDisplay();
 
   const isShortKey = isBlackKey(actualIndex);
 
@@ -50,9 +50,12 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
   if (isRootNote) classNames.push("root-note");
   if (isShortKey) classNames.push("short");
 
+  //we need to use classNames to make the key disabled, instead of the default 'disabled' attribute, because this is not a default button
+  if (isAdvanced) classNames.push("disabled");
+
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
 
-  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyTextMode.NoteNames);
+  const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyDisplayMode.NoteNames);
 
   return (
     <div

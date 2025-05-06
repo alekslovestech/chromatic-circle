@@ -40,6 +40,7 @@ export enum ChordType {
   MinorMajor7 = "Chord_MMaj7",
   HalfDiminished = "Chord_M7b5",
   Diminished7 = "Chord_Dim7",
+  AugMajor7 = "Chord_AugMaj7",
 
   // Other
   Sus4 = "Chord_Sus4",

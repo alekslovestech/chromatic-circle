@@ -2,19 +2,19 @@ import { GreekModeDictionary } from "../types/GreekModes/GreekModeDictionary";
 import { GreekModeType } from "../types/GreekModes/GreekModeType";
 import { MusicalKey } from "../types/Keys/MusicalKey";
 import { TWELVE } from "../types/NoteConstants";
-import { KeyTextMode } from "../types/SettingModes";
+import { KeyDisplayMode } from "../types/SettingModes";
 import { GreekTestConstants } from "./utils/GreekTestConstants";
 
 function verifyScaleDegreeDisplayStrings(greekMode: GreekModeType, expectedNotes: string[]) {
   const greekModeInfo = GreekModeDictionary.getModeInfo(greekMode);
-  const displayStrings = greekModeInfo.getDisplayStrings(KeyTextMode.ScaleDegree);
+  const displayStrings = greekModeInfo.getDisplayStrings(KeyDisplayMode.ScaleDegree);
   expect(displayStrings).toEqual(expectedNotes);
 }
 
 function verifyScaleDegreesArray(musicalKey: MusicalKey, expectedArray: string[]) {
   expect(expectedArray.length).toBe(TWELVE);
 
-  const displayStrings = musicalKey.getDisplayStringArray(KeyTextMode.ScaleDegree);
+  const displayStrings = musicalKey.getDisplayStringArray(KeyDisplayMode.ScaleDegree);
   expect(displayStrings).toEqual(expectedArray);
 }
 describe("Scale Degree Display", () => {

@@ -1,8 +1,9 @@
 import React from "react";
 
-import { GlobalMode, InputMode } from "../../types/SettingModes";
+import { InputMode } from "../../types/SettingModes";
+
+import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 import { usePreset } from "../../contexts/PresetContext";
-import { useDisplay } from "../../contexts/DisplayContext";
 
 import "../../styles/InputModeSelector.css";
 
@@ -37,7 +38,7 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
 
 export const InputModeSelector: React.FC = () => {
   const { inputMode, setInputMode } = usePreset();
-  const { globalMode } = useDisplay();
+  const { globalMode } = useGlobal();
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
   };

@@ -1,5 +1,5 @@
 import React from "react";
-import { ChromaticIndex } from "../../types/ChromaticIndex";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
 import { CartesianPoint, PolarMath } from "./PolarMath";
 export class ArcPathVisualizer {
   public static readonly ROMAN_POINT_COEFFICIENT = 0.85;

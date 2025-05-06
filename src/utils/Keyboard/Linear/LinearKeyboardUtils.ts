@@ -1,15 +1,19 @@
-import { ChromaticIndex } from "../types/ChromaticIndex";
-import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
-import { WHITE_KEYS_PER_OCTAVE, WHITE_KEYS_PER_2OCTAVES } from "../types/NoteConstants";
-import { isBlackKey } from "./KeyboardUtils";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../../../types/IndexTypes";
+import { WHITE_KEYS_PER_OCTAVE, WHITE_KEYS_PER_2OCTAVES } from "../../../types/NoteConstants";
+import { isBlackKey } from "../KeyboardUtils";
 
 //utils for calculating the linear keyboard geometry
 export class LinearKeyboardUtils {
   static calculateKeyLeftPosition(actualIndex: ActualIndex, containerWidth: number): number {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
     const longKeyWidth = containerWidth / WHITE_KEYS_PER_2OCTAVES;
+
     const position = this.whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
-    return position * longKeyWidth;
+    /* console.log(
+      `longKeyWidth: ${longKeyWidth}, position = ${position}, total = ${position * longKeyWidth}`,
+    );*/
+    return Math.round(position * longKeyWidth);
   }
 
   static calculateScaleBoundaryPercentages(tonicIndex: ChromaticIndex): { x1: number; x2: number } {
@@ -19,6 +23,20 @@ export class LinearKeyboardUtils {
     //black keys are 70% of the width of a white key
     const shortKeyWidthPercent = 70 / WHITE_KEYS_PER_2OCTAVES / 2;
     const offset = isBlackKey(tonicIndex) ? -shortKeyWidthPercent : 0;
+    return { x1: x1 + offset, x2: x2 + offset };
+  }
+
+  static calculateScaleBoundaryPositions(
+    tonicIndex: ChromaticIndex,
+    containerWidth: number,
+  ): { x1: number; x2: number } {
+    const position = this.whiteKeyPositions[tonicIndex];
+    const whiteKeyWidth = containerWidth / WHITE_KEYS_PER_2OCTAVES;
+    const x1 = position * whiteKeyWidth;
+    const x2 = (position + WHITE_KEYS_PER_OCTAVE) * whiteKeyWidth;
+    //black keys are 70% of the width of a white key
+    const shortKeyWidth = (whiteKeyWidth * 0.7) / 2;
+    const offset = isBlackKey(tonicIndex) ? -shortKeyWidth : 0;
     return { x1: x1 + offset, x2: x2 + offset };
   }
 

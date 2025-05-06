@@ -1,17 +1,22 @@
+import { IndexUtils } from "../../utils/IndexUtils";
+
 import { AccidentalType } from "../AccidentalType";
 import { addChromatic, ChromaticIndex, ixChromatic } from "../ChromaticIndex";
 import { GreekModeDictionary } from "../GreekModes/GreekModeDictionary";
 import { GreekModeInfo } from "../GreekModes/GreekModeInfo";
-import { GreekModeType } from "../GreekModes/GreekModeType";
-import { NoteConverter } from "../NoteConverter";
-import { KeyType } from "../Keys/KeyType";
-import { KeySignature } from "../Keys/KeySignature";
-import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
-import { NoteInfo } from "../NoteInfo";
-import { KeyNoteResolver } from "./KeyNoteResolver";
-import { KeyTextMode } from "../SettingModes";
-import { TWELVE } from "../NoteConstants";
 import { ScaleDegreeIndex } from "../GreekModes/ScaleDegreeType";
+import { GreekModeType } from "../GreekModes/GreekModeType";
+import { ScaleDegreeInfo } from "../GreekModes/ScaleDegreeInfo";
+import { ActualIndex, ixActualArray } from "../IndexTypes";
+import { KeySignature } from "../Keys/KeySignature";
+import { KeyType } from "../Keys/KeyType";
+import { KeyNoteResolver } from "./KeyNoteResolver";
+import { TWELVE } from "../NoteConstants";
+import { NoteConverter } from "../NoteConverter";
+import { NoteInfo } from "../NoteInfo";
+import { KeyDisplayMode } from "../SettingModes";
+
+import { ScalePlaybackMode } from "../../contexts/AudioContext";
 
 export class MusicalKey {
   public readonly tonicString: string; // Root note (e.g., "C", "A")
@@ -37,16 +42,30 @@ export class MusicalKey {
   /**
    * Gets the offsets for a given scale degree.
    * @param scaleDegreeIndex The index in the scale pattern (0-6)
-   * @param isRoman If true, returns offsets for root, third and fifth (for roman numeral triads)
+   * @param isTriad If true, returns offsets for root, third and fifth (for roman numeral triads)
    *               If false, returns just the root offset (for single note scale degrees)
-   * @returns Array of semitone offsets from the tonic
-   *         For isRoman=true: [root, third, fifth] offsets
-   *         For isRoman=false: [root] offset only
    */
-  public getOffsets(scaleDegreeIndex: ScaleDegreeIndex, isRoman: boolean): number[] {
-    return isRoman
-      ? this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex)
-      : this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
+  public getOffsets(
+    scaleDegreeIndex: ScaleDegreeIndex,
+    scalePlaybackMode: ScalePlaybackMode,
+  ): number[] {
+    switch (scalePlaybackMode) {
+      case ScalePlaybackMode.Triad:
+        return this.greekModeInfo.scalePattern.getOffsets135(scaleDegreeIndex);
+      case ScalePlaybackMode.Seventh:
+        return this.greekModeInfo.scalePattern.getOffsets1357(scaleDegreeIndex);
+      default:
+        return this.greekModeInfo.scalePattern.getRootOffset(scaleDegreeIndex);
+    }
+  }
+
+  public getNoteIndicesForScaleDegree(
+    scaleDegreeIndex: ScaleDegreeIndex,
+    scalePlaybackMode: ScalePlaybackMode,
+  ): ActualIndex[] {
+    const offsets = this.getOffsets(scaleDegreeIndex, scalePlaybackMode);
+    const noteIndices = offsets.map((offset) => offset + this.tonicIndex);
+    return ixActualArray(IndexUtils.fitChordToAbsoluteRange(noteIndices));
   }
 
   toString(): string {
@@ -106,9 +125,9 @@ export class MusicalKey {
     return tonicAsString!;
   }
 
-  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyTextMode): string {
+  getDisplayString(chromaticIndex: ChromaticIndex, keyTextMode: KeyDisplayMode): string {
     const scaleDegreeInfo = this.getScaleDegreeInfoFromChromatic(chromaticIndex);
-    if (keyTextMode === KeyTextMode.NoteNames) {
+    if (keyTextMode === KeyDisplayMode.NoteNames) {
       const noteInfo = KeyNoteResolver.resolveAbsoluteNote(
         chromaticIndex,
         this.getDefaultAccidental(),
@@ -120,7 +139,7 @@ export class MusicalKey {
     return this.greekModeInfo.getDisplayString(scaleDegreeInfo, keyTextMode);
   }
 
-  getDisplayStringArray(keyTextMode: KeyTextMode): string[] {
+  getDisplayStringArray(keyTextMode: KeyDisplayMode): string[] {
     return Array.from({ length: TWELVE }, (_, i) =>
       this.getDisplayString(ixChromatic(i), keyTextMode),
     );

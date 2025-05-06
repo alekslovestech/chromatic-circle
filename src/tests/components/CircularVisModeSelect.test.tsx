@@ -2,10 +2,11 @@ import { render } from "@testing-library/react";
 
 import { CircularVisMode } from "../../types/SettingModes";
 
+import { GlobalMode } from "../../contexts/GlobalContext";
 import { RootProvider } from "../../contexts/RootContext";
 
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
-import { CircularVisModeSelect } from "../../Components/Circular/CircularVisModeSelect";
+import { CircularVisModeSelect } from "../../Components/Keyboard/Circular/CircularVisModeSelect";
 
 import { ReactTestUtils } from "../utils/ReactTestUtils";
 import { CircularVisModeUtils } from "../utils/CircularVisModeUtils";
@@ -13,7 +14,7 @@ import { CircularVisModeUtils } from "../utils/CircularVisModeUtils";
 describe("InputModeSelector with CircularVisModeSelect", () => {
   const renderComponent = () =>
     render(
-      <RootProvider>
+      <RootProvider globalMode={GlobalMode.Default}>
         <InputModeSelector />
         <CircularVisModeSelect />
       </RootProvider>,

@@ -4,17 +4,18 @@ import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 import { ReactTestUtils } from "../utils/ReactTestUtils";
 
 import { RootProvider } from "../../contexts/RootContext";
+import { GlobalMode } from "../../contexts/GlobalContext";
 
-import { KeyboardLinear } from "../../Components/Linear/KeyboardLinear";
+import { KeyboardLinear } from "../../Components/Keyboard/Linear/KeyboardLinear";
 import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
 import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
-import { KeyboardCircular } from "../../Components/Circular/KeyboardCircular";
+import { KeyboardCircular } from "../../Components/Keyboard/Circular/KeyboardCircular";
 
 //scenarios where setup is the same for both linear and circular keyboards
 describe("KeyboardGeneral", () => {
   const renderComponent = () =>
     render(
-      <RootProvider>
+      <RootProvider globalMode={GlobalMode.Default}>
         <KeyboardLinear />
         <KeyboardCircular />
         <InputModeSelector />
@@ -77,5 +78,31 @@ describe("KeyboardGeneral", () => {
 
     keyVerificationUtils.verifySelectedLinearKeys([]); //verify there are no notes left
     keyVerificationUtils.verifySelectedCircularKeys([]); //verify there are no notes left
+  });
+});
+
+describe("Keyboards in Advanced Mode", () => {
+  const renderComponent = () =>
+    render(
+      <RootProvider globalMode={GlobalMode.Advanced}>
+        <KeyboardLinear />
+        <KeyboardCircular />
+        <InputModeSelector />
+        <PresetsSelector />
+      </RootProvider>,
+    );
+
+  beforeEach(() => {
+    renderComponent();
+  });
+
+  test("No keys selected in Advanced mode", () => {
+    keyVerificationUtils.verifySelectedLinearKeys([]);
+    keyVerificationUtils.verifySelectedCircularKeys([]);
+  });
+
+  test("Advanced mode means keys are disabled", () => {
+    keyVerificationUtils.verifyLinearKeysDisabled();
+    keyVerificationUtils.verifyCircularKeysDisabled();
   });
 });

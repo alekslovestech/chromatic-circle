@@ -8,6 +8,12 @@
   border-color: var(--serenity-key-border-color);
 }
 
+:is(.key-base.disabled, .key-base.disabled path) {
+  cursor: not-allowed; 
+  pointer-events: none;
+  opacity: 1;
+}
+
 .key-base.root-note {
   border-color: var(--root-note-highlight);
 }
@@ -82,7 +88,8 @@
 }
 
 .scale-boundary.linear {
-  stroke-width: 0.5;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
 }
 
 .scale-boundary.circular {  
