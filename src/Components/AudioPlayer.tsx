@@ -14,22 +14,43 @@ const A4_MIDI_INDEX = 69;
 
 const AudioPlayer: React.FC = () => {
   const synthRef = useRef<Tone.PolySynth | null>(null);
-  const { isAudioInitialized } = useAudio();
+  const { isAudioInitialized, setAudioInitialized } = useAudio();
   const { selectedNoteIndices } = useMusical();
   const { globalMode } = useGlobal();
 
-  // Initialize Tone.js synth and context
+  // Handle user interaction for audio initialization
+  useEffect(() => {
+    const handleUserInteraction = async () => {
+      try {
+        if (Tone.getContext().state !== "running") {
+          await Tone.start();
+          console.log("Tone.js context started");
+        }
+        setAudioInitialized(true);
+        // Remove event listeners after successful initialization
+        document.removeEventListener("click", handleUserInteraction);
+        document.removeEventListener("touchstart", handleUserInteraction);
+      } catch (error) {
+        console.error("Failed to initialize audio:", error);
+      }
+    };
+
+    // Add event listeners for both click and touch events
+    document.addEventListener("click", handleUserInteraction);
+    document.addEventListener("touchstart", handleUserInteraction);
+
+    return () => {
+      document.removeEventListener("click", handleUserInteraction);
+      document.removeEventListener("touchstart", handleUserInteraction);
+    };
+  }, [setAudioInitialized]);
+
+  // Initialize Tone.js synth
   useEffect(() => {
     let isActive = true;
 
     const initSynth = async () => {
       try {
-        // Start Tone.js context
-        if (Tone.getContext().state !== "running") {
-          await Tone.start();
-          console.log("Tone.js context started");
-        }
-
         // Create a polyphonic synth
         const synth = new Tone.PolySynth(Tone.Synth, {
           oscillator: {
@@ -56,7 +77,9 @@ const AudioPlayer: React.FC = () => {
       }
     };
 
-    initSynth();
+    if (isAudioInitialized) {
+      initSynth();
+    }
 
     // Clean up on unmount
     return () => {
@@ -66,7 +89,7 @@ const AudioPlayer: React.FC = () => {
         synthRef.current = null;
       }
     };
-  }, []);
+  }, [isAudioInitialized]);
 
   // Convert note index to frequency
   const getFrequencyFromIndex = useCallback((index: ActualIndex): number => {
@@ -108,6 +131,27 @@ const AudioPlayer: React.FC = () => {
       }
     };
   }, []);
+
+  // Show a visual indicator when audio is not initialized
+  if (!isAudioInitialized) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          bottom: "10px",
+          right: "10px",
+          background: "#ff4444",
+          color: "white",
+          padding: "5px 10px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          zIndex: 1000,
+        }}
+      >
+        Tap anywhere to enable sound
+      </div>
+    );
+  }
 
   return null;
 };

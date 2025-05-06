@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useRef, useEffect } from "react";
+import React, { createContext, useContext, useState, useRef } from "react";
 import { KeyDisplayMode } from "../types/SettingModes";
 import { useMusical } from "./MusicalContext";
 import { ixScaleDegreeIndex, ScaleDegreeIndex } from "../types/GreekModes/ScaleDegreeType";
@@ -22,6 +22,7 @@ interface AudioContextType {
   playbackState: PlaybackState;
   startScalePlayback: (keyTextMode: KeyDisplayMode) => void;
   stopScalePlayback: () => void;
+  setAudioInitialized: (initialized: boolean) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -44,16 +45,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const landingNoteRef = useRef(false);
   const scalePlaybackModeRef = useRef<ScalePlaybackMode>(ScalePlaybackMode.SingleNote);
 
-  // Initialize audio state
-  useEffect(() => {
-    setIsAudioInitialized(true);
-    return () => {
-      if (playbackTimerIdRef.current) {
-        clearInterval(playbackTimerIdRef.current);
-      }
-    };
-  }, []);
-
   const getScalePlaybackMode = (keyDisplayMode: KeyDisplayMode) => {
     if (keyDisplayMode === KeyDisplayMode.Roman) {
       return ScalePlaybackMode.Triad;
@@ -63,7 +54,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const startScalePlayback = (keyTextMode: KeyDisplayMode) => {
     console.log("Starting scale playback");
-    if (!selectedMusicalKey) return;
+    if (!selectedMusicalKey || !isAudioInitialized) return;
 
     if (playbackTimerIdRef.current) {
       clearInterval(playbackTimerIdRef.current);
@@ -126,6 +117,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     playbackState,
     startScalePlayback,
     stopScalePlayback,
+    setAudioInitialized: setIsAudioInitialized,
   };
 
   return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;
