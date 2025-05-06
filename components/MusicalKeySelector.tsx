@@ -2,14 +2,16 @@
 
 import React from "react";
 import { useMusical } from "../contexts/MusicalContext";
+import { TWELVE } from "../types/NoteConstants";
+import { ixActual } from "../types/IndexTypes";
 
 const MusicalKeySelector: React.FC = () => {
-  const { selectedIndices, setSelectedIndices } = useMusical();
+  const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
 
   const handleKeyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newKey = parseInt(event.target.value);
-    const newIndices = selectedIndices.map((index) => (index + newKey) % 12);
-    setSelectedIndices(newIndices);
+    const newIndices = selectedNoteIndices.map((index) => ixActual(index + newKey));
+    setSelectedNoteIndices(newIndices);
   };
 
   return (

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-import { TWENTY4 } from "../../../../src/types/NoteConstants";
-import { ActualIndex } from "../../../../src/types/IndexTypes";
+import { TWENTY4 } from "../../../types/NoteConstants";
+import { ActualIndex } from "../../../types/IndexTypes";
 
-import { useKeyboardHandlers } from "../../../../src/Components/Keyboard/KeyboardBase";
+import { useKeyboardHandlers } from "../../../Components/Keyboard/KeyboardBase";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 
 import "../../../styles/KeyboardBase.css";

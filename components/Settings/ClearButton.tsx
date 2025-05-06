@@ -1,4 +1,5 @@
-import { useMusical } from "../../../src/contexts/MusicalContext";
+import React from "react";
+import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/CircularSettings.css";
 

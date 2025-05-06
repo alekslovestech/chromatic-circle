@@ -1,5 +1,6 @@
-import { useDisplay } from "../../../src/contexts/DisplayContext";
-import { PlaybackState, useAudio } from "../../../src/contexts/AudioContext";
+import React from "react";
+import { useDisplay } from "../../contexts/DisplayContext";
+import { PlaybackState, useAudio } from "../../contexts/AudioContext";
 
 import "../../styles/CircularSettings.css";
 

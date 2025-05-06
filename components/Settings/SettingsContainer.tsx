@@ -3,8 +3,8 @@ import React from "react";
 import { InputModeSelector } from "./InputModeSelector";
 import { PresetsSelector } from "./PresetsSelector";
 
-import { usePreset } from "../../../src/contexts/PresetContext";
-import { InputMode } from "../../../src/types/SettingModes";
+import { usePreset } from "../../contexts/PresetContext";
+import { InputMode } from "../../types/SettingModes";
 
 const SettingsContainer: React.FC = () => {
   const { inputMode } = usePreset();

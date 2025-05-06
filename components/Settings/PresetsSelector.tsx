@@ -1,15 +1,15 @@
 import React from "react";
 
-import { InputMode, ChordDisplayMode } from "../../../src/types/SettingModes";
-import { InversionIndex, ixInversion } from "../../../src/types/IndexTypes";
-import { NoteGroupingId } from "../../../src/types/NoteGroupingTypes";
-import { NoteGroupingLibrary } from "../../../src/types/NoteGroupingLibrary";
+import { InputMode, ChordDisplayMode } from "../../types/SettingModes";
+import { InversionIndex, ixInversion } from "../../types/IndexTypes";
+import { NoteGroupingId } from "../../types/NoteGroupingTypes";
+import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
 
-import { IndexUtils } from "../../../src/utils/IndexUtils";
-import { ChordUtils } from "../../../src/utils/ChordUtils";
+import { IndexUtils } from "../../utils/IndexUtils";
+import { ChordUtils } from "../../utils/ChordUtils";
 
-import { usePreset } from "../../../src/contexts/PresetContext";
-import { useMusical } from "../../../src/contexts/MusicalContext";
+import { usePreset } from "../../contexts/PresetContext";
+import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/PresetsSelector.css";
 

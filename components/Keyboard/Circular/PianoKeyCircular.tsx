@@ -1,13 +1,13 @@
 import React from "react";
-import { ChromaticIndex } from "../../../../src/types/ChromaticIndex";
-import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../../../src/types/IndexTypes";
-import { useGlobal, GlobalMode } from "../../../../src/contexts/GlobalContext";
-import { useMusical } from "../../../../src/contexts/MusicalContext";
-import { ArcPathVisualizer } from "../../../../src/utils/Keyboard/Circular/ArcPathVisualizer";
-import { IndexUtils } from "../../../../src/utils/IndexUtils";
-import { VisualStateUtils } from "../../../../src/utils/VisualStateUtils";
+import { ChromaticIndex } from "../../../types/ChromaticIndex";
+import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../../types/IndexTypes";
+import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
+import { useMusical } from "../../../contexts/MusicalContext";
+import { ArcPathVisualizer } from "../../../utils/Keyboard/Circular/ArcPathVisualizer";
+import { IndexUtils } from "../../../utils/IndexUtils";
+import { VisualStateUtils } from "../../../utils/VisualStateUtils";
 
-import { useDisplay } from "../../../../src/contexts/DisplayContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
 
 import "../../../styles/KeyboardBase.css";
 import "../../../styles/KeyboardCircular.css";

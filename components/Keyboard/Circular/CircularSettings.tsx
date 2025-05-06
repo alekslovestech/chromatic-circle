@@ -1,9 +1,9 @@
 import React from "react";
 
 // Components
-import { MusicalKeySelector } from "../../../../src/Components/MusicalKeySelector";
-import { TransposeWidget } from "../../../../src/Components/TransposeWidget";
-import { ChordNameDisplay } from "../../../../src/Components/ChordNameDisplay";
+import MusicalKeySelector from "../../MusicalKeySelector";
+import TransposeWidget from "../../TransposeWidget";
+import ChordNameDisplay from "../../ChordNameDisplay";
 
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
 
@@ -12,9 +12,9 @@ import { ClearButton } from "../../Settings/ClearButton";
 import { KeyTextModeSelect } from "../../Settings/NoteDisplayModeSelect";
 import { ScalePreviewToggle } from "../../Settings/ScalePreviewToggle";
 import { PlayScaleButton } from "../../Settings/PlayScaleButton";
-import { GlobalModeButton } from "../../../../src/Components/Settings/GlobalModeButton";
+import { GlobalModeButton } from "../../Settings/GlobalModeButton";
 
-import { GlobalMode, useGlobal } from "../../../../src/contexts/GlobalContext";
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 
 import "../../../styles/CircularSettings.css";
 

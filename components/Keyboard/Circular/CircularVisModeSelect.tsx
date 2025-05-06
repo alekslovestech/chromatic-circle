@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { CircularVisIcons } from "./CircularVisIcons";
-import { CircularVisMode, InputMode } from "../../../../src/types/SettingModes";
+import { CircularVisMode, InputMode } from "../../../types/SettingModes";
 
-import { useDisplay } from "../../../../src/contexts/DisplayContext";
-import { usePreset } from "../../../../src/contexts/PresetContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { usePreset } from "../../../contexts/PresetContext";
 
 import "../../../styles/CircularSettings.css";
 

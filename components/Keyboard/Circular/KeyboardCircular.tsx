@@ -1,17 +1,15 @@
-import { TWELVE } from "../../../../src/types/NoteConstants";
-import { ChromaticIndex, ixChromatic } from "../../../../src/types/ChromaticIndex";
+import React from "react";
+import { TWELVE } from "../../../types/NoteConstants";
+import { ChromaticIndex, ixChromatic } from "../../../types/ChromaticIndex";
 
-import { ColorUtils } from "../../../../src/utils/ColorUtils";
-import { CartesianPoint, PolarMath } from "../../../../src/utils/Keyboard/Circular/PolarMath";
+import { ColorUtils } from "../../../utils/ColorUtils";
+import { CartesianPoint, PolarMath } from "../../../utils/Keyboard/Circular/PolarMath";
 
-import { useDisplay } from "../../../../src/contexts/DisplayContext";
-import { useMusical } from "../../../../src/contexts/MusicalContext";
+import { useDisplay } from "../../../contexts/DisplayContext";
+import { useMusical } from "../../../contexts/MusicalContext";
 
-import { GlobalMode, useGlobal } from "../../../../src/contexts/GlobalContext";
-import {
-  CIRCLE_RADIUS,
-  useKeyboardHandlers,
-} from "../../../../src/Components/Keyboard/KeyboardBase";
+import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
+import { CIRCLE_RADIUS, useKeyboardHandlers } from "../../../Components/Keyboard/KeyboardBase";
 
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";

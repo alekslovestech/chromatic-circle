@@ -1,9 +1,9 @@
 import React from "react";
 
-import { InputMode } from "../../../src/types/SettingModes";
+import { InputMode } from "../../types/SettingModes";
 
-import { GlobalMode, useGlobal } from "../../../src/contexts/GlobalContext";
-import { usePreset } from "../../../src/contexts/PresetContext";
+import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
+import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/InputModeSelector.css";
 
