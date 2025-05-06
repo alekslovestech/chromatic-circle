@@ -268,10 +268,10 @@ class NoteGroupingLibrarySingleton {
     NoteGrouping.createChord(
       ChordType.Narrow34sharp,
       39,
-      "3♯4",
-      "3♯4",
-      "Narrow 34 Sharp Chord",
-      [0, 4, 6], //C E F#
+      "♭5",
+      "♭5",
+      "Major chord with ♭5",
+      [0, 4, 6], //C E G♭
       false,
       false,
     ),
