@@ -6,8 +6,8 @@ import { ReactTestUtils } from "../utils/ReactTestUtils";
 import { RootProvider } from "../../contexts/RootContext";
 import { GlobalMode } from "../../contexts/GlobalContext";
 
-import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
-import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
+import { InputModeSelector } from "../../../app/components/Settings/InputModeSelector";
+import { PresetsSelector } from "../../../app/components/Settings/PresetsSelector";
 
 describe("ChordPresetsSelector", () => {
   const renderComponent = () =>

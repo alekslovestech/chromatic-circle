@@ -1,7 +1,7 @@
 import { ixActualArray } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 import { useMusical } from "../contexts/MusicalContext";
-import "../styles/CircularSettings.css";
+import "../../app/styles/CircularSettings.css";
 
 // This component is used to transpose the selected notes OR the musical key.
 export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({

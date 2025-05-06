@@ -6,9 +6,9 @@ import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 import { RootProvider } from "../../contexts/RootContext";
 import { GlobalMode } from "../../contexts/GlobalContext";
 
-import { KeyboardLinear } from "../../Components/Keyboard/Linear/KeyboardLinear";
-import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
-import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
+import { KeyboardLinear } from "../../../app/components/Keyboard/Linear/KeyboardLinear";
+import { InputModeSelector } from "../../../app/components/Settings/InputModeSelector";
+import { PresetsSelector } from "../../../app/components/Settings/PresetsSelector";
 
 //scenarios where we only test the linear keyboard
 describe("KeyboardLinear", () => {

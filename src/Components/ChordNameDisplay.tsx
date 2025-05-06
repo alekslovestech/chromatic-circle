@@ -4,7 +4,7 @@ import { ChordDisplayMode } from "../types/SettingModes";
 import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 
-import "../styles/ChordNameDisplay.css";
+import "../../app/styles/ChordNameDisplay.css";
 import { ChordUtils } from "../utils/ChordUtils";
 
 export const ChordNameDisplay: React.FC = () => {

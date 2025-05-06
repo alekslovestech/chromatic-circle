@@ -1,0 +1,224 @@
+@import "./Colors.css";
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #F7F8FA, #EAEFF3);
+}
+
+.App {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grid-container {
+  display: grid;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 0.5rem;
+
+  /* Grid Container */
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: var(--staff-height) minmax(230px, 3fr) 3fr 2fr;
+  /*default: portrait mode */
+  grid-template-areas:
+    "staff staff"
+    "settings settings"
+    "circular circular"
+    "linear linear";
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+@media (orientation: landscape) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: var(--staff-height) 1fr 1fr;
+    grid-template-areas:
+      "circular circular staff staff"
+      "circular circular settings settings"
+      "linear linear settings settings";
+  }
+}
+
+.keyboardlinear-container {
+  grid-area: linear;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.keyboardcircular-container {
+  grid-area: circular;
+  display: grid;
+  grid-template-areas:
+  "circular-keyboard sidebar";
+  grid-template-columns: 200px 1fr;
+  position: relative;
+  padding: 0.5rem;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.chord-display-container {
+  grid-area: sidebar;
+  align-self: end;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: right;
+  max-width: 120px;
+}
+
+/* Base styles */
+:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #2d2d2d;
+  --accent-color: #4a90e2;
+  --text-color: #ffffff;
+  --border-color: #3d3d3d;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.ChromaticCircle {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background-color: var(--secondary-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+/* Audio Player styles */
+.audio-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.audio-prompt {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Button styles */
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+/* Input styles */
+input {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Select styles */
+select {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Utility classes */
+.clear-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1em;
+}
+
+.clear-button:hover {
+  color: var(--accent-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+  }
+
+  input, select {
+    padding: 6px 10px;
+  }
+} 

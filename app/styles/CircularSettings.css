@@ -1,0 +1,49 @@
+.circular-settings {
+  grid-area: settings;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.circular-settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.circular-settings-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.circular-settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.circular-settings-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.circular-settings-label {
+  min-width: 120px;
+  color: var(--text-color);
+}
+
+.circular-settings-input {
+  flex: 1;
+}
+
+.circular-settings-button {
+  margin-top: auto;
+  align-self: flex-end;
+} 

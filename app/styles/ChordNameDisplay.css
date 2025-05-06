@@ -1,0 +1,22 @@
+.chord-name-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chord-name-display-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.chord-name-display-content {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+} 

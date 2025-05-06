@@ -9,7 +9,7 @@ import { useMusical } from "../contexts/MusicalContext";
 import { useDisplay } from "../contexts/DisplayContext";
 import { useAudio } from "../contexts/AudioContext";
 
-import "../styles/CircularSettings.css";
+import "../../app/styles/CircularSettings.css";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();

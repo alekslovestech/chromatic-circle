@@ -6,9 +6,9 @@ import { keyVerificationUtils } from "../utils/KeyboardVerificationUtils";
 import { RootProvider } from "../../contexts/RootContext";
 import { GlobalMode } from "../../contexts/GlobalContext";
 
-import { KeyboardCircular } from "../../Components/Keyboard/Circular/KeyboardCircular";
-import { InputModeSelector } from "../../Components/Settings/InputModeSelector";
-import { PresetsSelector } from "../../Components/Settings/PresetsSelector";
+import { KeyboardCircular } from "../../../app/components/Keyboard/Circular/KeyboardCircular";
+import { InputModeSelector } from "../../../app/components/Settings/InputModeSelector";
+import { PresetsSelector } from "../../../app/components/Settings/PresetsSelector";
 
 //scenarios where we only test the circular keyboard
 describe("KeyboardCircular", () => {
