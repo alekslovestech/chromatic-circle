@@ -1,6 +1,5 @@
 import { useDisplay } from "../../contexts/DisplayContext";
 import { KeyDisplayMode } from "../../types/SettingModes";
-import "../../styles/CircularSettings.css";
 
 // determines the way the note names / scale degrees are displayed on the circular keyboard
 export const KeyTextModeSelect: React.FC = () => {

@@ -5,8 +5,6 @@ import { InputMode } from "../../types/SettingModes";
 import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 import { usePreset } from "../../contexts/PresetContext";
 
-import "../../styles/InputModeSelector.css";
-
 interface ModeSelectorButton {
   id: string;
   mode: InputMode;

@@ -9,9 +9,6 @@ import { VisualStateUtils } from "../../../utils/VisualStateUtils";
 
 import { useDisplay } from "../../../contexts/DisplayContext";
 
-import "../../../styles/KeyboardBase.css";
-import "../../../styles/KeyboardCircular.css";
-
 interface CircularKeyProps {
   chromaticIndex: ChromaticIndex;
   outerRadius: number;

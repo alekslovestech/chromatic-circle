@@ -1,8 +1,6 @@
 import React from "react";
 import { useMusical } from "../../contexts/MusicalContext";
 
-import "../../styles/CircularSettings.css";
-
 export const ClearButton: React.FC = () => {
   const { setSelectedNoteIndices } = useMusical();
   return (

@@ -14,8 +14,6 @@ import { CIRCLE_RADIUS, useKeyboardHandlers } from "../../../Components/Keyboard
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";
 
-import "../../../styles/KeyboardCircular.css";
-
 const MAX_RADIUS = 100;
 const OUTER_RADIUS = 0.9 * MAX_RADIUS;
 const INNER_RADIUS = 0.5 * MAX_RADIUS;

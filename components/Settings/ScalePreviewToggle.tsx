@@ -1,8 +1,6 @@
 import React from "react";
 import { useDisplay } from "../../contexts/DisplayContext";
 
-import "../../styles/CircularSettings.css";
-
 export const ScalePreviewToggle: React.FC = () => {
   const { scalePreviewMode, setScalePreviewMode } = useDisplay();
   return (

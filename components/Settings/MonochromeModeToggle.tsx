@@ -1,8 +1,6 @@
 import React from "react";
 import { useDisplay } from "../../contexts/DisplayContext";
 
-import "../../styles/CircularSettings.css";
-
 export const MonochromeModeToggle: React.FC = () => {
   const { monochromeMode, setMonochromeMode } = useDisplay();
   return (

@@ -4,8 +4,6 @@ import { CircularVisMode } from "../../../types/SettingModes";
 import { PolarMath } from "../../../utils/Keyboard/Circular/PolarMath";
 import { NoteIndexVisualizer } from "../../../utils/Keyboard/Circular/NoteIndexVisualizer";
 
-import "../../../styles/CircularVis.css";
-
 const DOT_RADIUS = 6;
 export class CircularVisualizations {
   static draw(

@@ -13,8 +13,6 @@ import StaffRenderer from "../components/StaffRenderer";
 import { RootProvider } from "../contexts/RootContext";
 import { GlobalMode, useGlobal } from "../contexts/GlobalContext";
 
-import "./styles/App.css";
-
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
   const { globalMode, setGlobalMode } = useGlobal();

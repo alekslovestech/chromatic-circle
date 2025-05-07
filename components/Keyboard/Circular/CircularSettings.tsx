@@ -16,8 +16,6 @@ import { GlobalModeButton } from "../../Settings/GlobalModeButton";
 
 import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 
-import "../../../styles/CircularSettings.css";
-
 export const CircularSettings = () => {
   const { globalMode } = useGlobal();
   const isAdvanced = globalMode === GlobalMode.Advanced;

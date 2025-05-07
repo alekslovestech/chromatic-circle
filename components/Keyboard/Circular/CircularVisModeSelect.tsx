@@ -5,8 +5,6 @@ import { CircularVisMode, InputMode } from "../../../types/SettingModes";
 import { useDisplay } from "../../../contexts/DisplayContext";
 import { usePreset } from "../../../contexts/PresetContext";
 
-import "../../../styles/CircularSettings.css";
-
 const CircularVisModeButton: React.FC<{
   mode: CircularVisMode; //vis mode this button represents
   label: string;

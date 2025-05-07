@@ -6,9 +6,6 @@ import { ActualIndex } from "../../../types/IndexTypes";
 import { useKeyboardHandlers } from "../../../Components/Keyboard/KeyboardBase";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 
-import "../../../styles/KeyboardBase.css";
-import "../../../styles/KeyboardLinear.css";
-
 export const KeyboardLinear = () => {
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
   const containerRef = useRef<HTMLDivElement>(null);

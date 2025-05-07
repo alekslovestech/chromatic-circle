@@ -11,8 +11,6 @@ import { ChordUtils } from "../../utils/ChordUtils";
 import { usePreset } from "../../contexts/PresetContext";
 import { useMusical } from "../../contexts/MusicalContext";
 
-import "../../styles/PresetsSelector.css";
-
 export const PresetsSelector: React.FC = () => {
   const {
     selectedChordType,

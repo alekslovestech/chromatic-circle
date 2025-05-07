@@ -2,8 +2,6 @@ import React from "react";
 import { useDisplay } from "../../contexts/DisplayContext";
 import { PlaybackState, useAudio } from "../../contexts/AudioContext";
 
-import "../../styles/CircularSettings.css";
-
 export const PlayScaleButton: React.FC = () => {
   const { keyTextMode } = useDisplay();
   const { playbackState, startScalePlayback, stopScalePlayback } = useAudio();
