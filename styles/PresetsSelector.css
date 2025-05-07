@@ -1,67 +1,74 @@
 .presets-selector {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  background-color: var(--background-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.presets-selector-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.presets-selector-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--text-color);
-}
-
-.presets-selector-content {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.presets-selector-select {
+  min-height: 0;
+  max-width: 100%;
   flex: 1;
-  padding: 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  cursor: pointer;
+  flex-direction: column;
+  width: 100%;
 }
 
-.presets-selector-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
+.preset-buttons-grid {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-width: 0;  /* Allow shrinking */
 }
 
-.presets-selector-option {
-  padding: 0.5rem;
-  background-color: var(--background-color);
-  color: var(--text-color);
+.inversion-controls {
+  margin-top: 0.5rem;
+  flex-shrink: 0;
 }
 
-.presets-selector-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--primary-color);
-  color: var(--text-color-light);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.inversion-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0rem;
+  min-height: 2rem;
 }
 
-.presets-selector-button:hover {
-  background-color: var(--hover-color);
+/*color schemes (common to both)*/
+.preset-button,
+.inversion-button {
+  background-color: var(--button-background-default);
+  color: var(--button-text-default);
+  border: 1px solid var(--button-border-default);
+  font-weight: 500;
+  font-size: var(--settings-button-font-size);
 }
 
-.presets-selector-button:disabled {
-  background-color: var(--disabled-color);
-  cursor: not-allowed;
+.preset-button:hover,
+.inversion-button:hover {
+  background: var(--button-background-hover);
+}
+
+.preset-button.selected,
+.inversion-button.selected {
+  background-color: var(--button-background-selected);
+  color: var(--button-text-selected);
+  border: 1px solid var(--button-border-selected);
+}
+
+/*formatting for the preset buttons*/
+.preset-button {
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 8px;
 } 
+
+/*formatting for the inversion buttons*/
+.inversion-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

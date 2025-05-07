@@ -1,48 +1,42 @@
-.input-mode-selector {
+.mode-selector {
   display: flex;
+  width: 100px;
+  min-height: 0;
+  max-height: 100%;
+
   flex-direction: column;
+  flex-shrink: 0;
+  align-items: stretch;
+  overflow-y: auto;
+}
+
+.mode-selector .btn {
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: 28px;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+
+  border-radius: 12px;
+  font-size: var(--settings-button-font-size);
+  white-space: nowrap;
+
+  justify-content: center; 
+  flex-shrink: 0;
+}
+
+.mode-selector-title {
+  font-size: var(--settings-section-title-font-size);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #666;
+  flex-shrink: 0;    
+}
+
+.mode-button-container {
+  width: 100%;
+  display: flex;          
+  flex-direction: column; 
   gap: 0.5rem;
-  padding: 1rem;
-  background-color: var(--background-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-.input-mode-selector-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.input-mode-selector-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--text-color);
-}
-
-.input-mode-selector-content {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.input-mode-selector-select {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.input-mode-selector-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.input-mode-selector-option {
-  padding: 0.5rem;
-  background-color: var(--background-color);
-  color: var(--text-color);
-} 

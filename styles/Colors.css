@@ -1,13 +1,54 @@
+
 :root {
-  --primary-color: #1a1a1a;
-  --secondary-color: #2d2d2d;
-  --accent-color: #4a90e2;
-  --text-color: #ffffff;
-  --border-color: #3d3d3d;
-  --debug-border-color: rgb(188, 188, 188);
-  --keyboardlinear-max-width: 500px;
-  --buttons-container-max-width: 300px;
-  --buttons-container-min-width: 150px;
-  --buttons-max-width: 200px;
-  --staff-height: 100px;
-} 
+  --root-note-highlight: rgb(59, 97, 222);
+
+  --serenity-scale-boundary-color: rgb(60, 60, 60);
+  --serenity-bglight: #f7f8fa;
+  --serenity-softgrey: #E1E3E6;
+  --serenity-darkgrey: #333333;
+  --serenity-key-white: #fafaf6;
+  --serenity-key-black: #444444;
+  --serenity-key-white-selected0: #A8D5E2;
+  --serenity-key-white-selected1: #F3D9A4;
+  --serenity-key-black-selected0: #6BB4C7;
+  --serenity-key-black-selected1: #D3B77E;
+  --serenity-key-diatonic: #B8D1E5;
+  --serenity-note-text-on-white: #333333;
+  --serenity-note-text-on-black: #F5F5F5;
+  --serenity-icon-selected-background: #598ABB;
+  --serenity-button-border-color: rgba(0, 0, 0, 0.15);
+  --serenity-key-border-color: #6E6E6E;
+  --serenity-polygon-stroke: rgb(176, 214, 253);
+
+  --serenity-highlighted-unselected: rgb(113, 182, 255);
+  --serenity-highlighted-selected:  rgb(59, 97, 222);
+  --serenity-highlighted-font: #444444;
+
+  --serenity-muted-unselected: #E4E5E6;
+  --serenity-muted-selected: #969696;
+  --serenity-muted-font: #9C9C9C;
+
+  
+  /* Button Colors */
+  --button-background-default: var(--serenity-softgrey);
+  --button-background-hover: #d6d6d6;
+  --button-background-selected: var(--serenity-icon-selected-background);
+  --button-text-default: var(--serenity-darkgrey);
+  --button-text-selected: white;
+
+  /* Piano Key Colors */
+  --key-stroke-color: grey; 
+  --key-hover-opacity: 0.8;
+
+  /* Toggle Button Colors */
+  --toggle-button-background: var(--serenity-key-white);
+
+  /* Visualization Colors */
+  --vis-button-background-default: white;
+  --vis-button-background-selected: var(--serenity-icon-selected-background);
+
+  --settings-button-font-size: 0.8rem;
+  --settings-description-font-size: 0.6rem;
+  --settings-value-font-size: 1.5rem;
+  --settings-section-title-font-size: 1rem;
+}

@@ -1,3 +1,4 @@
+import React from "react";
 import { useDisplay } from "../../contexts/DisplayContext";
 import { KeyDisplayMode } from "../../types/SettingModes";
 

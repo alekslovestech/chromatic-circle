@@ -1,45 +1,57 @@
-.keyboard-linear {
-  width: 100%;
-  height: 100%;
+:root {
+  --h2wratio: 0.25; /* Height to width ratio of the linear keyboard */
+  --white-keys-per-2-octaves: 14;
+}
+
+.keyboardlinear {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.keyboard-linear svg {
+  box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  max-width: 100%;
+  max-width: var(--keyboardlinear-max-width);
   max-height: 100%;
+  aspect-ratio: calc(1 / var(--h2wratio));
+  border: 1px solid var(--serenity-key-border-color);
 }
 
-.keyboard-linear .key {
-  cursor: pointer;
-  transition: fill 0.1s ease;
-}
+.piano-key {
+  position: absolute;
+  box-sizing: border-box;
+  width: calc(100% / var(--white-keys-per-2-octaves));
+  height: 100%;
+  padding: 0 5px; /* Added padding to center the text */
+  border: 1px solid var(--serenity-key-border-color);
+  
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 
-.keyboard-linear .key:hover {
-  fill: var(--hover-color);
-}
-
-.keyboard-linear .key.active {
-  fill: var(--active-color);
-}
-
-.keyboard-linear .key-label {
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: bold;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  pointer-events: none;
-  user-select: none;
+
+  cursor: pointer;
+  z-index: 1;
 }
 
-.keyboard-linear .key-label.white {
-  fill: var(--text-color);
+.piano-key.short {
+  align-items: center;
+  border: 2.0px solid var(--serenity-key-border-color);
+  font-size: 0.8rem;
+  width: calc((100% / var(--white-keys-per-2-octaves)) * 0.7);
+  height: 60%;
+  
+  justify-content: center;
+  opacity: 1;
+  transform: translateX(-50%);
+ 
+  z-index: 2;
 }
 
-.keyboard-linear .key-label.black {
-  fill: var(--text-color-light);
-} 
+.piano-key.white.root-note,
+.piano-key.black.root-note,
+.piano-key.root-note {
+  border: 2px solid var(--root-note-highlight);
+}
+
+
+

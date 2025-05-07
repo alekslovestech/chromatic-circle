@@ -6,8 +6,5 @@
 @import '../styles/KeyboardBase.css';
 @import '../styles/KeyboardCircular.css';
 @import '../styles/KeyboardLinear.css';
-@import '../styles/MusicalKeySelector.css';
-@import '../styles/TransposeWidget.css';
-@import '../styles/Staff.css';
 @import '../styles/PresetsSelector.css';
 @import '../styles/InputModeSelector.css';

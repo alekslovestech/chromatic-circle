@@ -1,4 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
+import React from "react";
 
 import { TWENTY4 } from "../../../types/NoteConstants";
 import { ActualIndex } from "../../../types/IndexTypes";
@@ -10,11 +13,12 @@ export const KeyboardLinear = () => {
   const { handleKeyClick, checkIsRootNote } = useKeyboardHandlers();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [isClient, setIsClient] = useState(false);
 
   //const isAdvanced = globalMode === GlobalMode.Advanced;
   /* disabled for now, TODO: make sure the circle has a correct aspect ratio
-  const renderScaleBoundary = () => {
-    if (!isAdvanced) return null;
+  const renderScaleBoundary = (): JSX.Element[] => {
+    if (!isAdvanced) return [];
 
     const { x1, x2 } = LinearKeyboardUtils.calculateScaleBoundaryPercentages(
       selectedMusicalKey.tonicIndex,
@@ -69,6 +73,12 @@ export const KeyboardLinear = () => {
   };
 */
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const updateWidth = () => {
       if (containerRef.current) {
         // Use getBoundingClientRect() for more accurate width measurement
@@ -81,12 +91,11 @@ export const KeyboardLinear = () => {
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, [containerRef]);
+  }, [containerRef, isClient]);
 
-  const keys = [];
+  const keys: JSX.Element[] = [];
   for (let actualIndex = 0 as ActualIndex; actualIndex < TWENTY4; actualIndex++) {
     const isRootNote = checkIsRootNote(actualIndex);
-
     keys.push(
       <PianoKeyLinear
         key={actualIndex}
@@ -103,7 +112,7 @@ export const KeyboardLinear = () => {
       {/*<svg className="scale-boundary-svg" viewBox={`0 -10 100 110`} preserveAspectRatio="none">
         {renderScaleBoundary()}
       </svg>*/}
-      {keys}
+      {isClient && keys}
     </div>
   );
 };

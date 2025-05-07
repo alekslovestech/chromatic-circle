@@ -1,45 +1,53 @@
-.keyboard-circular {
-  width: 100%;
-  height: 100%;
+/* Container Layout */
+.svg-container {
+  /* Display and Box Model */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.keyboard-circular svg {
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
+  aspect-ratio: 1;
+  padding: 5px;
+
+  /* Grid Item */
+  grid-area: circular-keyboard;
+  justify-self: center;
+  align-self: center;
+
+  /* Flex Container */
+  justify-content: center;
+  align-items: center;
 }
 
-.keyboard-circular .key {
-  cursor: pointer;
-  transition: fill 0.1s ease;
+/* Pie Slice Keys */
+.pie-slice-key {
+  cursor: pointer; /*only here the class is note empty*/
+  /*transition: all 0.3s ease; */
 }
 
-.keyboard-circular .key:hover {
-  fill: var(--hover-color);
+.pie-slice-key path {
+  stroke: grey;
+  stroke-width: 1px;
+  border: 1px solid var(--serenity-key-border-color);
 }
 
-.keyboard-circular .key.active {
-  fill: var(--active-color);
+/* Hover State */
+.pie-slice-key:hover path {
+  opacity: 0.8;
 }
 
-.keyboard-circular .key-label {
-  font-size: 12px;
-  font-weight: bold;
+/* Text Styles */
+.pie-slice-key text {
+  font-size: 1rem;
   text-anchor: middle;
   dominant-baseline: middle;
+  font-weight: bold;
   pointer-events: none;
-  user-select: none;
+  fill: var(--serenity-note-text-on-white);
 }
 
-.keyboard-circular .key-label.white {
-  fill: var(--text-color);
+.pie-slice-key.white text {
+  fill: var(--serenity-note-text-on-white);
 }
 
-.keyboard-circular .key-label.black {
-  fill: var(--text-color-light);
-} 
+.pie-slice-key.black text {
+  fill: var(--serenity-note-text-on-black);
+}
