@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import AudioPlayer from "../components/AudioPlayer";
@@ -13,7 +13,7 @@ import StaffRenderer from "../components/StaffRenderer";
 import { RootProvider } from "../contexts/RootContext";
 import { GlobalMode, useGlobal } from "../contexts/GlobalContext";
 
-import "../styles/App.css";
+import "./styles/App.css";
 
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
@@ -51,7 +51,9 @@ export default function Home() {
     <div className="ChromaticCircle">
       <header className="App-header">
         <RootProvider globalMode={GlobalMode.Default}>
-          <AppContent />
+          <Suspense fallback={<div>Loading...</div>}>
+            <AppContent />
+          </Suspense>
           <AudioPlayer />
         </RootProvider>
       </header>

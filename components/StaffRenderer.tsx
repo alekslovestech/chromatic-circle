@@ -1,69 +1,97 @@
-"use client";
-
 import React, { useEffect, useRef } from "react";
-import { Factory } from "vexflow";
+import { Vex, StaveNote } from "vexflow";
+
+import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
+import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { KeyType } from "../types/Keys/KeyType";
 import { useMusical } from "../contexts/MusicalContext";
-import { useDisplay } from "../contexts/DisplayContext";
+import { KeyNoteResolver } from "../types/Keys/KeyNoteResolver";
+
+const EasyScoreFromNotes = (
+  actualIndices: ActualIndex[],
+  selectedMusicalKey: MusicalKey,
+): StaveNote[] => {
+  const keys = actualIndices.map((actualIndex) => {
+    const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
+    const noteInfo = KeyNoteResolver.resolveNoteInKey(selectedMusicalKey, chromaticIndex);
+    return {
+      key: `${noteInfo.noteName}/${4 + octaveOffset}`,
+      accidentalSign: getAccidentalSignForEasyScore(noteInfo.accidental),
+      index: actualIndices.indexOf(actualIndex),
+    };
+  });
+
+  const chordNote = new StaveNote({
+    keys: keys.map((k) => k.key),
+    duration: "w",
+  });
+
+  keys.forEach(({ accidentalSign, index }) => {
+    if (accidentalSign) {
+      chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
+    }
+  });
+
+  return [chordNote];
+};
+
+const getKeySignatureForVex = (musicalKey: MusicalKey) => {
+  const pureKey = musicalKey.tonicString;
+  const majorMinor = musicalKey.classicalMode === KeyType.Major ? "" : "m";
+  return pureKey + majorMinor;
+};
 
 const StaffRenderer: React.FC = () => {
+  const staffDivRef = useRef(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
-  const { selectedIndices } = useMusical();
-  const { noteDisplayMode } = useDisplay();
-
+  const { selectedNoteIndices, selectedMusicalKey } = useMusical();
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!staffDivRef.current) return;
 
-    // Clear previous content
-    containerRef.current.innerHTML = "";
+    let curStaffDiv = staffDivRef.current as HTMLElement;
+    curStaffDiv.innerHTML = "";
 
-    // Create a new VexFlow factory
-    const factory = new Factory.Renderer(400, 120);
-    const context = factory.getContext();
-    const stave = new Factory.Stave(10, 0, 380);
+    const VF = Vex.Flow;
+    const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
+    const staffHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue("--staff-height"),
+    );
+    renderer.resize(containerRef.current?.clientWidth || 800, staffHeight);
 
-    // Add the stave to the context
-    stave.addClef("treble").setContext(context).draw();
+    const context = renderer.getContext();
 
-    // Create notes based on selected indices
-    const notes = selectedIndices.map((index) => {
-      const noteName = getNoteNameFromIndex(index);
-      return new Factory.StaveNote({
-        keys: [noteName],
-        duration: "q",
-      });
-    });
+    // Create a stave at position 10, 40 of width half the enclosing container's width.
+    const originalContainerWidth = containerRef.current?.clientWidth || 0;
+    const staveWidth = originalContainerWidth * 0.6;
+    const stave = new VF.Stave(0, 0, staveWidth);
+    const canonicalIonianKey = selectedMusicalKey.getCanonicalIonianKey();
+    stave.addClef("treble").addKeySignature(getKeySignatureForVex(canonicalIonianKey)); //.addTimeSignature("4/4");
+    stave.setStyle({ strokeStyle: "black" });
 
-    // Create a voice with the notes
-    const voice = new Factory.Voice({
-      num_beats: 4,
-      beat_value: 4,
-    });
+    stave.setContext(context).draw();
+
+    if (selectedNoteIndices.length === 0) return;
+    // Create notes
+    const notes = EasyScoreFromNotes(selectedNoteIndices, canonicalIonianKey);
+
+    // Create a voice in 4/4
+    const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
+    voice.setStrict(false);
     voice.addTickables(notes);
 
-    // Format and draw the voice
-    new Factory.Formatter().joinVoices([voice]).format([voice], 380);
+    new VF.Formatter().joinVoices([voice]).format([voice], 200);
+
+    // Render voice
     voice.draw(context, stave);
-  }, [selectedIndices, noteDisplayMode]);
+  }, [selectedNoteIndices, selectedMusicalKey]);
 
-  const getNoteNameFromIndex = (index: number): string => {
-    const noteNames = [
-      "c/4",
-      "c#/4",
-      "d/4",
-      "d#/4",
-      "e/4",
-      "f/4",
-      "f#/4",
-      "g/4",
-      "g#/4",
-      "a/4",
-      "a#/4",
-      "b/4",
-    ];
-    return noteNames[index % 12];
-  };
-
-  return <div className="staff-container" ref={containerRef} />;
+  return (
+    <div className="staff-container" ref={containerRef}>
+      <div ref={staffDivRef}></div>
+    </div>
+  );
 };
 
 export default StaffRenderer;

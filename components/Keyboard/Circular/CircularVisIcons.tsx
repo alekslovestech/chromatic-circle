@@ -1,7 +1,9 @@
-import { ixActualArray } from "../../../../src/types/IndexTypes";
-import { CircularVisMode } from "../../../../src/types/SettingModes";
-import { CartesianPoint } from "../../../../src/utils/Keyboard/Circular/PolarMath";
-import { NoteIndexVisualizer } from "../../../../src/utils/Keyboard/Circular/NoteIndexVisualizer";
+import React from "react";
+
+import { ixActualArray } from "../../../types/IndexTypes";
+import { CircularVisMode } from "../../../types/SettingModes";
+import { CartesianPoint } from "../../../utils/Keyboard/Circular/PolarMath";
+import { NoteIndexVisualizer } from "../../../utils/Keyboard/Circular/NoteIndexVisualizer";
 
 export class CircularVisIcons {
   readonly innerRadius: number;

@@ -10,6 +10,21 @@ const nextConfig = {
     };
     return config;
   },
+  // Configure CSS modules
+  cssModules: true,
+  // Enable image optimization
+  images: {
+    domains: ["localhost"],
+  },
+  // Enable source maps in development
+  productionBrowserSourceMaps: true,
+  // Configure experimental features
+  experimental: {
+    // Enable server components
+    serverComponents: true,
+    // Enable concurrent features
+    concurrentFeatures: true,
+  },
 };
 
 module.exports = nextConfig;

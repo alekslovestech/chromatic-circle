@@ -1,37 +1,86 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useMusical } from "../contexts/MusicalContext";
-import { TWELVE } from "../types/NoteConstants";
-import { ixActual } from "../types/IndexTypes";
+import { useDisplay } from "../contexts/DisplayContext";
+import { useAudio } from "../contexts/AudioContext";
+import { MusicalKey } from "../types/Keys/MusicalKey";
+import { GreekModeType } from "../types/GreekModes/GreekModeType";
+import { KeySignature } from "../types/Keys/KeySignature";
+import { KeyType } from "../types/Keys/KeyType";
 
-const MusicalKeySelector: React.FC = () => {
-  const { selectedNoteIndices, setSelectedNoteIndices } = useMusical();
+export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
+  const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
+  const { scalePreviewMode, keyTextMode } = useDisplay();
+  const { isAudioInitialized, startScalePlayback, stopScalePlayback } = useAudio();
 
-  const handleKeyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newKey = parseInt(event.target.value);
-    const newIndices = selectedNoteIndices.map((index) => ixActual(index + newKey));
-    setSelectedNoteIndices(newIndices);
+  useEffect(() => {
+    if (scalePreviewMode && isAudioInitialized) {
+      startScalePlayback(keyTextMode);
+    } else {
+      stopScalePlayback();
+    }
+
+    return () => {
+      stopScalePlayback();
+    };
+  }, [scalePreviewMode, isAudioInitialized, selectedMusicalKey, keyTextMode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  //C / C# / Db / D / D# / Eb / E / F / F# / Gb / G / G# / Ab / A / A# / Bb / B
+  const handleTonicNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const tonicName = event.target.value as string;
+
+    const newKey = useDropdownSelector
+      ? MusicalKey.fromGreekMode(tonicName, selectedMusicalKey.greekMode)
+      : MusicalKey.fromClassicalMode(tonicName, selectedMusicalKey.classicalMode);
+    setSelectedMusicalKey(newKey);
+  };
+
+  //Ionian / Dorian / Phrygian / Lydian / Mixolydian / Aeolian / Locrian
+  const handleGreekModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const greekMode = event.target.value as GreekModeType;
+    const newKey = MusicalKey.fromGreekMode(selectedMusicalKey.tonicString, greekMode);
+    setSelectedMusicalKey(newKey);
+  };
+
+  //Major / Minor
+  const handleMajorMinorToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const newKey = selectedMusicalKey.getOppositeKey();
+    setSelectedMusicalKey(newKey);
   };
 
   return (
     <div className="musical-key-selector">
-      <select onChange={handleKeyChange}>
-        <option value="0">C</option>
-        <option value="1">C#</option>
-        <option value="2">D</option>
-        <option value="3">D#</option>
-        <option value="4">E</option>
-        <option value="5">F</option>
-        <option value="6">F#</option>
-        <option value="7">G</option>
-        <option value="8">G#</option>
-        <option value="9">A</option>
-        <option value="10">A#</option>
-        <option value="11">B</option>
+      <select
+        id="tonic-select"
+        onChange={handleTonicNameChange}
+        title="Select tonic note (scale start)"
+        value={selectedMusicalKey.tonicString}
+      >
+        {KeySignature.getKeyList(selectedMusicalKey.classicalMode).map((note) => (
+          <option key={note} value={note}>
+            {note}
+          </option>
+        ))}
       </select>
+      {useDropdownSelector ? (
+        <select id="greek-mode-select" onChange={handleGreekModeChange} title="Select musical mode">
+          {Object.values(GreekModeType).map((mode) => (
+            <option id={`greek-mode-option-${mode}`} key={mode} value={mode}>
+              {mode}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <button
+          id="major-minor-toggle"
+          title="Toggle between major and minor"
+          onClick={handleMajorMinorToggle}
+        >
+          {selectedMusicalKey.classicalMode === KeyType.Major ? "Major" : "Minor"}
+        </button>
+      )}
     </div>
   );
 };
-
-export default MusicalKeySelector;

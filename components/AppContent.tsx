@@ -11,7 +11,7 @@ import { GlobalMode, useGlobal } from "../contexts/GlobalContext";
 
 const AppContent: React.FC = () => {
   const borderStyle = { border: `1px solid var(--debug-border-color)` };
-  const { globalMode, setGlobalMode } = useGlobal();
+  const { setGlobalMode } = useGlobal();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode");
 

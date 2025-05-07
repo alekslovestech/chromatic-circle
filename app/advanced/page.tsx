@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { RootProvider } from "../../contexts/RootContext";
 import { GlobalMode } from "../../contexts/GlobalContext";
 import AppContent from "../../components/AppContent";
@@ -11,7 +11,9 @@ export default function AdvancedMode() {
     <div className="ChromaticCircle">
       <header className="App-header">
         <RootProvider globalMode={GlobalMode.Advanced}>
-          <AppContent />
+          <Suspense fallback={<div>Loading...</div>}>
+            <AppContent />
+          </Suspense>
           <AudioPlayer />
         </RootProvider>
       </header>

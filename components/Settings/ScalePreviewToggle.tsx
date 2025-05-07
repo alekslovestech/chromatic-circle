@@ -1,4 +1,5 @@
-import { useDisplay } from "../../../src/contexts/DisplayContext";
+import React from "react";
+import { useDisplay } from "../../contexts/DisplayContext";
 
 import "../../styles/CircularSettings.css";
 
