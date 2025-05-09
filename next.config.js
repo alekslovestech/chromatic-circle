@@ -48,16 +48,8 @@ const nextConfig = {
     ];
   },
 
-  // Disable telemetry
-  telemetry: {
-    disabled: true,
-  },
   // Configure proper fetch handling
   experimental: {
-    // Enable modern fetch behavior
-    modern: true,
-    // Optimize for better fetch handling
-    optimizeCss: true,
     // Improve service worker compatibility
     swcMinify: true,
   },
