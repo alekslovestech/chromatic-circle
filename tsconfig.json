@@ -27,22 +27,7 @@
     ]
   },
   "include": [
-    "app/components/Keyboard/Circular/CircularSettings.tsx",
-    "app/components/Keyboard/Circular/CircularVisIcons.tsx",
-    "app/components/Keyboard/Circular/CircularVisModeSelect.tsx",
-    "app/components/Keyboard/Circular/CircularVisualizations.tsx",
-    "app/components/Keyboard/Circular/KeyboardCircular.tsx",
-    "app/components/Keyboard/Circular/PianoKeyCircular.tsx",
-    "app/components/Keyboard/Linear/KeyboardLinear.tsx",
-    "app/components/Keyboard/Linear/PianoKeyLinear.tsx",
-    "app/components/Settings/ClearButton.tsx",
-    "app/components/Settings/InputModeSelector.tsx",
-    "app/components/Settings/MonochromeModeToggle.tsx",
-    "app/components/Settings/NoteDisplayModeSelect.tsx",
-    "app/components/Settings/PlayScaleButton.tsx",
-    "app/components/Settings/PresetsSelector.tsx",
-    "app/components/Settings/ScalePreviewToggle.tsx",
-    "app/components/Settings/SettingsContainer.tsx",
+    "components/**/*",   
     "src",
     "tests",
     ".next/types/**/*.ts"
