@@ -13,6 +13,7 @@ const nextConfig = {
   // Enable image optimization
   images: {
     domains: ["localhost"],
+    unoptimized: true,
   },
   // Enable source maps in development
   productionBrowserSourceMaps: true,
@@ -47,8 +48,8 @@ const nextConfig = {
     ];
   },
 
-  // Ensure proper static file serving
-  output: "standalone",
+  // Configure for static export
+  output: "export",
   // Disable telemetry
   telemetry: {
     disabled: true,
