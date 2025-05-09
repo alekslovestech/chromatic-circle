@@ -119,7 +119,7 @@ const AudioPlayer: React.FC = () => {
   useEffect(() => {
     if (!synthRef.current || !isAudioInitialized) return;
 
-    selectedNoteIndices.forEach((index) => {
+    selectedNoteIndices.forEach((index: ActualIndex) => {
       playNote(index);
     });
   }, [selectedNoteIndices, playNote, isAudioInitialized, globalMode]);
@@ -134,27 +134,27 @@ const AudioPlayer: React.FC = () => {
   }, []);
 
   // Show a visual indicator when audio is not initialized
-  if (!isAudioInitialized) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          right: "10px",
-          background: "#ff4444",
-          color: "white",
-          padding: "5px 10px",
-          borderRadius: "4px",
-          fontSize: "12px",
-          zIndex: 1000,
-        }}
-      >
-        Tap anywhere to enable sound
-      </div>
-    );
+  if (isAudioInitialized) {
+    return null;
   }
 
-  return null;
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: "10px",
+        right: "10px",
+        background: "#ff4444",
+        color: "white",
+        padding: "5px 10px",
+        borderRadius: "4px",
+        fontSize: "12px",
+        zIndex: 1000,
+      }}
+    >
+      Tap anywhere to enable sound
+    </div>
+  );
 };
 
 export default AudioPlayer;
