@@ -1,8 +1,9 @@
 {
   "extends": [
-    "react-app",
-    "react-app/jest"
+    "next/core-web-vitals"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -10,7 +11,7 @@
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-floating-promises": "off"
   },
-  "ignorePatterns": ["node_modules/", "build/"],
+  "ignorePatterns": ["node_modules/", "build/", ".next/"],
   "parserOptions": {
     "warnOnUnsupportedTypeScriptVersion": false
   }

@@ -1,0 +1,74 @@
+.presets-selector {
+  display: flex;
+  min-height: 0;
+  max-width: 100%;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+}
+
+.preset-buttons-grid {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-width: 0;  /* Allow shrinking */
+}
+
+.inversion-controls {
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.inversion-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0rem;
+  min-height: 2rem;
+}
+
+/*color schemes (common to both)*/
+.preset-button,
+.inversion-button {
+  background-color: var(--button-background-default);
+  color: var(--button-text-default);
+  border: 1px solid var(--button-border-default);
+  font-weight: 500;
+  font-size: var(--settings-button-font-size);
+}
+
+.preset-button:hover,
+.inversion-button:hover {
+  background: var(--button-background-hover);
+}
+
+.preset-button.selected,
+.inversion-button.selected {
+  background-color: var(--button-background-selected);
+  color: var(--button-text-selected);
+  border: 1px solid var(--button-border-selected);
+}
+
+/*formatting for the preset buttons*/
+.preset-button {
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 8px;
+} 
+
+/*formatting for the inversion buttons*/
+.inversion-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
