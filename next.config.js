@@ -38,6 +38,10 @@ const nextConfig = {
             key: "Service-Worker-Allowed",
             value: "/",
           },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
         ],
       },
     ];
@@ -48,6 +52,15 @@ const nextConfig = {
   // Disable telemetry
   telemetry: {
     disabled: true,
+  },
+  // Configure proper fetch handling
+  experimental: {
+    // Enable modern fetch behavior
+    modern: true,
+    // Optimize for better fetch handling
+    optimizeCss: true,
+    // Improve service worker compatibility
+    swcMinify: true,
   },
 };
 
