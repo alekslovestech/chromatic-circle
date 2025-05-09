@@ -6,7 +6,7 @@ import React from "react";
 import { TWENTY4 } from "../../../types/NoteConstants";
 import { ActualIndex } from "../../../types/IndexTypes";
 
-import { useKeyboardHandlers } from "../../../Components/Keyboard/KeyboardBase";
+import { useKeyboardHandlers } from "../../../components/Keyboard/KeyboardBase";
 import { PianoKeyLinear } from "./PianoKeyLinear";
 
 export const KeyboardLinear = () => {

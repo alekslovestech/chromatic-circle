@@ -1,9 +1,9 @@
 import React from "react";
 
 // Components
-import { MusicalKeySelector } from "../../../Components/MusicalKeySelector";
-import { TransposeWidget } from "../../../Components/TransposeWidget";
-import { ChordNameDisplay } from "../../../Components/ChordNameDisplay";
+import { MusicalKeySelector } from "../../../components/MusicalKeySelector";
+import { TransposeWidget } from "../../../components/TransposeWidget";
+import { ChordNameDisplay } from "../../../components/ChordNameDisplay";
 
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
 

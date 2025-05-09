@@ -5,11 +5,11 @@ import { ChromaticIndex, ixChromatic } from "../../../types/ChromaticIndex";
 import { ColorUtils } from "../../../utils/ColorUtils";
 import { CartesianPoint, PolarMath } from "../../../utils/Keyboard/Circular/PolarMath";
 
+import { CIRCLE_RADIUS, useKeyboardHandlers } from "../../../components/Keyboard/KeyboardBase";
+
 import { useDisplay } from "../../../contexts/DisplayContext";
 import { useMusical } from "../../../contexts/MusicalContext";
-
 import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
-import { CIRCLE_RADIUS, useKeyboardHandlers } from "../../../Components/Keyboard/KeyboardBase";
 
 import { CircularVisualizations } from "./CircularVisualizations";
 import { PianoKeyCircular } from "./PianoKeyCircular";
