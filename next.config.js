@@ -48,8 +48,6 @@ const nextConfig = {
     ];
   },
 
-  // Configure for static export
-  output: "export",
   // Disable telemetry
   telemetry: {
     disabled: true,
