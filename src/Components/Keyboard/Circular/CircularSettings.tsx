@@ -21,29 +21,43 @@ import "../../../styles/CircularSettings.css";
 export const CircularSettings = () => {
   const { globalMode } = useGlobal();
   const isAdvanced = globalMode === GlobalMode.Advanced;
-  return (
-    <div id="keyboardcircular-settings">
-      <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-        {!isAdvanced && <CircularVisModeSelect />}
+  if (isAdvanced) {
+    return (
+      <div id="keyboardcircular-settings">
         <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-          <MusicalKeySelector useDropdownSelector={isAdvanced} />
-          <TransposeWidget showKeyTranspose={isAdvanced} />
-        </div>
-
-        {isAdvanced ? (
-          <>
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
+              <MusicalKeySelector useDropdownSelector={true} />
+              <TransposeWidget showKeyTranspose={true} />
+            </div>
             <ScalePreviewToggle />
             <KeyTextModeSelect />
             <PlayScaleButton />
-          </>
-        ) : (
-          <>
-            <MonochromeModeToggle />
-            <ClearButton />
-          </>
-        )}
-        <ChordNameDisplay />
-        <GlobalModeButton />
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            <ChordNameDisplay />
+            <GlobalModeButton />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div id="keyboardcircular-settings">
+      <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          <CircularVisModeSelect />
+          <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
+            <MusicalKeySelector useDropdownSelector={false} />
+            <TransposeWidget showKeyTranspose={false} />
+          </div>
+          <MonochromeModeToggle />
+          <ClearButton />
+          <ChordNameDisplay />
+          <GlobalModeButton />
+        </div>
       </div>
     </div>
   );

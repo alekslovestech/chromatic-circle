@@ -29,16 +29,22 @@ const AppContent: React.FC = () => {
     }
   }, [mode, setGlobalMode]);
 
+  const isAdvanced = globalMode === GlobalMode.Advanced;
+  const gridContainerClass = isAdvanced ? "grid-container-advanced" : "grid-container-default";
+  const keyboardCircularContainerClass = isAdvanced
+    ? "keyboardcircular-container-advanced"
+    : "keyboardcircular-container-default";
   return (
-    <div className="grid-container" /* style={borderStyle} */>
+    <div className={gridContainerClass}>
       <div className="keyboardlinear-container" style={borderStyle}>
         <KeyboardLinear />
       </div>
-      <div className="keyboardcircular-container" style={borderStyle}>
+      {isAdvanced && <CircularSettings />}
+      <div className={keyboardCircularContainerClass} style={borderStyle}>
         <KeyboardCircular />
-        {globalMode !== GlobalMode.Logo && <CircularSettings />}
+        {globalMode !== GlobalMode.Logo && !isAdvanced && <CircularSettings />}
       </div>
-      <SettingsContainer />
+      {!isAdvanced && <SettingsContainer />}
       <StaffRenderer />
     </div>
   );

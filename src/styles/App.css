@@ -22,17 +22,15 @@ body {
   margin: 0 auto;
 }
 
-.grid-container {
+/* Default Mode Grid */
+.grid-container-default {
   display: grid;
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
   padding: 0.5rem;
-
-  /* Grid Container */
   grid-template-columns: 1fr 1fr;
   grid-template-rows: var(--staff-height) minmax(230px, 3fr) 3fr 2fr;
-  /*default: portrait mode */
   grid-template-areas:
     "staff staff"
     "settings settings"
@@ -42,14 +40,42 @@ body {
   overflow: hidden;
 }
 
+/* Advanced Mode Grid */
+.grid-container-advanced {
+  display: grid;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: var(--staff-height) 0.7fr 1fr 1fr;
+  grid-template-areas:
+    "staff staff"
+    "sidebar sidebar"
+    "circular circular"  
+    "linear linear";
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
 @media (orientation: landscape) {
-  .grid-container {
+  .grid-container-default {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: var(--staff-height) 1fr 1fr;
     grid-template-areas:
       "circular circular staff staff"
       "circular circular settings settings"
       "linear linear settings settings";
+  }
+
+  .grid-container-advanced {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: var(--staff-height) 1fr 1fr;
+    grid-template-areas:
+      "circular circular staff staff"
+      "circular circular sidebar sidebar"
+      "circular circular linear linear"
+      "circular circular linear linear";
   }
 }
 
@@ -63,12 +89,24 @@ body {
   overflow: hidden;
 }
 
-.keyboardcircular-container {
+.keyboardcircular-container-default {
   grid-area: circular;
   display: grid;
   grid-template-areas:
   "circular-keyboard sidebar";
   grid-template-columns: 200px 1fr;
+  position: relative;
+  padding: 0.5rem;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.keyboardcircular-container-advanced {
+  grid-area: circular;
+  display: grid;
+  grid-template-areas:
+  "circular-keyboard";
+  /*grid-template-columns: 200px 1fr;*/
   position: relative;
   padding: 0.5rem;
   overflow: hidden;
