@@ -15,16 +15,10 @@ import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
 interface PianoKeyProps {
   actualIndex: ActualIndex;
   isRootNote: boolean;
-  containerWidth: number;
   onClick: (index: ActualIndex) => void;
 }
 
-export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
-  actualIndex,
-  isRootNote,
-  containerWidth,
-  onClick,
-}) => {
+export const PianoKeyLinear: React.FC<PianoKeyProps> = ({ actualIndex, isRootNote, onClick }) => {
   const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
   const { monochromeMode } = useDisplay();
@@ -33,7 +27,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
 
   const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
 
-  const left = LinearKeyboardUtils.calculateKeyLeftPosition(actualIndex, containerWidth);
+  const left = LinearKeyboardUtils.getKeyPosition(actualIndex);
 
   const classNames = ["key-base", "piano-key"];
   const isSelected = selectedNoteIndices.includes(actualIndex);
@@ -62,7 +56,7 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({
       id={id}
       className={classNames.join(" ")}
       style={{
-        left: `${left}px`,
+        left: left,
       }}
       onClick={() => onClick(actualIndex)}
     >
