@@ -1,6 +1,6 @@
-import React from "react";
 import { ChromaticIndex } from "../../../types/ChromaticIndex";
 import { CartesianPoint, PolarMath } from "./PolarMath";
+
 export class ArcPathVisualizer {
   public static readonly ROMAN_POINT_COEFFICIENT = 0.85;
 
@@ -13,11 +13,11 @@ export class ArcPathVisualizer {
     return PolarMath.getCartesianFromPolar((innerRadius + outerRadius) * 0.5, middleAngle);
   }
 
-  public static getArcPathFromIndex(
+  public static getArcPathData(
     chromaticIndex: ChromaticIndex,
     outerRadius: number,
     innerRadius: number,
-  ): JSX.Element {
+  ): string {
     const [outerStart, outerEnd, innerEnd, innerStart] = this.getArcPoints(
       chromaticIndex,
       outerRadius,
@@ -25,14 +25,13 @@ export class ArcPathVisualizer {
     );
 
     // Create SVG path: move to outer start, arc to outer end, line to inner end, arc to inner start, close path
-    const arcPath = [
+    return [
       `M ${outerStart.x} ${outerStart.y}`, // Move to start
       `A ${outerRadius} ${outerRadius} 0 0 1 ${outerEnd.x} ${outerEnd.y}`, // Outer arc
       `L ${innerEnd.x} ${innerEnd.y}`, // Line to inner
       `A ${innerRadius} ${innerRadius} 0 0 0 ${innerStart.x} ${innerStart.y}`, // Inner arc
       "Z", // Close path
     ].join(" ");
-    return React.createElement("path", { d: arcPath });
   }
 
   private static getArcPoints(

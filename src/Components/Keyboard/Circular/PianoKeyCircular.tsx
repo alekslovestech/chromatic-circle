@@ -1,11 +1,14 @@
+"use client";
+
 import React from "react";
 import { ChromaticIndex } from "../../../types/ChromaticIndex";
 import { ActualIndex, chromaticToActual, ixOctaveOffset } from "../../../types/IndexTypes";
-import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
-import { useMusical } from "../../../contexts/MusicalContext";
 import { ArcPathVisualizer } from "../../../utils/Keyboard/Circular/ArcPathVisualizer";
 import { IndexUtils } from "../../../utils/IndexUtils";
 import { VisualStateUtils } from "../../../utils/VisualStateUtils";
+
+import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
+import { useMusical } from "../../../contexts/MusicalContext";
 
 import { useDisplay } from "../../../contexts/DisplayContext";
 
@@ -37,11 +40,7 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
   const { globalMode } = useGlobal();
   const { selectedMusicalKey, selectedNoteIndices } = useMusical();
   const { keyTextMode, monochromeMode } = useDisplay();
-  const pathElement = ArcPathVisualizer.getArcPathFromIndex(
-    chromaticIndex,
-    outerRadius,
-    innerRadius,
-  );
+  const pathData = ArcPathVisualizer.getArcPathData(chromaticIndex, outerRadius, innerRadius);
   const textPoint = ArcPathVisualizer.getTextPoint(chromaticIndex, outerRadius, innerRadius);
 
   const classNames = ["key-base", "pie-slice-key"];
@@ -67,9 +66,12 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
     <g
       id={id}
       className={classNames.join(" ")}
-      onClick={() => onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)))}
+      onClick={() => {
+        console.log("Direct click on SVG element");
+        onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)));
+      }}
     >
-      {pathElement}
+      <path d={pathData} />
       {showText && (
         <text x={textPoint.x} y={textPoint.y}>
           {noteText}
