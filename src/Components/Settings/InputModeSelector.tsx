@@ -6,6 +6,7 @@ import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/InputModeSelector.css";
+import { Button } from "../Common/Button";
 
 interface ModeSelectorButton {
   id: string;
@@ -55,7 +56,7 @@ export const InputModeSelector: React.FC = () => {
             (mode === InputMode.IntervalPresets || mode === InputMode.ChordPresets);
 
           return (
-            <button
+            <Button
               id={id}
               key={mode}
               onClick={() => handleModeChange(mode)}
@@ -64,7 +65,7 @@ export const InputModeSelector: React.FC = () => {
               hidden={isHidden}
             >
               {mode.toString()}
-            </button>
+            </Button>
           );
         })}
       </div>

@@ -1,10 +1,13 @@
 import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
+import { Button } from "../Common/Button";
 
 export const GlobalModeButton: React.FC = () => {
   const { globalMode, setGlobalMode } = useGlobal();
+
   return (
-    <button
-      className="clear-button"
+    <Button
+      size="sm"
+      className="whitespace-normal"
       onClick={() => {
         const oppositeMode =
           globalMode === GlobalMode.Default ? GlobalMode.Advanced : GlobalMode.Default;
@@ -19,6 +22,6 @@ export const GlobalModeButton: React.FC = () => {
       }}
     >
       {globalMode === GlobalMode.Default ? "Switch to Scale Preview Mode" : "Switch to Basic Mode"}
-    </button>
+    </Button>
   );
 };
