@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Vex, StaveNote } from "vexflow";
+import { Factory, StaveNote } from "vexflow";
 
 import { getAccidentalSignForEasyScore } from "../types/AccidentalType";
 import { ActualIndex, actualIndexToChromaticAndOctave } from "../types/IndexTypes";
@@ -11,6 +11,7 @@ import { KeyNoteResolver } from "../types/Keys/KeyNoteResolver";
 const EasyScoreFromNotes = (
   actualIndices: ActualIndex[],
   selectedMusicalKey: MusicalKey,
+  factory: Factory,
 ): StaveNote[] => {
   const keys = actualIndices.map((actualIndex) => {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
@@ -22,14 +23,14 @@ const EasyScoreFromNotes = (
     };
   });
 
-  const chordNote = new StaveNote({
+  const chordNote = factory.StaveNote({
     keys: keys.map((k) => k.key),
     duration: "w",
   });
 
   keys.forEach(({ accidentalSign, index }) => {
     if (accidentalSign) {
-      chordNote.addModifier(new Vex.Flow.Accidental(accidentalSign), index);
+      chordNote.addModifier(factory.Accidental({ type: accidentalSign }), index);
     }
   });
 
@@ -43,53 +44,53 @@ const getKeySignatureForVex = (musicalKey: MusicalKey) => {
 };
 
 const StaffRenderer: React.FC = () => {
-  const staffDivRef = useRef(null);
-
+  const staffDivRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { selectedNoteIndices, selectedMusicalKey } = useMusical();
+
   useEffect(() => {
     if (!staffDivRef.current) return;
 
-    let curStaffDiv = staffDivRef.current as HTMLElement;
+    let curStaffDiv = staffDivRef.current;
     curStaffDiv.innerHTML = "";
 
-    const VF = Vex.Flow;
-    const renderer = new VF.Renderer(staffDivRef.current, VF.Renderer.Backends.SVG);
-    const staffHeight = parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue("--staff-height"),
-    );
-    renderer.resize(containerRef.current?.clientWidth || 800, staffHeight);
+    const factory = new Factory({
+      renderer: {
+        elementId: curStaffDiv.id,
+        width: containerRef.current?.clientWidth || 800,
+        height: parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue("--staff-height"),
+        ),
+      },
+    });
 
-    const context = renderer.getContext();
+    const context = factory.getContext();
+    const staveWidth = (containerRef.current?.clientWidth || 0) * 0.6;
+    const stave = factory.Stave({
+      x: 0,
+      y: 0,
+      width: staveWidth,
+    });
 
-    // Create a stave at position 10, 40 of width half the enclosing container's width.
-    const originalContainerWidth = containerRef.current?.clientWidth || 0;
-    const staveWidth = originalContainerWidth * 0.6;
-    const stave = new VF.Stave(0, 0, staveWidth);
     const canonicalIonianKey = selectedMusicalKey.getCanonicalIonianKey();
-    stave.addClef("treble").addKeySignature(getKeySignatureForVex(canonicalIonianKey)); //.addTimeSignature("4/4");
+    stave.addClef("treble").addKeySignature(getKeySignatureForVex(canonicalIonianKey));
     stave.setStyle({ strokeStyle: "black" });
-
     stave.setContext(context).draw();
 
     if (selectedNoteIndices.length === 0) return;
-    // Create notes
-    const notes = EasyScoreFromNotes(selectedNoteIndices, canonicalIonianKey);
 
-    // Create a voice in 4/4
-    const voice = new VF.Voice({ num_beats: 4, beat_value: 4 });
+    const notes = EasyScoreFromNotes(selectedNoteIndices, canonicalIonianKey, factory);
+    const voice = factory.Voice({ time: "4/4" });
     voice.setStrict(false);
     voice.addTickables(notes);
 
-    new VF.Formatter().joinVoices([voice]).format([voice], 200);
-
-    // Render voice
+    factory.Formatter().joinVoices([voice]).format([voice], 200);
     voice.draw(context, stave);
   }, [selectedNoteIndices, selectedMusicalKey]);
 
   return (
     <div className="staff-container" ref={containerRef}>
-      <div ref={staffDivRef}></div>
+      <div id="staff" ref={staffDivRef}></div>
     </div>
   );
 };
