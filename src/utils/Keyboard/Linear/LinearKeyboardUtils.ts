@@ -5,15 +5,11 @@ import { isBlackKey } from "../KeyboardUtils";
 
 //utils for calculating the linear keyboard geometry
 export class LinearKeyboardUtils {
-  static calculateKeyLeftPosition(actualIndex: ActualIndex, containerWidth: number): number {
+  static getKeyPosition(actualIndex: ActualIndex) {
     const { chromaticIndex, octaveOffset } = actualIndexToChromaticAndOctave(actualIndex);
-    const longKeyWidth = containerWidth / WHITE_KEYS_PER_2OCTAVES;
-
-    const position = this.whiteKeyPositions[chromaticIndex] + octaveOffset * WHITE_KEYS_PER_OCTAVE;
-    /* console.log(
-      `longKeyWidth: ${longKeyWidth}, position = ${position}, total = ${position * longKeyWidth}`,
-    );*/
-    return Math.round(position * longKeyWidth);
+    const basePosition = LinearKeyboardUtils.whiteKeyPositions[chromaticIndex];
+    const octaveOffsetPosition = octaveOffset * 7; // 7 white keys per octave
+    return `${((basePosition + octaveOffsetPosition) / 14) * 100}%`;
   }
 
   static calculateScaleBoundaryPercentages(tonicIndex: ChromaticIndex): { x1: number; x2: number } {
@@ -40,5 +36,5 @@ export class LinearKeyboardUtils {
     return { x1: x1 + offset, x2: x2 + offset };
   }
 
-  private static readonly whiteKeyPositions: number[] = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
+  static readonly whiteKeyPositions: number[] = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
 }
