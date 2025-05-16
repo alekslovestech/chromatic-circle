@@ -12,6 +12,7 @@ import { usePreset } from "../../contexts/PresetContext";
 import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/PresetsSelector.css";
+import { SectionTitle } from "../Common/SectionTitle";
 
 export const PresetsSelector: React.FC = () => {
   const {
@@ -69,7 +70,7 @@ export const PresetsSelector: React.FC = () => {
       const inversionCount = presetDefinition.inversions.length;
       return (
         <div className="inversion-controls">
-          <div className="text-center">Inversion</div>
+          <SectionTitle centered={true}>Inversion</SectionTitle>
           <div className="inversion-button-container">
             {Array.from({ length: inversionCount }, (_, i) =>
               renderOneInversionButton(ixInversion(i)),

@@ -7,6 +7,7 @@ import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/InputModeSelector.css";
 import { Button } from "../Common/Button";
+import { SectionTitle } from "../Common/SectionTitle";
 
 interface ModeSelectorButton {
   id: string;
@@ -48,7 +49,7 @@ export const InputModeSelector: React.FC = () => {
 
   return (
     <div className="mode-selector text-center">
-      <div className="mode-selector-title">Input Mode</div>
+      <SectionTitle>Input Mode</SectionTitle>
       <div className="mode-button-container">
         {AVAILABLE_MODES.map(({ id, mode, description }) => {
           const isHidden =
