@@ -1,7 +1,7 @@
 import React from "react";
 
 import { InputMode, ChordDisplayMode } from "../../types/SettingModes";
-import { InversionIndex, ixInversion } from "../../types/IndexTypes";
+import { ixInversion } from "../../types/IndexTypes";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
 
@@ -13,6 +13,8 @@ import { useMusical } from "../../contexts/MusicalContext";
 
 import "../../styles/PresetsSelector.css";
 import { SectionTitle } from "../Common/SectionTitle";
+import { InversionButton } from "../Buttons/InversionButton";
+import { PresetButton } from "./PresetButton";
 
 export const PresetsSelector: React.FC = () => {
   const {
@@ -39,31 +41,6 @@ export const PresetsSelector: React.FC = () => {
     setSelectedNoteIndices(updatedIndices);
   };
 
-  const handleInversionChange = (newInversionIndex: InversionIndex) => {
-    const originalRootIndex = IndexUtils.rootNoteAtInversion(
-      selectedNoteIndices,
-      selectedInversionIndex,
-    );
-    setSelectedInversionIndex(newInversionIndex);
-    const updatedIndices = ChordUtils.calculateChordNotesFromIndex(
-      originalRootIndex,
-      selectedChordType,
-      newInversionIndex,
-    );
-    setSelectedNoteIndices(updatedIndices);
-  };
-
-  const renderOneInversionButton = (inversionIndex: InversionIndex) => (
-    <button
-      id={`inversion-${inversionIndex}`}
-      key={inversionIndex}
-      onClick={() => handleInversionChange(inversionIndex)}
-      className={`inversion-button ${inversionIndex === selectedInversionIndex ? "selected" : ""}`}
-    >
-      {inversionIndex}
-    </button>
-  );
-
   const renderInversionButtons = () => {
     const presetDefinition = NoteGroupingLibrary.getGroupingById(selectedChordType);
     if (presetDefinition && presetDefinition.hasInversions) {
@@ -72,9 +49,9 @@ export const PresetsSelector: React.FC = () => {
         <div className="inversion-controls">
           <SectionTitle centered={true}>Inversion</SectionTitle>
           <div className="inversion-button-container">
-            {Array.from({ length: inversionCount }, (_, i) =>
-              renderOneInversionButton(ixInversion(i)),
-            )}
+            {Array.from({ length: inversionCount }, (_, i) => (
+              <InversionButton key={i} inversionIndex={ixInversion(i)} />
+            ))}
           </div>
         </div>
       );
@@ -82,26 +59,8 @@ export const PresetsSelector: React.FC = () => {
     return null;
   };
 
-  const getPresetId = (noteGroupingPreset: NoteGroupingId) => {
-    const presetId = NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.ElementId);
-    return `preset-${presetId}`;
-  };
-
-  const renderOnePresetButton = (noteGroupingPreset: NoteGroupingId) => (
-    <button
-      key={noteGroupingPreset}
-      id={getPresetId(noteGroupingPreset)}
-      onClick={() => handlePresetChange(noteGroupingPreset)}
-      className={`preset-button ${noteGroupingPreset === selectedChordType ? "selected" : ""}`}
-      title={NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.DisplayName)}
-    >
-      {NoteGroupingLibrary.getId(noteGroupingPreset, ChordDisplayMode.Letters_Long)}
-    </button>
-  );
-
   const renderPresetButtons = () => {
     const presets = NoteGroupingLibrary.IntervalOrChordIds(inputMode === InputMode.IntervalPresets);
-
     const numColumns = inputMode === InputMode.IntervalPresets ? 2 : 4;
 
     return (
@@ -111,7 +70,14 @@ export const PresetsSelector: React.FC = () => {
       >
         {presets
           .filter((preset) => NoteGroupingLibrary.getGroupingById(preset).isVisiblePreset)
-          .map((noteGroupingPreset) => renderOnePresetButton(noteGroupingPreset))}
+          .map((presetId) => (
+            <PresetButton
+              key={presetId}
+              presetId={presetId}
+              selected={presetId === selectedChordType}
+              onClick={handlePresetChange}
+            />
+          ))}
       </div>
     );
   };
