@@ -67,7 +67,6 @@ export const PianoKeyCircular: React.FC<CircularKeyProps> = ({
       id={id}
       className={classNames.join(" ")}
       onClick={() => {
-        console.log("Direct click on SVG element");
         onClick(chromaticToActual(chromaticIndex, ixOctaveOffset(0)));
       }}
     >

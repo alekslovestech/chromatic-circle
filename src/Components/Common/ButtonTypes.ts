@@ -1,13 +1,14 @@
-export type ButtonVariant = "selection" | "action" | "global";
+export type ButtonVariant = "selection" | "action" | "global" | "vis";
 export type ButtonDensity = "compact" | "comfortable" | "standard";
 export type ButtonSize = "sm" | "md" | "lg";
 
-export const BASE_STYLES = "rounded-key border transition-colors text-settings";
+export const BASE_STYLES = "rounded-[40%] border border-opacity-20 transition-colors text-settings";
 
 export const VARIANTS: Record<ButtonVariant, string> = {
   selection: "border-toggle-border bg-toggle-background text-toggle-text",
   action: "border-blue-500 bg-blue-500 text-white hover:bg-blue-600",
   global: "border-gray-300 bg-gray-100 hover:bg-gray-200 whitespace-normal", // global mode switch
+  vis: "border-[rgba(0,0,0,0.3)] bg-white hover:bg-gray-50",
 };
 
 export const DENSITIES: Record<ButtonDensity, string> = {
@@ -22,4 +23,6 @@ export const SIZES: Record<ButtonSize, string> = {
   lg: "min-w-button-lg max-w-button-lg px-6 py-3", // removed text-settings
 };
 
-export const SELECTED_STYLES = "bg-blue-500 border-blue-600 text-gray-100";
+export const SELECTED_STYLES = "bg-sky-200 border-blue-600 text-gray-700";
+
+export const VIS_STYLES = "border-[rgba(0,0,0,0.3)] bg-white hover:bg-gray-50";
