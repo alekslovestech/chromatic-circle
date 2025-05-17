@@ -8,11 +8,11 @@ import { ChordNameDisplay } from "../../ChordNameDisplay";
 import { CircularVisModeSelect } from "./CircularVisModeSelect";
 
 import { MonochromeModeToggle } from "../../Settings/MonochromeModeToggle";
-import { ClearButton } from "../../Settings/ClearButton";
+import { ClearButton } from "../../Buttons/ClearButton";
 import { KeyTextModeSelect } from "../../Settings/NoteDisplayModeSelect";
 import { ScalePreviewToggle } from "../../Settings/ScalePreviewToggle";
-import { PlayScaleButton } from "../../Settings/PlayScaleButton";
-import { GlobalModeButton } from "../../Settings/GlobalModeButton";
+import { PlayScaleButton } from "../../Buttons/PlayScaleButton";
+import { GlobalModeButton } from "../../Buttons/GlobalModeButton";
 
 import { GlobalMode, useGlobal } from "../../../contexts/GlobalContext";
 

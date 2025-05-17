@@ -1,5 +1,4 @@
 @import "./Colors.css";
-@import 'bootstrap/dist/css/bootstrap.min.css';
 
 body {
   margin: 0;
@@ -48,7 +47,7 @@ body {
   height: 100vh;
   padding: 0.5rem;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: var(--staff-height) 0.5fr 1fr 1fr;
+  grid-template-rows: var(--staff-height) 0.55fr 1fr 1fr;
   grid-template-areas:
     "staff staff"
     "sidebar sidebar"

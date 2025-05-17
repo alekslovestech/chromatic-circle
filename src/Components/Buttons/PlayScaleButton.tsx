@@ -2,6 +2,7 @@ import { useDisplay } from "../../contexts/DisplayContext";
 import { PlaybackState, useAudio } from "../../contexts/AudioContext";
 
 import "../../styles/CircularSettings.css";
+import { Button } from "../Common/Button";
 
 export const PlayScaleButton: React.FC = () => {
   const { keyTextMode } = useDisplay();
@@ -17,8 +18,8 @@ export const PlayScaleButton: React.FC = () => {
   };
 
   return (
-    <button className="play-scale-button" onClick={handleClick}>
+    <Button size="md" variant="action" density="comfortable" onClick={handleClick}>
       {playbackState === PlaybackState.ScalePlaying ? "Stop Scale" : "Play Scale"}
-    </button>
+    </Button>
   );
 };
