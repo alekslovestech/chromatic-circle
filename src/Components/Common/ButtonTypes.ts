@@ -7,7 +7,7 @@ export const BASE_STYLES = "rounded-key border transition-colors text-settings";
 export const VARIANTS: Record<ButtonVariant, string> = {
   selection: "border-toggle-border bg-toggle-background text-toggle-text",
   action: "border-blue-500 bg-blue-500 text-white hover:bg-blue-600",
-  global: "border-gray-300 bg-gray-100 hover:bg-gray-200", // global mode switch
+  global: "border-gray-300 bg-gray-100 hover:bg-gray-200 whitespace-normal", // global mode switch
 };
 
 export const DENSITIES: Record<ButtonDensity, string> = {

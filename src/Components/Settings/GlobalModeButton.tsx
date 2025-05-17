@@ -6,8 +6,9 @@ export const GlobalModeButton: React.FC = () => {
 
   return (
     <Button
-      size="sm"
-      className="whitespace-normal"
+      size="md"
+      variant="global"
+      density="comfortable"
       onClick={() => {
         const oppositeMode =
           globalMode === GlobalMode.Default ? GlobalMode.Advanced : GlobalMode.Default;
