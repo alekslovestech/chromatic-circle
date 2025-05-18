@@ -52,7 +52,7 @@ export const InputModeSelector: React.FC = () => {
             <Button
               id={id}
               key={mode}
-              variant="selection"
+              variant="option"
               density="compact"
               size="sm"
               onClick={() => handleModeChange(mode)}

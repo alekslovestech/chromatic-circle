@@ -18,17 +18,16 @@ export class CircularVisIcons {
     this.visualizer = new NoteIndexVisualizer(innerRadius, this.center);
   }
 
-  render(mode: CircularVisMode): JSX.Element {
-    return mode === CircularVisMode.None ? this.renderCircle() : this.renderPoints(mode);
-  }
+  render = (mode: CircularVisMode) =>
+    mode === CircularVisMode.None ? this.renderCircle() : this.renderPoints(mode);
 
-  private renderCircle(): JSX.Element {
-    return <circle cx={this.circleRadius} cy={this.circleRadius} r={this.innerRadius} />;
-  }
+  private renderCircle = (): JSX.Element => (
+    <circle cx={this.circleRadius} cy={this.circleRadius} r={this.innerRadius} />
+  );
 
-  private renderPoints(mode: CircularVisMode): JSX.Element {
+  private renderPoints = (mode: CircularVisMode): JSX.Element => {
     const points = this.visualizer.getVisualization(ixActualArray([11, 3, 7]), mode);
     const pointsString = points.map((p) => `${p.x},${p.y}`).join(" ");
     return <polygon points={pointsString} />;
-  }
+  };
 }

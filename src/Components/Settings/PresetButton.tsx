@@ -19,7 +19,7 @@ export const PresetButton: React.FC<PresetButtonProps> = ({ presetId, selected, 
     <Button
       id={`preset-${elementId}`}
       key={presetId}
-      variant="selection"
+      variant="option"
       density="compact"
       size="sm"
       selected={selected}
