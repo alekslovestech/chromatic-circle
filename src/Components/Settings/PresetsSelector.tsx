@@ -1,6 +1,6 @@
 import React from "react";
 
-import { InputMode, ChordDisplayMode } from "../../types/SettingModes";
+import { InputMode } from "../../types/SettingModes";
 import { ixInversion } from "../../types/IndexTypes";
 import { NoteGroupingId } from "../../types/NoteGroupingTypes";
 import { NoteGroupingLibrary } from "../../types/NoteGroupingLibrary";
