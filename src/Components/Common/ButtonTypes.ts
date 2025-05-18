@@ -2,21 +2,14 @@ export type ButtonVariant = "option" | "action" | "global" | "vis";
 export type ButtonDensity = "compact" | "comfortable" | "standard";
 export type ButtonSize = "sm" | "md" | "lg";
 
-export const BASE_STYLES = "rounded-2xl border border-opacity-20 transition-colors text-settings";
-
-// Example using tailwind.config.js color values:
-// export const VARIANTS: Record<ButtonVariant, string> = {
-//   selection: "border-secondary-DEFAULT bg-white text-settings-DEFAULT",
-//   action: "border-primary-DEFAULT bg-primary-DEFAULT text-white hover:bg-primary-dark",
-//   global: "border-secondary-light bg-secondary-light/20 hover:bg-secondary-light/30 whitespace-normal",
-//   vis: "border-secondary-DEFAULT/30 bg-white hover:bg-secondary-light/10"
-// };
+export const BASE_STYLES =
+  "rounded-2xl border border-serenity-transparent1 bg-serenity-light text-serenity-textblack";
 
 export const VARIANTS: Record<ButtonVariant, string> = {
-  option: "border-toggle-border bg-toggle-background text-toggle-text",
-  action: "border-primary-DEFAULT bg-primary-DEFAULT text-primary-dark hover:bg-primary-dark",
-  global: "border-gray-300 bg-gray-100 hover:bg-gray-200 whitespace-normal", // global mode switch
-  vis: "border-[rgba(0,0,0,0.3)] bg-white hover:bg-gray-50",
+  option: " bg-serenity-light text-serenity-textblack",
+  action: "font-bold hover:bg-serenity-dark",
+  global: "border-serenity-transparent2 bg-gray-100 hover:bg-gray-200 whitespace-normal", // global mode switch
+  vis: "rounded-none border-serenity-transparent2 fill-none stroke-[2px] stroke-black text-serenity-textblack text-font-bold",
 };
 
 export const DENSITIES: Record<ButtonDensity, string> = {
@@ -31,6 +24,7 @@ export const SIZES: Record<ButtonSize, string> = {
   lg: "min-w-button-lg max-w-button-lg px-6 py-3",
 };
 
-export const SELECTED_STYLES = "bg-sky-200 border-blue-600 text-gray-700";
+export const SELECTED_STYLES =
+  "bg-serenity-dark border-transparent2 text-serenity-textwhite fill-none stroke-[3px] stroke-white";
 
-export const VIS_STYLES = "border-[rgba(0,0,0,0.3)] bg-white hover:bg-gray-50";
+export const DISABLED_STYLES = "opacity-50 cursor-not-allowed bg-gray-200";

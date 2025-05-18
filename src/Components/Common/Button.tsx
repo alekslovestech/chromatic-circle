@@ -9,6 +9,7 @@ import {
   DENSITIES,
   SIZES,
   SELECTED_STYLES,
+  DISABLED_STYLES,
 } from "./ButtonTypes";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,6 +17,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   density?: ButtonDensity;
   size?: ButtonSize;
   selected?: boolean;
+  disabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -24,14 +26,15 @@ export const Button: React.FC<ButtonProps> = ({
   density = "standard",
   size = "md",
   selected = false,
+  disabled = false,
   className = "",
   ...props
 }) => {
+  const selectedStyles = selected ? `${SELECTED_STYLES} selected` : "";
+  const disabledStyles = disabled ? `${DISABLED_STYLES} disabled` : "";
   return (
     <button
-      className={`${BASE_STYLES} ${DENSITIES[density]} ${SIZES[size]} ${
-        selected ? `${SELECTED_STYLES} selected` : VARIANTS[variant]
-      } ${className}`}
+      className={`${BASE_STYLES} ${DENSITIES[density]} ${SIZES[size]} ${VARIANTS[variant]} ${selectedStyles} ${disabledStyles} ${className}`}
       {...props}
     >
       {children}
