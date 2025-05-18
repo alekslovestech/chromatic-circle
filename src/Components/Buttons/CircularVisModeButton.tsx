@@ -21,8 +21,8 @@ export const CircularVisModeButton: React.FC<{
   return (
     <Button
       key={mode}
-      id={mode}
-      size="lg"
+      id={`vis-button-${mode}`}
+      size="sm"
       variant="vis"
       density="comfortable"
       selected={isSelected}

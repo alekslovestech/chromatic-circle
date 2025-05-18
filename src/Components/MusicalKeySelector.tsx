@@ -10,6 +10,8 @@ import { useDisplay } from "../contexts/DisplayContext";
 import { useAudio } from "../contexts/AudioContext";
 
 import "../styles/CircularSettings.css";
+import { Button } from "./Common/Button";
+import { Select } from "./Common/Select";
 
 export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelector: boolean }) => {
   const { selectedMusicalKey, setSelectedMusicalKey } = useMusical();
@@ -54,34 +56,42 @@ export const MusicalKeySelector = ({ useDropdownSelector }: { useDropdownSelecto
 
   return (
     <div className="musical-key-selector">
-      <select
+      <Select
         id="tonic-select"
+        value={selectedMusicalKey.tonicString}
         onChange={handleTonicNameChange}
         title="Select tonic note (scale start)"
-        value={selectedMusicalKey.tonicString}
       >
         {KeySignature.getKeyList(selectedMusicalKey.classicalMode).map((note) => (
           <option key={note} value={note}>
             {note}
           </option>
         ))}
-      </select>
+      </Select>
       {useDropdownSelector ? (
-        <select id="greek-mode-select" onChange={handleGreekModeChange} title="Select musical mode">
+        <Select
+          id="greek-mode-select"
+          value={selectedMusicalKey.greekMode}
+          onChange={handleGreekModeChange}
+          title="Select musical mode"
+        >
           {Object.values(GreekModeType).map((mode) => (
             <option id={`greek-mode-option-${mode}`} key={mode} value={mode}>
               {mode}
             </option>
           ))}
-        </select>
+        </Select>
       ) : (
-        <button
+        <Button
           id="major-minor-toggle"
+          variant="action"
+          density="standard"
+          size="md"
           title="Toggle between major and minor"
           onClick={handleMajorMinorToggle}
         >
           {selectedMusicalKey.classicalMode === KeyType.Major ? "Major" : "Minor"}
-        </button>
+        </Button>
       )}
     </div>
   );

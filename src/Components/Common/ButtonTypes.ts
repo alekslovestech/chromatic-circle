@@ -7,7 +7,7 @@ export const BASE_STYLES =
 
 export const VARIANTS: Record<ButtonVariant, string> = {
   option: "bg-serenity-light text-serenity-textblack",
-  action: "font-bold",
+  action: "text-default",
   global: "border-serenity-transparent2 bg-gray-100  whitespace-normal", // global mode switch
   vis: "rounded-none border-serenity-transparent2 fill-none stroke-[2px] stroke-black text-serenity-textblack text-font-bold ",
 };
