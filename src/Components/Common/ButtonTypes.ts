@@ -3,13 +3,13 @@ export type ButtonDensity = "compact" | "comfortable" | "standard";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export const BASE_STYLES =
-  "rounded-2xl border border-serenity-transparent1 bg-serenity-light text-serenity-textblack";
+  "rounded-2xl border border-serenity-transparent1 bg-serenity-light text-serenity-textblack hover:bg-gray-200";
 
 export const VARIANTS: Record<ButtonVariant, string> = {
-  option: " bg-serenity-light text-serenity-textblack",
-  action: "font-bold hover:bg-serenity-dark",
-  global: "border-serenity-transparent2 bg-gray-100 hover:bg-gray-200 whitespace-normal", // global mode switch
-  vis: "rounded-none border-serenity-transparent2 fill-none stroke-[2px] stroke-black text-serenity-textblack text-font-bold",
+  option: "bg-serenity-light text-serenity-textblack",
+  action: "font-bold",
+  global: "border-serenity-transparent2 bg-gray-100  whitespace-normal", // global mode switch
+  vis: "rounded-none border-serenity-transparent2 fill-none stroke-[2px] stroke-black text-serenity-textblack text-font-bold ",
 };
 
 export const DENSITIES: Record<ButtonDensity, string> = {
@@ -25,6 +25,6 @@ export const SIZES: Record<ButtonSize, string> = {
 };
 
 export const SELECTED_STYLES =
-  "bg-serenity-dark border-transparent2 text-serenity-textwhite fill-none stroke-[3px] stroke-white";
+  "bg-serenity-dark border-transparent2 text-serenity-textwhite fill-none stroke-[3px] stroke-white pointer-events-none";
 
 export const DISABLED_STYLES = "opacity-50 cursor-not-allowed bg-gray-200";
