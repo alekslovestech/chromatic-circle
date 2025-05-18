@@ -3,6 +3,7 @@ import { usePreset } from "../../contexts/PresetContext";
 import { CircularVisMode, InputMode } from "../../types/SettingModes";
 import { CircularVisIcons } from "../Keyboard/Circular/CircularVisIcons";
 import { Button } from "../Common/Button";
+
 export const CircularVisModeButton: React.FC<{
   mode: CircularVisMode; //vis mode this button represents
   label: string;
@@ -22,14 +23,10 @@ export const CircularVisModeButton: React.FC<{
       key={mode}
       id={mode}
       size="lg"
-      variant="option"
+      variant="vis"
       density="comfortable"
       selected={isSelected}
-      /* className={`vis-button ${circularVisMode === mode ? "selected" : ""} ${
-        isDisabled ? "disabled" : ""
-      }`}*/
       onClick={() => !isDisabled && setCircularVisMode(mode)}
-      //aria-label={label}
       title={label}
       disabled={isDisabled}
     >
@@ -37,11 +34,6 @@ export const CircularVisModeButton: React.FC<{
         width={visIcons.circleDiameter}
         height={visIcons.circleDiameter}
         viewBox={`0 0 ${visIcons.circleDiameter} ${visIcons.circleDiameter}`}
-        fill="none"
-        stroke={isSelected ? "white" : "black"}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       >
         {visIcons.render(mode)}
       </svg>
