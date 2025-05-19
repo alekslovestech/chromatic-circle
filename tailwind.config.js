@@ -15,9 +15,24 @@ module.exports = {
         },
         //use for piano keys
         darksky: {
-          DEFAULT: "#6B7280", // gray-500
-          dark: "#4B5563", // gray-600
-          light: "#9CA3AF", // gray-400
+          white: "#fafaf6",
+          whiteSelected: "#A8D5E2",
+          black: "#4B5563",
+          blackSelected: "#374151",
+
+          highlight: "#93C5FD",
+          highlightSelected: "#60A5FA",
+
+          muted: "#9CA3AF",
+          mutedSelected: "#6B7280",
+
+          text_on_white: "#000000",
+          text_on_black: "#ffffff",
+          text_on_muted: "#000000",
+          text_on_highlighted: "#ffffff",
+
+          border: "#374151",
+          rootBorder: "#2563EB",
         },
       },
     },
