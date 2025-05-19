@@ -5,12 +5,12 @@ import { KeyDisplayMode } from "../../../types/SettingModes";
 
 import { IndexUtils } from "../../../utils/IndexUtils";
 import { isBlackKey } from "../../../utils/Keyboard/KeyboardUtils";
-import { VisualStateUtils } from "../../../utils/VisualStateUtils";
 import { LinearKeyboardUtils } from "../../../utils/Keyboard/Linear/LinearKeyboardUtils";
 
 import { useMusical } from "../../../contexts/MusicalContext";
 import { useDisplay } from "../../../contexts/DisplayContext";
 import { useGlobal, GlobalMode } from "../../../contexts/GlobalContext";
+import { VisualStateUtils } from "../../Common/VisualStateUtils";
 
 interface PianoKeyProps {
   actualIndex: ActualIndex;
@@ -24,40 +24,36 @@ export const PianoKeyLinear: React.FC<PianoKeyProps> = ({ actualIndex, isRootNot
   const { monochromeMode } = useDisplay();
 
   const isShortKey = isBlackKey(actualIndex);
-
   const { chromaticIndex } = actualIndexToChromaticAndOctave(actualIndex);
-
   const left = LinearKeyboardUtils.getKeyPosition(actualIndex);
 
-  const classNames = ["key-base", "piano-key"];
+  const baseClasses = ["key-base", "piano-key"];
   const isSelected = selectedNoteIndices.includes(actualIndex);
   const isAdvanced = globalMode === GlobalMode.Advanced;
-  const visualState = VisualStateUtils.getVisualState(
+
+  console.log(`isRootNote: ${isRootNote} should be used somewhere`);
+
+  const visualClasses = VisualStateUtils.getKeyVisualClasses(
     chromaticIndex,
     isAdvanced,
     selectedMusicalKey,
     monochromeMode,
+    isShortKey,
+    isSelected,
+    false,
   );
-  classNames.push(visualState);
 
-  if (isSelected) classNames.push("selected");
-  if (isRootNote) classNames.push("root-note");
-  if (isShortKey) classNames.push("short");
-
-  //we need to use classNames to make the key disabled, instead of the default 'disabled' attribute, because this is not a default button
-  if (isAdvanced) classNames.push("disabled");
+  if (isShortKey) baseClasses.push("short");
+  if (isAdvanced) baseClasses.push("disabled");
 
   const id = IndexUtils.StringWithPaddedIndex("linearKey", actualIndex);
-
   const noteText = selectedMusicalKey.getDisplayString(chromaticIndex, KeyDisplayMode.NoteNames);
 
   return (
     <div
       id={id}
-      className={classNames.join(" ")}
-      style={{
-        left: left,
-      }}
+      className={[...baseClasses, ...visualClasses].join(" ")}
+      style={{ left }}
       onClick={() => onClick(actualIndex)}
     >
       {noteText}

@@ -19,19 +19,11 @@
 
 /* Pie Slice Keys */
 .pie-slice-key {
-  cursor: pointer; /*only here the class is note empty*/
-  /*transition: all 0.3s ease; */
+  cursor: pointer;
 }
 
 .pie-slice-key path {
-  stroke: grey;
   stroke-width: 1px;
-  border: 1px solid var(--serenity-key-border-color);
-}
-
-/* Hover State */
-.pie-slice-key:hover path {
-  opacity: 0.8;
 }
 
 /* Text Styles */
@@ -41,13 +33,4 @@
   dominant-baseline: middle;
   font-weight: bold;
   pointer-events: none;
-  fill: var(--serenity-note-text-on-white);
-}
-
-.pie-slice-key.white text {
-  fill: var(--serenity-note-text-on-white);
-}
-
-.pie-slice-key.black text {
-  fill: var(--serenity-note-text-on-black);
 }
