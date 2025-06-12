@@ -19,7 +19,7 @@ export const CircularVisModeUtils = {
   },
 
   verifyVisButtonsSelected: (selectedVisMode: CircularVisMode) => {
-    const visButtons = document.querySelectorAll(".vis-button");
+    const visButtons = document.querySelectorAll("[id^='vis-button']");
     visButtons.forEach((button) => {
       if (button.id === selectedVisMode) {
         ReactTestUtils.expectElementToBeSelected(button);

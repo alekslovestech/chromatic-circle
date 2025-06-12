@@ -2,10 +2,11 @@ import React from "react";
 
 import { InputMode } from "../../types/SettingModes";
 
-import { GlobalMode, useGlobal } from "../../contexts/GlobalContext";
 import { usePreset } from "../../contexts/PresetContext";
 
 import "../../styles/InputModeSelector.css";
+import { Button } from "../Common/Button";
+import { SectionTitle } from "../Common/SectionTitle";
 
 interface ModeSelectorButton {
   id: string;
@@ -38,33 +39,28 @@ const AVAILABLE_MODES: ModeSelectorButton[] = [
 
 export const InputModeSelector: React.FC = () => {
   const { inputMode, setInputMode } = usePreset();
-  const { globalMode } = useGlobal();
   const handleModeChange = (newMode: InputMode) => {
     setInputMode(newMode);
   };
 
-  const isAdvancedMode = globalMode === GlobalMode.Advanced;
-
   return (
     <div className="mode-selector text-center">
-      <div className="mode-selector-title">Input Mode</div>
+      <SectionTitle>Input Mode</SectionTitle>
       <div className="mode-button-container">
         {AVAILABLE_MODES.map(({ id, mode, description }) => {
-          const isHidden =
-            isAdvancedMode &&
-            (mode === InputMode.IntervalPresets || mode === InputMode.ChordPresets);
-
           return (
-            <button
+            <Button
               id={id}
               key={mode}
+              variant="option"
+              density="compact"
+              size="sm"
               onClick={() => handleModeChange(mode)}
-              className={`preset-button ${inputMode === mode ? "selected" : ""}`}
+              selected={inputMode === mode}
               title={description}
-              hidden={isHidden}
             >
               {mode.toString()}
-            </button>
+            </Button>
           );
         })}
       </div>

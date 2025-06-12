@@ -29,19 +29,9 @@
   --serenity-muted-font: #9C9C9C;
 
   
-  /* Button Colors */
-  --button-background-default: var(--serenity-softgrey);
-  --button-background-hover: #d6d6d6;
-  --button-background-selected: var(--serenity-icon-selected-background);
-  --button-text-default: var(--serenity-darkgrey);
-  --button-text-selected: white;
-
   /* Piano Key Colors */
   --key-stroke-color: grey; 
   --key-hover-opacity: 0.8;
-
-  /* Toggle Button Colors */
-  --toggle-button-background: var(--serenity-key-white);
 
   /* Visualization Colors */
   --vis-button-background-default: white;

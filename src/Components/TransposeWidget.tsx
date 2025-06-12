@@ -2,6 +2,7 @@ import { ixActualArray } from "../types/IndexTypes";
 import { IndexUtils } from "../utils/IndexUtils";
 import { useMusical } from "../contexts/MusicalContext";
 import "../styles/CircularSettings.css";
+import { Button } from "./Common/Button";
 
 // This component is used to transpose the selected notes OR the musical key.
 export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({
@@ -20,44 +21,60 @@ export const TransposeWidget: React.FC<{ showKeyTranspose: boolean }> = ({
     setSelectedMusicalKey(newKey);
   };
 
+  const VARIANT_TRANSPOSE_BUTTON = "action";
+  const DENSITY_TRANSPOSE_BUTTON = "compact";
+  const SIZE_TRANSPOSE_BUTTON = "sm";
+
   return (
     <div>
       <div className="transpose-buttons-container">
         {!showKeyTranspose && (
           <>
-            <button
-              className="transpose-up-button"
+            <Button
+              id="transpose-up-button"
+              variant={VARIANT_TRANSPOSE_BUTTON}
+              density={DENSITY_TRANSPOSE_BUTTON}
+              size={SIZE_TRANSPOSE_BUTTON}
               onClick={() => handleSelectedNotesTranspose(1)}
               title="Transpose selected notes up"
             >
               ↑♫↑
-            </button>
-            <button
-              className="transpose-down-button"
+            </Button>
+            <Button
+              id="transpose-down-button"
+              variant={VARIANT_TRANSPOSE_BUTTON}
+              density={DENSITY_TRANSPOSE_BUTTON}
+              size={SIZE_TRANSPOSE_BUTTON}
               onClick={() => handleSelectedNotesTranspose(-1)}
               title="Transpose selected notes down"
             >
               ↓♫↓
-            </button>
+            </Button>
           </>
         )}
 
         {showKeyTranspose && (
           <>
-            <button
-              className="musicalkey-up-button"
+            <Button
+              id="musicalkey-up-button"
+              variant={VARIANT_TRANSPOSE_BUTTON}
+              density={DENSITY_TRANSPOSE_BUTTON}
+              size={SIZE_TRANSPOSE_BUTTON}
               onClick={() => handleMusicalKeyTranspose(1)}
               title="Transpose musical key up"
             >
               ↑𝄞↑
-            </button>
-            <button
-              className="musicalkey-down-button"
+            </Button>
+            <Button
+              id="musicalkey-down-button"
+              variant={VARIANT_TRANSPOSE_BUTTON}
+              density={DENSITY_TRANSPOSE_BUTTON}
+              size={SIZE_TRANSPOSE_BUTTON}
               onClick={() => handleMusicalKeyTranspose(-1)}
               title="Transpose musical key down"
             >
               ↓𝄞↓
-            </button>
+            </Button>
           </>
         )}
       </div>

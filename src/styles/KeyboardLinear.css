@@ -28,8 +28,7 @@
   box-sizing: border-box;
   width: var(--white-key-width);
   height: 100%;
-  padding: 0 5px; /* Added padding to center the text */
-  border: 1px solid var(--serenity-key-border-color);
+  padding: 0 5px;
   
   display: flex;
   align-items: flex-end;
@@ -44,7 +43,6 @@
 
 .piano-key.short {
   align-items: center;
-  border: 2.0px solid var(--serenity-key-border-color);
   font-size: 0.8rem;
   width: var(--black-key-width);
   height: 60%;
